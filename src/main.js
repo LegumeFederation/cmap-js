@@ -1,3 +1,4 @@
+import './polyfills';
 import { cmap } from './cmap';
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {

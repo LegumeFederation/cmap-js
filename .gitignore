@@ -1,5 +1,6 @@
 # javascript
 node_modules
+*.css-min
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
