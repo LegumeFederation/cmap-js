@@ -1,0 +1,43 @@
+{
+  "name": "cmap-js",
+  "version": "0.0.1",
+  "description": "Display and compare biological maps (genetic, physical, cytogenetic, genomic, linkage groups, chromosomes, scaffolds).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncgr/cmap-js.git"
+  },
+  "author": "Andrew Wilkey <awilkey@iastate.edu>, Alex G Rice <agr@ncgr.org>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ncgr/cmap-js/issues"
+  },
+  "homepage": "https://github.com/ncgr/cmap-js#readme",
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-plugin-inferno": "^1.7.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-minify": "0.0.14",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.4.0",
+    "rollup": "^0.41.4",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^7.0.0",
+    "rollup-plugin-json": "^2.1.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-stream": "^1.19.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "inferno": "^1.2.2",
+    "inferno-component": "^1.2.2",
+    "rbush": "^2.0.1"
+  }
+}
