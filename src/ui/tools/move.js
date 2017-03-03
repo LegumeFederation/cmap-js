@@ -1,13 +1,30 @@
-import Inferno from 'inferno/dist/inferno.js';
-import Component from 'inferno-component';
+import m from 'mithril';
 import icon from '../svg-icons/move.svg';
 
-export class Move extends Component {
+export class Move  {
 
-  render() {
-    return (
-      <button dangerouslySetInnerHTML={ { __html: `Move ${icon}` } }>
-      </button>
-    )
+  oninit(vnode) {
+    this.toolState = vnode.attrs.toolState;
+  }
+
+  click() {
+    if(! this.active()) {
+      this.toolState.activeTool = 'move';
+    }
+    console.log(this.toolState);
+//    m.redraw();
+  }
+
+  active() {
+    return this.toolState.activeTool === 'move';
+  }
+
+  view() {
+    return m('button', {
+        class: this.active() ? 'button button-primary' : 'button',
+        onclick: () => this.click()
+      },
+      m.trust(`Move ${icon}`)
+    );
   }
 }

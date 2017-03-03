@@ -1,28 +1,25 @@
-import Inferno from 'inferno/dist/inferno.js';
-import Component from 'inferno-component';
+import m from 'mithril';
+import { Tools } from './tools';
 import normalizeCss from './css/normalize.css-min';
 import skeletonCss from './css/skeleton.css-min';
 import cmapCss from './css/cmap.css-min';
-import { Tools } from './tools';
 
-export class UI extends Component {
-  render() {
-    return (
-      <div class="container">
-        <style scoped>
-          { normalizeCss }
-          { skeletonCss }
-          { cmapCss }
-        </style>
-          <div class="row">
-            <div class="twelve columns">
-              <strong>CMAP-js</strong>
-              <Tools/>
-            </div>
-          </div>
-      </div>
-    )
+export class UI {
+
+  constructor() {
+    this.tools = new Tools();
+  }
+
+  init() {
+    // instantiate self as the root mitrhil component
+    let root = document.getElementById('cmap-ui');
+    m.mount(root, this);
+  }
+
+  view() {
+    return m('div', {}, [
+      m('span', {class: 'logo'}, 'cmap-js'),
+      m(this.tools)
+    ]);
   }
 }
-
-Inferno.render(<UI/>, document.getElementById('cmap-ui'));
