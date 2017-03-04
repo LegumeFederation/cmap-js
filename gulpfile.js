@@ -17,18 +17,18 @@ var gulp = require('gulp'),
     replace = require('rollup-plugin-replace'),
     string = require('rollup-plugin-string');
 
-gulp.task('minify-css', function() {
-  // minify css and write back into same directory.
-  // (mithril components will load them from the same dir.)
-  return gulp.src('./src/ui/css/*.css')
-    .pipe(cleanCSS())
-    .pipe(rename(function (path) {
-      path.extname = ".css-min";
-    }))
-    .pipe(gulp.dest("./src/ui/css"));
-});
+// gulp.task('minify-css', function() {
+//   // minify css and write back into same directory.
+//   // (mithril components will load them from the same dir.)
+//   return gulp.src('./src/ui/css/*.css')
+//     .pipe(cleanCSS())
+//     .pipe(rename(function (path) {
+//       path.extname = ".css-min";
+//     }))
+//     .pipe(gulp.dest("./src/ui/css"));
+// });
 
-gulp.task('default', ['minify-css'], function() {
+gulp.task('default', function() {
     return rollup({
       entry: 'src/main.js',
       format: 'iife',

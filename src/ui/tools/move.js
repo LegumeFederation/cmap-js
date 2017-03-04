@@ -1,18 +1,18 @@
 import m from 'mithril';
+import toolState from '../../state/toolState';
 import icon from '../svg-icons/move.svg';
 
 export class Move  {
 
-  oninit(vnode) {
-    this.toolState = vnode.attrs.toolState;
+  constructor() {
+    // make mithril aware the toolState is part of this component's state
+    this.toolState = toolState;
   }
 
   click() {
     if(! this.active()) {
       this.toolState.activeTool = 'move';
     }
-    console.log(this.toolState);
-//    m.redraw();
   }
 
   active() {
@@ -21,10 +21,13 @@ export class Move  {
 
   view() {
     return m('button', {
-        class: this.active() ? 'button button-primary' : 'button',
+        class: this.active() ? 'pure-button pure-button-active' : 'pure-button',
         onclick: () => this.click()
       },
-      m.trust(`Move ${icon}`)
+      [
+        'Move',
+        m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
+      ]
     );
   }
 }

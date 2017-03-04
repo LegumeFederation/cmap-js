@@ -1,5 +1,28 @@
-/* test */
-.cmap-icon {
-  width: 20;
-  height: 20;
+.cmap-toolbar-icon {
+  vertical-align: sub
+}
+
+.cmap-logo {
+  display: inline;
+  float: left;
+  padding-right: 1rem;
+  font-size: 2rem;
+}
+
+.content {
+  margin-top: 1rem;
+}
+
+.cmap-canvas {
+  border: 3px dotted;
+  border-color: grey;
+}
+
+.cmap-canvas-selected {
+  border-color: cyan;
+}
+
+.canvas-scroller {
+  overflow: auto;
+  display: inline;
 }

@@ -46,6 +46,7 @@
     "es6-object-assign": "^1.0.3",
     "mithril": "^1.0.1",
     "promise-polyfill": "^6.0.2",
+    "purecss": "^0.6.2",
     "rbush": "^2.0.1",
     "setasap": "^2.0.0",
     "whatwg-fetch": "^2.0.2"

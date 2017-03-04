@@ -1,18 +1,28 @@
 import m from 'mithril';
+import toolState from '../../state/toolState';
 import icon from '../svg-icons/zoom-in.svg';
+import './wheelListener';
 
 export class Zoom  {
 
-  oninit(vnode) {
-    this.toolState = vnode.attrs.toolState;
+  constructor() {
+    // make mithril aware the toolState is part of this component's state
+    this.toolState = toolState;
   }
 
   click() {
     if(! this.active()) {
       this.toolState.activeTool = 'zoom';
     }
-    console.log(this.toolState);
-//    m.redraw();
+  }
+
+  oncreate() {
+    addWheelListener(window, (e) => this._wheel(e));
+  }
+
+  _wheel(e) {
+    this.toolState.zoomFactor = Math.floor(e.deltaY);
+    m.redraw(); // this dom event came from outside mithril so manual redraw
   }
 
   active() {
@@ -20,11 +30,14 @@ export class Zoom  {
   }
 
   view() {
-    return m('button', {
-        class: this.active() ? 'button button-primary' : 'button',
-        onclick: () => this.click()
-      },
-      m.trust(`Zoom ${icon}`)
-    );
-  }
+      return m('button', {
+          class: this.active() ? 'pure-button pure-button-active' : 'pure-button',
+          onclick: () => this.click()
+        },
+        [
+          'Zoom',
+          m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
+        ]
+      );
+    }
 }
