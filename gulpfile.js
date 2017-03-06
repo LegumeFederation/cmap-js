@@ -14,9 +14,10 @@ var gulp = require('gulp'),
     nodeResolve = require('rollup-plugin-node-resolve'),
     commonjs = require('rollup-plugin-commonjs'),
     replace = require('rollup-plugin-replace'),
-    string = require('rollup-plugin-string');
+    string = require('rollup-plugin-string'),
+    mocha = require('gulp-mocha');
 
-gulp.task('default', function() {
+gulp.task('default', ['test'], function() {
     return rollup({
       entry: 'src/main.js',
       format: 'iife',
@@ -50,3 +51,8 @@ gulp.task('watch', function() {
   ], ['default']);
 
 });
+
+gulp.task('test', () =>
+    gulp.src('src/test/test.js', {read: false})
+      .pipe(mocha({reporter: 'nyan'}))
+);
