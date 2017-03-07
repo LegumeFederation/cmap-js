@@ -13,6 +13,7 @@ y  float  Y-coordinate, relative to the viewport origin, of the top of the recta
 
 // domrect has no iterable properties, so hardcode them here
 const PROPS = [
+  // note: x any y may not exist!
   'bottom', 'height', 'left', 'right', 'top', 'width', 'x', 'y'
 ];
 
@@ -20,12 +21,18 @@ const PROPS = [
 // for testing: are 2 domrects equal?
 // cast properties from float to int before equality comparison
 export let domRectEqual = (bounds1, bounds2) => {
-  var n1,n2;
-  if(! bounds1 || ! bounds2) return false;
-  PROPS.forEach( p => {
-    n1 = Math.floor(bounds1[p]);
-    n2 = Math.floor(bounds2[p]);
-    if(n1 !== n2) return false;
-  });
+  let p, n1,n2;
+  if(! bounds1 || ! bounds2)
+    return false; // check for null args
+  for (var i = 0; i < PROPS.length; i++) {
+    p = PROPS[i];
+    n1 = bounds1[p];
+    n2 = bounds2[p];
+    if(n1 === undefined || n2 === undefined) { // skip test, see note about x,y
+      continue;
+    }
+    if(Math.floor(n1) !== Math.floor(n2))
+      return false;
+  }
   return true;
 };

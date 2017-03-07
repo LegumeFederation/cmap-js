@@ -14,8 +14,9 @@
 }
 
 .cmap-canvas {
-  border: 3px dotted;
+  border: 1px dotted;
   border-color: grey;
+  position: absolute;;
 }
 
 .cmap-canvas-selected {
@@ -23,9 +24,10 @@
 }
 
 .cmap-layout {
-  height: 100vh;
+  height: 95vh;
 }
 
 .cmap-layout-horizontal {
   background-color: lightblue;
+  position: relative;
 }

@@ -14,6 +14,10 @@ export class cmap {
   init() {
     this._monitorPubSub();
     this.ui.init();
+    // FIXME: for development, create 3 maps
+    PubSub.publish(topics.newMap, null);
+    PubSub.publish(topics.newMap, null);
+    PubSub.publish(topics.newMap, null);
   }
 
   // subscribe to all pubsub topics, and log to console (just for development)
