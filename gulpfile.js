@@ -15,9 +15,8 @@ var gulp = require('gulp'),
     commonjs = require('rollup-plugin-commonjs'),
     replace = require('rollup-plugin-replace'),
     string = require('rollup-plugin-string'),
-    mocha = require('gulp-mocha');
 
-gulp.task('default', ['test'], function() {
+gulp.task('default', function() {
     return rollup({
       entry: 'src/main.js',
       format: 'iife',
@@ -51,8 +50,3 @@ gulp.task('watch', function() {
   ], ['default']);
 
 });
-
-gulp.task('test', () =>
-    gulp.src('src/test/test.js', {read: false})
-      .pipe(mocha({reporter: 'nyan'}))
-);
