@@ -2,9 +2,11 @@
 * A component for horizontal layout of Maps
 */
 import m from 'mithril';
+import {newMap} from '../../topics';
 import toolState from '../../state/toolState';
 import {Layout} from './layout';
 import {domRectEqual} from '../../util/domRect';
+import {BioMap} from '../../canvas/bioMap';
 
 export class HorizontalLayout extends Layout {
 
@@ -12,10 +14,19 @@ export class HorizontalLayout extends Layout {
     super();
     // make mithril aware we are interested in this state
     this.toolState = toolState;
+    this.children = [];
   }
 
   oncreate(vnode) {
     this._updateBounds(vnode);
+    PubSub.subscribe(newMap, () => this._onNewMap());
+  }
+
+  _onNewMap() {
+    let map = new BioMap();
+    this.children.push(map);
+    console.log(this.children);
+//    m.redraw();
   }
 
   onupdate(vnode) {
@@ -41,8 +52,8 @@ export class HorizontalLayout extends Layout {
                `height: ${this.bounds.height - this.bounds.top - 10}px`
                :
                ''
-      }, [
-      ])
-    ]);
+      },
+      this.children.map(m)
+    )]);
   }
 }

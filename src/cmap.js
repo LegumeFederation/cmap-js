@@ -20,7 +20,7 @@ export class cmap {
   _monitorPubSub() {
     let logger = (topic, data) => {
       let msg = JSON.stringify(data);
-      console.log(`${topic} -> ${msg}`);
+      console.log(`[${topic}] ${msg}`);
     };
     Object.keys(topics).forEach( topic => {
       PubSub.subscribe(topic, logger);

@@ -6,6 +6,6 @@ export const zoomMouseDrag = 'zoomMouseDrag'; // mouse drag event
 export const zoomMouseWheel = 'zoomMouseWheel'; // mouse wheel event
 export const move = 'move'; // move tool, drag event
 export const reset = 'reset'; // reset button click
-export const test = 'test'; 
+export const test = 'test';
 
 // TODO: fill in other messages as needed

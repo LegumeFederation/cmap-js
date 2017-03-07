@@ -11,19 +11,12 @@ export class NewMap  {
   }
 
   click() {
-    if(! this.active()) {
-      this.toolState.activeTool = 'zoom';
-    }
     PubSub.publish(newMap, null);
-  }
-
-  active() {
-    return this.toolState.activeTool === 'zoom';
   }
 
   view() {
       return m('button', {
-          class: this.active() ? 'pure-button pure-button-active' : 'pure-button',
+          class: 'pure-button',
           onclick: () => this.click()
         },
         [
