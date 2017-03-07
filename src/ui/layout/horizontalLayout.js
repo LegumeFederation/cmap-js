@@ -34,7 +34,6 @@ export class HorizontalLayout extends Layout {
     // wrap the canvas in a css grid row, to establish the boundingBox width
     // of this component
     console.log('render @' + new Date());
-    console.log(this.bounds);
     return m('div', { class: 'pure-u-1 cmap-layout' }, [
       m('div', {
         class: 'cmap-layout-horizontal',

@@ -1,7 +1,8 @@
 import { version } from '../package.json';
+import { UI } from './ui/ui';
 import rbush from 'rbush';
 import '../node_modules/pubsub-js/src/pubsub'; // creates global PubSub var
-import { UI } from './ui/ui';
+import * as topics from './topics';
 
 export class cmap {
 
@@ -11,6 +12,18 @@ export class cmap {
   }
 
   init() {
+    this._monitorPubSub();
     this.ui.init();
+  }
+
+  // subscribe to all pubsub topics, and log to console (just for development)
+  _monitorPubSub() {
+    let logger = (topic, data) => {
+      let msg = JSON.stringify(data);
+      console.log(`${topic} -> ${msg}`);
+    };
+    Object.keys(topics).forEach( topic => {
+      PubSub.subscribe(topic, logger);
+    });
   }
 }
