@@ -1,20 +1,19 @@
+import '../../node_modules/purecss/build/pure-min.css';
+import '../../node_modules/purecss/build/grids-responsive-min.css';
+import './css/cmap.css';
+
 import m from 'mithril';
 import {Tools} from './tools/tools';
 import {StatusBar} from './statusBar';
-import {Canvas} from './canvas';
+import {HorizontalLayout} from './layout/horizontalLayout';
 
-
-import '../../node_modules/purecss/build/pure-min.css';
-import '../../node_modules/purecss/build/grids-responsive-min.css';
-
-import './css/cmap.css';
 
 export class UI {
 
   constructor() {
     this.tools = new Tools();
     this.statusBar = new StatusBar();
-    this.canvas = new Canvas();
+    this.layout = new HorizontalLayout();
   }
 
   init() {
@@ -39,7 +38,7 @@ export class UI {
          ]),
          // grid row for canvas
          m('div', { class: 'pure-g' }, [
-            m(this.canvas)
+            m(this.layout)
          ]),
          // status bar / footer grid
          m('div', { class: 'pure-g' }, [

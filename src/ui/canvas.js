@@ -50,12 +50,14 @@ export class Canvas  {
 
   _updateWidth(vnode) {
     let bbox = vnode.dom.getBoundingClientRect();
+    console.log(bbox);
     let w = Math.floor(bbox.width);
     // check the width vs. the width of bounding box
     if(w !== this.boundingBox.width) {
       this.boundingBox.width = w;
       this.canvasSize.width = w += this.zoomFactor;
-      // this is a lifecycle method so mithril wont auto-render this state change
+      // this function was invoked from oncreate/onupdate, which are lifecycle
+      // methods, so mithril will not autorender the above state change.
       m.redraw();
     }
   }
@@ -69,10 +71,11 @@ export class Canvas  {
   view() {
     // wrap the canvas in a grid row, to get layout boundingBox
     console.log('render @' + new Date());
+    console.log(this.boundingBox);
     return m('div', { class: 'pure-u-1' }, [
       m('div', {
-        class: 'canvas-scroller',
-        style: `max-width: ${this.boundingBox.width}px; max-height: ${this.boundingBox.height}px`
+        class: 'canvas-container',
+        style: `max-width: ${this.boundingBox.width}px`
       }, [
         m('canvas', {
           class: this.toolState.selectedCanvas === this ?

@@ -22,7 +22,10 @@
   border-color: cyan;
 }
 
-.canvas-scroller {
-  overflow: auto;
-  display: inline;
+.cmap-layout {
+  height: 100vh;
+}
+
+.cmap-layout-horizontal {
+  background-color: lightblue;
 }
