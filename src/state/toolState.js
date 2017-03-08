@@ -4,6 +4,8 @@
 *
 * will share a reference to the same instance.
 */
+import {reset} from '../topics';
+import {horizontalLayout} from '../layouts';
 
 class ToolState {
 
@@ -16,6 +18,9 @@ class ToolState {
     this.activeTool = null;
     this.selectedCanvas = null;
     this.zoomFactor = 0;
+    this.devNumberOfMaps = 3;
+    this.layout = horizontalLayout;
+    PubSub.publish(reset, null);
   }
 }
 

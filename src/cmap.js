@@ -1,8 +1,9 @@
 import { version } from '../package.json';
-import { UI } from './ui/ui';
-import rbush from 'rbush';
 import '../node_modules/pubsub-js/src/pubsub'; // creates global PubSub var
 import * as topics from './topics';
+import { UI } from './ui/ui';
+import rbush from 'rbush';
+
 
 export class cmap {
 
@@ -14,10 +15,6 @@ export class cmap {
   init() {
     this._monitorPubSub();
     this.ui.init();
-    // FIXME: for development, create 3 maps
-    PubSub.publish(topics.newMap, null);
-    PubSub.publish(topics.newMap, null);
-    PubSub.publish(topics.newMap, null);
   }
 
   // subscribe to all pubsub topics, and log to console (just for development)
@@ -26,8 +23,9 @@ export class cmap {
       let msg = JSON.stringify(data);
       console.log(`[${topic}] ${msg}`);
     };
-    Object.keys(topics).forEach( topic => {
-      PubSub.subscribe(topic, logger);
+    Object.keys(topics).forEach( t => {
+      //console.log(`subscribing to: ${t}`);
+      PubSub.subscribe(t, logger);
     });
   }
 }

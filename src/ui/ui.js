@@ -1,5 +1,3 @@
-import '../../node_modules/purecss/build/pure-min.css';
-import '../../node_modules/purecss/build/grids-responsive-min.css';
 import './css/cmap.css';
 
 import m from 'mithril';
@@ -21,34 +19,17 @@ export class UI {
     // use component mount() to enable auto-rendering.
     let root = document.getElementById('cmap-ui');
     m.mount(root, this);
+
     // trigger mithril redraw when window is resized
-    window.addEventListener('resize', () => this.resizeThrottler(), false);
+    //window.addEventListener('resize', () => this.resizeThrottler(), false);
   }
 
   view() {
-    return  m('div', { class: 'content pure-g'}, [
-       m('div', { class: 'pure-u-1-24' }),
-       m('div', { class: 'pure-u-22-24' }, [
-         // toolbar grid
-         m('div', { class: 'pure-g'}, [
-           m('div', { class: 'pure-u-1' }, [
-              m('span', { class: 'cmap-logo' }, 'cmap-js'),
-              m(this.tools)
-           ])
-         ]),
-         // grid row for canvas
-         m('div', { class: 'pure-g' }, [
-            m(this.layout)
-         ]),
-         // status bar / footer grid
-         m('div', { class: 'pure-g' }, [
-           m('div', { class: 'pure-u-1'}, [
-            m(this.statusBar)
-           ])
-         ])
-       ]),
-       m('div', { class: 'pure-u-1-24'})
-    ]);
+    return m('div', { class: 'cmap-layout cmap-vbox' }, [
+      m(this.tools),
+      m(this.layout),
+      m('div', { class: 'cmap-hbox'}, 'footer')
+    ])
   }
 
   resizeThrottler() {
@@ -56,7 +37,7 @@ export class UI {
     if ( ! this.resizeTimeout ) {
         this.resizeTimeout = setTimeout( () => {
         this.resizeTimeout = null;
-        this.resize();
+        this.resize()
        // The actualResizeHandler will execute at a rate of 15fps
        }, 66);
     }

@@ -1,33 +1,32 @@
-.cmap-toolbar-icon {
-  vertical-align: sub
+html, body, #cmap-ui {
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 
-.cmap-logo {
-  display: inline;
-  float: left;
-  padding-right: 1rem;
-  font-size: 2rem;
+.cmap-vbox {
+  display: flex;
+  flex-direction: column;
 }
 
-.content {
-  margin-top: 1rem;
-}
-
-.cmap-canvas {
-  border: 1px dotted;
-  border-color: grey;
-  position: absolute;;
-}
-
-.cmap-canvas-selected {
-  border-color: cyan;
+.cmap-hbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .cmap-layout {
-  height: 95vh;
+  width: 100%;
+  height: 100%;
 }
 
-.cmap-layout-horizontal {
-  background-color: lightblue;
-  position: relative;
+.cmap-stretch {
+  flex: auto;
+}
+
+.cmap-canvas {
+  border: dashed 1px grey;
+}
+
+.canvas-wrapper {
 }

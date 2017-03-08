@@ -9,4 +9,8 @@ export const zoomMouseWheel = 'zoomMouseWheel'; // mouse wheel event
 export const move = 'move'; // move tool, drag event
 export const reset = 'reset'; // reset button click
 
-// TODO: fill in other messages as needed
+// layout change event: payload is a const from layouts.js
+export const layout = 'layout';
+
+ // for trying various layouts. payload is an integer, n
+export const devNumberofMaps = 'devNumberofMaps';
