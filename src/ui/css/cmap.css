@@ -7,11 +7,13 @@ html, body, #cmap-ui {
 .cmap-vbox {
   display: flex;
   flex-direction: column;
+  align-content: stretch;
 }
 
 .cmap-hbox {
   display: flex;
   flex-direction: row;
+  align-content: stretch;
   justify-content: space-evenly;
 }
 
@@ -21,7 +23,7 @@ html, body, #cmap-ui {
 }
 
 .cmap-stretch {
-  flex: auto;
+  flex: 1;
 }
 
 .cmap-canvas {
