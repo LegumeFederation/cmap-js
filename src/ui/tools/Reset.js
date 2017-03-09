@@ -11,7 +11,7 @@ export class Reset  {
   }
 
   click(e) {
-    this.toolState.reset({ evt: e});
+    this.toolState.reset();
   }
 
   view() {

@@ -17,10 +17,10 @@ class ToolState {
   reset() {
     this.activeTool = null;
     this.selectedCanvas = null;
-    this.zoomFactor = 0;
+    this.zoomFactor = 0; // units of +/- vertical pixels
     this.devNumberOfMaps = 3;
     this.layout = horizontalLayout;
-    PubSub.publish(reset, null);
+    PubSub.publish(reset, { evt: {}, data: null });
   }
 }
 

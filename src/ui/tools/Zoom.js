@@ -1,6 +1,7 @@
 import m from 'mithril';
 import toolState from '../../state/ToolState';
 import icon from '../svg-icons/zoom-in.svg';
+import {zoomMouseWheel} from '../../topics';
 import './wheelListener';
 
 export class Zoom  {
@@ -17,12 +18,14 @@ export class Zoom  {
   }
 
   oncreate() {
-    addWheelListener(window, (e) => this._wheel(e));
+    addWheelListener(window, (e) => this._onWheel(e));
   }
 
-  _wheel(evt) {
-    this.toolState.zoomFactor = Math.floor(evt.deltaY);
-    m.redraw(); // this dom event came from outside mithril so manual redraw
+  _onWheel(evt) {
+    let scroll = Math.floor(evt.deltaY);
+    // accumulate the positive or negative zoom factor (units: vertical pixels)
+    this.toolState.zoomFactor += scroll;
+    PubSub.publish(zoomMouseWheel, { evt: evt, zoomFactor: this.toolState.zoomFactor })
   }
 
   active() {

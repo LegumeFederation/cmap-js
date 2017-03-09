@@ -25,7 +25,7 @@ export class Tools  {
   view() {
     return m('div', { class: 'tools cmap-hbox' }, [
       // m(this.move),
-      // m(this.zoom),
+      m(this.zoom),
       // m(this.reset),
       // m(this.newMap)
       m(this.slider),

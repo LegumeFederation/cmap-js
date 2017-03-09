@@ -4,8 +4,8 @@
 export const newMap = 'newMap'; // create a new map button click
 export const selectedMap = 'selectedMap'; // the selected map (canvas) changed
 export const windowResize = 'windowResize'; // the window was resized
-export const zoomMouseDrag = 'zoomMouseDrag'; // mouse drag event
-export const zoomMouseWheel = 'zoomMouseWheel'; // mouse wheel event
+export const zoomMouseDrag = 'zoomMouseDrag'; // mouse drag-to-zoom event
+export const zoomMouseWheel = 'zoomMouseWheel'; // mouse wheel-to-zoom event
 export const move = 'move'; // move tool, drag event
 export const reset = 'reset'; // reset button click
 

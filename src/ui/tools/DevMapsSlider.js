@@ -29,7 +29,7 @@ export class DevMapsSlider  {
           min: 1,
           max: 20,
           value: this.toolState.devNumberOfMaps,
-          onchange: (e) => this.onchange(e)
+          onchange: e => this.onchange(e)
         })
     ])
   ]);

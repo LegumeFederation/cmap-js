@@ -20,7 +20,7 @@ export class BioMap {
     // dont update state and redraw unless the bounding box has changed
     if(domRectEqual(this.bounds, newBounds)) return;
     this.bounds = newBounds;
-    m.redraw();
+//    m.redraw();
   }
 
   view() {

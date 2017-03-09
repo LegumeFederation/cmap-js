@@ -20,11 +20,18 @@ html, body, #cmap-ui {
 .cmap-layout {
   width: 100%;
   height: 100%;
-  overflow: hidden; /* overflow content is clipped, no scrollbars */
+  margin: 0;
 }
 
-.cmap-stretch {
-  flex: 1;
+.cmap-layout-viewport {
+  overflow: hidden; /* overflow content is clipped, no scrollbars */
+  flex: auto; /* expand to fill the vertical space allowed by flexbox */
+  position: relative;
+}
+
+.cmap-layout-content {
+  position: absolute;
+  background-color: cyan;
 }
 
 .cmap-canvas {

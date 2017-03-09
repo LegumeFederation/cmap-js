@@ -17,27 +17,34 @@ export class CircosLayout extends LayoutBase {
   }
 
   oninit(vnode) {
-    PubSub.subscribe(newMap, () => this._onNewMap());
-    PubSub.subscribe(reset, () => this._onReset());
-    PubSub.subscribe(devNumberofMaps, (n) => this._onDevNumberOfMaps());
-    this._onDevNumberOfMaps(this.toolState.devNumberOfMaps);
+    this.subscriptions = [
+      PubSub.subscribe(newMap, (msg, data) => this._onNewMap(msg, data)),
+      PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data)),
+      PubSub.subscribe(devNumberofMaps, (msg, data) => this._onDevNumberOfMaps(msg, data))
+    ];
+    this._onDevNumberOfMaps(null, { evt: {}, number: this.toolState.devNumberOfMaps});
   }
 
-  _onDevNumberOfMaps(n) {
+  onremove(vnode) {
+    this.subscriptions.forEach(token => PubSub.unsubscribe(token));
+  }
+
+  _onDevNumberOfMaps(msg, data) {
     this.children = [];
-    for (var i = 0; i < toolState.devNumberOfMaps; i++) {
+    let n = data.number;
+    for (var i = 0; i < n; i++) {
       this.children.push(new BioMap());
     }
-    m.redraw();
+    if(! data.evt.redraw) m.redraw();
   }
 
-  _onNewMap(msg) {
+  _onNewMap(msg, data) {
     let map = new BioMap();
     this.children.push(map);
-    if(! msg.evt.redraw) m.redraw();
+    if(! data.evt.redraw) m.redraw();
   }
 
-  _onReset() {
+  _onReset(msg, data) {
     this.children = [];
     for (var i = 0; i < this.toolState.devNumberOfMaps; i++) {
       this.children.push(new BioMap());
