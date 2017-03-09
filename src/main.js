@@ -4,11 +4,11 @@ import { CMAP } from './CMAP';
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   // support commonjs loading, if it exists.
-  module.exports = cmap;
+  module.exports = CMAP;
 }
 else {
   // otherwise put cmap constructor in window global
-  window.cmap = cmap;
+  window.cmap = CMAP;
 }
 
 // wait for DOM ready
