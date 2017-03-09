@@ -1,11 +1,11 @@
 import { version } from '../package.json';
 import '../node_modules/pubsub-js/src/pubsub'; // creates global PubSub var
 import * as topics from './topics';
-import { UI } from './ui/ui';
+import { UI } from './ui/UI';
 import rbush from 'rbush';
 
 
-export class cmap {
+export class CMAP {
 
   constructor() {
     this.version = version;

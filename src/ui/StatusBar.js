@@ -1,5 +1,5 @@
 import m from 'mithril';
-import toolState from '../state/toolState';
+import ToolState from '../state/ToolState';
 
 export class StatusBar {
 

@@ -1,10 +1,10 @@
 import m from 'mithril';
-import toolState from '../../state/toolState';
-import {Move} from './move';
-import {Zoom} from './zoom';
-import {Reset} from './reset';
-import {NewMap} from './newMap';
-import {DevMapsSlider} from './devMapsSlider';
+import toolState from '../../state/ToolState';
+import {Move} from './Move';
+import {Zoom} from './Zoom';
+import {Reset} from './Reset';
+import {NewMap} from './NewMap';
+import {DevMapsSlider} from './DevMapsSlider';
 import {LayoutPicker} from './LayoutPicker';
 
 

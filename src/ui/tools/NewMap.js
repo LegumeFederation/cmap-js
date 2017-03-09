@@ -1,5 +1,5 @@
 import m from 'mithril';
-import toolState from '../../state/toolState';
+import toolState from '../../state/ToolState';
 //import icon from '../svg-icons/zoom-in.svg';
 import {newMap} from '../../topics';
 

@@ -1,15 +1,14 @@
 /*
-* A component for horizontal layout of Maps
+ * A component for Circos-style layout of BioMaps.
 */
 import m from 'mithril';
 import {newMap, reset, devNumberofMaps} from '../../topics';
-import {Layout} from './layout';
-import {BioMap} from '../../canvas/bioMap';
-import toolState from '../../state/toolState';
+import {LayoutBase} from './LayoutBase';
+import {BioMap} from '../../canvas/BioMap';
+import toolState from '../../state/ToolState';
 
-const mapMargin = 20; // px
 
-export class HorizontalLayout extends Layout {
+export class CircosLayout extends LayoutBase {
 
   constructor() {
     super();
@@ -47,11 +46,5 @@ export class HorizontalLayout extends Layout {
   }
 
   view() {
-    console.log('render @' + new Date());
-    return m('div', { class: 'cmap-layout cmap-vbox' },
-      m('div', { class: 'cmap-hbox cmap-stretch' },
-        this.children.map(m)
-      )
-    );
   }
 }

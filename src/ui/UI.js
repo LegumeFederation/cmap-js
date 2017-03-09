@@ -1,9 +1,9 @@
 import './css/cmap.css';
 
 import m from 'mithril';
-import {Tools} from './tools/tools';
-import {StatusBar} from './statusBar';
-import {HorizontalLayout} from './layout/horizontalLayout';
+import {Tools} from './tools/Tools';
+import {StatusBar} from './StatusBar';
+import {Layout} from './layout/Layout';
 
 
 export class UI {
@@ -11,7 +11,7 @@ export class UI {
   constructor() {
     this.tools = new Tools();
     this.statusBar = new StatusBar();
-    this.layout = new HorizontalLayout();
+    this.layout = new Layout();
   }
 
   init() {

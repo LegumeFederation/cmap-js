@@ -1,5 +1,5 @@
 import './polyfills';
-import { cmap } from './cmap';
+import { CMAP } from './CMAP';
 
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
@@ -15,7 +15,7 @@ else {
 // create a default instance of cmap to launch
 let evtName = 'DOMContentLoaded';
 let loadedHandler = event => {
-  let _cmap = new cmap();
+  let _cmap = new CMAP();
   console.log(`cmap v${_cmap.version}`);
   _cmap.init();
   document.removeEventListener(evtName, loadedHandler);
