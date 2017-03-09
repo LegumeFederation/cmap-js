@@ -31,10 +31,10 @@ export class CircosLayout extends LayoutBase {
     m.redraw();
   }
 
-  _onNewMap() {
+  _onNewMap(msg) {
     let map = new BioMap();
     this.children.push(map);
-    m.redraw();
+    if(! msg.evt.redraw) m.redraw();
   }
 
   _onReset() {
@@ -46,5 +46,6 @@ export class CircosLayout extends LayoutBase {
   }
 
   view() {
+    return m('div', { class: 'cmap-circos-layout'});
   }
 }

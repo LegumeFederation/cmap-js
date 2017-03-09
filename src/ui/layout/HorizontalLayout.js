@@ -23,18 +23,19 @@ export class HorizontalLayout extends LayoutBase {
     this._onDevNumberOfMaps(this.toolState.devNumberOfMaps);
   }
 
-  _onDevNumberOfMaps(n) {
+  _onDevNumberOfMaps(msg) {
+    let n = msg.number;
     this.children = [];
-    for (var i = 0; i < toolState.devNumberOfMaps; i++) {
+    for (var i = 0; i < n; i++) {
       this.children.push(new BioMap());
     }
-    m.redraw();
+    if(! msg.evt.redraw) m.redraw();
   }
 
-  _onNewMap() {
+  _onNewMap(msg) {
     let map = new BioMap();
     this.children.push(map);
-    m.redraw();
+    if(! msg.evt.redraw) m.redraw();
   }
 
   _onReset() {

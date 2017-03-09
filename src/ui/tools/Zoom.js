@@ -10,7 +10,7 @@ export class Zoom  {
     this.toolState = toolState;
   }
 
-  click() {
+  click(e) {
     if(! this.active()) {
       this.toolState.activeTool = 'zoom';
     }
@@ -20,8 +20,8 @@ export class Zoom  {
     addWheelListener(window, (e) => this._wheel(e));
   }
 
-  _wheel(e) {
-    this.toolState.zoomFactor = Math.floor(e.deltaY);
+  _wheel(evt) {
+    this.toolState.zoomFactor = Math.floor(evt.deltaY);
     m.redraw(); // this dom event came from outside mithril so manual redraw
   }
 
@@ -32,7 +32,7 @@ export class Zoom  {
   view() {
       return m('button', {
           class: this.active() ? 'pure-button pure-button-active' : 'pure-button',
-          onclick: () => this.click()
+          onclick: (e) => this.click(e)
         },
         [
           'Zoom',

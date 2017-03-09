@@ -10,14 +10,15 @@ export class NewMap  {
     this.toolState = toolState;
   }
 
-  click() {
-    PubSub.publish(newMap, null);
+  click(e) {
+    e.redraw = false;
+    PubSub.publish(newMap, { evt: e });
   }
 
   view() {
       return m('button', {
           class: 'pure-button',
-          onclick: () => this.click()
+          onclick: (e) => this.click(e)
         },
         [
           'New Map'

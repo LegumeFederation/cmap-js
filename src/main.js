@@ -14,7 +14,7 @@ else {
 // wait for DOM ready
 // create a default instance of cmap to launch
 let evtName = 'DOMContentLoaded';
-let loadedHandler = event => {
+let loadedHandler = evt => {
   let _cmap = new CMAP();
   console.log(`cmap v${_cmap.version}`);
   _cmap.init();

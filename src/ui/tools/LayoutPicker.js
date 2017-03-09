@@ -16,8 +16,8 @@ export class LayoutPicker  {
   onchange(e) {
     let l = e.target.value;
     this.toolState.layout = l;
-    PubSub.publish(layout, l);
     e.redraw = false;
+    PubSub.publish(layout, { evt: e, layout: l });
   }
 
   view() {

@@ -10,14 +10,14 @@ export class Reset  {
     this.toolState = toolState;
   }
 
-  click() {
-    this.toolState.reset();
+  click(e) {
+    this.toolState.reset({ evt: e});
   }
 
   view() {
     return m('button', {
         class: 'pure-button',
-        onclick: () => this.click()
+        onclick: (e) => this.click(e)
       },
       [
         'Reset',

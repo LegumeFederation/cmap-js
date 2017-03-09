@@ -16,7 +16,7 @@ export class DevMapsSlider  {
     let n = e.target.value;
     this.toolState.devNumberOfMaps = n;
     e.redraw = false;
-    PubSub.publish(devNumberofMaps, n);
+    PubSub.publish(devNumberofMaps, { evt: e, number: n });
   }
 
   view() {
