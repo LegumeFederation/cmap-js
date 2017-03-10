@@ -8,6 +8,7 @@ import toolState from '../../state/ToolState';
 import {newMap,
         reset,
         devNumberofMaps as nmaps} from '../../topics';
+import {domRectEqual} from '../../util/domRect';
 
 export class HorizontalLayout extends LayoutBase {
 
@@ -27,8 +28,29 @@ export class HorizontalLayout extends LayoutBase {
     this._onDevNumberOfMaps(null, { evt: {}, number: this.toolState.devNumberOfMaps});
   }
 
+  oncreate(vnode) {
+    this._updateBounds(vnode);
+  }
+
+  onupdate(vnode) {
+    console.log('onupdate:');
+    console.log(vnode.dom.getBoundingClientRect());
+    this._updateBounds(vnode);
+  }
+
   onremove(vnode) {
     this.subscriptions.forEach(token => PubSub.unsubscribe(token));
+  }
+
+  /* internal functions  */
+  _updateBounds(vnode) {
+    let newBounds = vnode.dom.getBoundingClientRect();
+    // dont update state and redraw unless the bounding box has changed
+    if(domRectEqual(this.bounds, newBounds)) return;
+    console.log(this.bounds)
+    console.log(this.newBounds);
+    this.bounds = newBounds;
+    m.redraw();
   }
 
   _onZoom(msg, data) {
@@ -60,11 +82,11 @@ export class HorizontalLayout extends LayoutBase {
 
   view() {
     console.log('render @' + (new Date()).getTime());
+    let b = this.bounds || {};
     return m('div', {
         class: 'cmap-horizontal-layout'
-       }
-       //,
-      //this.children.map(m)
+      },
+      this.children.map(m)
     );
   }
 }

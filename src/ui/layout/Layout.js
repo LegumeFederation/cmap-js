@@ -37,6 +37,7 @@ export class Layout {
 
     // pan the layout on mouse drag gestures.
     // (note: this is different than html5 dragndrop)
+    // TODO: add touch event handlers as well ala https://github.com/gajus/pan
     vnode.dom.addEventListener('mousedown', evt => this._onMouseDown(evt));
     vnode.dom.addEventListener('mousemove', evt => this._onMouseMove(evt));
     vnode.dom.addEventListener('mouseup', evt => this._onMouseUp(evt));

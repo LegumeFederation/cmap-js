@@ -31,12 +31,14 @@ html, body, #cmap-ui {
 
 .cmap-layout-content {
   position: absolute;
-  background-color: cyan;
 }
 
 .cmap-canvas {
   border: dashed 1px grey;
 }
 
-.canvas-wrapper {
+.cmap-horizontal-layout {
+  width: 100%;
+  height: 100%;
+  background-color: lightgrey;
 }
