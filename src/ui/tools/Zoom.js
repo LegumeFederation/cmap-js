@@ -22,10 +22,11 @@ export class Zoom  {
   }
 
   _onWheel(evt) {
-    let scroll = Math.floor(evt.deltaY);
+    evt.preventDefault();
+    let deltaY = Math.floor(evt.deltaY);
     // accumulate the positive or negative zoom factor (units: vertical pixels)
-    this.toolState.zoomFactor += scroll;
-    PubSub.publish(zoomMouseWheel, { evt: evt, zoomFactor: this.toolState.zoomFactor })
+    this.toolState.zoomFactor += deltaY;
+    PubSub.publish(zoomMouseWheel, { evt: evt, deltaY: deltaY });
   }
 
   active() {

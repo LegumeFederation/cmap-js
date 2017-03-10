@@ -1,5 +1,7 @@
 // creates a global "addWheelListener" method
-// example: addWheelListener( elem, function( e ) { console.log( e.deltaY ); e.preventDefault(); } );
+// example: addWheelListener( elem, function( e ) {
+//  console.log( e.deltaY ); e.preventDefault();
+// } );
 // form https://developer.mozilla.org/en-US/docs/Web/Events/wheel
 (function(window,document) {
 

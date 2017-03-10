@@ -33,10 +33,6 @@ export class HorizontalLayout extends LayoutBase {
     this.subscriptions.forEach(token => PubSub.unsubscribe(token));
   }
 
-  // onupdate(vnode) {
-  //   let newBounds = vnode.dom.getBoundingClientRect();
-  // }
-
   _onZoom(msg, data) {
     if(! data.evt.redraw) m.redraw();
   }

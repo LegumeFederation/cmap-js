@@ -18,27 +18,14 @@ export class Layout {
     this.circosLayout = new CircosLayout();
   }
 
+  /* mitrhril component lifecycle functions */
   oninit(vnode) {
     this.subscriptions = [
+      // layout change message
       PubSub.subscribe(layoutMsg, (msg, data) => this.onLayoutChange(msg, data)),
       PubSub.subscribe(zoomMouseWheel, (msg, data) => this.onZoom(msg, data)),
       PubSub.subscribe(reset, (msg, data) => this.onReset(msg, data))
     ];
-  }
-
-  onReset(msg, data) {
-    this.relativeBounds = null;
-    this._updateRelativeBounds(this.toolState.zoomFactor);
-    if(! data.evt.redraw) m.redraw();
-  }
-
-  onZoom(msg, data) {
-    this._updateRelativeBounds(data.zoomFactor);
-    if(! data.evt.redraw) m.redraw();
-  }
-
-  onLayoutChange(msg, data) {
-    if(! data.evt.redraw) m.redraw();
   }
 
   oncreate(vnode) {
@@ -49,20 +36,40 @@ export class Layout {
     this._updateBounds(vnode);
   }
 
+  /* pub/sub callback functions */
+  onReset(msg, data) {
+    this.relativeBounds = null;
+    this._applyZoomFactor(this.toolState.zoomFactor);
+    if(! data.evt.redraw) m.redraw();
+  }
+
+  onZoom(msg, data) {
+    this._applyZoomFactor(data.deltaY);
+    if(! data.evt.redraw) m.redraw();
+  }
+
+  onLayoutChange(msg, data) {
+    if(! data.evt.redraw) m.redraw();
+  }
+
+
   _updateBounds(vnode) {
     let newBounds = vnode.dom.getBoundingClientRect();
     // dont update state and redraw unless the bounding box has changed
     if(domRectEqual(this.bounds, newBounds)) return;
     this.bounds = newBounds;
-    console.log(this.bounds);
-    this._updateRelativeBounds(this.toolState.zoomFactor);
+    this._applyZoomFactor(this.toolState.zoomFactor);
     m.redraw();
   }
 
-  _updateRelativeBounds(zoomFactor) {
-    if( ! this.relativeBounds
-       || zoomFactor === 0
-       || this.relativeBounds.width < 0.5 * this.bounds.width) {
+  /*
+   * deltaY is in vertical pixels of scroll
+   * convert this to a factor by dividing into window.innerHeight
+   * apply to the relativeBounds width and height, mainaining aspect ratio.
+   */
+  _applyZoomFactor(deltaY) {
+    let minWidth = this.bounds.width * 0.5;
+    if( ! this.relativeBounds || deltaY === 0) {
       this.relativeBounds = {
         top: 0,
         left: 0,
@@ -71,22 +78,17 @@ export class Layout {
       };
     }
     else {
-      this.relativeBounds = {
-        top: 0,
-        left: 0,
-        width: this.relativeBounds.width +
-          window.innerWidth * -1 * (zoomFactor / window.innerWidth),
-        height: this.relativeBounds.height +
-          window.innerHeight * -1 * (zoomFactor / window.innerHeight),
-      };
+      let factor = deltaY / window.innerHeight;
+      let adjustWidth = this.relativeBounds.width * factor;
+      let adjustHeight = this.relativeBounds.height * factor;
+      let w = this.relativeBounds.width + adjustWidth;
+      let h = this.relativeBounds.height + adjustHeight;
+      this.relativeBounds = { top: 0, left: 0, width: w, height: h };
     }
-    let aspect = this.relativeBounds.width / this.relativeBounds.height;
-    console.log(`aspect ratio: ${aspect}`);
   }
 
   view() {
     let b = this.relativeBounds || {};
-    console.log(b);
     return m('div', { class: 'cmap-layout-viewport cmap-hbox'}, [
       m('div', {
         class: 'cmap-layout-content',
