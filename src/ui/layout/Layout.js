@@ -31,17 +31,50 @@ export class Layout {
   // the dom element is accessible in oncreate and after
   oncreate(vnode) {
     this._updateBounds(vnode);
+
+    // zoom layout on wheel events
     addWheelListener(vnode.dom, evt => this._onZoom(evt));
+
+    // pan the layout on mouse drag gestures.
+    // (note: this is different than html5 dragndrop)
+    vnode.dom.addEventListener('mousedown', evt => this._onMouseDown(evt));
+    vnode.dom.addEventListener('mousemove', evt => this._onMouseMove(evt));
+    vnode.dom.addEventListener('mouseup', evt => this._onMouseUp(evt));
+    vnode.dom.addEventListener('mouseenter', evt => this._onMouseEnter(evt));
+    vnode.dom.addEventListener('mouseexit', evt => this._onMouseExit(evt));
   }
 
   onupdate(vnode) {
     this._updateBounds(vnode);
   }
 
-  /* misc event handlers */
+  /* dom event handlers */
   _onZoom(evt) {
     this._applyZoomFactor(evt.deltaY);
     m.redraw();
+  }
+
+  _onMouseDown(evt) {
+    this.dragging = true;
+  }
+
+  _onMouseUp(evt) {
+    this.dragging = false;
+  }
+
+  _onMouseMove(evt) {
+    if(this.dragging) {
+      this._applyPan(evt.movementX, evt.movementY);
+      m.redraw();
+    }
+  }
+
+  _onMouseEnter(evt) {
+    this.dragging = false;
+  }
+
+  _onMouseExit(evt) {
+    this.dragging = false;
   }
 
   /* pub/sub callback functions */
@@ -65,6 +98,20 @@ export class Layout {
     m.redraw();
   }
 
+  _applyPan(deltaX, deltaY) {
+    if( ! this.relativeBounds) {
+      this.relativeBounds = {
+        top: 0,
+        left: 0,
+        width: this.bounds.width,
+        height: this.bounds.height
+      };
+    }
+    else {
+      this.relativeBounds.left += deltaX;
+      this.relativeBounds.top += deltaY;
+    }
+  }
   /*
    * deltaY is in vertical pixels of scroll
    * convert this to a factor by dividing into window.innerHeight

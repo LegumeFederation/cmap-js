@@ -1,8 +1,13 @@
+// this code is from https://developer.mozilla.org/en-US/docs/Web/Events/wheel
+// FIXME: what about removeEventListener?
+// FIXME: what about touch support? maybe replace with a touch library.
+
 // creates a global "addWheelListener" method
 // example: addWheelListener( elem, function( e ) {
 //  console.log( e.deltaY ); e.preventDefault();
 // } );
-// form https://developer.mozilla.org/en-US/docs/Web/Events/wheel
+
+
 (function(window,document) {
 
     var prefix = "", _addEventListener, support;
