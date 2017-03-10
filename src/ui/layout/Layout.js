@@ -6,9 +6,10 @@ import m from 'mithril';
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
 import * as layouts from '../../layouts';
-import {layout as layoutMsg, zoomMouseWheel, reset} from '../../topics';
+import {layout as layoutMsg, reset} from '../../topics';
 import toolState from '../../state/ToolState';
 import {domRectEqual} from '../../util/domRect';
+import '../../util/wheelListener';
 
 export class Layout {
 
@@ -23,17 +24,24 @@ export class Layout {
     this.subscriptions = [
       // layout change message
       PubSub.subscribe(layoutMsg, (msg, data) => this.onLayoutChange(msg, data)),
-      PubSub.subscribe(zoomMouseWheel, (msg, data) => this.onZoom(msg, data)),
       PubSub.subscribe(reset, (msg, data) => this.onReset(msg, data))
     ];
   }
 
+  // the dom element is accessible in oncreate and after
   oncreate(vnode) {
     this._updateBounds(vnode);
+    addWheelListener(vnode.dom, evt => this._onZoom(evt));
   }
 
   onupdate(vnode) {
     this._updateBounds(vnode);
+  }
+
+  /* misc event handlers */
+  _onZoom(evt) {
+    this._applyZoomFactor(evt.deltaY);
+    m.redraw();
   }
 
   /* pub/sub callback functions */
@@ -43,16 +51,11 @@ export class Layout {
     if(! data.evt.redraw) m.redraw();
   }
 
-  onZoom(msg, data) {
-    this._applyZoomFactor(data.deltaY);
-    if(! data.evt.redraw) m.redraw();
-  }
-
   onLayoutChange(msg, data) {
     if(! data.evt.redraw) m.redraw();
   }
 
-
+  /* internal functions  */
   _updateBounds(vnode) {
     let newBounds = vnode.dom.getBoundingClientRect();
     // dont update state and redraw unless the bounding box has changed
@@ -87,6 +90,7 @@ export class Layout {
     }
   }
 
+  /* mithril component render */
   view() {
     let b = this.relativeBounds || {};
     return m('div', { class: 'cmap-layout-viewport cmap-hbox'}, [

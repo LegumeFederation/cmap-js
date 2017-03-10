@@ -1,7 +1,6 @@
 import m from 'mithril';
 import toolState from '../../state/ToolState';
 import {Move} from './Move';
-import {Zoom} from './Zoom';
 import {Reset} from './Reset';
 import {NewMap} from './NewMap';
 import {DevMapsSlider} from './DevMapsSlider';
@@ -12,7 +11,6 @@ export class Tools  {
 
   constructor() {
     this.move = new Move();
-    this.zoom = new Zoom();
     this.reset = new Reset();
     this.newMap = new NewMap();
     this.slider = new DevMapsSlider();
@@ -25,7 +23,7 @@ export class Tools  {
   view() {
     return m('div', { class: 'tools cmap-hbox' }, [
       // m(this.move),
-      m(this.zoom),
+      //m(this.zoom),
       // m(this.reset),
       // m(this.newMap)
       m(this.slider),

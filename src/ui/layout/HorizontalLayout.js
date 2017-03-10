@@ -7,8 +7,7 @@ import {BioMap} from '../../canvas/BioMap';
 import toolState from '../../state/ToolState';
 import {newMap,
         reset,
-        devNumberofMaps as nmaps,
-        zoomMouseWheel} from '../../topics';
+        devNumberofMaps as nmaps} from '../../topics';
 
 export class HorizontalLayout extends LayoutBase {
 
@@ -23,7 +22,6 @@ export class HorizontalLayout extends LayoutBase {
       PubSub.subscribe(newMap, (msg, data) => this._onNewMap(msg, data)),
       PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data)),
       PubSub.subscribe(nmaps, (msg, data) => this._onDevNumberOfMaps(msg, data)),
-      PubSub.subscribe(zoomMouseWheel, (msg, data) => this._onZoom(msg, data))
     ];
     // FIXME: here is the mockup of 3 maps for development
     this._onDevNumberOfMaps(null, { evt: {}, number: this.toolState.devNumberOfMaps});
