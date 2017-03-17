@@ -107,12 +107,10 @@ export class HorizontalLayout extends LayoutBase {
   view() {
     console.log('render @' + (new Date()).getTime());
     let b = this.bounds || {};
-    let children = this.children.map(m);
-    children.unshift(m(this.correspondenceMap));
     return m('div', {
         class: 'cmap-layout-horizontal'
       },
-      children
+     this.children.concat(this.correspondenceMap).map(m)
     );
   }
 }
