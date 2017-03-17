@@ -4,17 +4,17 @@
 import m from 'mithril';
 import {LayoutBase} from './LayoutBase';
 import {BioMap} from '../../canvas/BioMap';
+import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 import toolState from '../../state/ToolState';
-import {newMap,
-        reset,
-        devNumberofMaps as nmaps} from '../../topics';
 import {domRectEqual} from '../../util/domRect';
+import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
 
 export class HorizontalLayout extends LayoutBase {
 
   constructor() {
     super();
     this.children = [];
+    this.correspondenceMap = new CorrespondenceMap();
     this.toolState = toolState;
   }
 
@@ -49,6 +49,11 @@ export class HorizontalLayout extends LayoutBase {
     if(domRectEqual(this.bounds, newBounds)) return;
     this.bounds = newBounds;
     this._layoutChildren();
+    this.correspondenceMap.setBounds({
+      top: 0, left: 0,
+      width: Math.floor(this.bounds.width),
+      height: Math.floor(this.bounds.height)
+    });
     m.redraw();
   }
 
@@ -102,10 +107,12 @@ export class HorizontalLayout extends LayoutBase {
   view() {
     console.log('render @' + (new Date()).getTime());
     let b = this.bounds || {};
+    let children = this.children.map(m);
+    children.unshift(m(this.correspondenceMap));
     return m('div', {
         class: 'cmap-layout-horizontal'
       },
-      this.children.map(m)
+      children
     );
   }
 }
