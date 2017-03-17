@@ -24,8 +24,10 @@ export class HorizontalLayout extends LayoutBase {
       PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data)),
       PubSub.subscribe(nmaps, (msg, data) => this._onDevNumberOfMaps(msg, data)),
     ];
-    // FIXME: here is the mockup of 3 maps for development
-    this._onDevNumberOfMaps(null, { evt: {}, number: this.toolState.devNumberOfMaps});
+    this.children = []; // FIXME: here is the mockup of 3 maps for development
+    for (var i = 0; i < this.toolState.devNumberOfMaps; i++) {
+      this.children.push( new BioMap() );
+    }
   }
 
   oncreate(vnode) {
@@ -33,8 +35,6 @@ export class HorizontalLayout extends LayoutBase {
   }
 
   onupdate(vnode) {
-    console.log('onupdate:');
-    console.log(vnode.dom.getBoundingClientRect());
     this._updateBounds(vnode);
   }
 
@@ -47,10 +47,28 @@ export class HorizontalLayout extends LayoutBase {
     let newBounds = vnode.dom.getBoundingClientRect();
     // dont update state and redraw unless the bounding box has changed
     if(domRectEqual(this.bounds, newBounds)) return;
-    console.log(this.bounds)
-    console.log(this.newBounds);
     this.bounds = newBounds;
+    this._layoutChildren();
     m.redraw();
+  }
+
+  _layoutChildren() {
+    let n = this.children.length;
+    let padding = Math.floor(this.bounds.width * 0.1 / n);
+    let childWidth = Math.floor((this.bounds.width - (n * padding)) / n);
+    let childHeight = Math.floor(this.bounds.height);
+    let cursor = Math.floor(padding * 0.5);
+    for (var i = 0; i < n; i++) {
+      let child = this.children[i];
+      let bounds = {
+        left: cursor,
+        top: 0,
+        width: childWidth,
+        height: childHeight
+      };
+      child.setBounds(bounds);
+      cursor += childWidth + padding;
+    }
   }
 
   _onZoom(msg, data) {
@@ -63,6 +81,7 @@ export class HorizontalLayout extends LayoutBase {
     for (var i = 0; i < n; i++) {
       this.children.push(new BioMap());
     }
+    this._layoutChildren();
     if(! data.evt.redraw) m.redraw();
   }
 
@@ -84,7 +103,7 @@ export class HorizontalLayout extends LayoutBase {
     console.log('render @' + (new Date()).getTime());
     let b = this.bounds || {};
     return m('div', {
-        class: 'cmap-horizontal-layout'
+        class: 'cmap-layout-horizontal'
       },
       this.children.map(m)
     );
