@@ -40,7 +40,6 @@ html, body, #cmap-ui {
 .cmap-layout-horizontal {
   width: 100%;
   height: 100%;
-  background-color: lightgrey;
 }
 
 .cmap-correspondence-map {

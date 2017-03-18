@@ -93,6 +93,7 @@ export class HorizontalLayout extends LayoutBase {
   _onNewMap(msg, data) {
     let map = new BioMap();
     this.children.push(map);
+    this._layoutChildren();
     if(! data.evt.redraw) m.redraw();
   }
 
@@ -101,6 +102,7 @@ export class HorizontalLayout extends LayoutBase {
     for (var i = 0; i < this.toolState.devNumberOfMaps; i++) {
       this.children.push(new BioMap());
     }
+    this._layoutChildren();
     m.redraw();
   }
 
