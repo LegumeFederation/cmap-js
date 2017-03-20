@@ -73,7 +73,8 @@ export class CircosLayout extends LayoutBase {
     let degreesPerChild = 360 / n;
     let childWidth = Math.floor(1.1 * this.bounds.width / n);
     let childHeight = Math.floor(childWidth * 0.6);
-    let degrees = -90;
+    let startDegrees = -180;
+    let degrees = startDegrees;
     for (var i = 0; i < n; i++) {
       let child = this.children[i];
       let rad = radians(degrees);
@@ -82,11 +83,11 @@ export class CircosLayout extends LayoutBase {
       let bounds = {
         left: x,
         top: y,
-        width: childHeight,
-        height: childWidth 
+        width: childHeight, // swap the width and height
+        height: childWidth
       };
       child.setBounds(bounds);
-      child.setRotation(Math.floor(degrees - 90));
+      child.setRotation(Math.floor(degrees) + startDegrees);
       degrees += degreesPerChild;
     }
   }
