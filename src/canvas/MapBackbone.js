@@ -4,7 +4,7 @@
 
 export class MapBackbone {
 
-  // es6 destructuring: call ike MapBackBone({context2d: ctx})
+  // es6 destructuring: call like MapBackBone({context2d: ctx})
   constructor({context2d}) {
     this.context2d = context2d;
   }

@@ -82,8 +82,8 @@ export class CircosLayout extends LayoutBase {
       let bounds = {
         left: x,
         top: y,
-        width: childWidth,
-        height: childHeight
+        width: childHeight,
+        height: childWidth 
       };
       child.setBounds(bounds);
       child.setRotation(Math.floor(degrees - 90));
@@ -116,6 +116,7 @@ export class CircosLayout extends LayoutBase {
     for (var i = 0; i < this.toolState.devNumberOfMaps; i++) {
       this.children.push(new BioMap());
     }
+    this._layoutChildren();
     m.redraw();
   }
 
