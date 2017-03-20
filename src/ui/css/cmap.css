@@ -1,5 +1,51 @@
-/* test */
-.cmap-icon {
-  width: 20;
-  height: 20;
+html, body, #cmap-ui {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.cmap-vbox {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+}
+
+.cmap-hbox {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: space-evenly;
+}
+
+.cmap-layout {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.cmap-layout-viewport {
+  overflow: hidden; /* overflow content is clipped, no scrollbars */
+  flex: auto; /* expand to fill the vertical space allowed by flexbox */
+  position: relative;
+}
+
+.cmap-layout-content {
+  position: absolute;
+}
+
+.cmap-canvas {
+  position: absolute;
+}
+
+.cmap-layout-horizontal {
+  width: 100%;
+  height: 100%;
+}
+
+.cmap-correspondence-map {
+  border: dashed 2px cyan;
+}
+
+.cmap-biomap {
+  border: dashed 1px grey;
 }

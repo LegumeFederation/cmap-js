@@ -1,15 +1,23 @@
 import './polyfills';
-import { cmap } from './cmap';
+import { CMAP } from './CMAP';
+
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   // support commonjs loading, if it exists.
-  module.exports = cmap;
+  module.exports = CMAP;
 }
 else {
   // otherwise put cmap constructor in window global
-  window.cmap = cmap;
+  window.cmap = CMAP;
 }
 
+// wait for DOM ready
 // create a default instance of cmap to launch
-let _cmap = new cmap();
-console.log(`cmap v${_cmap.version}`);
+let evtName = 'DOMContentLoaded';
+let loadedHandler = evt => {
+  let _cmap = new CMAP();
+  console.log(`cmap v${_cmap.version}`);
+  _cmap.init();
+  document.removeEventListener(evtName, loadedHandler);
+};
+document.addEventListener('DOMContentLoaded', loadedHandler);
