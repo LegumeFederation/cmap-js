@@ -15,8 +15,21 @@ var gulp = require('gulp'),
     commonjs = require('rollup-plugin-commonjs'),
     replace = require('rollup-plugin-replace'),
     string = require('rollup-plugin-string'),
+    mocha = require('gulp-mocha');
 
-gulp.task('default', function() {
+gulp.task('set-dev-env', function(){
+    return process.env.BABEL_ENV = 'development';
+});
+
+gulp.task('set-test-env', function(){
+    return process.env.BABEL_ENV = 'test';
+});
+
+gulp.task('set-prod-env', function(){
+    return process.env.BABEL_ENV = 'production'
+});
+
+gulp.task('default',['set-dev-env'], function() {
     return rollup({
       entry: 'src/main.js',
       format: 'iife',
@@ -48,5 +61,15 @@ gulp.task('watch', function() {
     './src/**/*.css',
     './src/**/*.svg'
   ], ['default']);
+
+});
+
+gulp.task('test', ['set-test-env'], function(){
+    return gulp.src(['test/*.js'], {read:false})
+            .pipe(mocha({
+                reporter: 'spec',
+                compilers:'js:babel-register'   
+                
+            }));
 
 });
