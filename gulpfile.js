@@ -15,7 +15,9 @@ var gulp = require('gulp'),
     commonjs = require('rollup-plugin-commonjs'),
     replace = require('rollup-plugin-replace'),
     string = require('rollup-plugin-string'),
-    mocha = require('gulp-mocha');
+    mocha = require('gulp-mocha'),
+    istanbul = require('gulp-istanbul'),
+    isparta = require('isparta');
 
 gulp.task('set-dev-env', function(){
     return process.env.BABEL_ENV = 'development';
@@ -28,6 +30,8 @@ gulp.task('set-test-env', function(){
 gulp.task('set-prod-env', function(){
     return process.env.BABEL_ENV = 'production'
 });
+
+
 
 gulp.task('default',['set-dev-env'], function() {
     return rollup({
@@ -64,12 +68,25 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('test', ['set-test-env'], function(){
-    return gulp.src(['test/*.js'], {read:false})
+gulp.task('test', ['set-test-env','istan'], function(){
+    return gulp.src(['test/**/*.test.js'], {read:false})
             .pipe(mocha({
                 reporter: 'spec',
                 compilers:'js:babel-register'   
                 
-            }));
+            }))
+            .pipe(istanbul.writeReports({
+                dir: './coverage',
+                    reportOpts: {dir: './coverage'}
+            }))
+});
+
+gulp.task('istan', function() {
+   return gulp.src(['./src/**/*.js'])
+        .pipe(istanbul({
+          instrumenter: isparta.Instrumenter,
+          includeUntested: true
+          }))
+          .pipe(istanbul.hookRequire())
 
 });
