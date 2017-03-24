@@ -1,5 +1,5 @@
 import { version } from '../package.json';
-import '../node_modules/pubsub-js/src/pubsub'; // creates global PubSub var
+import PubSub from '../node_modules/pubsub-js/src/pubsub';
 import * as topics from './topics';
 import { UI } from './ui/UI';
 import rbush from 'rbush';

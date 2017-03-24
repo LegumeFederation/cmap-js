@@ -5,6 +5,7 @@ import m from 'mithril';
 import toolState from '../../state/ToolState';
 import {layout} from '../../topics';
 import {horizontalLayout, circosLayout} from '../../layouts';
+import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
 export class LayoutPicker  {
 

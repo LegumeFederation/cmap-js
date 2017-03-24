@@ -10,6 +10,7 @@ import {layout as layoutMsg, reset} from '../../topics';
 import toolState from '../../state/ToolState';
 import {domRectEqual} from '../../util/domRect';
 import '../../util/wheelListener';
+import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
 export class Layout {
 

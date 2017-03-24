@@ -6,6 +6,7 @@
 */
 import {reset} from '../topics';
 import {horizontalLayout} from '../layouts';
+import PubSub from '../../node_modules/pubsub-js/src/pubsub';
 
 class ToolState {
 

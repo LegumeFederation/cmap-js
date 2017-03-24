@@ -8,6 +8,7 @@ import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 import toolState from '../../state/ToolState';
 import {domRectEqual} from '../../util/domRect';
 import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
+import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
 export class HorizontalLayout extends LayoutBase {
 

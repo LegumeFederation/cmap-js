@@ -8,7 +8,7 @@ import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 import toolState from '../../state/ToolState';
 import {domRectEqual} from '../../util/domRect';
 import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
-
+import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
 let radians = degrees => degrees * Math.PI / 180;
 let degrees = radians => radians * 180 / Math.PI;

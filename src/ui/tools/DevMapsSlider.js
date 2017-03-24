@@ -4,6 +4,7 @@
 import m from 'mithril';
 import toolState from '../../state/ToolState';
 import {devNumberofMaps} from '../../topics';
+import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
 export class DevMapsSlider  {
 
