@@ -1,8 +1,9 @@
 /*
  * Draw a line and a label representing a feature on a Map.
 */
+import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class Feature {
+export class Feature extends SceneGraphNodeBase {
 
   // es6 destructuring: call as Feature({context2d: ..., coordinates: {...}}) etc
   constructor({
@@ -12,6 +13,7 @@ export class Feature {
     rangeOfCoordinates = { start: 0, end: 0},
     aliases = []
   }) {
+    super({context2d});
     this.context2d = context2d;
     this.coordinates = coordinates;
     this.featureName = featureName;

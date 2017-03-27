@@ -3,12 +3,17 @@
  * now has a Map object.
 */
 import m from 'mithril';
-import {domRectEqual} from '../util/domRectEqual';
+import {Bounds} from '../util/Bounds';
+import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class CorrespondenceMap {
+export class CorrespondenceMap extends SceneGraphNodeBase {
+
+  constructor() {
+    super({});
+  }
 
   setBounds(b) {
-    if(! domRectEqual(this.bounds, b)) {
+    if(! Bounds.equals(this.bounds, b)) {
       this.bounds = b;
     }
   }

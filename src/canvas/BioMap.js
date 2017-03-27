@@ -3,13 +3,15 @@
  * now has a Map object.
 */
 import m from 'mithril';
-import {domRectEqual} from '../util/domRectEqual';
+import {Bounds} from '../util/Bounds';
 import {Feature} from './Feature';
 import {MapBackbone} from './MapBackbone';
+import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class BioMap {
+export class BioMap extends SceneGraphNodeBase {
 
   constructor(mapName) {
+    super({});
     this.mapName = mapName;
   }
 
@@ -55,7 +57,7 @@ export class BioMap {
   }
 
   setBounds(b) {
-    if(! domRectEqual(this.bounds, b)) {
+    if(! Bounds.equals(this.bounds, b)) {
       this.bounds = b;
     }
   }

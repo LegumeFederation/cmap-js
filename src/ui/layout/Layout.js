@@ -8,7 +8,7 @@ import {CircosLayout} from './CircosLayout';
 import * as layouts from '../../layouts';
 import {layout as layoutMsg, reset} from '../../topics';
 import toolState from '../../state/ToolState';
-import {domRectEqual} from '../../util/domRectEqual';
+import {Bounds} from '../../util/Bounds';
 import '../../util/wheelListener';
 import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
@@ -92,9 +92,10 @@ export class Layout {
 
   /* internal functions  */
   _updateBounds(vnode) {
-    let newBounds = vnode.dom.getBoundingClientRect();
+    let domRect = vnode.dom.getBoundingClientRect();
+    let newBounds = new Bounds(domRect);
     // dont update state and redraw unless the bounding box has changed
-    if(domRectEqual(this.bounds, newBounds)) return;
+    if(Bounds.equals(this.bounds, newBounds)) return;
     this.bounds = newBounds;
     this._applyZoomFactor(this.toolState.zoomFactor);
     m.redraw();

@@ -6,7 +6,7 @@ import {LayoutBase} from './LayoutBase';
 import {BioMap} from '../../canvas/BioMap';
 import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 import toolState from '../../state/ToolState';
-import {domRectEqual} from '../../util/domRectEqual';
+import {Bounds} from '../../util/Bounds';
 import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
 import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
@@ -45,9 +45,10 @@ export class HorizontalLayout extends LayoutBase {
 
   /* internal functions  */
   _updateBounds(vnode) {
-    let newBounds = vnode.dom.getBoundingClientRect();
+    let domRect = vnode.dom.getBoundingClientRect();
+    let newBounds = new Bounds(domRect);
     // dont update state and redraw unless the bounding box has changed
-    if(domRectEqual(this.bounds, newBounds)) return;
+    if(Bounds.equals(this.bounds, newBounds)) return;
     this.bounds = newBounds;
     this._layoutChildren();
     this.correspondenceMap.setBounds({
