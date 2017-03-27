@@ -5,16 +5,16 @@
   * https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
   */
 export class Bounds {
-
   /**
   * Create a Bounds
   *
-  * @param {Number} bottom;
-  * @param {Number} left;
-  * @param {Number} right;
-  * @param {Number} top;
-  * @param {Number} width;
-  * @param {Number} height;
+  * @param {Object} params - having the following properties:
+  * @param {Number} bottom
+  * @param {Number} left
+  * @param {Number} right
+  * @param {Number} top
+  * @param {Number} width
+  * @param {Number} height
   * @returns {Object}
   */
   constructor({bottom, left, right, top, width, height}) {

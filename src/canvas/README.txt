@@ -4,5 +4,5 @@ There are:
 
 * multiple canvas DOM elements, drawn offscreen and composited.
 
-* the src/canvas classes are organized into a scenegraph with parent-child
+* the src/canvas classes are organized into a "scenegraph" with parent-child
   relationships.

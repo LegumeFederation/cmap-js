@@ -2,10 +2,11 @@
 * Draw a rectangle representing the backbone of a Map.
 */
 
-export class MapBackbone {
+export class MapBackbone extends SceneGraphNode {
 
   // es6 destructuring: call like MapBackBone({context2d: ctx})
   constructor({context2d}) {
+    super();
     this.context2d = context2d;
   }
 

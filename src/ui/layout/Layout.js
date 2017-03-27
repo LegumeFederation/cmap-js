@@ -8,7 +8,7 @@ import {CircosLayout} from './CircosLayout';
 import * as layouts from '../../layouts';
 import {layout as layoutMsg, reset} from '../../topics';
 import toolState from '../../state/ToolState';
-import {domRectEqual} from '../../util/domRect';
+import {domRectEqual} from '../../util/domRectEqual';
 import '../../util/wheelListener';
 import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 

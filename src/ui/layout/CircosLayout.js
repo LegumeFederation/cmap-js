@@ -6,7 +6,7 @@ import {LayoutBase} from './LayoutBase';
 import {BioMap} from '../../canvas/BioMap';
 import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 import toolState from '../../state/ToolState';
-import {domRectEqual} from '../../util/domRect';
+import {domRectEqual} from '../../util/domRectEqual';
 import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
 import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 

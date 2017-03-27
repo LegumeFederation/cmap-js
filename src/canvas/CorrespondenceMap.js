@@ -3,7 +3,7 @@
  * now has a Map object.
 */
 import m from 'mithril';
-import {domRectEqual} from '../util/domRect';
+import {domRectEqual} from '../util/domRectEqual';
 
 export class CorrespondenceMap {
 

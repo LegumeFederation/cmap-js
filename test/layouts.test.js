@@ -1,13 +1,11 @@
 import { expect } from 'chai';
-import { horizontalLayout, circosLayout } from '../src/layouts.js';
+import { horizontalLayout, circosLayout } from '../src/layouts';
 
-describe('layout test', () => {
-    it('horizontal layout', () => {
+describe('Layout test', () => {
+    it('horizontal constant is defined', () => {
         expect( horizontalLayout ).to.equal('h');
     });
-
-    it('circos layout', () => {
+    it('circos constant is defined', () => {
         expect( circosLayout ).to.equal('c');
     });
 });
-
