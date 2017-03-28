@@ -17,7 +17,8 @@ var gulp = require('gulp'),
     string = require('rollup-plugin-string'),
     mocha = require('gulp-mocha'),
     istanbul = require('gulp-istanbul'),
-    isparta = require('isparta');
+    isparta = require('isparta'),
+    connect = require('gulp-connect');
 
 gulp.task('set-dev-env', function(){
     return process.env.BABEL_ENV = 'development';
@@ -59,7 +60,7 @@ gulp.task('default',['set-dev-env'], function() {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['webserver'], function() {
   gulp.watch([
     './src/**/*.js',
     './src/**/*.css',
@@ -89,4 +90,10 @@ gulp.task('istan', function() {
           }))
           .pipe(istanbul.hookRequire())
 
+});
+
+gulp.task('webserver', function() {
+  connect.server({
+    livereload: true
+  });
 });

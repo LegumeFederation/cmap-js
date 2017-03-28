@@ -27,6 +27,7 @@
     "chai": "^3.5.0",
     "grunt-css": "^0.5.4",
     "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-minify": "0.0.14",
     "gulp-mocha": "^4.0.1",
