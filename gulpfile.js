@@ -57,7 +57,8 @@ gulp.task('default',['set-dev-env'], function() {
     .pipe(rename('cmap.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(minify())
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('./dist'))
+    .pipe(connect.reload())
 });
 
 gulp.task('watch', ['webserver'], function() {
