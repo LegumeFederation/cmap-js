@@ -30,16 +30,12 @@ export class Bounds {
   }
 
   /**
-    * Test whether two bounds are equal (rounds to nearest pixel)
+    * Class method- test whether two bounds are equal (rounds to nearest pixel)
     *
     * @param bounds1 - DOMRect or Bounds instance
     * @param bounds2 - DOMRect or Bounds instance
     * @returns Boolean
     */
-  equals(otherBounds) {
-    return Bounds.equals(this, otherBounds); 
-  }
-
   static equals(bounds1, bounds2) {
     let p, n1, n2;
     if(! bounds1 || ! bounds2)
@@ -56,6 +52,13 @@ export class Bounds {
         return false;
     }
     return true;
+  }
+
+  /**
+   * Instance method call of Bounds.equals()
+   */
+  equals(otherBounds) {
+    return Bounds.equals(this, otherBounds);
   }
 }
 
