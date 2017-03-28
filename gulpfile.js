@@ -20,6 +20,16 @@ var gulp = require('gulp'),
     isparta = require('isparta'),
     connect = require('gulp-connect');
 
+function onError (err){
+    console.log(err.toString());
+    //for integrating into watch
+    this.emit('end');
+    //for exiting process
+    // process.exit(1);
+
+}
+
+
 gulp.task('set-dev-env', function(){
     return process.env.BABEL_ENV = 'development';
 });
@@ -74,9 +84,11 @@ gulp.task('test', ['set-test-env','istan'], function(){
     return gulp.src(['test/**/*.test.js'], {read:false})
             .pipe(mocha({
                 reporter: 'spec',
-                compilers:'js:babel-register'   
+                compilers:'js:babel-register',
+                require:['ignore-styles'] //avoids breaking on css styles
                 
             }))
+            .on("error",onError)
             .pipe(istanbul.writeReports({
                 dir: './coverage',
                     reportOpts: {dir: './coverage'}
