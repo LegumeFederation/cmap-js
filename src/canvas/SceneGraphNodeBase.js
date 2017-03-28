@@ -25,6 +25,7 @@ export class SceneGraphNodeBase {
 
   /**
   * Traverse all parents bounds to calculate self Bounds on Canvas.
+  *
   * @returns {Object} - Bounds instance
   */
   get globalBounds() {
@@ -38,5 +39,20 @@ export class SceneGraphNodeBase {
       width: this.bounds.width,
       height: this.bounds.height
     });
+  }
+
+  /**
+   * Translate coordinates to canvas space. When an element wants to draw on
+   * canvas, it requires translating into global coordinates for the canvas.
+   *
+   * @param {Object} params - object with following properties:
+   * @param {Number} x
+   * @param {Number} y
+   */
+  translatePointToGlobal({x, y}) {
+    let gb = this.globalBounds;
+    let xp = x + gb.left;
+    let yp = y + gb.top;
+    return {x: xp, y: yp};
   }
 }

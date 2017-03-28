@@ -26,8 +26,29 @@ describe('SceneGraphNode test', () => {
     expect(node).eql(params);
   });
 
-  it('global bounds getter', () => {
-    let parentNode = new SceneGraphNodeBase({
+  it('get globalBounds', () => {
+    let parentNode = parentChildGenerator();
+    let childNode = parentNode.children[0];
+    parentNode.children.push(childNode);
+    let result = childNode.globalBounds;
+    expect(result.width).to.equal(childNode.bounds.width);
+    expect(result.height).to.equal(childNode.bounds.height);
+    expect(result.top).to.equal(childNode.bounds.top + parentNode.bounds.top);
+    expect(result.bottom).to.equal(childNode.bounds.bottom + parentNode.bounds.top);
+    expect(result.left).to.equal(childNode.bounds.left + parentNode.bounds.left);
+    expect(result.right).to.equal(childNode.bounds.right + parentNode.bounds.left);
+  });
+
+  it('translatePointToGlobal', () => {
+    let parentNode = parentChildGenerator();
+    let childNode = parentNode.children[0];
+    let point = childNode.translatePointToGlobal({x: 3, y: 8});
+    expect(point).eql({x: 10, y: 12});
+  });
+});
+
+const parentChildGenerator = () => {
+  let parentNode = new SceneGraphNodeBase({
       parent: null,
       children: [],
       context2d: {},
@@ -39,27 +60,20 @@ describe('SceneGraphNode test', () => {
         width: 100,
         height: 90
       })
-    });
-    let childNode = new SceneGraphNodeBase({
-      parent: parentNode,
-      children: null,
-      context2d: {},
-      bounds: new Bounds({
-        top: 2,
-        bottom: 5,
-        left: 4,
-        right: 9,
-        width: 5,
-        height: 3
-      })
-    });
-    parentNode.children.push(childNode);
-    let result = childNode.globalBounds;
-    expect(result.width).to.equal(childNode.bounds.width);
-    expect(result.height).to.equal(childNode.bounds.height);
-    expect(result.top).to.equal(childNode.bounds.top + parentNode.bounds.top);
-    expect(result.bottom).to.equal(childNode.bounds.bottom + parentNode.bounds.top);
-    expect(result.left).to.equal(childNode.bounds.left + parentNode.bounds.left);
-    expect(result.right).to.equal(childNode.bounds.right + parentNode.bounds.left);
   });
-});
+  let childNode = new SceneGraphNodeBase({
+    parent: parentNode,
+    children: null,
+    context2d: {},
+    bounds: new Bounds({
+      top: 2,
+      bottom: 5,
+      left: 4,
+      right: 9,
+      width: 5,
+      height: 3
+    })
+  });
+  parentNode.children.push(childNode);
+  return parentNode;
+};
