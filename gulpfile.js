@@ -18,7 +18,18 @@ var gulp = require('gulp'),
     mocha = require('gulp-mocha'),
     istanbul = require('gulp-istanbul'),
     isparta = require('isparta'),
-    connect = require('gulp-connect');
+    connect = require('gulp-connect'),
+    del = require('del');
+
+function onError (err){
+    console.log(err.toString());
+    //for integrating into watch
+    this.emit('end');
+    //for exiting process
+    // process.exit(1);
+
+}
+
 
 gulp.task('set-dev-env', function(){
     return process.env.BABEL_ENV = 'development';
@@ -70,28 +81,78 @@ gulp.task('watch', ['webserver'], function() {
 
 });
 
-gulp.task('test', ['set-test-env','istan'], function(){
+//gulp.task('test', ['set-test-env','istan'], function(){
+gulp.task('test', ['set-test-env'], function(){
     return gulp.src(['test/**/*.test.js'], {read:false})
             .pipe(mocha({
                 reporter: 'spec',
-                compilers:'js:babel-register'   
+                compilers:'js:babel-register',
+                require:['ignore-styles'] //avoids breaking on css styles
                 
             }))
-            .pipe(istanbul.writeReports({
-                dir: './coverage',
-                    reportOpts: {dir: './coverage'}
+            .on("error",onError)
+            //.pipe(istanbul.writeReports({
+            //    dir: './coverage',
+            //    reporterOpts:{dir:'./coverage'}
+            //}))
+});
+//
+//gulp.task('istan', function() {
+//   return gulp.src(['./src/**/*.js'])
+//        .pipe(istanbul({
+//          instrumenter: isparta.Instrumenter,
+//          includeUntested: true
+//          }))
+//          .pipe(istanbul.hookRequire())
+//
+//});
+
+var coverageEnforcer = require('gulp-istanbul-enforcer');
+
+var paths = {
+    server: {
+        scripts:  ['server/src/**/*.js'],
+        tests:    ['server/test/**/*.spec.js'],
+        coverage: 'coverage/server'
+    }
+};
+
+
+gulp.task('test-coverage-server', function() {
+    var coverageDir = paths.server.coverage;
+    gulp.src(paths.server.scripts)
+        .pipe(istanbul({ // Covering files
+            instrumenter: isparta.Instrumenter,
+            includeUntested: true
+        }))
+        .pipe(istanbul.hookRequire()) // Force `require` to return covered files
+        .on('finish', function() {
+            gulp.src(paths.server.tests, {read: false})
+            .pipe(mocha({
+                reporter: 'spec',
+                compilers:'js:babel-register',
+                require:['ignore-styles'] //avoids breaking on css styles
+                
             }))
+                .pipe(istanbul.writeReports({
+                    dir: coverageDir,
+                    reportOpts: {dir: coverageDir},
+                    reporters: ['text', 'text-summary', 'json', 'html']
+                }))
+                .pipe(coverageEnforcer({
+                    thresholds: {
+                        statements: 80,
+                        branches: 50,
+                        lines: 80,
+                        functions: 50
+                    },
+                    coverageDirectory: coverageDir,
+                    rootDirectory : ''
+                }))
+        });
 });
 
-gulp.task('istan', function() {
-   return gulp.src(['./src/**/*.js'])
-        .pipe(istanbul({
-          instrumenter: isparta.Instrumenter,
-          includeUntested: true
-          }))
-          .pipe(istanbul.hookRequire())
 
-});
 
 gulp.task('webserver', function() {
   connect.server({

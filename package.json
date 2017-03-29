@@ -4,7 +4,7 @@
   "description": "Display and compare biological maps (genetic, physical, cytogenetic, genomic, linkage groups, chromosomes, scaffolds).",
   "main": "index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "nyc gulp test"
   },
   "repository": {
     "type": "git",
@@ -34,10 +34,12 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.4.0",
     "gulp-watch": "^4.3.11",
+    "ignore-styles": "^5.0.1",
     "install": "^0.8.4",
     "isparta": "^4.0.0",
     "mocha": "^3.2.0",
     "npm": "^4.1.2",
+    "nyc": "^10.2.0",
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^7.0.0",
@@ -55,5 +57,13 @@
     "mithril": "^1.0.1",
     "pubsub-js": "^1.5.5",
     "rbush": "^2.0.1"
+  },
+  "nyc":{
+    "all" : true,
+    "include":["src/**/*.js"],
+    "sourceMap": false,
+    "instrumenter" : false,
+    "check-coverage":true,
+    "report-dir":"./coverage"
   }
 }

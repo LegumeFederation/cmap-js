@@ -10,7 +10,8 @@
             ]
         ],
         "plugins": [
-            "external-helpers"
+            "external-helpers",
+            "istanbul"
         ]
     },
     "test" : {
