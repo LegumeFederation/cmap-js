@@ -1,22 +1,12 @@
-/*
- * Canvas component rendering a Map. Would have been named just 'Map' but Js
- * now has a Map object.
-*/
+/**
+ * Mithril component of canvas element for rendering correspondence lines
+ * between maps.
+ */
 import m from 'mithril';
 import {Bounds} from '../util/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 export class CorrespondenceMap extends SceneGraphNodeBase {
-
-  constructor() {
-    super({});
-  }
-
-  setBounds(b) {
-    if(! Bounds.equals(this.bounds, b)) {
-      this.bounds = b;
-    }
-  }
 
   view() {
     return m('canvas', {

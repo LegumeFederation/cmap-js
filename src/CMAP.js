@@ -3,7 +3,8 @@ import PubSub from '../node_modules/pubsub-js/src/pubsub';
 import * as topics from './topics';
 import { UI } from './ui/UI';
 import rbush from 'rbush';
-
+import toolState from './state/ToolState';
+import {devNumberofMaps} from './topics';
 
 export class CMAP {
 

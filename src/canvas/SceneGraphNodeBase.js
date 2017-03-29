@@ -10,18 +10,30 @@ export class SceneGraphNodeBase {
     * e.g. new SceneGraphNode({param: .., param2, etc.})
     *
     * @param {Object} params - having the following properties:
+    * @param {String} tag - an label or slug
     * @param {Object} parent - the parent node
-    * @param {array} children - child nodes
-    * @param {Object} bounds - local bounds, relative to our parent (Bounds)
-    * @param {Object} context2d - Canvas drawing context
+    * @param {Object} bounds - local Canvas bounds, relative to our parent.
+       This is not the same as DOM bounds of the canvas element!
+    * @param {Number} rotation - degrees, default 0.
     * @returns {Object}
     */
-  constructor({parent, children, bounds, context2d}) {
+  constructor({parent, bounds, rotation = 0, tag}) {
     this.parent = parent;
-    this.children = children;
+    this._rotation = rotation;
+    this._tag = tag;
     this.bounds = bounds;
-    this.context2d = context2d;
+    this._children = []; // note: subclasses will implement own children data
   }
+
+  /* define getters for our properties; note subclasses can override setters,
+    e.g. to perform layout or calculations based on new state */
+  get children() { return this._children; }
+  get bounds() { return this._bounds; }
+  set bounds(b) { this._bounds = b; }
+  get rotation() { return this._rotation; }
+  set rotation(degrees) { this._rotation = degrees; }
+  get tag() { return this._tag; }
+  set tag(s) { this._tag = s; }
 
   /**
   * Traverse all parents bounds to calculate self Bounds on Canvas.
@@ -29,6 +41,7 @@ export class SceneGraphNodeBase {
   * @returns {Object} - Bounds instance
   */
   get globalBounds() {
+    console.assert(this.bounds, 'bounds missing');
     if(! this.parent) return this.bounds;
     let gb = this.parent.globalBounds;
     return new Bounds({
@@ -48,11 +61,10 @@ export class SceneGraphNodeBase {
    * @param {Object} params - object with following properties:
    * @param {Number} x
    * @param {Number} y
+   * @returns {Object} - { x, y }
    */
   translatePointToGlobal({x, y}) {
     let gb = this.globalBounds;
-    let xp = x + gb.left;
-    let yp = y + gb.top;
-    return {x: xp, y: yp};
+    return {x: x + gb.left, y: y + gb.top};
   }
 }

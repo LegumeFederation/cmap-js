@@ -1,120 +1,50 @@
-/*
- * A component for horizontal layout of BioMaps.
-*/
+/**
+ * A mithril component for horizontal layout of BioMaps.
+ */
 import m from 'mithril';
 import {LayoutBase} from './LayoutBase';
-import {BioMap} from '../../canvas/BioMap';
-import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
-import toolState from '../../state/ToolState';
 import {Bounds} from '../../util/Bounds';
-import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
-import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
+import toolState from '../../state/ToolState';
 
 export class HorizontalLayout extends LayoutBase {
 
-  constructor() {
-    super();
-    this.children = [];
-    this.correspondenceMap = new CorrespondenceMap();
-    this.toolState = toolState;
-  }
-
-  oninit(vnode) {
-    this.subscriptions = [
-      PubSub.subscribe(newMap, (msg, data) => this._onNewMap(msg, data)),
-      PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data)),
-      PubSub.subscribe(nmaps, (msg, data) => this._onDevNumberOfMaps(msg, data)),
-    ];
-    this.children = []; // FIXME: here is the mockup of 3 maps for development
-    for (var i = 0; i < this.toolState.devNumberOfMaps; i++) {
-      this.children.push( new BioMap() );
+  _layout(domElement) {
+    let domRect = domElement.getBoundingClientRect();
+    if(! domRect.width || ! domRect.height) {
+      // may occur when component is created but dom element has not yet filled
+      // available space; expect onupdate() will occur.
+      console.warn('deferring layout');
+      return;
     }
-  }
-
-  oncreate(vnode) {
-    this._updateBounds(vnode);
-  }
-
-  onupdate(vnode) {
-    this._updateBounds(vnode);
-  }
-
-  onremove(vnode) {
-    this.subscriptions.forEach(token => PubSub.unsubscribe(token));
-  }
-
-  /* internal functions  */
-  _updateBounds(vnode) {
-    let domRect = vnode.dom.getBoundingClientRect();
     let newBounds = new Bounds(domRect);
-    // dont update state and redraw unless the bounding box has changed
-    if(Bounds.equals(this.bounds, newBounds)) return;
-    this.bounds = newBounds;
-    this._layoutChildren();
-    this.correspondenceMap.setBounds({
-      top: 0, left: 0,
-      width: Math.floor(this.bounds.width),
-      height: Math.floor(this.bounds.height)
-    });
-    m.redraw();
-  }
-
-  _layoutChildren() {
-    let n = this.children.length;
-    let padding = Math.floor(this.bounds.width * 0.1 / n);
-    let childWidth = Math.floor((this.bounds.width - (n * padding)) / n);
-    let childHeight = Math.floor(this.bounds.height);
+    let dirty = ! Bounds.equals(this.domBounds, newBounds);
+    this.domBounds = newBounds;
+    /* update child elements with their bounds */
+    let n = this.bioMaps.length;
+    let padding = Math.floor(newBounds.width * 0.1 / n);
+    let childWidth = Math.floor(newBounds.width / n - padding);
+    let childHeight = Math.floor(newBounds.height);
     let cursor = Math.floor(padding * 0.5);
-    for (var i = 0; i < n; i++) {
-      let child = this.children[i];
-      let bounds = {
+    this.bioMaps.forEach( child => {
+      child.domBounds = new Bounds({
         left: cursor,
         top: 0,
         width: childWidth,
         height: childHeight
-      };
-      child.setBounds(bounds);
+      });
       cursor += childWidth + padding;
-    }
+    });
+    if(dirty) m.redraw();
+    // keep a reference so _.layout() can be called in response to other evts.
+    this._domElement = domElement;
   }
 
-  _onZoom(msg, data) {
-    if(! data.evt.redraw) m.redraw();
-  }
-
-  _onDevNumberOfMaps(msg, data) {
-    let n = data.number;
-    this.children = [];
-    for (var i = 0; i < n; i++) {
-      this.children.push(new BioMap());
-    }
-    this._layoutChildren();
-    if(! data.evt.redraw) m.redraw();
-  }
-
-  _onNewMap(msg, data) {
-    let map = new BioMap();
-    this.children.push(map);
-    this._layoutChildren();
-    if(! data.evt.redraw) m.redraw();
-  }
-
-  _onReset(msg, data) {
-    this.children = [];
-    for (var i = 0; i < this.toolState.devNumberOfMaps; i++) {
-      this.children.push(new BioMap());
-    }
-    this._layoutChildren();
-    m.redraw();
-  }
-
+  /* mithril render callback */
   view() {
-    console.log('render @' + (new Date()).getTime());
-    let b = this.bounds || {};
     return m('div', {
         class: 'cmap-layout-horizontal'
       },
-     this.children.concat(this.correspondenceMap).map(m)
+     this.children.map(m)
     );
   }
 }

@@ -5,14 +5,15 @@
 * will share a reference to the same instance.
 */
 import {reset} from '../topics';
-import {horizontalLayout} from '../layouts';
+import {horizontalLayout, circosLayout} from '../layouts';
 import PubSub from '../../node_modules/pubsub-js/src/pubsub';
 
 class ToolState {
 
   constructor() {
     this.reset();
-    // TODO: load the toolState from URL query string parameters or server session or localstorage, etc?
+    // TODO: load the toolState from URL query string parameters or server
+    // session or localstorage, etc?
   }
 
   reset() {

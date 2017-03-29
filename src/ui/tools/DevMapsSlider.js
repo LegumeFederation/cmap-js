@@ -1,6 +1,6 @@
-/*
- * A slider component to test layouts with varying number of canvases
-*/
+/**
+ * A mithril slider component to test layouts with varying number of canvases
+ */
 import m from 'mithril';
 import toolState from '../../state/ToolState';
 import {devNumberofMaps} from '../../topics';

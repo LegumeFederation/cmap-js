@@ -25,10 +25,12 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-register": "^6.24.0",
     "chai": "^3.5.0",
+    "del": "^2.2.2",
     "grunt-css": "^0.5.4",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-istanbul": "^1.1.1",
+    "gulp-istanbul-enforcer": "^1.0.3",
     "gulp-minify": "0.0.14",
     "gulp-mocha": "^4.0.1",
     "gulp-rename": "^1.2.2",
@@ -58,12 +60,14 @@
     "pubsub-js": "^1.5.5",
     "rbush": "^2.0.1"
   },
-  "nyc":{
-    "all" : true,
-    "include":["src/**/*.js"],
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.js"
+    ],
     "sourceMap": false,
-    "instrumenter" : false,
-    "check-coverage":true,
-    "report-dir":"./coverage"
+    "instrumenter": false,
+    "check-coverage": true,
+    "report-dir": "./coverage"
   }
 }

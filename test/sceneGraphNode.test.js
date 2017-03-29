@@ -14,16 +14,17 @@ describe('SceneGraphNode test', () => {
       height: 10
     });
     let parent = {};
-    let children = [];
-    let context2d = {};
     let params = {
-      parent: {},
-      children: {},
+      parent: parent,
       bounds: bounds,
-      context2d: context2d
+      tag: 'test',
+      rotation: 45
     };
     let node = new SceneGraphNodeBase(params);
-    expect(node).eql(params);
+    expect(node.parent).to.equal(parent);
+    expect(node.bounds).eql(bounds);
+    expect(node.tag).to.equal('test');
+    expect(node.rotation).to.equal(45);
   });
 
   it('get globalBounds', () => {
@@ -45,13 +46,12 @@ describe('SceneGraphNode test', () => {
     let point = childNode.translatePointToGlobal({x: 3, y: 8});
     expect(point).eql({x: 10, y: 12});
   });
+
 });
 
 const parentChildGenerator = () => {
   let parentNode = new SceneGraphNodeBase({
       parent: null,
-      children: [],
-      context2d: {},
       bounds: new Bounds({
         top: 2,
         bottom: 92,
@@ -63,8 +63,6 @@ const parentChildGenerator = () => {
   });
   let childNode = new SceneGraphNodeBase({
     parent: parentNode,
-    children: null,
-    context2d: {},
     bounds: new Bounds({
       top: 2,
       bottom: 5,

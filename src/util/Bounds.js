@@ -4,6 +4,8 @@
   * comes from the browser's DOM by getBoundingClientRect().
   * https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
   */
+import {isNil} from './isNil';
+
 export class Bounds {
   /**
   * Create a Bounds
@@ -17,16 +19,18 @@ export class Bounds {
   * @param {Number} height
   * @returns {Object}
   */
-  constructor({bottom, left, right, top, width = null, height = null}) {
+  constructor({top, left, bottom = null, right = null, width = null, height = null}) {
     this.bottom = bottom;
     this.left = left;
     this.right = right;
     this.top = top;
     this.height = height;
-    if(! width) this.width = right - left;
-    else this.width = width;
-    if(! height) this.height = bottom - top;
-    else this.height = height;
+    this.width = width;
+
+    if(isNil(this.width)) this.width = this.right - this.left;
+    if(isNil(this.height)) this.height = this.bottom - this.top;
+    if(isNil(this.bottom)) this.bottom = this.top + this.height;
+    if(isNil(this.right)) this.right = this.left + this.width;
   }
 
   /**
@@ -59,6 +63,27 @@ export class Bounds {
    */
   equals(otherBounds) {
     return Bounds.equals(this, otherBounds);
+  }
+
+  /**
+   * Check if width or height is zero, making the Bounds effectively empty.
+   */
+  emptyArea() {
+    return ! this.width || ! this.height;
+  }
+
+  /**
+   * Area of bounds (width * height)
+   */
+  area() {
+    return this.width * this.height;
+  }
+
+  /**
+   * Area equality, rounds to integer pixel.
+   */
+  areaEquals(otherBounds) {
+    return Math.floor(this.area()) === Math.floor(otherBounds.area());
   }
 }
 

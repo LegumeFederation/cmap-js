@@ -42,6 +42,11 @@ html, body, #cmap-ui {
   height: 100%;
 }
 
+.cmap-layout-circos {
+  width: 100%;
+  height: 100%;
+}
+
 .cmap-correspondence-map {
   border: dashed 2px cyan;
 }
