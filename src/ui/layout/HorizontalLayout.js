@@ -21,6 +21,7 @@ export class HorizontalLayout extends LayoutBase {
     let newBounds = new Bounds(domRect);
     let dirty = ! Bounds.equals(this.domBounds, newBounds);
     this.domBounds = newBounds;
+
     /* update child elements with their bounds */
     let n = this.bioMaps.length;
     let padding = Math.floor(newBounds.width * 0.1 / n);
@@ -36,7 +37,10 @@ export class HorizontalLayout extends LayoutBase {
       });
       cursor += childWidth + padding;
     });
-    if(dirty) m.redraw();
+
+    if(dirty) {
+      m.redraw();
+    }
   }
 
   /* mithril render callback */

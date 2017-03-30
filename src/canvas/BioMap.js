@@ -9,6 +9,8 @@ import {FeatureMarker} from './FeatureMarker';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
+const ALLOWED_REDRAWS = 2;
+
 export class BioMap extends SceneGraphNodeBase {
 
   constructor(params) {
@@ -39,6 +41,7 @@ export class BioMap extends SceneGraphNodeBase {
     }
     // TODO: create feature labels
     this.featureLabels = [];
+    this.drawCounter = 0;
   }
 
   // override the children prop. getter
@@ -64,9 +67,14 @@ export class BioMap extends SceneGraphNodeBase {
     return this._domBounds;
   }
 
-  set domBounds(b) {
-    this._domBounds = b;
-    this._layout();
+  set domBounds(newBounds) {
+    this.dirty = ! this._domBounds || ! this._domBounds.areaEquals(newBounds);
+    this._domBounds = newBounds;
+    // only perform layouting when the domBounds has changed in area.
+    if(this.dirty) {
+      this._layout();
+      this.drawCounter = 0;
+    }
   }
 
   /* mithril lifecycle callbacks */
@@ -76,26 +84,17 @@ export class BioMap extends SceneGraphNodeBase {
     // CircosLayout).
     this.canvas = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    if(this.domBounds) {
-      this._layout();
-      this._draw();
-    }
-
     this.wheelHandler = Hamster(this.canvas).wheel(
       (event, delta, deltaX, deltaY) => {
         this._onZoom(event, delta, deltaX, deltaY);
-      });
+    });
+    this._draw();
   }
 
   onupdate(vnode) {
     // note here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
-
-    // FIXME: this redraws the canvas even when the canvas width/height
-    // was not changed; only redraw entire canvas if it needs to.
-
-    this._layout();
     this._draw();
   }
 
@@ -116,6 +115,27 @@ export class BioMap extends SceneGraphNodeBase {
     });
   }
 
+  // draw canvas scenegraph nodes
+  _draw() {
+    if(! this.context2d) {
+      console.trace('draw() without canvas2d');
+      return;
+    }
+    if(! this.domBounds) {
+      console.trace('draw() without domBounds');
+      return;
+    }
+    if(this.drawCounter > ALLOWED_REDRAWS) {
+      // because of dynamic layouting of dom and canvas, it is sometimes
+      // necessary to redraw the canvas. however, we do not want to redraw it
+      // just because the canvas is moving or scaling i.e. width and height
+      // have not changed.
+      return;
+    }
+    this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.children.map(child => child.draw(this.context2d));
+  }
+
   /* private methods */
 
   /* dom event handlers */
@@ -126,18 +146,8 @@ export class BioMap extends SceneGraphNodeBase {
     evt.stopPropagation();
   }
 
-  // draw canvas scenegraph nodes
-  _draw() {
-    if(! this.context2d) {
-      console.trace('draw() without canvas2d!');
-      return;
-    };
-    console.log('BioMap canvas draw');
-    this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.children.map(child => child.draw(this.context2d));
-  }
-
   _layout() {
+    console.log('BioMap canvas layout');
     let backboneWidth = this.domBounds.width * 0.25;
     this.backbone.bounds = new Bounds({
       top: this.domBounds.height * 0.025,

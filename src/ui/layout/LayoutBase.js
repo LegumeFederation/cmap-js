@@ -1,5 +1,5 @@
 /**
- *  Base class for Layouts
+ *  Mithril component - Base class for Layouts
  */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
