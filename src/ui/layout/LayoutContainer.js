@@ -4,7 +4,7 @@
 */
 import m from 'mithril';
 import Hamster from 'hamsterjs';
-import PubSub from '../../../node_modules/pubsub-js/src/pubsub';// TODO: cleanup
+import PubSub from 'pubsub-js';
 
 import * as layouts from '../../layouts';
 import toolState from '../../state/ToolState';

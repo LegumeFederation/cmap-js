@@ -1,5 +1,5 @@
-import { assert } from 'chai';
-import { isNil } from '../src/util/isNil';
+import {assert} from 'chai';
+import {isNil} from '../src/util/isNil';
 
 describe('isNil test', () => {
   it('ok', () => {

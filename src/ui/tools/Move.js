@@ -1,4 +1,5 @@
 import m from 'mithril';
+
 import toolState from '../../state/ToolState';
 import icon from '../svg-icons/move.svg';
 

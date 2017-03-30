@@ -1,9 +1,10 @@
-import { version } from '../package.json';
-import PubSub from '../node_modules/pubsub-js/src/pubsub';
-import * as topics from './topics';
-import { UI } from './ui/UI';
+import PubSub from 'pubsub-js';
 import rbush from 'rbush';
+
+import * as topics from './topics';
 import toolState from './state/ToolState';
+import {version} from '../package.json';
+import {UI} from './ui/UI';
 import {devNumberofMaps} from './topics';
 
 export class CMAP {

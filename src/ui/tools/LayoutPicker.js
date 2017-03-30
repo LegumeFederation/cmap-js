@@ -2,10 +2,11 @@
  * A slider component to test layouts with varying number of canvases
 */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+
 import toolState from '../../state/ToolState';
 import {layout} from '../../topics';
 import {horizontalLayout, circosLayout} from '../../layouts';
-import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
 export class LayoutPicker  {
 

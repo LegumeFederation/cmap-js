@@ -1,5 +1,5 @@
-import { expect, assert } from 'chai';
-import { Bounds } from '../src/util/Bounds';
+import {expect, assert} from 'chai';
+import {Bounds} from '../src/util/Bounds';
 
 describe('Bounds test', () => {
   let params = {

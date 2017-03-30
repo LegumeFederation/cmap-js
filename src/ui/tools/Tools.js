@@ -2,6 +2,7 @@
  * A mithril component containing some UI tools
  */
 import m from 'mithril';
+
 import toolState from '../../state/ToolState';
 import {Move} from './Move';
 import {Reset} from './Reset';

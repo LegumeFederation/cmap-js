@@ -2,9 +2,10 @@
  * A mithril component for circos-style layout of BioMaps.
  */
 import m from 'mithril';
+
+import toolState from '../../state/ToolState';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../util/Bounds';
-import toolState from '../../state/ToolState';
 
 const radians = degrees => degrees * Math.PI / 180;
 const degrees = radians => radians * 180 / Math.PI;

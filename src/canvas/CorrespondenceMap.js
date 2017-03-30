@@ -3,6 +3,7 @@
  * between maps.
  */
 import m from 'mithril';
+
 import {Bounds} from '../util/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 

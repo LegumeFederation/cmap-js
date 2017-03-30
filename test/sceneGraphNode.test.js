@@ -1,6 +1,6 @@
-import { expect, assert } from 'chai';
-import { Bounds } from '../src/util/Bounds';
-import { SceneGraphNodeBase } from '../src/canvas/SceneGraphNodeBase';
+import {expect, assert} from 'chai';
+import {Bounds} from '../src/util/Bounds';
+import {SceneGraphNodeBase} from '../src/canvas/SceneGraphNodeBase';
 
 describe('SceneGraphNode test', () => {
 

@@ -1,6 +1,4 @@
-import './polyfills';
-import { CMAP } from './CMAP';
-
+import {CMAP} from './CMAP';
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   // support commonjs loading, if it exists.

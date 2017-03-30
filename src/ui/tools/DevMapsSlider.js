@@ -2,9 +2,10 @@
  * A mithril slider component to test layouts with varying number of canvases
  */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+
 import toolState from '../../state/ToolState';
 import {devNumberofMaps} from '../../topics';
-import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
 
 export class DevMapsSlider  {
 

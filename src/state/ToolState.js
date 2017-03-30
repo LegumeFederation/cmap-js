@@ -4,9 +4,11 @@
 *
 * will share a reference to the same instance.
 */
+import PubSub from 'pubsub-js';
+
 import {reset} from '../topics';
 import {horizontalLayout, circosLayout} from '../layouts';
-import PubSub from '../../node_modules/pubsub-js/src/pubsub';
+
 
 class ToolState {
 

@@ -2,11 +2,12 @@
  *  Base class for Layouts
  */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+
+import toolState from '../../state/ToolState';
 import {BioMap} from '../../canvas/BioMap';
 import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
-import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
-import toolState from '../../state/ToolState';
 
 export class LayoutBase {
 

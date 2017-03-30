@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import { horizontalLayout, circosLayout } from '../src/layouts';
+import {expect} from 'chai';
+import {horizontalLayout, circosLayout} from '../src/layouts';
 
 describe('Layout test', () => {
   it('horizontal constant is defined', () => {
