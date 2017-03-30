@@ -10,12 +10,14 @@
             ]
         ],
         "plugins": [
-            "external-helpers",
-            "istanbul"
+            "external-helpers"
         ]
     },
     "test" : {
         "presets": [ "es2015"]
-    }
+    },
+        "plugins": [
+            "external-helpers"
+        ]
   }
 }
