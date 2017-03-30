@@ -14,7 +14,7 @@ export class UI {
   constructor() {
     this.tools = new Tools();
     this.statusBar = new StatusBar();
-    this.layout = new LayoutContainer();
+    this.LayoutContainer = new LayoutContainer();
   }
 
   init() {
@@ -61,7 +61,7 @@ export class UI {
     this._logRenders();
     return m('div', { class: 'cmap-layout cmap-vbox' }, [
       m(this.tools),
-      m(this.layout),
+      m(this.LayoutContainer),
       m('div', { class: 'cmap-hbox'}, 'footer')
     ])
   }

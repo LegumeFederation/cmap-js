@@ -128,7 +128,10 @@ export class BioMap extends SceneGraphNodeBase {
 
   // draw canvas scenegraph nodes
   _draw() {
-    if(! this.context2d) return;
+    if(! this.context2d) {
+      console.trace('draw() without canvas2d!');
+      return;
+    };
     console.log('BioMap canvas draw');
     this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.children.map(child => child.draw(this.context2d));

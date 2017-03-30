@@ -1,6 +1,6 @@
 /*
-* A component to wrap the selected layout component inside of a clipping region
-* overflow: hidden in css.
+* A mithril component to wrap the selected layout component inside of a clipping
+* region overflow: hidden in css.
 */
 import m from 'mithril';
 import Hamster from 'hamsterjs';
@@ -97,12 +97,11 @@ export class LayoutContainer {
 
   /* pub/sub callback functions */
   onReset(msg, data) {
-    this.contentPaneBounds = null;
-    if(! data.evt.redraw) m.redraw();
+    m.redraw();
   }
 
   onLayoutChange(msg, data) {
-    if(! data.evt.redraw) m.redraw();
+    m.redraw();
   }
 
   /* internal functions  */
@@ -110,7 +109,9 @@ export class LayoutContainer {
   // here we capture the bounds of the outer dom element from view().
   // this is leveraging the html/css layouting to fill available space.
   _updateBounds(domRect) {
-    this.bounds = new Bounds(domRect);
+    let newBounds = new Bounds(domRect);
+    let dirty = ! Bounds.equals(this.bounds, newBounds);
+    this.bounds = newBounds;
     // create an initial bounds for the scrollable/zoomable content-pane
     if(! this.contentPaneBounds) {
       this.contentPaneBounds = {
@@ -119,15 +120,16 @@ export class LayoutContainer {
         width: this.bounds.width,
         height: this.bounds.height
       };
-      // trigger a redraw so the child components see the new bounds of their
-      // container in the dom.
-      m.redraw();
-    }
+   }
+    // trigger a redraw so the child components see the new bounds of their
+    // container in the dom.
+    if(dirty) setTimeout(m.redraw);
   }
 
   _applyPan(deltaX, deltaY) {
     this.contentPaneBounds.left += deltaX;
     this.contentPaneBounds.top += deltaY;
+    m.redraw();
   }
 
   /* mithril component render callback */

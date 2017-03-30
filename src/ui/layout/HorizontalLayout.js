@@ -10,11 +10,12 @@ import toolState from '../../state/ToolState';
 export class HorizontalLayout extends LayoutBase {
 
   _layout(domElement) {
+    // keep a reference so _.layout() can be called in response to other evts.
+    this._domElement = domElement;
     let domRect = domElement.getBoundingClientRect();
     if(! domRect.width || ! domRect.height) {
       // may occur when component is created but dom element has not yet filled
       // available space; expect onupdate() will occur.
-      console.warn('deferring layout');
       return;
     }
     let newBounds = new Bounds(domRect);
@@ -36,8 +37,6 @@ export class HorizontalLayout extends LayoutBase {
       cursor += childWidth + padding;
     });
     if(dirty) m.redraw();
-    // keep a reference so _.layout() can be called in response to other evts.
-    this._domElement = domElement;
   }
 
   /* mithril render callback */
