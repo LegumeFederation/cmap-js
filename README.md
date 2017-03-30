@@ -16,7 +16,11 @@ cd cmap-js/
 npm install
 ```
 
-* Bundle the Javascript and CSS, and files are written into the `dist/` directory.
+## Build and Tests
+
+* ES6 code is transpiled with Babel and bundled with Rollup, and the results are written into the `dist/` directory.
 ```
-gulp
+gulp                  # outputs files to dist/
+gulp && gulp watch    # starts a development web server w/ auto-reload
+npm test              # runs unit tests and coverage report
 ```
