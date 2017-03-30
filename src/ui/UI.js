@@ -1,12 +1,13 @@
 /**
  * A mithril component presenting all DOM aspects of user-interface.
  */
-import './css/cmap.css';
-
 import m from 'mithril';
+
+import './css/cmap.css';
 import {Tools} from './tools/Tools';
 import {StatusBar} from './StatusBar';
 import {LayoutContainer} from './layout/LayoutContainer';
+
 
 export class UI {
 
@@ -19,8 +20,9 @@ export class UI {
   init() {
     // instantiate self as the root mithril component and use component mount()
     // to enable auto-rendering.
-    let root = document.getElementById('cmap-ui');
-    m.mount(root, this);
+    let rootElement = document.getElementById('cmap-ui');
+    m.mount(rootElement, this);
+
     // trigger mithril redraw when window is resized
     //window.addEventListener('resize', () => this.resizeThrottler(), false);
   }

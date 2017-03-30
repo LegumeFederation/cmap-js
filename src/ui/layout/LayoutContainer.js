@@ -3,14 +3,16 @@
 * overflow: hidden in css.
 */
 import m from 'mithril';
+import Hamster from 'hamsterjs';
+import PubSub from '../../../node_modules/pubsub-js/src/pubsub';// TODO: cleanup
+
+import * as layouts from '../../layouts';
+import toolState from '../../state/ToolState';
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
-import * as layouts from '../../layouts';
 import {layout as layoutMsg, reset} from '../../topics';
-import toolState from '../../state/ToolState';
 import {Bounds} from '../../util/Bounds';
-import '../../util/wheelListener';
-import PubSub from '../../../node_modules/pubsub-js/src/pubsub';
+
 
 export class LayoutContainer {
 
@@ -32,18 +34,21 @@ export class LayoutContainer {
   oncreate(vnode) {
     let el = vnode.dom; // this is the outer m('div') from view()
 
-    // zoom layout on wheel events
-    addWheelListener(el, evt => this._onZoom(evt));
+    // TODO: add multitouch event handlers -- w/ hammerjs?
 
     // pan the layout on mouse drag gestures.
     // (note: this is different than html5 dragndrop)
-    // TODO: add touch event handlers as well ala https://github.com/gajus/pan
     el.addEventListener('mousedown', evt => this._onMouseDown(evt));
     el.addEventListener('mousemove', evt => this._onMouseMove(evt));
     el.addEventListener('mouseup', evt => this._onMouseUp(evt));
     el.addEventListener('mouseenter', evt => this._onMouseEnter(evt));
     el.addEventListener('mouseexit', evt => this._onMouseExit(evt));
 
+    Hamster(el).wheel((event, delta, deltaX, deltaY) => {
+      this._onZoom(event, delta, deltaX, deltaY);
+    });
+
+    // use our dom element's width and height as basis for our layout
     let domRect = vnode.dom.getBoundingClientRect();
     console.assert(domRect.width > 0, 'missing dom element width');
     console.assert(domRect.height > 0, 'missing dom element height');
@@ -58,12 +63,13 @@ export class LayoutContainer {
   }
 
   /* dom event handlers */
-  _onZoom(evt) {
-    let pixels = evt.deltaY;
+  _onZoom(evt, delta, deltaX, deltaY) {
     // convert to a normalized scale factor
-    let normalized = pixels / this.bounds.height;
+    let normalized = deltaY / this.bounds.height;
     this.scale += normalized;
     m.redraw();
+    evt.preventDefault();
+    evt.stopPropagation();
   }
 
   _onMouseDown(evt) {

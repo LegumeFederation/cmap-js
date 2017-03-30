@@ -2,6 +2,8 @@
  * Mithril component for rendering a Biological Map with a canvas element.
  */
 import m from 'mithril';
+import Hamster from 'hamsterjs';
+
 import {Bounds} from '../util/Bounds';
 import {FeatureMarker} from './FeatureMarker';
 import {MapBackbone} from './MapBackbone';
@@ -78,6 +80,11 @@ export class BioMap extends SceneGraphNodeBase {
       this._layout();
       this._draw();
     }
+
+    this.wheelHandler = Hamster(this.canvas).wheel(
+      (event, delta, deltaX, deltaY) => {
+        this._onZoom(event, delta, deltaX, deltaY);
+      });
   }
 
   onupdate(vnode) {
@@ -90,6 +97,10 @@ export class BioMap extends SceneGraphNodeBase {
 
     this._layout();
     this._draw();
+  }
+
+  onremove(vnode) {
+    this.wheelHandler.unwheel();
   }
 
   /* mithril component render callback */
@@ -106,6 +117,14 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   /* private methods */
+
+  /* dom event handlers */
+  _onZoom(evt, delta, deltaX, deltaY) {
+    console.log('mousewheel on canvas ', delta);
+    // TODO: implement vertical scrolling of this biomap specifically
+    evt.preventDefault();
+    evt.stopPropagation();
+  }
 
   // draw canvas scenegraph nodes
   _draw() {
