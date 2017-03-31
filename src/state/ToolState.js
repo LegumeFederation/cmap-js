@@ -21,7 +21,7 @@ class ToolState {
   reset() {
     this.activeTool = null;
     this.selectedCanvas = null;
-    this.zoomFactor = 0; // units of +/- vertical pixels
+    this.zoomFactor = 1;
     this.devNumberOfMaps = 3;
     this.layout = horizontalLayout;
     PubSub.publish(reset, { evt: {}, data: null });

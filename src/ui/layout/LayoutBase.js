@@ -1,6 +1,7 @@
 /**
   * LayoutBase
-  * A Mithril component Base class for Layouts.
+  * A Mithril component Base class for Layouts, e.g. HorizontalLayout and 
+  * CircosLayout.
   */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
@@ -29,8 +30,6 @@ export class LayoutBase {
       PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data)),
       PubSub.subscribe(nmaps, (msg, data) => this._onDevNumberOfMaps(msg, data))
     ];
-    this.bioMaps = [];
-    this.correspondenceMaps = [];
 
     // FIXME: here is a mockup of 3 maps for development
     for (var i = 0; i < toolState.devNumberOfMaps; i++) {

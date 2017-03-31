@@ -4,7 +4,13 @@
   */
 import { Bounds } from '../util/Bounds';
 
+// because of dynamic layouting of dom and canvas, it is sometimes necessary to
+// redraw the canvas. however, we do not want to redraw it just because the
+// canvas is moving or scaling i.e. width and height have not changed.
+const ALLOWED_REDRAWS = 2;
+
 export class SceneGraphNodeBase {
+
   /**
     * Create a SceneGraphNode.
     * Constructor uses ES6 destructuring of parameters from an object.
@@ -35,6 +41,8 @@ export class SceneGraphNodeBase {
   set rotation(degrees) { this._rotation = degrees; }
   get tag() { return this._tag; }
   set tag(s) { this._tag = s; }
+
+  get allowedRedraws() { return ALLOWED_REDRAWS; }
 
   /**
   * Traverse all parents bounds to calculate self Bounds on Canvas.

@@ -20,7 +20,6 @@ export class LayoutContainer {
 
   constructor() {
     this.bounds = null; // our dom elements bounds will be captured from mithril
-    this.scale = 1;
     this.contentPaneBounds = null; // relative bounds of our movable, scrollabel content pane
     this.horizontalLayout = new HorizontalLayout();
     this.circosLayout = new CircosLayout();
@@ -54,6 +53,7 @@ export class LayoutContainer {
   /* mithril component render callback */
   view() {
     let b = this.contentPaneBounds || {}; // relative bounds of the layout-content
+    let scale = toolState.zoomFactor;
     return m('div', { class: 'cmap-layout-viewport cmap-hbox'}, [
       m('div', {
         class: 'cmap-layout-content',
@@ -61,7 +61,7 @@ export class LayoutContainer {
                 left: ${b.left}px;
                 width: ${b.width}px;
                 height: ${b.height}px;
-                transform: scale(${this.scale}, ${this.scale})`
+                transform: scale(${scale}, ${scale})`
       }, [
         toolState.layout === layouts.horizontalLayout
         ?
@@ -84,7 +84,7 @@ export class LayoutContainer {
     // enable pan gesture support all directions. warning: this will block the
     // vertical scrolling on a touch-device while on the element.
     hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    hammer.on('panmove', (evt) => this._onPan(evt));
+    hammer.on('panmove panend', (evt) => this._onPan(evt));
     hammer.on('pinch', (evt) => this._onZoom(evt, null, evt.deltaX, evt.deltaY));
   }
 
@@ -92,7 +92,7 @@ export class LayoutContainer {
   _onMouseWheel(evt, delta, deltaX, deltaY) {
     // convert to a normalized scale factor
     let normalized = deltaY / this.bounds.height;
-    this.scale += normalized;
+    toolState.zoomFactor += normalized;
     m.redraw();
     evt.preventDefault();
     evt.stopPropagation();
@@ -101,6 +101,10 @@ export class LayoutContainer {
   _onPan(evt) {
     // hammer provides the delta x,y in a distance since the start of the gesture
     // so need to convert it to delta x,y for this event.
+    if(evt.type === 'panend') {
+      this.lastPanEvent = null;
+      return;
+    }
     let delta = {};
     if(this.lastPanEvent) {
       delta.x = -1 * (this.lastPanEvent.deltaX - evt.deltaX);
@@ -126,6 +130,12 @@ export class LayoutContainer {
   /* pub/sub callbacks */
 
   _onReset(msg, data) {
+    this.contentPaneBounds = new Bounds({
+      top: 0,
+      left: 0,
+      width: this.bounds.width,
+      height: this.bounds.height
+    });
     m.redraw();
   }
 

@@ -10,8 +10,6 @@ import {FeatureMarker} from './FeatureMarker';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-const ALLOWED_REDRAWS = 2;
-
 export class BioMap extends SceneGraphNodeBase {
 
   constructor(params) {
@@ -47,14 +45,17 @@ export class BioMap extends SceneGraphNodeBase {
 
   // override the children prop. getter
   get children() {
-    return [].concat(
-      [this.backbone],
+    return [this.backbone].concat(
       this.featureMarkers,
       this.featureLabels
     );
   }
   set children(ignore) {} // we create own children in oninit
 
+  /* define accessors for both bounds and domBounds; because this class is both
+  /* a mithril component (has a view method()) and a scenegraph node (the root
+  /* node for this canvas, we need to maintain both a domBounds and a bounds
+  /* property. */
   get bounds() {
     return new Bounds({
       top: 0, left: 0,
@@ -63,7 +64,6 @@ export class BioMap extends SceneGraphNodeBase {
   }
   set bounds(ignore) {} // we are the root of canvas scenegraph
 
-  // *note* domBounds accessors are for the dom bounds of the canvas element.
   get domBounds() {
     return this._domBounds;
   }
@@ -79,6 +79,7 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   /* mithril lifecycle callbacks */
+
   oncreate(vnode) {
     // note here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
@@ -116,25 +117,17 @@ export class BioMap extends SceneGraphNodeBase {
     });
   }
 
-  // draw canvas scenegraph nodes
+    // draw canvas scenegraph nodes
   _draw() {
-    if(! this.context2d) {
-      console.trace('draw() without canvas2d');
-      return;
-    }
-    if(! this.domBounds) {
-      console.trace('draw() without domBounds');
-      return;
-    }
-    if(this.drawCounter > ALLOWED_REDRAWS) {
-      // because of dynamic layouting of dom and canvas, it is sometimes
-      // necessary to redraw the canvas. however, we do not want to redraw it
-      // just because the canvas is moving or scaling i.e. width and height
-      // have not changed.
-      return;
-    }
-    this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.children.map(child => child.draw(this.context2d));
+    let ctx = this.context2d;
+    if(! ctx) return;
+    if(! this.domBounds) return;
+    if(this.drawCounter > this.allowedRedraws) return;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.save();
+    ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
+    this.children.map(child => child.draw(ctx));
+    ctx.restore();
   }
 
   /* private methods */
@@ -167,7 +160,5 @@ export class BioMap extends SceneGraphNodeBase {
         height: 1
       });
     });
-    // TODO: layout featureLabels
   }
-
 }
