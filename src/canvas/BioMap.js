@@ -6,7 +6,7 @@ import m from 'mithril';
 import Hamster from 'hamsterjs';
 
 import {Bounds} from '../util/Bounds';
-import {FeatureMarker} from './FeatureMarker';
+import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
@@ -26,7 +26,7 @@ export class BioMap extends SceneGraphNodeBase {
       for (var j = 0; j < 2; j++) {
         featureName += String.fromCharCode(65 + Math.floor(Math.random() * 26));
       }
-      let feature = new FeatureMarker({
+      let feature = new FeatureMark({
         parent: this,
         coordinates: {
           start: x,
@@ -40,7 +40,6 @@ export class BioMap extends SceneGraphNodeBase {
     }
     // TODO: create feature labels
     this.featureLabels = [];
-    this.drawCounter = 0;
   }
 
   // override the children prop. getter
@@ -50,7 +49,7 @@ export class BioMap extends SceneGraphNodeBase {
       this.featureLabels
     );
   }
-  set children(ignore) {} // we create own children in oninit
+  set children(ignore) {}
 
   /* define accessors for both bounds and domBounds; because this class is both
   /* a mithril component (has a view method()) and a scenegraph node (the root
@@ -69,12 +68,11 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   set domBounds(newBounds) {
-    this.dirty = ! this._domBounds || ! this._domBounds.areaEquals(newBounds);
+    this.dirty = ! this._domBounds || ! this._domBounds.equals(newBounds);
     this._domBounds = newBounds;
     // only perform layouting when the domBounds has changed in area.
     if(this.dirty) {
       this._layout();
-      this.drawCounter = 0;
     }
   }
 
@@ -122,12 +120,14 @@ export class BioMap extends SceneGraphNodeBase {
     let ctx = this.context2d;
     if(! ctx) return;
     if(! this.domBounds) return;
-    if(this.drawCounter > this.allowedRedraws) return;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     this.children.map(child => child.draw(ctx));
     ctx.restore();
+    // FIXME: have to prevent redraws of canvas when the canvas is only being
+    // moved around the DOM, not being resized.
+    console.log('BioMap canvas draw');
   }
 
   /* private methods */

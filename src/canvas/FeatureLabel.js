@@ -4,26 +4,10 @@
   */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class FeatureMarker extends SceneGraphNodeBase {
-
-  constructor(params) {
-    super(params);
-    this.coordinates = params.coordinates;
-    this.rangeOfCoordinates = params.rangeOfCoordinates;
-    this.aliases = params.aliases;
-  }
-
+export class FeatureLabel extends SceneGraphNodeBase {
+  
   draw(ctx) {
-    this.drawLine(ctx);
       //this.drawLabel();
-  }
-
-  drawLine(ctx) {
-    let gb = this.globalBounds;
-    ctx.beginPath();
-    ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
-    ctx.lineTo(Math.floor(gb.right), Math.floor(gb.top));
-    ctx.stroke();
   }
 
   // drawLabel() {

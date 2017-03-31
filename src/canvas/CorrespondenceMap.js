@@ -34,9 +34,20 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
     // only perform layouting when the domBounds has changed in area.
     if(this.dirty) {
       this._layout();
-      this.drawCounter = 0;
     }
   }
+
+  set bioMaps(maps) {
+    this._bioMaps = maps;
+  }
+  get bioMaps() { return this._bioMaps; }
+
+  // override the children prop. getter
+  get children() {
+    return this.correspondenceMarks;
+  }
+  set children(ignore) {} // we create own children in _layout
+
 
   /* mithril lifecycle callbacks */
 
@@ -70,6 +81,8 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
 
   _layout() {
     console.log('CorrespondenceMap canvas layout');
+    this.correspondenceMarks = [];
+    // TODO: for each bioMap, create a CorrespondenceMark for each common feature
   }
 
   // draw canvas scenegraph nodes
@@ -77,11 +90,13 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
     let ctx = this.context2d;
     if(! ctx) return;
     if(! this.domBounds) return;
-    if(this.drawCounter > this.allowedRedraws) return;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     this.children.map(child => child.draw(ctx));
     ctx.restore();
+    // FIXME: have to prevent redraws of canvas when the canvas is only being
+    // moved around the DOM, not being resized.
+    console.log('CorrespondenceMap canvas draw');
   }
 }

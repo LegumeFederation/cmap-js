@@ -85,7 +85,8 @@ export class LayoutContainer {
     // vertical scrolling on a touch-device while on the element.
     hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
     hammer.on('panmove panend', (evt) => this._onPan(evt));
-    hammer.on('pinch', (evt) => this._onZoom(evt, null, evt.deltaX, evt.deltaY));
+    // TODO:
+    //hammer.on('pinch', (evt) => this._onZoom(evt, null, evt.deltaX, evt.deltaY));
   }
 
   /* dom event handlers */

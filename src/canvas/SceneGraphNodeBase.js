@@ -4,11 +4,6 @@
   */
 import { Bounds } from '../util/Bounds';
 
-// because of dynamic layouting of dom and canvas, it is sometimes necessary to
-// redraw the canvas. however, we do not want to redraw it just because the
-// canvas is moving or scaling i.e. width and height have not changed.
-const ALLOWED_REDRAWS = 2;
-
 export class SceneGraphNodeBase {
 
   /**

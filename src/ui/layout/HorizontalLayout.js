@@ -34,6 +34,7 @@ export class HorizontalLayout extends LayoutBase {
     this.domBounds = newBounds;
     this._layoutBioMaps();
     this._layoutCorrespondenceMaps();
+    //console.log(this.domBounds, dirty);
     if(dirty) m.redraw();
   }
 
@@ -55,19 +56,22 @@ export class HorizontalLayout extends LayoutBase {
   }
 
   _layoutCorrespondenceMaps() {
-    let n = this.correspondenceMaps.length;
-    let padding = Math.floor(this.domBounds.width * 0.1 / n);
-    let childWidth = Math.floor(this.domBounds.width / n - padding);
+    let childWidth = Math.floor(this.domBounds.width / this.bioMaps.length);
     let childHeight = Math.floor(this.domBounds.height);
-    let cursor = Math.floor(padding * 0.5);
-    this.correspondenceMaps.forEach( child => {
+    let cursor = childWidth * 0.5;
+    this.correspondenceMaps.forEach( (child, i) => {
       child.domBounds = new Bounds({
         left: cursor,
         top: 0,
         width: childWidth,
         height: childHeight
       });
-      cursor += childWidth + padding;
+      child.bioMaps = {
+        left: this.bioMaps[i],
+        right: this.bioMaps[i+1]
+      };
+      console.log(child.bioMaps);
+      cursor += childWidth;
     });
   }
 

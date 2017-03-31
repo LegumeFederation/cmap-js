@@ -39,7 +39,7 @@ export class LayoutBase {
     // of this element is unkown, we will get it from the dom in oncreate and
     // onupdate()
     // FIXME: here is a mockup of 3 maps for development
-    for (var i = 0; i < toolState.devNumberOfMaps; i++) {
+    for (var i = 0; i < toolState.devNumberOfMaps -1; i++) {
       this.correspondenceMaps.push(new CorrespondenceMap({}));
     }
   }
@@ -58,23 +58,23 @@ export class LayoutBase {
     this.subscriptions.map(PubSub.unsubscribe);
   }
 
-  _onZoom(msg, data) {
-    if(! data.evt.redraw) m.redraw();
-  }
-
   _onDevNumberOfMaps(msg, data) {
     let n = data.number;
     this.bioMaps = [];
+    this.correspondenceMaps = [];
     for (var i = 0; i < n; i++) {
       this.bioMaps.push(new BioMap({}));
+    }
+    for (var i = 0; i < n -1; i++) {
+      this.correspondenceMaps.push(new CorrespondenceMap({}));
     }
     this._layout(this._domElement);
     m.redraw();
   }
 
   _onNewMap(msg, data) {
-    let map = new BioMap({});
-    this.bioMaps.push(map);
+    this.bioMaps.push(new BioMap({}));
+    this.correspondenceMaps.push(new CorrespondenceMap({}));
     this._layout(this._domElement);
     m.redraw();
   }
