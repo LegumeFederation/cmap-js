@@ -1,3 +1,7 @@
+/**
+ * Move
+ * A mithril component of a Move tool.
+ */
 import m from 'mithril';
 
 import toolState from '../../state/ToolState';

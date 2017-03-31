@@ -1,3 +1,7 @@
+/**
+ * Reset
+ * A mithril component of a Reset button.
+ */
 import m from 'mithril';
 
 import toolState from '../../state/ToolState';

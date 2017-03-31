@@ -1,5 +1,6 @@
 /**
-  * Base Class representing a drawable element in canvas scenegraph.
+  * SceneGraphNodeBase
+  * Base Class representing a drawable element in canvas scenegraph
   */
 import { Bounds } from '../util/Bounds';
 
@@ -22,7 +23,7 @@ export class SceneGraphNodeBase {
     this._rotation = rotation;
     this._tag = tag;
     this.bounds = bounds;
-    this._children = []; // note: subclasses will implement own children data
+    this._children = []; // note: subclasses implement own children data structure
   }
 
   /* define getters for our properties; note subclasses can override setters,

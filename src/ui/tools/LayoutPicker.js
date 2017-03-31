@@ -1,6 +1,7 @@
-/*
- * A slider component to test layouts with varying number of canvases
-*/
+/**
+ * LayoutPicker
+ * A mithril component of radio buttons to select from available layouts.
+ */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 

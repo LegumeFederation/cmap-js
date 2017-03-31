@@ -1,4 +1,5 @@
 /**
+  * Bounds
   * Class representing a 2D bounds, having the same properties as a DOMRect.
   * This class can be instantiated by script, unlike DOMRect object itself which
   * comes from the browser's DOM by getBoundingClientRect().

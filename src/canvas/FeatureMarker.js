@@ -1,6 +1,7 @@
 /**
- * Draw a line and label representing a feature on a Map.
- */
+  * FeatureMarker
+  * A SceneGraphNode representing a feature on a Map with a line or hash mark.
+  */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 export class FeatureMarker extends SceneGraphNodeBase {

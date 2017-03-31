@@ -1,6 +1,7 @@
 /**
- * A mithril component presenting all DOM aspects of user-interface.
- */
+  * UI
+  * A mithril component presenting all DOM aspects of user-interface.
+  */
 import m from 'mithril';
 
 import './css/cmap.css';

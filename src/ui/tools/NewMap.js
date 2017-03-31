@@ -1,3 +1,8 @@
+/**
+ * NewMap
+ * A mithril component of a new map button-- probably only useful for development
+ * prototyping.
+ */
 import m from 'mithril';
 import toolState from '../../state/ToolState';
 

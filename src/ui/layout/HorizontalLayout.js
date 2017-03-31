@@ -1,6 +1,7 @@
 /**
- * A mithril component for horizontal layout of BioMaps.
- */
+  * HorizontalLayout
+  * A mithril component for horizontal layout of BioMaps.
+  */
 import m from 'mithril';
 
 import {LayoutBase} from './LayoutBase';

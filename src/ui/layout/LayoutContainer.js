@@ -1,7 +1,8 @@
-/*
-* A mithril component to wrap the selected layout component inside of a clipping
-* region overflow: hidden in css.
-*/
+/**
+  * LayoutContainer
+  * A mithril component to wrap the current layout component inside of a
+  * clipping region, using: overflow: hidden in css.
+  */
 import m from 'mithril';
 import Hamster from 'hamsterjs';
 import PubSub from 'pubsub-js';

@@ -1,6 +1,7 @@
 /**
- * A mithril component for circos-style layout of BioMaps.
- */
+  * CircosLayout
+  * A mithril component for circos-style layout of BioMaps.
+  */
 import m from 'mithril';
 
 import toolState from '../../state/ToolState';

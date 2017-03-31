@@ -1,6 +1,7 @@
 /**
- * A mithril component containing some UI tools
- */
+  * Tools
+  * A mithril component of the UI tools in a div.
+  */
 import m from 'mithril';
 
 import toolState from '../../state/ToolState';

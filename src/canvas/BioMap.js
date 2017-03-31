@@ -1,6 +1,7 @@
 /**
- * Mithril component for rendering a Biological Map with a canvas element.
- */
+  * BioMap
+  * Mithril component representing a Biological Map with a html5 canvas element.
+  */
 import m from 'mithril';
 import Hamster from 'hamsterjs';
 

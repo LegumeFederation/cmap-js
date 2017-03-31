@@ -1,11 +1,12 @@
+/**
+  * CMAP
+  */
 import PubSub from 'pubsub-js';
 import rbush from 'rbush';
 
 import * as topics from './topics';
-import toolState from './state/ToolState';
 import {version} from '../package.json';
 import {UI} from './ui/UI';
-import {devNumberofMaps} from './topics';
 
 export class CMAP {
 

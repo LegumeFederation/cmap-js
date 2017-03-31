@@ -1,6 +1,8 @@
-/*
-* Draw a rectangle representing the backbone of a Map.
-*/
+/**
+  * MapBackbone
+  * A SceneGraphNode representing a backbone, simply a rectangle representing
+  * the background.
+  */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 export class MapBackbone extends SceneGraphNodeBase {

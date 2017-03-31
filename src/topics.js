@@ -1,6 +1,7 @@
-// define all PubSub message topics used by cmap
-// (use this module's constants instead of harcoding strings everywhere)
-
+/**
+ * topics
+ * define constants for all PubSub message topics used by cmap
+ */
 export const newMap = 'newMap'; // create a new map button click
 export const selectedMap = 'selectedMap'; // the selected map (canvas) changed
 export const windowResize = 'windowResize'; // the window was resized

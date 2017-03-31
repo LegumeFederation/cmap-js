@@ -1,14 +1,14 @@
-/* export a singleton object. So module which does
-*
-* import toolState from '.../state/toolState';
-*
-* will share a reference to the same instance.
-*/
+/**
+  * ToolState
+  * A container for the UI tool state, outside of any mithril component itself.
+  * export a singleton object. So module which does
+  * import toolState from '.../state/toolState';
+  * will share a reference to the same instance.
+  */
 import PubSub from 'pubsub-js';
 
 import {reset} from '../topics';
 import {horizontalLayout, circosLayout} from '../layouts';
-
 
 class ToolState {
 

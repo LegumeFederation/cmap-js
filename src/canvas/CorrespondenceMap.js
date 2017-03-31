@@ -1,7 +1,8 @@
 /**
- * Mithril component of canvas element for rendering correspondence lines
- * between maps.
- */
+  * CorrespondenceMap
+  * Mithril component representing correspondence lines between 2 or more
+  * BioMaps with an html5 canvas element.
+  */
 import m from 'mithril';
 
 import {Bounds} from '../util/Bounds';

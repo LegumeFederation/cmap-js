@@ -1,6 +1,7 @@
 /**
- * A mithril slider component to test layouts with varying number of canvases
- */
+  * DevMapsSlider ===> Just for development/prototyping!
+  * A mithril slider component to test layouts with varying number of canvases
+  */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 

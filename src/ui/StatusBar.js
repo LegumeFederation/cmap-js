@@ -1,3 +1,7 @@
+/**
+  * StatusBar
+  * A mithril component of a status bar
+  */
 import m from 'mithril';
 
 import toolState from '../state/ToolState';
