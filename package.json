@@ -56,6 +56,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "hamsterjs": "^1.1.2",
     "mithril": "^1.0.1",
     "pubsub-js": "^1.5.5",
