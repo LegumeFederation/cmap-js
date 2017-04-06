@@ -3,6 +3,7 @@
  * Instantiate the CMAP class, and initialize it.
  * Also the entry point for javascript bundler.
  */
+import './ui/css/cmap.css';
 import {CMAP} from './CMAP';
 import './developmentTooling';
 

@@ -4,7 +4,6 @@
   */
 import m from 'mithril';
 
-import './css/cmap.css';
 import {Tools} from './tools/Tools';
 import {StatusBar} from './StatusBar';
 import {LayoutContainer} from './layout/LayoutContainer';
