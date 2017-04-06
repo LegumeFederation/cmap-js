@@ -48,6 +48,6 @@ const featuresInCommon = (features1, features2) => {
   let set2 = new Set(Object.keys(dict2));
   let interection = new Set([...set1].filter(x => set2.has(x)));
   return Array.from(interection).map(key => dict1[key]);
-}
+};
 
 export {Feature, featuresInCommon};

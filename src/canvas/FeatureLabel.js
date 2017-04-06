@@ -5,10 +5,6 @@
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 export class FeatureLabel extends SceneGraphNodeBase {
-  
-  draw(ctx) {
-      //this.drawLabel();
-  }
 
   // drawLabel() {
   //   // FIXME: dont calculate all these measures every draw cycle

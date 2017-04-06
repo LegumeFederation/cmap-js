@@ -64,7 +64,7 @@ export class UI {
       m(this.tools),
       m(this.LayoutContainer),
       m('div', { class: 'cmap-hbox'}, 'footer')
-    ])
+    ]);
   }
 
   _logRenders() {

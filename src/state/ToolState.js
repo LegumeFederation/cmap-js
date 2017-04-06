@@ -8,7 +8,7 @@
 import PubSub from 'pubsub-js';
 
 import {reset} from '../topics';
-import {horizontalLayout, circosLayout} from '../layouts';
+import {horizontalLayout} from '../layouts';
 
 class ToolState {
 

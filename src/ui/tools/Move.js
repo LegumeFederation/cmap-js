@@ -5,7 +5,8 @@
 import m from 'mithril';
 
 import toolState from '../../state/ToolState';
-import icon from '../svg-icons/move.svg';
+//import icon from '../svg-icons/move.svg';
+const icon =''; // FIXME: support loading svg as raw text?
 
 export class Move  {
 

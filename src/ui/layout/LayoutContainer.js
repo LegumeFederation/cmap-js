@@ -27,9 +27,9 @@ export class LayoutContainer {
 
   /* mitrhril component lifecycle functions */
 
-  oninit(vnode) {
-    PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data)),
-    PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data))
+  oninit() {
+    PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data));
+    PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data));
   }
 
   oncreate(vnode) {
@@ -121,7 +121,7 @@ export class LayoutContainer {
     this.lastPanEvent = evt;
   }
 
-  _onPinch(evt) {
+  _onPinch() { // evt
     // TODO: handle type of event (e.g. pinch move, vs pinch in/out)
     // this.contentPaneBounds.left += evt.deltaX;
     // this.contentPaneBounds.top += evt.deltaY;
@@ -130,7 +130,7 @@ export class LayoutContainer {
 
   /* pub/sub callbacks */
 
-  _onReset(msg, data) {
+  _onReset() {
     this.contentPaneBounds = new Bounds({
       top: 0,
       left: 0,
@@ -140,7 +140,7 @@ export class LayoutContainer {
     m.redraw();
   }
 
-  _onLayoutChange(msg, data) {
+  _onLayoutChange() {
     m.redraw();
   }
 
