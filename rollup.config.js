@@ -36,7 +36,7 @@ export default {
         'src/**/*.css',
       ]
     }),
-    // transpile es6 (see .babelrc)
+    // transpile es6
     babel({
       exclude: 'node_modules/**',
       presets: [ 'es2015-rollup' ],
