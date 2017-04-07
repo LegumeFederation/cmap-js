@@ -6,7 +6,6 @@ import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import uglify from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
-import istanbul from 'rollup-plugin-istanbul';
 
 // PostCSS plugins
 import simplevars from 'postcss-simple-vars';
@@ -18,7 +17,7 @@ export default {
   entry: 'src/main.js',
   dest: 'build/cmap.min.js',
   format: 'iife',
-  sourceMap: 'true',
+  sourceMap: true,
   plugins: [
     // bundle css
     postcss({
@@ -45,12 +44,6 @@ export default {
         "external-helpers"
       ]
     }),
-    // include istanbul metrics in the bundle (development only)
-    // note this is not used unless tests are loading the build/js bundle
-    // - currently they are not
-    (process.env.NODE_ENV !== 'production' && istanbul({
-      exclude: ['test/**/*', 'node_modules/**/*']
-    })),
     // find node_modules
     nodePackageResolve({
       jsnext: true,
