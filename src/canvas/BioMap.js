@@ -89,11 +89,11 @@ export class BioMap extends SceneGraphNodeBase {
       (event, delta, deltaX, deltaY) => {
         this._onZoom(event, delta, deltaX, deltaY);
     });
-    this._drawLazily(this.bounds, true);
+    this._drawLazily(this.bounds);
   }
 
   onupdate() {
-    this._drawLazily(this.bounds, true);
+    this._drawLazily(this.bounds);
   }
 
   onremove() {
@@ -123,14 +123,13 @@ export class BioMap extends SceneGraphNodeBase {
    * The canvas will be cleared when mithril writes the new width and height
    * of canvas element into dom. So we cannot draw upon canvas until after that.
    */
-  _drawLazily(wantedBounds, lastWantedBounds) {
+  _drawLazily(wantedBounds) {
     if(wantedBounds.area === 0) return;
     if(this._drawLazilyTimeoutId) clearTimeout(this._drawLazilyTimeoutId);
     if(! Bounds.areaEquals(this.lastDrawnMithrilBounds, wantedBounds)) {
       console.log('waiting for wantedBounds from mithril: ', wantedBounds.width, wantedBounds.height);
       let tid1 = this._drawLazilyTimeoutId = setTimeout(() => {
         if(tid1 !== this._drawLazilyTimeoutId) return;
-        if(wantedBounds === lastWantedBounds) return; // avoid looping infinitely
         this._drawLazily(wantedBounds);
       });
     }
