@@ -60,21 +60,22 @@ describe('Bounds test', () => {
 
   it('emptyArea()', () => {
     let b = new Bounds({top: 10, left: 10, width: 0, height: 0});
-    assert(b.emptyArea());
+    assert(b.isEmptyArea);
     b = new Bounds({top: 10, left: 10, width: 100, height: 90});
-    assert(! b.emptyArea());
+    assert(! b.isEmptyArea);
     b = new Bounds({top: 10, left: 10, width: 100, height: 0});
-    assert(b.emptyArea());
+    assert(b.isEmptyArea);
   });
 
   it('area()', () => {
       let b = new Bounds({top: 10, left: 10, width: 100, height: 90});
-      expect(b.area()).to.equal(9000);
+      expect(b.area).to.equal(9000);
   });
 
   it('areaEquals()', () => {
     let b = new Bounds({top: 10, left: 10, width: 10, height: 2});
     let bp = new Bounds({top: 10, left: 10, width: 5, height: 4});
+    assert(Bounds.areaEquals(b, bp));
     expect(b.areaEquals(bp));
   });
 
