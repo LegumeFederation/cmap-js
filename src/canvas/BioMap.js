@@ -56,6 +56,7 @@ export class BioMap extends SceneGraphNodeBase {
   /* node for this canvas, we need to maintain both a domBounds and a bounds
   /* property. */
   get bounds() {
+    if(! this.domBounds) return new Bounds({top:0, left: 0, width:0, height:0});
     return new Bounds({
       top: 0, left: 0,
       width: this.domBounds.width, height: this.domBounds.height
@@ -68,10 +69,10 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   set domBounds(newBounds) {
-    this.dirty = ! this._domBounds || ! this._domBounds.equals(newBounds);
+    let dirty = ! Bounds.areaEquals(this._domBounds, newBounds);
     this._domBounds = newBounds;
     // only perform layouting when the domBounds has changed in area.
-    if(this.dirty) {
+    if(dirty) {
       this._layout();
     }
   }
@@ -79,7 +80,7 @@ export class BioMap extends SceneGraphNodeBase {
   /* mithril lifecycle callbacks */
 
   oncreate(vnode) {
-    // note here we are not capturing bounds from the dom, rather, using the
+    // note: here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
     this.canvas = vnode.dom;
@@ -88,14 +89,11 @@ export class BioMap extends SceneGraphNodeBase {
       (event, delta, deltaX, deltaY) => {
         this._onZoom(event, delta, deltaX, deltaY);
     });
-    this._draw();
+    this._drawLazily(this.bounds, true);
   }
 
   onupdate() {
-    // note here we are not capturing bounds from the dom, rather, using the
-    // bounds set by the layout manager class (HorizontalLayout or
-    // CircosLayout).
-    this._draw();
+    this._drawLazily(this.bounds, true);
   }
 
   onremove() {
@@ -104,7 +102,12 @@ export class BioMap extends SceneGraphNodeBase {
 
   /* mithril component render callback */
   view() {
+    // store these bounds, for checking in _drawLazily()
+    if(this.domBounds && ! this.domBounds.isEmptyArea) {
+      this.lastDrawnMithrilBounds = this.domBounds;
+    }
     let b = this.domBounds || {};
+    console.log('BioMap mithril render', b.width, b.height);
     return m('canvas', {
       class: 'cmap-canvas cmap-biomap',
       style: `left: ${b.left}px; top: ${b.top}px;
@@ -115,19 +118,47 @@ export class BioMap extends SceneGraphNodeBase {
     });
   }
 
-    // draw canvas scenegraph nodes
+  /**
+   * lazily draw on the canvas, because mithril updates the dom asynchronously.
+   * The canvas will be cleared when mithril writes the new width and height
+   * of canvas element into dom. So we cannot draw upon canvas until after that.
+   */
+  _drawLazily(wantedBounds, lastWantedBounds) {
+    if(wantedBounds.area === 0) return;
+    if(this._drawLazilyTimeoutId) clearTimeout(this._drawLazilyTimeoutId);
+    if(! Bounds.areaEquals(this.lastDrawnMithrilBounds, wantedBounds)) {
+      console.log('waiting for wantedBounds from mithril: ', wantedBounds.width, wantedBounds.height);
+      let tid1 = this._drawLazilyTimeoutId = setTimeout(() => {
+        if(tid1 !== this._drawLazilyTimeoutId) return;
+        if(wantedBounds === lastWantedBounds) return; // avoid looping infinitely
+        this._drawLazily(wantedBounds);
+      });
+    }
+    else {
+      console.log('scheduling lazy draw for: ', wantedBounds.width, wantedBounds.height);
+      let tid2 = this._drawLazilyTimeoutId = setTimeout(() => {
+        if(tid2 !== this._drawLazilyTimeoutId) return;
+        if(! Bounds.areaEquals(this.lastDrawnCanvasBounds, wantedBounds)) {
+          this._draw();
+        }
+      });
+    }
+  }
+
+  /**
+   * draw canvas scenegraph nodes
+   */
   _draw() {
     let ctx = this.context2d;
     if(! ctx) return;
-    if(! this.domBounds) return;
+    console.log('BioMap canvas draw', this.domBounds.width, this.domBounds.height);
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     this.children.map(child => child.draw(ctx));
     ctx.restore();
-    // FIXME: have to prevent redraws of canvas when the canvas is only being
-    // moved around the DOM, not being resized.
-    console.log('BioMap canvas draw');
+    // store these bounds, for checking in _drawLazily()
+    this.lastDrawnCanvasBounds = this.bounds;
   }
 
   /* private methods */
@@ -141,8 +172,8 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   _layout() {
-    console.log('BioMap canvas layout');
-    let backboneWidth = this.domBounds.width * 0.25;
+    console.log('BioMap canvas layout', this.bounds.width, this.bounds.height);
+    let backboneWidth = this.bounds.width * 0.25;
     this.backbone.bounds = new Bounds({
       top: this.domBounds.height * 0.025,
       left: this.domBounds.width * 0.5 - backboneWidth * 0.5,

@@ -69,6 +69,6 @@ export class UI {
   _logRenders() {
     if(! this.count) this.count = 0;
     this.count += 1;
-    console.log(`mithril render #${this.count}`);
+    console.log(`*** mithril render #${this.count} ***`);
   }
 }

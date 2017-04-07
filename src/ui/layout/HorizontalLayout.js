@@ -69,7 +69,7 @@ export class HorizontalLayout extends LayoutBase {
         left: this.bioMaps[i],
         right: this.bioMaps[i+1]
       };
-      console.log(child.bioMaps);
+      //console.log(child.bioMaps);
       cursor += childWidth;
     });
   }
