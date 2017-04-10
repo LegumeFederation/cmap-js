@@ -3,7 +3,6 @@
   * Mithril component representing a Biological Map with a html5 canvas element.
   */
 import m from 'mithril';
-import Hamster from 'hamsterjs';
 
 import {Bounds} from '../util/Bounds';
 import {FeatureMark} from './FeatureMark';
@@ -85,10 +84,6 @@ export class BioMap extends SceneGraphNodeBase {
     // CircosLayout).
     this.canvas = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    this.wheelHandler = Hamster(this.canvas).wheel(
-      (event, delta, deltaX, deltaY) => {
-        this._onZoom(event, delta, deltaX, deltaY);
-    });
     this._drawLazily(this.bounds);
   }
 
@@ -97,7 +92,6 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   onremove() {
-    this.wheelHandler.unwheel();
   }
 
   /* mithril component render callback */
