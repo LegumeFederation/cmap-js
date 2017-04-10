@@ -3,6 +3,7 @@
   * Mithril component representing a Biological Map with a html5 canvas element.
   */
 import m from 'mithril';
+import Hammer from 'hammerjs';
 
 import {Bounds} from '../util/Bounds';
 import {FeatureMark} from './FeatureMark';
@@ -79,11 +80,14 @@ export class BioMap extends SceneGraphNodeBase {
   /* mithril lifecycle callbacks */
 
   oncreate(vnode) {
+    console.log(vnode);
     // note: here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
     this.canvas = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
+
+    this._setupEventHandlers();
     this._drawLazily(this.bounds);
   }
 
@@ -110,6 +114,50 @@ export class BioMap extends SceneGraphNodeBase {
       width: b.width,
       height: b.height
     });
+  }
+
+  /* dom event handlers */
+  _setupEventHandlers() {
+    // hammers for normalized mouse and touch gestures: zoom, pan, click
+    let h = Hammer(this.canvas.parentElement);
+    h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    h.get('pinch').set({ enable: true });
+    h.on('panmove panend', (evt) => this._onPan(evt));
+    h.on('pinchmove pinchend', (evt) => this._onZoom(evt));
+    h.on('tap', (evt) => this._onTap(evt));
+  }
+
+  _onTap(evt) {
+    console.log('onTap', evt, evt.target === this.canvas);
+  }
+
+  _onZoom(evt) {
+    console.log('onZoom', evt);
+    // // FIXME: get distance of touch event
+    // let normalized = evt.deltaY / this.bounds.height;
+    // toolState.zoomFactor += normalized;
+    // m.redraw();
+  }
+
+  _onPan(evt) {
+    console.log('BioMap -> onPan', evt);
+    // hammer provides the delta x,y in a distance since the start of the gesture
+    // // so need to convert it to delta x,y for this event.
+    // if(evt.type === 'panend') {
+    //   this.lastPanEvent = null;
+    //   return;
+    // }
+    // let delta = {};
+    // if(this.lastPanEvent) {
+    //   delta.x = -1 * (this.lastPanEvent.deltaX - evt.deltaX);
+    //   delta.y = -1 * (this.lastPanEvent.deltaY - evt.deltaY);
+    // }
+    // else {
+    //   delta.x = evt.deltaX;
+    //   delta.y = evt.deltaY;
+    // }
+    // m.redraw();
+    this.lastPanEvent = evt;
   }
 
   /**
@@ -155,14 +203,6 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   /* private methods */
-
-  /* dom event handlers */
-  _onZoom(evt, delta) { // ignoring deltaX, deltaY params
-    console.log('mousewheel on canvas ', delta);
-    // TODO: implement vertical scrolling of this biomap specifically
-    evt.preventDefault();
-    evt.stopPropagation();
-  }
 
   _layout() {
     console.log('BioMap canvas layout', this.bounds.width, this.bounds.height);

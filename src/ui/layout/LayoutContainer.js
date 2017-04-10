@@ -73,18 +73,26 @@ export class LayoutContainer {
 
   _setupEventHandlers(el) {
     // hammers for normalized mouse and touch gestures: zoom, pan, click
-    let hammer = Hammer(el);
-    // enable pan gesture support all directions. warning: this will block the
-    // vertical scrolling on a touch-device while on the element.
-    hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    hammer.on('panmove panend', (evt) => this._onPan(evt));
-    // TODO:
-    //hammer.on('pinch', (evt) => this._onZoom(evt, null, evt.deltaX, evt.deltaY));
+    let h = Hammer(el);
+    h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    h.get('pinch').set({ enable: true });
+    h.on('panmove panend', (evt) => this._onPan(evt));
+    h.on('pinchmove pinchend', (evt) => this._onZoom(evt));
+  }
+
+  /* dom event handlers */
+  _onZoom(evt) {
+    console.log('onZoom', evt);
+    // FIXME: get distance of touch event
+    let normalized = evt.deltaY / this.bounds.height;
+    toolState.zoomFactor += normalized;
+    m.redraw();
   }
 
   _onPan(evt) {
-    // hammer provides the delta x,y in a distance since the start of the gesture
-    // so need to convert it to delta x,y for this event.
+    console.log('LayoutContainer -> onPan', evt);
+    // hammer provides the delta x,y in a distance since the start of the
+    // gesture so need to convert it to delta x,y for this event.
     if(evt.type === 'panend') {
       this.lastPanEvent = null;
       return;

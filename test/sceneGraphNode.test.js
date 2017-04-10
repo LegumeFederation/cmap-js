@@ -1,4 +1,4 @@
-import {expect, assert} from 'chai';
+import {expect} from 'chai';
 import {Bounds} from '../src/util/Bounds';
 import {SceneGraphNodeBase} from '../src/canvas/SceneGraphNodeBase';
 

@@ -1,4 +1,9 @@
+/**
+ * development tooling: conditionally run code based on the ENV string,
+ * which is interpolated by a plugin in the rollup.config.js.
+ */
 import PubSub from 'pubsub-js';
+
 import * as topics from './topics';
 
 const livereload = () => {
