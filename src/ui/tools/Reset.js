@@ -15,7 +15,7 @@ export class Reset  {
     this.toolState = toolState;
   }
 
-  click(e) {
+  click() {
     this.toolState.reset();
   }
 

@@ -37,8 +37,6 @@ export class SceneGraphNodeBase {
   get tag() { return this._tag; }
   set tag(s) { this._tag = s; }
 
-  get allowedRedraws() { return ALLOWED_REDRAWS; }
-
   /**
   * Traverse all parents bounds to calculate self Bounds on Canvas.
   *

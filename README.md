@@ -3,12 +3,7 @@ Display and compare biological maps (genetic, physical, cytogenetic, genomic; li
 
 ## Setup
 
-* Prerequisite: `npm` is required so install https://nodejs.org/en/ if you do not have it.
-
-* Install gulp command. If you do not have the `gulp` task runner already:
-```
-npm install -g gulp
-```
+* Prerequisite: `npm` is required so install https://nodejs.org if you do not have it.
 
 * Install the required javascript packages listed in `package.json`
 ```
@@ -18,9 +13,11 @@ npm install
 
 ## Build and Tests
 
-* ES6 code is transpiled with Babel and bundled with Rollup, and the results are written into the `dist/` directory.
+* ES6 code is transpiled with Babel and bundled with Rollup, and the results are written into the `build/` directory. Here are some of the available scripts
 ```
-gulp                  # outputs files to dist/
-gulp && gulp watch    # starts a development web server w/ auto-reload
-npm test              # runs unit tests and coverage report
+npm run lint     # runs linter only
+npm run build    # linter and rollup, babel
+npm run test     # mocha test runner
+npm run coverage # mocha and istanbul coverage report
+npm run watch    # build, watch and livereload
 ```

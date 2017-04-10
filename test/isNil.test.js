@@ -10,5 +10,5 @@ describe('isNil test', () => {
     assert(! isNil({}));
     assert(isNil(null));
     assert(isNil(undefined));
-  })
+  });
 });

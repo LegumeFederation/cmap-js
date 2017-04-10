@@ -60,7 +60,7 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
     this._draw();
   }
 
-  onupdate(vnode) {
+  onupdate() {
     // note here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).

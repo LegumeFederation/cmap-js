@@ -91,14 +91,14 @@ export class BioMap extends SceneGraphNodeBase {
     this._draw();
   }
 
-  onupdate(vnode) {
+  onupdate() {
     // note here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
     this._draw();
   }
 
-  onremove(vnode) {
+  onremove() {
     this.wheelHandler.unwheel();
   }
 
@@ -133,7 +133,7 @@ export class BioMap extends SceneGraphNodeBase {
   /* private methods */
 
   /* dom event handlers */
-  _onZoom(evt, delta, deltaX, deltaY) {
+  _onZoom(evt, delta) { // ignoring deltaX, deltaY params
     console.log('mousewheel on canvas ', delta);
     // TODO: implement vertical scrolling of this biomap specifically
     evt.preventDefault();

@@ -3,7 +3,9 @@
  * Instantiate the CMAP class, and initialize it.
  * Also the entry point for javascript bundler.
  */
+import './ui/css/cmap.css';
 import {CMAP} from './CMAP';
+import './developmentTooling';
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   // support commonjs loading, if it exists.
@@ -17,9 +19,8 @@ else {
 // wait for DOM ready
 // create a default instance of cmap to launch
 const evtName = 'DOMContentLoaded';
-const loadedHandler = evt => {
+const loadedHandler = () => {
   let _cmap = new CMAP();
-  console.log(`cmap v${_cmap.version}`);
   _cmap.init();
   document.removeEventListener(evtName, loadedHandler);
 };

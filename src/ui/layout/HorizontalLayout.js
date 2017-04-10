@@ -6,7 +6,6 @@ import m from 'mithril';
 
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../util/Bounds';
-import toolState from '../../state/ToolState';
 
 export class HorizontalLayout extends LayoutBase {
 

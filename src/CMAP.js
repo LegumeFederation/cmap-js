@@ -2,16 +2,13 @@
   * CMAP
   */
 import PubSub from 'pubsub-js';
-import rbush from 'rbush';
 
 import * as topics from './topics';
-import {version} from '../package.json';
 import {UI} from './ui/UI';
 
 export class CMAP {
 
   constructor() {
-    this.version = version;
     this.ui = new UI();
   }
 

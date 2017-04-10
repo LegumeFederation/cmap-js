@@ -1,4 +1,4 @@
-import {expect, assert} from 'chai';
+import {expect} from 'chai';
 import {Feature, featuresInCommon} from '../src/util/Feature';
 
 describe('Feature test', () => {
@@ -29,13 +29,13 @@ describe('Feature test', () => {
   });
 
   it('featuresInCommon()', () => {
-    let features1 = [], features2 = [];
-    for (var i = 1; i <= 10; i++) {
+    let i, features1 = [], features2 = [];
+    for (i = 1; i <= 10; i++) {
       let name = `feature ${i}`;
       let p1 = Object.assign(params, { name });
       features1.push(new Feature(p1));
     }
-    for (var i = 8; i <= 15; i++) {
+    for (i = 8; i <= 15; i++) {
       let name = `feature ${i}`;
       let p1 = Object.assign(params, { name });
       features2.push(new Feature(p1));
@@ -51,14 +51,14 @@ describe('Feature test', () => {
   });
 
   it('featuresInCommon() with aliases', () => {
-    let features1 = [], features2 = [];
-    for (var i = 1; i <= 10; i++) {
+    let i, features1 = [], features2 = [];
+    for (i = 1; i <= 10; i++) {
       let name = `feature ${i}`;
       let aliases = [`foo ${i}`, `bar ${i}`];
       let p = Object.assign(params, { name, aliases });
       features1.push(new Feature(p));
     }
-    for (var i = 8; i <= 15; i++) {
+    for (i = 8; i <= 15; i++) {
       let name = `misnamed feature xxx${i}`;
       let aliases = [`foo ${i}`, `bling ${i}`];
       let p = Object.assign(params, { name, aliases });
@@ -72,5 +72,5 @@ describe('Feature test', () => {
         'feature 9',
         'feature 10'
       ]);
-  });  
+  });
 });

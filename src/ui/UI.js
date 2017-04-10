@@ -4,7 +4,6 @@
   */
 import m from 'mithril';
 
-import './css/cmap.css';
 import {Tools} from './tools/Tools';
 import {StatusBar} from './StatusBar';
 import {LayoutContainer} from './layout/LayoutContainer';
@@ -64,7 +63,7 @@ export class UI {
       m(this.tools),
       m(this.LayoutContainer),
       m('div', { class: 'cmap-hbox'}, 'footer')
-    ])
+    ]);
   }
 
   _logRenders() {
