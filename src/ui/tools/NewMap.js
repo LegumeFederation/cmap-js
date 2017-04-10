@@ -12,26 +12,26 @@ import {newMap} from '../../topics';
 
 export class NewMap  {
 
-  constructor() {
-    // make mithril aware the toolState is part of this component's state
-    this.toolState = toolState;
-  }
-
   click(e) {
     e.redraw = false;
     PubSub.publish(newMap, { evt: e });
   }
 
-  view() {
-      return m('button', {
-          class: 'pure-button',
-          onclick: (e) => this.click(e)
-        },
+  view(vnode) {
+    let srcAttrs = vnode.attrs || {};
+    let attrs = Object.assign({
+        class: 'pure-button',
+        onclick: (e) => this.click(e)
+    }, srcAttrs);
+    return m('button',
+      attrs,
+      vnode.children && vnode.children.length ?
+        vnode.children :
         [
           'New Map'
           //,
           //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
         ]
-      );
-    }
+    );
+  }
 }

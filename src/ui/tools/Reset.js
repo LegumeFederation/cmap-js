@@ -10,24 +10,24 @@ import toolState from '../../state/ToolState';
 
 export class Reset  {
 
-  constructor() {
-    // make mithril aware the toolState is part of this component's state
-    this.toolState = toolState;
-  }
-
   click() {
-    this.toolState.reset();
+    toolState.reset();
   }
 
-  view() {
-    return m('button', {
+  view(vnode) {
+    let srcAttrs = vnode.attrs || {};
+    let attrs = Object.assign({
         class: 'pure-button',
         onclick: (e) => this.click(e)
-      },
-      [
-        'Reset',
-        //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
-      ]
+      }, srcAttrs);
+    return m('button',
+      attrs,
+      vnode.children && vnode.children.length ?
+        vnode.children :
+          [
+            'Reset',
+            //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
+          ]
     );
   }
 }

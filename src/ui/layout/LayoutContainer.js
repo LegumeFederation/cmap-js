@@ -21,8 +21,6 @@ export class LayoutContainer {
   constructor() {
     this.bounds = null; // our dom elements bounds will be captured from mithril
     this.contentPaneBounds = null; // relative bounds of our movable, scrollabel content pane
-    this.horizontalLayout = new HorizontalLayout();
-    this.circosLayout = new CircosLayout();
   }
 
   /* mitrhril component lifecycle functions */
@@ -65,9 +63,9 @@ export class LayoutContainer {
       }, [
         toolState.layout === layouts.horizontalLayout
         ?
-        m(this.horizontalLayout)
+        m(HorizontalLayout)
         :
-        m(this.circosLayout)
+        m(CircosLayout)
       ])
     ]);
   }
