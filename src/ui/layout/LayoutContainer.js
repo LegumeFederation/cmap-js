@@ -4,7 +4,6 @@
   * clipping region, using: overflow: hidden in css.
   */
 import m from 'mithril';
-import Hamster from 'hamsterjs';
 import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
 
@@ -73,10 +72,6 @@ export class LayoutContainer {
   /* private functions  */
 
   _setupEventHandlers(el) {
-    // hamsterjs for normalized mouse scrollwheel events
-    Hamster(el).wheel((event, delta, deltaX, deltaY) => {
-      this._onMouseWheel(event, delta, deltaX, deltaY);
-    });
     // hammers for normalized mouse and touch gestures: zoom, pan, click
     let hammer = Hammer(el);
     // enable pan gesture support all directions. warning: this will block the
@@ -85,16 +80,6 @@ export class LayoutContainer {
     hammer.on('panmove panend', (evt) => this._onPan(evt));
     // TODO:
     //hammer.on('pinch', (evt) => this._onZoom(evt, null, evt.deltaX, evt.deltaY));
-  }
-
-  /* dom event handlers */
-  _onMouseWheel(evt, delta, deltaX, deltaY) {
-    // convert to a normalized scale factor
-    let normalized = deltaY / this.bounds.height;
-    toolState.zoomFactor += normalized;
-    m.redraw();
-    evt.preventDefault();
-    evt.stopPropagation();
   }
 
   _onPan(evt) {
