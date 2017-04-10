@@ -3,8 +3,6 @@
  * Instantiate the CMAP class, and initialize it.
  * Also the entry point for javascript bundler.
  */
-
-
 import './ui/css/cmap.css';
 import {CMAP} from './CMAP';
 import './developmentTooling';
@@ -30,4 +28,4 @@ const loadedHandler = () => {
   _cmap.init();
   document.removeEventListener(evtName, loadedHandler);
 };
-document.addEventListener('DOMContentLoaded', loadedHandler);
+document.addEventListener(evtName, loadedHandler);
