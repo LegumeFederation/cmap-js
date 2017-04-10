@@ -16,7 +16,6 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
   /* node for this canvas, we need to maintain both a domBounds and a bounds
   /* property. */
   get bounds() {
-    console.trace('get bounds');
     return new Bounds({
       top: 0, left: 0,
       width: this.domBounds.width, height: this.domBounds.height
@@ -80,7 +79,7 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
   }
 
   _layout() {
-    console.log('CorrespondenceMap canvas layout');
+//    console.log('CorrespondenceMap canvas layout');
     this.correspondenceMarks = [];
     // TODO: for each bioMap, create a CorrespondenceMark for each common feature
   }
@@ -97,6 +96,6 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
     ctx.restore();
     // FIXME: have to prevent redraws of canvas when the canvas is only being
     // moved around the DOM, not being resized.
-    console.log('CorrespondenceMap canvas draw');
+//    console.log('CorrespondenceMap canvas draw');
   }
 }

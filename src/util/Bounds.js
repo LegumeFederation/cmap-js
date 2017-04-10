@@ -20,7 +20,7 @@ export class Bounds {
   * @param {Number} height
   * @returns {Object}
   */
-  constructor({top, left, bottom = null, right = null, width = null, height = null}) {
+  constructor({top, left, bottom, right, width, height}) {
     this.bottom = bottom;
     this.left = left;
     this.right = right;
@@ -32,6 +32,20 @@ export class Bounds {
     if(isNil(this.height)) this.height = this.bottom - this.top;
     if(isNil(this.bottom)) this.bottom = this.top + this.height;
     if(isNil(this.right)) this.right = this.left + this.width;
+  }
+
+  /**
+   * Check if width or height is zero, making the Bounds effectively empty.
+   */
+  get isEmptyArea() {
+    return ! this.width || ! this.height;
+  }
+
+  /**
+   * Area of bounds (width * height)
+   */
+  get area() {
+    return this.width * this.height;
   }
 
   /**
@@ -60,6 +74,19 @@ export class Bounds {
   }
 
   /**
+  * Class method- test whether two bounds are equal in area (rounds to nearest pixel)
+  *
+  * @param bounds1 - DOMRect or Bounds instance
+  * @param bounds2 - DOMRect or Bounds instance
+  * @returns Boolean
+  */
+  static areaEquals(bounds1, bounds2) {
+    if(! bounds1 || ! bounds2)
+      return false; // check for null args
+    return Math.floor(bounds1.area) === Math.floor(bounds2.area);
+  }
+
+  /**
    * Instance method call of Bounds.equals()
    */
   equals(otherBounds) {
@@ -67,24 +94,10 @@ export class Bounds {
   }
 
   /**
-   * Check if width or height is zero, making the Bounds effectively empty.
-   */
-  emptyArea() {
-    return ! this.width || ! this.height;
-  }
-
-  /**
-   * Area of bounds (width * height)
-   */
-  area() {
-    return this.width * this.height;
-  }
-
-  /**
    * Area equality, rounds to integer pixel.
    */
   areaEquals(otherBounds) {
-    return Math.floor(this.area()) === Math.floor(otherBounds.area());
+    return Bounds.areaEquals(this, otherBounds);
   }
 }
 
