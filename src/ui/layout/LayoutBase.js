@@ -1,6 +1,6 @@
 /**
   * LayoutBase
-  * A Mithril component Base class for Layouts, e.g. HorizontalLayout and 
+  * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
   * CircosLayout.
   */
 import m from 'mithril';
