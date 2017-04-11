@@ -20,18 +20,18 @@ export class NewMap  {
   view(vnode) {
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({
-        class: 'pure-button',
-        onclick: (e) => this.click(e)
+      class: 'pure-button',
+      onclick: (e) => this.click(e)
     }, srcAttrs);
     return m('button',
       attrs,
       vnode.children && vnode.children.length ?
-        vnode.children :
-        [
-          'New Map'
-          //,
-          //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
-        ]
+      vnode.children :
+      [
+        'New Map'
+        //,
+        //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
+      ]
     );
   }
 }

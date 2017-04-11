@@ -12,9 +12,9 @@ export class HorizontalLayout extends LayoutBase {
   /* mithril render callback */
   view() {
     return m('div', {
-        class: 'cmap-layout-horizontal'
-      },
-     this.children.map(m)
+      class: 'cmap-layout-horizontal'
+    },
+    this.children.map(m)
     );
   }
 

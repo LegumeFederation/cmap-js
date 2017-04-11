@@ -22,32 +22,32 @@ export class LayoutPicker  {
     return m('fieldset',
       vnode.attrs,
       vnode.children && vnode.children.length ?
-        vnode.children :
-        [
-          m('legend', 'layout:'),
-          m('label', { for: 'horizontal-radio'}, [
-            m('input', {
-              type: 'radio',
-              name: 'layout',
-              value: horizontalLayout,
-              id: 'horizontal-radio',
-              checked: toolState.layout === horizontalLayout,
-              onchange: e => this.onchange(e)
-            }),
-            'horizontal'
-          ]),
-          m('label', { for: 'circos-radio'}, [
-            m('input', {
-              type: 'radio',
-              name: 'layout',
-              value: circosLayout,
-              id: 'circos-radio',
-              checked: toolState.layout === circosLayout,
-              onchange: e => this.onchange(e)
-            }),
-            'circos'
-          ])
-        ]
+      vnode.children :
+      [
+        m('legend', 'layout:'),
+        m('label', { for: 'horizontal-radio'}, [
+          m('input', {
+            type: 'radio',
+            name: 'layout',
+            value: horizontalLayout,
+            id: 'horizontal-radio',
+            checked: toolState.layout === horizontalLayout,
+            onchange: e => this.onchange(e)
+          }),
+          'horizontal'
+        ]),
+        m('label', { for: 'circos-radio'}, [
+          m('input', {
+            type: 'radio',
+            name: 'layout',
+            value: circosLayout,
+            id: 'circos-radio',
+            checked: toolState.layout === circosLayout,
+            onchange: e => this.onchange(e)
+          }),
+          'circos'
+        ])
+      ]
     );
   }
 }

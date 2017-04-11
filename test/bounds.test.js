@@ -3,12 +3,12 @@ import {Bounds} from '../src/util/Bounds';
 
 describe('Bounds test', () => {
   let params = {
-      top: 1,
-      bottom: 11,
-      left: 10,
-      right: 20,
-      width: 10,
-      height: 10
+    top: 1,
+    bottom: 11,
+    left: 10,
+    right: 20,
+    width: 10,
+    height: 10
   };
 
   it('constructor works', () => {
@@ -26,13 +26,13 @@ describe('Bounds test', () => {
   });
 
   it('constructor calculates missing bottom, right', () => {
-  let missingParams = Object.assign({}, params);
-  delete missingParams.bottom;
-  delete missingParams.right;
-  let b = new Bounds(missingParams);
-  expect(b.bottom).to.equal(11);
-  expect(b.right).to.equal(20);
-});
+    let missingParams = Object.assign({}, params);
+    delete missingParams.bottom;
+    delete missingParams.right;
+    let b = new Bounds(missingParams);
+    expect(b.bottom).to.equal(11);
+    expect(b.right).to.equal(20);
+  });
 
   it('ignores x and y properties from DOMRect', () => {
     let paramsWithExtras = Object.assign({ x: -1, y: -1 }, params);
@@ -68,8 +68,8 @@ describe('Bounds test', () => {
   });
 
   it('area()', () => {
-      let b = new Bounds({top: 10, left: 10, width: 100, height: 90});
-      expect(b.area).to.equal(9000);
+    let b = new Bounds({top: 10, left: 10, width: 100, height: 90});
+    expect(b.area).to.equal(9000);
   });
 
   it('areaEquals()', () => {

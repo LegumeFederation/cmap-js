@@ -17,17 +17,17 @@ export class Reset  {
   view(vnode) {
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({
-        class: 'pure-button',
-        onclick: (e) => this.click(e)
-      }, srcAttrs);
+      class: 'pure-button',
+      onclick: (e) => this.click(e)
+    }, srcAttrs);
     return m('button',
       attrs,
       vnode.children && vnode.children.length ?
-        vnode.children :
-          [
-            'Reset',
-            //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
-          ]
+      vnode.children :
+      [
+        'Reset',
+        //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
+      ]
     );
   }
 }
