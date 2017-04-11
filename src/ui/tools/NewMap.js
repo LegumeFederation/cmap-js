@@ -4,7 +4,7 @@
  * prototyping.
  */
 import m from 'mithril';
-import toolState from '../../state/ToolState';
+
 import PubSub from 'pubsub-js';
 
 //import icon from '../svg-icons/zoom-in.svg';
