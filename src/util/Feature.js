@@ -9,8 +9,8 @@ class Feature {
    *
    * @param {Object} params - having the following properties
    * @param {String} name - name of feature
-   * @param {Object} tags - array of String, optional slugs or tags
-   * @param {Object} aliases - alternate names, optional
+   * @param {Object} tags - array of String, optional slugs or tags, optional
+   * @param {Object} aliases - array of alternate names, optional
    * @returns {Object}
    */
   constructor({coordinates = { start: 0, end: 0}, name, tags=[], aliases=[]}) {
@@ -46,8 +46,8 @@ const featuresInCommon = (features1, features2) => {
   let dict2 = setupDict(features2);
   let set1 = new Set(Object.keys(dict1));
   let set2 = new Set(Object.keys(dict2));
-  let interection = new Set([...set1].filter(x => set2.has(x)));
-  return Array.from(interection).map(key => dict1[key]);
+  let intersection = new Set([...set1].filter(x => set2.has(x)));
+  return Array.from(intersection).map(key => dict1[key]);
 };
 
 export {Feature, featuresInCommon};
