@@ -4,12 +4,15 @@
   * BioMaps with an html5 canvas element.
   */
 import m from 'mithril';
+import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../util/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import {DrawLazilyMixin} from './DrawLazilyMixin';
 
 
-export class CorrespondenceMap extends SceneGraphNodeBase {
+export class CorrespondenceMap
+       extends mix(SceneGraphNodeBase).with(DrawLazilyMixin)  {
 
   /* define accessors for both bounds and domBounds; because this class is both
   /* a mithril component (has a view method()) and a scenegraph node (the root
@@ -56,18 +59,22 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
     // CircosLayout).
     this.canvas = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    this._draw();
+    //this.drawLazily(this.bounds);
   }
 
   onupdate() {
-    // note here we are not capturing bounds from the dom, rather, using the
-    // bounds set by the layout manager class (HorizontalLayout or
-    // CircosLayout).
-    this._draw();
+    this.drawLazily(this.bounds);
   }
 
   /* mithril component render callback */
   view() {
+    // note here we are not capturing bounds from the dom, rather, using the
+    // bounds set by the layout manager class (HorizontalLayout or
+    // CircosLayout).
+    if(this.domBounds && ! this.domBounds.isEmptyArea) {
+      this.lastDrawnMithrilBounds = this.domBounds;
+    }
+
     let b = this.domBounds || {};
     return m('canvas', {
       class: 'cmap-canvas cmap-correspondence-map',
@@ -85,17 +92,16 @@ export class CorrespondenceMap extends SceneGraphNodeBase {
   }
 
   // draw canvas scenegraph nodes
-  _draw() {
-    let ctx = this.context2d;
-    if(! ctx) return;
-    if(! this.domBounds) return;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    ctx.save();
-    ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.children.map(child => child.draw(ctx));
-    ctx.restore();
-    // FIXME: have to prevent redraws of canvas when the canvas is only being
-    // moved around the DOM, not being resized.
-//    console.log('CorrespondenceMap canvas draw');
+  draw() {
+    // let ctx = this.context2d;
+    // if(! ctx) return;
+    // if(! this.domBounds) return;
+    // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // ctx.save();
+    // ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
+    // this.children.map(child => child.draw(ctx));
+    // ctx.restore();
+    // store these bounds, for checking in drawLazily()
+    this.lastDrawnCanvasBounds = this.bounds;
   }
 }

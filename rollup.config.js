@@ -33,6 +33,7 @@ export default {
     eslint({
       exclude: [
         'src/**/*.css',
+        'mixwith.js/**/*'
       ]
     }),
     // transpile es6

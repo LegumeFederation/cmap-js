@@ -4,6 +4,7 @@
  * prototyping.
  */
 import m from 'mithril';
+
 import PubSub from 'pubsub-js';
 
 //import icon from '../svg-icons/zoom-in.svg';
