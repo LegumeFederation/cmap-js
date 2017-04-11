@@ -3,14 +3,16 @@
   * Mithril component representing a Biological Map with a html5 canvas element.
   */
 import m from 'mithril';
+import {mix} from '../../mixwith.js/src/mixwith';
 import Hamster from 'hamsterjs';
 
 import {Bounds} from '../util/Bounds';
 import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import {DrawLazilyMixin} from './DrawLazilyMixin';
 
-export class BioMap extends SceneGraphNodeBase {
+export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
 
   constructor(params) {
     super(params);
@@ -89,11 +91,11 @@ export class BioMap extends SceneGraphNodeBase {
       (event, delta, deltaX, deltaY) => {
         this._onZoom(event, delta, deltaX, deltaY);
     });
-    this._drawLazily(this.bounds);
+    this.drawLazily(this.bounds);
   }
 
   onupdate() {
-    this._drawLazily(this.bounds);
+    this.drawLazily(this.bounds);
   }
 
   onremove() {
@@ -102,7 +104,7 @@ export class BioMap extends SceneGraphNodeBase {
 
   /* mithril component render callback */
   view() {
-    // store these bounds, for checking in _drawLazily()
+    // store these bounds, for checking in drawLazily()
     if(this.domBounds && ! this.domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = this.domBounds;
     }
@@ -119,35 +121,9 @@ export class BioMap extends SceneGraphNodeBase {
   }
 
   /**
-   * lazily draw on the canvas, because mithril updates the dom asynchronously.
-   * The canvas will be cleared when mithril writes the new width and height
-   * of canvas element into dom. So we cannot draw upon canvas until after that.
-   */
-  _drawLazily(wantedBounds) {
-    if(wantedBounds.area === 0) return;
-    if(this._drawLazilyTimeoutId) clearTimeout(this._drawLazilyTimeoutId);
-    if(! Bounds.areaEquals(this.lastDrawnMithrilBounds, wantedBounds)) {
-      console.log('waiting for wantedBounds from mithril: ', wantedBounds.width, wantedBounds.height);
-      let tid1 = this._drawLazilyTimeoutId = setTimeout(() => {
-        if(tid1 !== this._drawLazilyTimeoutId) return;
-        this._drawLazily(wantedBounds);
-      });
-    }
-    else {
-      console.log('scheduling lazy draw for: ', wantedBounds.width, wantedBounds.height);
-      let tid2 = this._drawLazilyTimeoutId = setTimeout(() => {
-        if(tid2 !== this._drawLazilyTimeoutId) return;
-        if(! Bounds.areaEquals(this.lastDrawnCanvasBounds, wantedBounds)) {
-          this._draw();
-        }
-      });
-    }
-  }
-
-  /**
    * draw canvas scenegraph nodes
    */
-  _draw() {
+  draw() {
     let ctx = this.context2d;
     if(! ctx) return;
     console.log('BioMap canvas draw', this.domBounds.width, this.domBounds.height);
@@ -156,7 +132,7 @@ export class BioMap extends SceneGraphNodeBase {
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     this.children.map(child => child.draw(ctx));
     ctx.restore();
-    // store these bounds, for checking in _drawLazily()
+    // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
   }
 
