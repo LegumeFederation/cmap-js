@@ -90,7 +90,8 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
     this.wheelHandler = Hamster(this.canvas).wheel(
       (event, delta, deltaX, deltaY) => {
         this._onZoom(event, delta, deltaX, deltaY);
-    });
+      }
+    );
     this.drawLazily(this.bounds);
   }
 

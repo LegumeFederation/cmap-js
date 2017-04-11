@@ -23,19 +23,19 @@ export class Move  {
   view(vnode) {
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({
-        class: this.active() ? 'pure-button pure-button-active' : 'pure-button',
-        onclick: () => this.click()
-      },
-      srcAttrs
+      class: this.active() ? 'pure-button pure-button-active' : 'pure-button',
+      onclick: () => this.click()
+    },
+    srcAttrs
     );
     return m('button',
       attrs,
       vnode.children && vnode.children.length ?
-        vnode.children :
-        [
-          'Move',
-          m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
-        ]
+      vnode.children :
+      [
+        'Move',
+        m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
+      ]
     );
   }
 }

@@ -51,15 +51,15 @@ describe('SceneGraphNode test', () => {
 
 const parentChildGenerator = () => {
   let parentNode = new SceneGraphNodeBase({
-      parent: null,
-      bounds: new Bounds({
-        top: 2,
-        bottom: 92,
-        left: 3,
-        right: 103,
-        width: 100,
-        height: 90
-      })
+    parent: null,
+    bounds: new Bounds({
+      top: 2,
+      bottom: 92,
+      left: 3,
+      right: 103,
+      width: 100,
+      height: 90
+    })
   });
   let childNode = new SceneGraphNodeBase({
     parent: parentNode,

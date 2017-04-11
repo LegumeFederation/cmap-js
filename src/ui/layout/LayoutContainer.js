@@ -156,7 +156,7 @@ export class LayoutContainer {
         width: this.bounds.width,
         height: this.bounds.height
       };
-   }
+    }
     // trigger a redraw so the child components see the new bounds of their
     // container in the dom.
     if(dirty) setTimeout(m.redraw);

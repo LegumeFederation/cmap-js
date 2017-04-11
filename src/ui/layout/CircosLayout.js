@@ -58,9 +58,9 @@ export class CircosLayout extends LayoutBase {
   /* mithril render callback */
   view() {
     return m('div', {
-        class: 'cmap-layout-circos'
-      },
-      this.children.map(m)
+      class: 'cmap-layout-circos'
+    },
+    this.children.map(m)
     );
   }
 }

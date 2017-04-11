@@ -21,20 +21,20 @@ export class DevMapsSlider  {
     return m('fieldset',
       vnode.attrs,
       vnode.children && vnode.children.length ?
-        vnode.children :
-        [
-          m('label', { for: 'slider'},
-             [
-              `number of maps: ${toolState.devNumberOfMaps}`,
-              m('input', {
-                id: 'slider',
-                type: 'range',
-                min: 1,
-                max: 20,
-                value: toolState.devNumberOfMaps,
-                onchange: e => this.onchange(e)
-              })
-            ])
+      vnode.children :
+      [
+        m('label', { for: 'slider'},
+          [
+            `number of maps: ${toolState.devNumberOfMaps}`,
+            m('input', {
+              id: 'slider',
+              type: 'range',
+              min: 1,
+              max: 20,
+              value: toolState.devNumberOfMaps,
+              onchange: e => this.onchange(e)
+            })
+          ])
       ]
     );
   }
