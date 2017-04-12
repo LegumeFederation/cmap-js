@@ -4,14 +4,16 @@
  */
 import m from 'mithril';
 
-import toolState from '../../state/ToolState';
 // import icon from '../svg-icons/move.svg'; // TODO button icon
 
 
 export class Reset  {
 
+  // constructor() - prefer do not use in mithril components
+
   click() {
-    toolState.reset();
+    // FIXME: implement appState reset
+    // this.state.reset();
   }
 
   view(vnode) {

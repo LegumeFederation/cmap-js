@@ -10,6 +10,12 @@ import {LayoutContainer} from './layout/LayoutContainer';
 
 export class UI {
 
+  constructor(appState) {
+    // this is the only mithril component allowed to use a constructor for state
+    // (because we have to inject the appState model into mithril somewhere)
+    this.state = appState;
+  }
+
   /* mithril component lifecycle events */
 
   oncreate(vnode) {
@@ -28,12 +34,17 @@ export class UI {
 
   /* mithril component render callback */
   view(vnode) {
+    let state = this.state;
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({class: 'cmap-layout cmap-vbox'}, srcAttrs);
     return m('div',
       attrs,
       vnode.children && vnode.children.length ?
-        vnode.children : [ m(Tools), m(LayoutContainer), m(StatusBar) ]
+        vnode.children : [
+          m(Tools, { state }),
+          m(LayoutContainer, { state }),
+          m(StatusBar, { state })
+        ]
     );
   }
 

@@ -5,15 +5,18 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
-import toolState from '../../state/ToolState';
 import {layout} from '../../topics';
-import {horizontalLayout, circosLayout} from '../../layouts';
+import {HorizontalLayout} from '../../ui/layout/HorizontalLayout';
+import {CircosLayout} from '../../ui/layout/CircosLayout';
+
 
 export class LayoutPicker  {
 
+  // constructor() - prefer do not use in mithril components
+
   onchange(e) {
     let l = e.target.value;
-    toolState.layout = l;
+    this.state.layout = l;
     e.redraw = false;
     PubSub.publish(layout, { evt: e, layout: l });
   }
@@ -29,9 +32,9 @@ export class LayoutPicker  {
           m('input', {
             type: 'radio',
             name: 'layout',
-            value: horizontalLayout,
+            value: HorizontalLayout,
             id: 'horizontal-radio',
-            checked: toolState.layout === horizontalLayout,
+            checked: this.state.tools.layout === HorizontalLayout,
             onchange: e => this.onchange(e)
           }),
           'horizontal'
@@ -40,9 +43,9 @@ export class LayoutPicker  {
           m('input', {
             type: 'radio',
             name: 'layout',
-            value: circosLayout,
+            value: CircosLayout,
             id: 'circos-radio',
-            checked: toolState.layout === circosLayout,
+            checked: this.state.tools.layout === CircosLayout,
             onchange: e => this.onchange(e)
           }),
           'circos'

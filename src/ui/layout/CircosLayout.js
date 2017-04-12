@@ -12,8 +12,10 @@ const radians = degrees => degrees * Math.PI / 180;
 
 export class CircosLayout extends LayoutBase {
 
-  _layout(domElement) {
-    let domRect = domElement.getBoundingClientRect();
+  // constructor() - prefer do not use in mithril components
+
+  _layout() {
+    let domRect = this.el.getBoundingClientRect();
     if(! domRect.width || ! domRect.height) {
       // may occur when component is created but dom element has not yet filled
       // available space; expect onupdate() will occur.
@@ -51,8 +53,6 @@ export class CircosLayout extends LayoutBase {
       degrees += degreesPerChild;
     });
     if(dirty) m.redraw();
-    // keep a reference so _.layout() can be called in response to other evts.
-    this._domElement = domElement;
   }
 
   /* mithril render callback */

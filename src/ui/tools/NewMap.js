@@ -12,6 +12,8 @@ import {newMap} from '../../topics';
 
 export class NewMap  {
 
+  // constructor() - prefer do not use in mithril components
+
   click(e) {
     e.redraw = false;
     PubSub.publish(newMap, { evt: e });

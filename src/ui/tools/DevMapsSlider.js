@@ -5,19 +5,21 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
-import toolState from '../../state/ToolState';
 import {devNumberofMaps} from '../../topics';
 
 export class DevMapsSlider  {
 
+  // constructor() - prefer do not use in mithril components
+
   onchange(e) {
     let n = e.target.value;
-    toolState.devNumberOfMaps = n;
+    this.state.tools.devNumberOfMaps = n;
     e.redraw = false;
     PubSub.publish(devNumberofMaps, { evt: e, number: n });
   }
 
   view(vnode) {
+    let numMaps = Object.keys(this.state.bioMaps).length;
     return m('fieldset',
       vnode.attrs,
       vnode.children && vnode.children.length ?
@@ -25,13 +27,13 @@ export class DevMapsSlider  {
       [
         m('label', { for: 'slider'},
           [
-            `number of maps: ${toolState.devNumberOfMaps}`,
+            `number of maps: ${numMaps}`,
             m('input', {
               id: 'slider',
               type: 'range',
               min: 1,
               max: 20,
-              value: toolState.devNumberOfMaps,
+              value: numMaps,
               onchange: e => this.onchange(e)
             })
           ])

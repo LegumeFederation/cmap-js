@@ -13,6 +13,8 @@ import {LayoutPicker} from './LayoutPicker';
 
 export class Tools  {
 
+  // constructor() - prefer do not use in mithril components
+
   view(vnode) {
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({class: 'tools cmap-hbox'}, srcAttrs);

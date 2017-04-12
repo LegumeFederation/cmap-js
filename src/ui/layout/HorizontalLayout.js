@@ -6,23 +6,35 @@ import m from 'mithril';
 
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../util/Bounds';
+import {BioMap} from '../../canvas/BioMap';
+import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 
 export class HorizontalLayout extends LayoutBase {
 
-  /* mithril render callback */
+  // constructor() - prefer do not use in mithril components
+
+  /* mithril lifecycle callbacks */
+
+  /**
+   * view() - mithril render callback. this is a pure function which maps
+   * our appState to mithril components for rendering.
+   */
   view() {
     return m('div', {
       class: 'cmap-layout-horizontal'
     },
-    this.children.map(m)
-    );
+    [].concat(
+      this.state.bioMaps.map((bioMap) => {
+        return m(BioMap, { state: bioMap, appState: this.state });
+      }),
+      this.state.correspondenceMaps.map((corMap) => {
+        return m(CorrespondenceMap, { state: corMap, appState: this.state });
+      })
+    ));
   }
 
-  _layout(domElement) {
-    // keep a reference to dom element so _.layout() can be called in response
-    // to other evts.
-    this._domElement = domElement;
-    let domRect = domElement.getBoundingClientRect();
+  _layout() {
+    let domRect = this.el.getBoundingClientRect();
     if(! domRect.width || ! domRect.height) {
       // may occur when component is created but dom element has not yet filled
       // available space; expect onupdate() will fire and call _layout().

@@ -4,7 +4,6 @@
   */
 import m from 'mithril';
 import {mix} from '../../mixwith.js/src/mixwith';
-import Hammer from 'hammerjs';
 
 import {Bounds} from '../util/Bounds';
 import {FeatureMark} from './FeatureMark';
@@ -14,35 +13,7 @@ import {DrawLazilyMixin} from './DrawLazilyMixin';
 
 export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
 
-  constructor(params) {
-    super(params);
-    // create a backbone node
-    this.backbone = new MapBackbone({
-      parent: this
-    });
-    // create featuremarker nodes
-    this.featureMarkers = [];
-    for (var i = 0; i < 100; i++) {
-      let x = Math.floor(Math.random() * 1000);
-      let featureName = '';
-      for (var j = 0; j < 2; j++) {
-        featureName += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-      }
-      let feature = new FeatureMark({
-        parent: this,
-        coordinates: {
-          start: x,
-          end: x, // FIXME: support ranges
-        },
-        rangeOfCoordinates: { start: 0, end: 1000},
-        featureName: featureName,
-        aliases: []
-      });
-      this.featureMarkers.push(feature);
-    }
-    // TODO: create feature labels
-    this.featureLabels = [];
-  }
+  // constructor() - prefer do not use in mithril components
 
   // override the children prop. getter
   get children() {
@@ -80,13 +51,42 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
   }
 
   /* mithril lifecycle callbacks */
+  oninit() {
+    console.log('BioMap.oninit()');
+    // create a backbone node
+    this.backbone = new MapBackbone({
+      parent: this
+    });
+    // create featuremarker nodes
+    this.featureMarkers = [];
+    for (var i = 0; i < 100; i++) {
+      let x = Math.floor(Math.random() * 1000);
+      let featureName = '';
+      for (var j = 0; j < 2; j++) {
+        featureName += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      }
+      let feature = new FeatureMark({
+        parent: this,
+        coordinates: {
+          start: x,
+          end: x, // FIXME: support ranges
+        },
+        rangeOfCoordinates: { start: 0, end: 1000},
+        featureName: featureName,
+        aliases: []
+      });
+      this.featureMarkers.push(feature);
+    }
+    // TODO: create feature labels
+    this.featureLabels = [];
+  }
 
   oncreate(vnode) {
-    console.log(vnode);
+    console.log('BioMap.oncreate()');
     // note: here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
-    this.canvas = vnode.dom;
+    this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
     this.drawLazily(this.bounds);
   }
@@ -110,22 +110,13 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
       class: 'cmap-canvas cmap-biomap',
       style: `left: ${b.left}px; top: ${b.top}px;
               width: ${b.width}px; height: ${b.height}px;
-              transform: rotate(${this.rotation}deg)`,
+              transform: rotate(${this.rotation}deg);`,
       width: b.width,
       height: b.height
     });
   }
 
   /* dom event handlers */
-  _setupEventHandlers() {
-    // hammers for normalized mouse and touch gestures: zoom, pan, click
-    let h = Hammer(this.canvas.parentElement);
-    h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    h.get('pinch').set({ enable: true });
-    h.on('panmove panend', (evt) => this._onPan(evt));
-    h.on('pinchmove pinchend', (evt) => this._onZoom(evt));
-    h.on('tap', (evt) => this._onTap(evt));
-  }
 
   _onTap(evt) {
     console.log('onTap', evt, evt.target === this.canvas);
@@ -133,9 +124,9 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
 
   _onZoom(evt) {
     console.log('onZoom', evt);
-    // // FIXME: get distance of touch event
+    // // FIXME: get distance of touch event, apply to 
     // let normalized = evt.deltaY / this.bounds.height;
-    // toolState.zoomFactor += normalized;
+    // this.state.tools.zoomFactor += normalized;
     // m.redraw();
   }
 

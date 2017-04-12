@@ -7,8 +7,6 @@ import m from 'mithril';
 import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
 
-import * as layouts from '../../layouts';
-import toolState from '../../state/ToolState';
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
 import {layout as layoutMsg, reset} from '../../topics';
@@ -17,14 +15,12 @@ import {Bounds} from '../../util/Bounds';
 
 export class LayoutContainer {
 
-  constructor() {
-    this.bounds = null; // our dom elements bounds will be captured from mithril
-    this.contentPaneBounds = null; // relative bounds of our movable, scrollabel content pane
-  }
+  // constructor() - prefer do not use in mithril components
 
   /* mitrhril component lifecycle functions */
 
-  oninit() {
+  oninit(vnode) {
+    this.state = vnode.attrs.state;
     PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data));
     PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data));
   }
@@ -50,7 +46,7 @@ export class LayoutContainer {
   /* mithril component render callback */
   view() {
     let b = this.contentPaneBounds || {}; // relative bounds of the layout-content
-    let scale = toolState.zoomFactor;
+    let scale = this.state.tools.zoomFactor;
     return m('div', { class: 'cmap-layout-viewport cmap-hbox'}, [
       m('div', {
         class: 'cmap-layout-content',
@@ -60,11 +56,11 @@ export class LayoutContainer {
                 height: ${b.height}px;
                 transform: scale(${scale}, ${scale})`
       }, [
-        toolState.layout === layouts.horizontalLayout
+        this.state.tools.layout === HorizontalLayout
         ?
-        m(HorizontalLayout)
+        m(HorizontalLayout, {state: this.state})
         :
-        m(CircosLayout)
+        m(CircosLayout, {state: this.state})
       ])
     ]);
   }
@@ -85,7 +81,7 @@ export class LayoutContainer {
     console.log('onZoom', evt);
     // FIXME: get distance of touch event
     let normalized = evt.deltaY / this.bounds.height;
-    toolState.zoomFactor += normalized;
+    this.state.tools.zoomFactor += normalized;
     m.redraw();
   }
 

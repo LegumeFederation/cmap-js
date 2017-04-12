@@ -14,6 +14,8 @@ import {DrawLazilyMixin} from './DrawLazilyMixin';
 export class CorrespondenceMap
        extends mix(SceneGraphNodeBase).with(DrawLazilyMixin)  {
 
+  // constructor() - prefer do not use in mithril components
+
   /* define accessors for both bounds and domBounds; because this class is both
   /* a mithril component (has a view method()) and a scenegraph node (the root
   /* node for this canvas, we need to maintain both a domBounds and a bounds
@@ -57,13 +59,19 @@ export class CorrespondenceMap
     // note here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
-    this.canvas = vnode.dom;
+    this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    //this.drawLazily(this.bounds);
   }
 
   onupdate() {
     this.drawLazily(this.bounds);
+  }
+
+  /* dom event handlers */
+
+
+  _onTap(evt) {
+    console.log('onTap', evt, evt.target === this.canvas);
   }
 
   /* mithril component render callback */
@@ -93,14 +101,24 @@ export class CorrespondenceMap
 
   // draw canvas scenegraph nodes
   draw() {
-    // let ctx = this.context2d;
-    // if(! ctx) return;
-    // if(! this.domBounds) return;
-    // ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    // ctx.save();
-    // ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    // this.children.map(child => child.draw(ctx));
-    // ctx.restore();
+    let ctx = this.context2d;
+    if(! ctx) return;
+    if(! this.domBounds) return;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    let gb = this.globalBounds || {};
+    ctx.save();
+    ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
+    //this.children.map(child => child.draw(ctx));
+    ctx.fillStyle = 'cyan';
+    ctx.globalAlpha = 0.5;
+    ctx.fillRect(
+      Math.floor(gb.left),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );
+    ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
   }
