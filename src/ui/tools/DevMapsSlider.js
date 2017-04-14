@@ -11,15 +11,18 @@ export class DevMapsSlider  {
 
   // constructor() - prefer do not use in mithril components
 
-  onchange(e) {
-    let n = e.target.value;
-    this.state.tools.devNumberOfMaps = n;
-    e.redraw = false;
-    PubSub.publish(devNumberofMaps, { evt: e, number: n });
+  /**
+   * mithril lifecycle method
+   */
+  oninit(vnode) {
+    this.appState = vnode.attrs.appState;
   }
 
+  /**
+   * mithril component render method
+   */
   view(vnode) {
-    let numMaps = Object.keys(this.state.bioMaps).length;
+    let numMaps = Object.keys(this.appState.bioMaps).length;
     return m('fieldset',
       vnode.attrs,
       vnode.children && vnode.children.length ?
@@ -39,5 +42,15 @@ export class DevMapsSlider  {
           ])
       ]
     );
+  }
+
+  /**
+   * mithril event handler
+   */
+  onchange(e) {
+    let n = e.target.value;
+    this.appState.tools.devNumberOfMaps = n;
+    e.redraw = false;
+    PubSub.publish(devNumberofMaps, { evt: e, number: n });
   }
 }

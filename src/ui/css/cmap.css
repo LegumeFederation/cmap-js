@@ -24,13 +24,13 @@ html, body, #cmap-ui {
 }
 
 .cmap-layout-viewport {
-  overflow: hidden; /* overflow content is clipped, no scrollbars */
+  overflow: auto; /* overflow the content using scrollbars */
   flex: auto; /* expand to fill the vertical space allowed by flexbox */
   position: relative;
 }
 
-.cmap-layout-content {
-  position: absolute;
+.cmap-layout-container {
+  flex: auto;
 }
 
 .cmap-canvas {

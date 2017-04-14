@@ -14,13 +14,16 @@ export class LayoutPicker  {
 
   // constructor() - prefer do not use in mithril components
 
-  onchange(e) {
-    let l = e.target.value;
-    this.state.layout = l;
-    e.redraw = false;
-    PubSub.publish(layout, { evt: e, layout: l });
+  /**
+   * mithril lifecycle method
+   */
+  oninit(vnode) {
+    this.appState = vnode.attrs.appState;
   }
 
+  /**
+   * mithril component render method
+   */
   view(vnode) {
     return m('fieldset',
       vnode.attrs,
@@ -34,7 +37,7 @@ export class LayoutPicker  {
             name: 'layout',
             value: HorizontalLayout,
             id: 'horizontal-radio',
-            checked: this.state.tools.layout === HorizontalLayout,
+            checked: this.appState.tools.layout === HorizontalLayout,
             onchange: e => this.onchange(e)
           }),
           'horizontal'
@@ -45,12 +48,22 @@ export class LayoutPicker  {
             name: 'layout',
             value: CircosLayout,
             id: 'circos-radio',
-            checked: this.state.tools.layout === CircosLayout,
+            checked: this.appState.tools.layout === CircosLayout,
             onchange: e => this.onchange(e)
           }),
           'circos'
         ])
       ]
     );
+  }
+
+  /**
+   * mithril event handler
+   */
+  onchange(e) {
+    let l = e.target.value;
+    this.appState.layout = l;
+    e.redraw = false;
+    PubSub.publish(layout, { evt: e, layout: l });
   }
 }

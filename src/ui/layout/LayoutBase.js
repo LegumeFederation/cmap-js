@@ -10,47 +10,45 @@ import Hammer from 'hammerjs';
 //import {BioMap} from '../../canvas/BioMap';
 //import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
 import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
+import {Bounds} from '../../util/Bounds';
 
 export class LayoutBase {
 
   // constructor() - prefer do not use in mithril components
 
-  /* mithril lifecycle callbacks */
 
   /**
-   * oninit(vnode) - mithril lifecycle callback
+   * mithril lifecycle callback
    */
   oninit(vnode) {
-    super.oninit(vnode);
-    this.state = vnode.attrs.state;
-    console.log(this.state);
+    this.appState = vnode.attrs.appState;
   }
 
   /**
-   * oncreate(vnode) - mithril lifecycle callback
+   * mithril lifecycle method
    */
   oncreate(vnode) {
-    this._setupEventHandlers(vnode.dom);
-    // use our dom element's width and height as basis for our layout
-    this._layout();
+    // save a reference to this component's dom element
+    this.el = vnode.dom;
+    this.bounds = new Bounds(this.el.getBoundingClientRect());
+    this._setupEventHandlers();
   }
 
   /**
-   * onupdate(vnode) - mithril lifecycle callback
+   * mithril lifecycle method
    */
   onupdate(vnode) {
-    // use our dom element's width and height as basis for our layout
-    this._layout(vnode.dom);
+    this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
   }
 
   /**
-   * onbeforeremove(vnode) - mithril lifecycle callback
+   * mithril lifecycle method
    */
   onbeforeremove() {
     this._tearDownEventHandlers();
   }
 
-  _setupEventHandlers(el) {
+  _setupEventHandlers() {
     // pub/sub
     this.subscriptions = [
       PubSub.subscribe(newMap, (msg, data) => this._onNewMap(msg, data)),
@@ -58,7 +56,7 @@ export class LayoutBase {
       PubSub.subscribe(nmaps, (msg, data) => this._onDevNumberOfMaps(msg, data))
     ];
     // gestures (hammerjs)
-    let h = Hammer(el);
+    let h = Hammer(this.el);
     h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
     h.get('pinch').set({ enable: true });
     let evts = {

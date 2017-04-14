@@ -11,15 +11,16 @@ export class Reset  {
 
   // constructor() - prefer do not use in mithril components
 
-  click() {
-    // FIXME: implement appState reset
-    // this.state.reset();
+  /**
+   * mithril lifecycle method
+   */
+  oninit(vnode) {
+    this.state = vnode.attrs.state;
   }
 
   view(vnode) {
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({
-      class: 'pure-button',
       onclick: (e) => this.click(e)
     }, srcAttrs);
     return m('button',
@@ -31,5 +32,13 @@ export class Reset  {
         //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
       ]
     );
+  }
+
+  /**
+   * button's event handler
+   */
+  click() {
+    // FIXME: implement appState reset
+    this.state.reset();
   }
 }

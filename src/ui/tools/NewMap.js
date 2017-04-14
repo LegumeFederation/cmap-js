@@ -14,15 +14,19 @@ export class NewMap  {
 
   // constructor() - prefer do not use in mithril components
 
-  click(e) {
-    e.redraw = false;
-    PubSub.publish(newMap, { evt: e });
+  /**
+   * mithril lifecycle method
+   */
+  oninit(vnode) {
+    this.state = vnode.attrs.state;
   }
-
+  
+  /**
+   * mithril component render method
+   */
   view(vnode) {
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({
-      class: 'pure-button',
       onclick: (e) => this.click(e)
     }, srcAttrs);
     return m('button',
@@ -36,4 +40,13 @@ export class NewMap  {
       ]
     );
   }
+
+  /**
+   * button's event handler
+   */
+  click(e) {
+    e.redraw = false;
+    PubSub.publish(newMap, { evt: e });
+  }
+
 }

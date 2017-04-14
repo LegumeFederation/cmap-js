@@ -1,7 +1,7 @@
 /**
   * LayoutContainer
   * A mithril component to wrap the current layout component inside of a
-  * clipping region, using: overflow: hidden in css.
+  * scrollable div.
   */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
@@ -16,51 +16,54 @@ import {Bounds} from '../../util/Bounds';
 export class LayoutContainer {
 
   // constructor() - prefer do not use in mithril components
+  constructor() {
+    console.log('LayoutContainer()');
+  }
 
-  /* mitrhril component lifecycle functions */
-
+  /**
+   * mithril lifecycle method
+   */
   oninit(vnode) {
-    this.state = vnode.attrs.state;
+    console.log('LayoutContainer.oninit');
+    this.appState = vnode.attrs.appState;
+
     PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data));
     PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data));
   }
 
+  /**
+   * mithril lifecycle method
+   */
   oncreate(vnode) {
-    let el = vnode.dom; // this is the outer m('div') from view()
-    this._setupEventHandlers(el);
-
-    // use our dom element's width and height as basis for our layout
-    let domRect = el.getBoundingClientRect();
-    console.assert(domRect.width > 0, 'missing dom element width');
-    console.assert(domRect.height > 0, 'missing dom element height');
-    this._updateBounds(domRect);
+    this.el = vnode.dom; // this is the outer m('div') from view()
+    this._setupEventHandlers(this.el);
+    this.bounds = new Bounds(this.el.getBoundingClientRect());
+    console.log('LayoutContainer.oncreate', this.bounds.width, this.bounds.height, this.el);
   }
 
+  /**
+   * mithril lifecycle method
+   */
   onupdate(vnode) {
-    let domRect = vnode.dom.getBoundingClientRect();
-    console.assert(domRect.width > 0, 'missing width');
-    console.assert(domRect.height > 0, 'missing height');
-    this._updateBounds(domRect);
+    this.bounds = new Bounds(this.el.getBoundingClientRect());
+    console.log('LayoutContainer.onupdate', this.bounds.width, this.bounds.height, this.el);
   }
 
-  /* mithril component render callback */
+  /**
+   * mithril component render method
+   */
   view() {
     let b = this.contentPaneBounds || {}; // relative bounds of the layout-content
-    let scale = this.state.tools.zoomFactor;
+    let scale = this.appState.tools.zoomFactor;
     return m('div', { class: 'cmap-layout-viewport cmap-hbox'}, [
       m('div', {
-        class: 'cmap-layout-content',
-        style: `top: ${b.top}px;
-                left: ${b.left}px;
-                width: ${b.width}px;
-                height: ${b.height}px;
-                transform: scale(${scale}, ${scale})`
+        class: 'cmap-layout-container'
       }, [
-        this.state.tools.layout === HorizontalLayout
+        this.appState.tools.layout === HorizontalLayout
         ?
-        m(HorizontalLayout, {state: this.state})
+        m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds })
         :
-        m(CircosLayout, {state: this.state})
+        m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
       ])
     ]);
   }
@@ -77,6 +80,7 @@ export class LayoutContainer {
   }
 
   /* dom event handlers */
+
   _onZoom(evt) {
     console.log('onZoom', evt);
     // FIXME: get distance of touch event
@@ -108,46 +112,4 @@ export class LayoutContainer {
     this.lastPanEvent = evt;
   }
 
-  _onPinch() { // evt
-    // TODO: handle type of event (e.g. pinch move, vs pinch in/out)
-    // this.contentPaneBounds.left += evt.deltaX;
-    // this.contentPaneBounds.top += evt.deltaY;
-    // m.redraw();
-  }
-
-  /* pub/sub callbacks */
-
-  _onReset() {
-    this.contentPaneBounds = new Bounds({
-      top: 0,
-      left: 0,
-      width: this.bounds.width,
-      height: this.bounds.height
-    });
-    m.redraw();
-  }
-
-  _onLayoutChange() {
-    m.redraw();
-  }
-
-  // here we capture the bounds of the outer dom element from view().
-  // this is leveraging the html/css layouting to fill available space.
-  _updateBounds(domRect) {
-    let newBounds = new Bounds(domRect);
-    let dirty = ! Bounds.equals(this.bounds, newBounds);
-    this.bounds = newBounds;
-    // create an initial bounds for the scrollable/zoomable content-pane
-    if(! this.contentPaneBounds) {
-      this.contentPaneBounds = {
-        top: 0,
-        left: 0,
-        width: this.bounds.width,
-        height: this.bounds.height
-      };
-    }
-    // trigger a redraw so the child components see the new bounds of their
-    // container in the dom.
-    if(dirty) setTimeout(m.redraw);
-  }
 }

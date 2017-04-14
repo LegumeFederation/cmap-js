@@ -13,7 +13,31 @@ import {DrawLazilyMixin} from './DrawLazilyMixin';
 
 export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
 
-  // constructor() - prefer do not use in mithril components
+  constructor({bioMapModel, layoutBounds}) {
+    super({});
+
+    console.log('BioMap()');
+    // TODO: initialization and layout of canvas scengraphnode components
+    // then the width will be known
+
+    // this.domBounds is where the canvas element is absolutely positioned by
+    // mithril view()
+    this.domBounds = new Bounds({
+      left: layoutBounds.left,
+      top: layoutBounds.top,
+      width: Math.floor(layoutBounds.height * 0.975), // FIXME actual layout
+      height: layoutBounds.height
+    });
+
+    // this.bounds is the same width and height, but no left, top because we
+    // are the root node in this sceneGraphNode heirarchy
+    this.bounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.domBounds.width,
+      height: this.domBounds.height
+    });
+  }
 
   // override the children prop. getter
   get children() {
@@ -24,75 +48,29 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
   }
   set children(ignore) {}
 
-  /* define accessors for both bounds and domBounds; because this class is both
-  /* a mithril component (has a view method()) and a scenegraph node (the root
-  /* node for this canvas, we need to maintain both a domBounds and a bounds
-  /* property. */
-  get bounds() {
-    if(! this.domBounds) return new Bounds({top:0, left: 0, width:0, height:0});
-    return new Bounds({
-      top: 0, left: 0,
-      width: this.domBounds.width, height: this.domBounds.height
-    });
-  }
-  set bounds(ignore) {} // we are the root of canvas scenegraph
-
-  get domBounds() {
-    return this._domBounds;
-  }
-
-  set domBounds(newBounds) {
-    let dirty = ! Bounds.areaEquals(this._domBounds, newBounds);
-    this._domBounds = newBounds;
-    // only perform layouting when the domBounds has changed in area.
-    if(dirty) {
-      this._layout();
-    }
-  }
-
   /* mithril lifecycle callbacks */
-  oninit() {
-    console.log('BioMap.oninit()');
-    // create a backbone node
-    this.backbone = new MapBackbone({
-      parent: this
-    });
-    // create featuremarker nodes
-    this.featureMarkers = [];
-    for (var i = 0; i < 100; i++) {
-      let x = Math.floor(Math.random() * 1000);
-      let featureName = '';
-      for (var j = 0; j < 2; j++) {
-        featureName += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-      }
-      let feature = new FeatureMark({
-        parent: this,
-        coordinates: {
-          start: x,
-          end: x, // FIXME: support ranges
-        },
-        rangeOfCoordinates: { start: 0, end: 1000},
-        featureName: featureName,
-        aliases: []
-      });
-      this.featureMarkers.push(feature);
-    }
-    // TODO: create feature labels
-    this.featureLabels = [];
+  oninit(vnode) {
+    console.log('BioMap.oninit', this.domBounds.width, this.domBounds.height);
+    this.model = vnode.attrs.model;
+    this.appState = vnode.attrs.appState;
   }
 
   oncreate(vnode) {
-    console.log('BioMap.oncreate()');
+    this.el = vnode.dom;
+
+    let b = new Bounds(this.el.getBoundingClientRect());
+    console.log('BioMap.oncreate', b.width, b.height, this.el);
     // note: here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    this.drawLazily(this.bounds);
+    this.drawLazily(this.domBounds);
   }
 
-  onupdate() {
-    this.drawLazily(this.bounds);
+  onupdate(vnode) {
+    let b = new Bounds(this.el.getBoundingClientRect());
+    console.log('BioMap.onupdate', b.width, b.height, this.el);
   }
 
   onremove() {
@@ -105,7 +83,7 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
       this.lastDrawnMithrilBounds = this.domBounds;
     }
     let b = this.domBounds || {};
-    console.log('BioMap mithril render', b.width, b.height);
+    //console.log('BioMap mithril render', b.width, b.height);
     return m('canvas', {
       class: 'cmap-canvas cmap-biomap',
       style: `left: ${b.left}px; top: ${b.top}px;
@@ -161,7 +139,7 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.children.map(child => child.draw(ctx));
+    this.children.map(child => child && child.draw(ctx));
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
