@@ -10,27 +10,27 @@ import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
+import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
 
-export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
+export class BioMap
+       extends mix(SceneGraphNodeBase)
+       .with(DrawLazilyMixin, RegisterComponentMixin) {
 
   constructor({bioMapModel, layoutBounds}) {
     super({});
 
-    console.log('BioMap()');
-    // TODO: initialization and layout of canvas scengraphnode components
-    // then the width will be known
-
-    // this.domBounds is where the canvas element is absolutely positioned by
-    // mithril view()
+    // note: this.domBounds is where the canvas element is absolutely positioned
+    // by mithril view()
     this.domBounds = new Bounds({
       left: layoutBounds.left,
       top: layoutBounds.top,
-      width: Math.floor(layoutBounds.height * 0.975), // FIXME actual layout
+      width: Math.floor(100 + Math.random() * 500), // FIXME perform actual layout
       height: layoutBounds.height
     });
 
-    // this.bounds is the same width and height, but no left, top because we
-    // are the root node in this sceneGraphNode heirarchy
+    // this.bounds (scenegraph) has the same width and height, but zero the
+    // left/top because we are the root node in a canvas sceneGraphNode
+    // heirarchy
     this.bounds = new Bounds({
       left: 0,
       top: 0,
@@ -48,18 +48,23 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
   }
   set children(ignore) {}
 
-  /* mithril lifecycle callbacks */
+  /**
+   * mithril lifecycle method
+   */
   oninit(vnode) {
-    console.log('BioMap.oninit', this.domBounds.width, this.domBounds.height);
+    //console.log('BioMap.oninit', this.domBounds.width, this.domBounds.height);
     this.model = vnode.attrs.model;
     this.appState = vnode.attrs.appState;
   }
 
+  /**
+   * mithril lifecycle method
+   */
   oncreate(vnode) {
+    super.oncreate(vnode);
     this.el = vnode.dom;
-
     let b = new Bounds(this.el.getBoundingClientRect());
-    console.log('BioMap.oncreate', b.width, b.height, this.el);
+    //console.log('BioMap.oncreate', b.width, b.height, this.el);
     // note: here we are not capturing bounds from the dom, rather, using the
     // bounds set by the layout manager class (HorizontalLayout or
     // CircosLayout).
@@ -68,15 +73,17 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
     this.drawLazily(this.domBounds);
   }
 
+  /**
+   * mithril lifecycle method
+   */
   onupdate(vnode) {
     let b = new Bounds(this.el.getBoundingClientRect());
     console.log('BioMap.onupdate', b.width, b.height, this.el);
   }
 
-  onremove() {
-  }
-
-  /* mithril component render callback */
+  /**
+   * mithril component render method
+   */
   view() {
     // store these bounds, for checking in drawLazily()
     if(this.domBounds && ! this.domBounds.isEmptyArea) {
@@ -95,6 +102,10 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
   }
 
   /* dom event handlers */
+  handleGesture(evt) {
+    console.log('BioMap.handleGesture', evt);
+    return true; // top propagation
+  }
 
   _onTap(evt) {
     console.log('onTap', evt, evt.target === this.canvas);
@@ -130,7 +141,7 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
   }
 
   /**
-   * draw canvas scenegraph nodes
+   * draw our scenegraph children our canvas element
    */
   draw() {
     let ctx = this.context2d;

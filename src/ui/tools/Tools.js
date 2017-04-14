@@ -4,12 +4,7 @@
   */
 import m from 'mithril';
 
-//import {Move} from './Move';
 import {Reset} from './Reset';
-//import {NewMap} from './NewMap';
-import {DevMapsSlider} from './DevMapsSlider';
-import {LayoutPicker} from './LayoutPicker';
-
 
 export class Tools  {
 
@@ -32,8 +27,6 @@ export class Tools  {
       attrs,
       vnode.children && vnode.children.length ?
         vnode.children : [
-          m(DevMapsSlider, { appState: this.appState }),
-          m(LayoutPicker, { appState: this.appState }),
           m(Reset, { appState: this.appState })
         ]
     );

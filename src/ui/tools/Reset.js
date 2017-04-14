@@ -6,7 +6,6 @@ import m from 'mithril';
 
 // import icon from '../svg-icons/move.svg'; // TODO button icon
 
-
 export class Reset  {
 
   // constructor() - prefer do not use in mithril components
@@ -15,7 +14,7 @@ export class Reset  {
    * mithril lifecycle method
    */
   oninit(vnode) {
-    this.state = vnode.attrs.state;
+    this.appState = vnode.attrs.appState;
   }
 
   view(vnode) {
@@ -39,6 +38,6 @@ export class Reset  {
    */
   click() {
     // FIXME: implement appState reset
-    this.state.reset();
+    this.appState.reset();
   }
 }

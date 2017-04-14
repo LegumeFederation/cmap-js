@@ -5,7 +5,6 @@
  */
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {BioMapModel} from './BioMapModel';
-import {CorrespondenceMapModel} from './CorrespondenceMapModel';
 
 export class AppModel {
 
@@ -18,25 +17,16 @@ export class AppModel {
       devNumberOfMaps: 3
     };
 
-    // TODO: a Set of DataSourceModel
+    // TODO: a Set of DataSourceModels
     this.dataSources = {
     };
 
-    // TODO:  biomaps and correspondence maps would be created after loading some
-    // data source(s)
-    // a Set of BioMapModel
     this.bioMaps = [
       new BioMapModel(),
       new BioMapModel(),
       new BioMapModel()
     ];
 
-    // TODO: a Set of CorrespondenceMap model
-    this.correspondenceMaps = [
-      new CorrespondenceMapModel(),
-      new CorrespondenceMapModel(),
-      new CorrespondenceMapModel()
-    ];
   }
 
   get allMaps() {

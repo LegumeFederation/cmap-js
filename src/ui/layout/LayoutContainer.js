@@ -6,25 +6,23 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
+import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
 import {layout as layoutMsg, reset} from '../../topics';
 import {Bounds} from '../../util/Bounds';
+import {RegisterComponentMixin} from './RegisterComponentMixin';
 
 
-export class LayoutContainer {
+export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
   // constructor() - prefer do not use in mithril components
-  constructor() {
-    console.log('LayoutContainer()');
-  }
 
   /**
    * mithril lifecycle method
    */
   oninit(vnode) {
-    console.log('LayoutContainer.oninit');
     this.appState = vnode.attrs.appState;
 
     PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data));
@@ -35,10 +33,11 @@ export class LayoutContainer {
    * mithril lifecycle method
    */
   oncreate(vnode) {
+    super.oncreate(vnode);
     this.el = vnode.dom; // this is the outer m('div') from view()
     this._setupEventHandlers(this.el);
     this.bounds = new Bounds(this.el.getBoundingClientRect());
-    console.log('LayoutContainer.oncreate', this.bounds.width, this.bounds.height, this.el);
+    this.contentBounds = new Bounds(this.bounds);
   }
 
   /**
@@ -46,46 +45,80 @@ export class LayoutContainer {
    */
   onupdate(vnode) {
     this.bounds = new Bounds(this.el.getBoundingClientRect());
-    console.log('LayoutContainer.onupdate', this.bounds.width, this.bounds.height, this.el);
+  }
+
+  /**
+   * mithril lifecycle method
+   */
+  onbeforeremove(vnode) {
+    super.onbeforeremove(vnode);
+    this._tearDownEventHandlers();
   }
 
   /**
    * mithril component render method
    */
   view() {
-    let b = this.contentPaneBounds || {}; // relative bounds of the layout-content
+    let b = this.contentBounds || {}; // relative bounds of the layout-container
     let scale = this.appState.tools.zoomFactor;
-    return m('div', { class: 'cmap-layout-viewport cmap-hbox'}, [
-      m('div', {
-        class: 'cmap-layout-container'
-      }, [
-        this.appState.tools.layout === HorizontalLayout
-        ?
-        m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds })
-        :
-        m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
-      ])
+    return m('div', {
+      class: 'cmap-layout-container',
+      style: `left: ${b.left}px; top: ${b.top}px;
+              width: ${b.width}px; height: ${b.height}px;`
+    }, [
+      this.appState.tools.layout === HorizontalLayout
+      ?
+      m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds })
+      :
+      m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
     ]);
   }
 
   /* private functions  */
 
-  _setupEventHandlers(el) {
-    // hammers for normalized mouse and touch gestures: zoom, pan, click
-    let h = Hammer(el);
+  _setupEventHandlers() {
+    // gestures (hammerjs)
+    let h = Hammer(this.el);
     h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
     h.get('pinch').set({ enable: true });
-    h.on('panmove panend', (evt) => this._onPan(evt));
-    h.on('pinchmove pinchend', (evt) => this._onZoom(evt));
+    let evts = {
+      eventIds: 'panmove panend pinchmove pinchend tap',
+      handler: (evt) => this._dispatchGestureEvt(evt),
+      teardown: () => h.off(evts.eventIds, evts.handler)
+    };
+    h.on(evts.eventIds, evts.handler); // enable hammerjs for these events
+    this._gestureEventDefs = evts; // save for component teardown
   }
 
-  /* dom event handlers */
+  _tearDownEventHandlers() {
+    // gestures (hammerjs)
+    this._gestureEventDefs.teardown();
+  }
+
+  /**
+   * Custom dispatch of ui events. Layout elements like BioMap and
+   * CorrespondenceMap are visually overlapping, and so do not fit cleanly into
+   * the js event capture or bubbling phases. Query the dom at the events
+   * coordinates, and dispatch the event to child who
+   * a) intersects with this point
+   * b) wants to handle this event (it can decide whether to based on it's
+   * canvas scenegraph contents)
+   */
+  _dispatchGestureEvt(evt) {
+    let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
+    let filtered = hitElements.filter( el => {
+      return el.mithrilComponent && el.mithrilComponent.handleGesture
+    });
+    // dispatch event to all the mithril components, until one returns true;
+    // effectively the same as 'stopPropagation' on a normal event bubbling.
+    filtered.some( el => el.mithrilComponent.handleGesture(evt) );
+  }
 
   _onZoom(evt) {
     console.log('onZoom', evt);
     // FIXME: get distance of touch event
     let normalized = evt.deltaY / this.bounds.height;
-    this.state.tools.zoomFactor += normalized;
+    this.appState.tools.zoomFactor += normalized;
     m.redraw();
   }
 
@@ -106,8 +139,8 @@ export class LayoutContainer {
       delta.x = evt.deltaX;
       delta.y = evt.deltaY;
     }
-    this.contentPaneBounds.left += delta.x;
-    this.contentPaneBounds.top += delta.y;
+    this.contentBounds.left += delta.x;
+    this.contentBounds.top += delta.y;
     m.redraw();
     this.lastPanEvent = evt;
   }

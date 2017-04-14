@@ -9,80 +9,50 @@ import {mix} from '../../mixwith.js/src/mixwith';
 import {Bounds} from '../util/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
-
+import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
 
 export class CorrespondenceMap
-       extends mix(SceneGraphNodeBase).with(DrawLazilyMixin)  {
+       extends mix(SceneGraphNodeBase)
+       .with(DrawLazilyMixin, RegisterComponentMixin) {
 
-  // constructor() - prefer do not use in mithril components
+  constructor({bioMapComponents, layoutBounds}) {
+    super({});
 
-  /* define accessors for both bounds and domBounds; because this class is both
-  /* a mithril component (has a view method()) and a scenegraph node (the root
-  /* node for this canvas, we need to maintain both a domBounds and a bounds
-  /* property. */
-  get bounds() {
-    return new Bounds({
-      top: 0, left: 0,
-      width: this.domBounds.width, height: this.domBounds.height
+    this.bioMapComponents = bioMapComponents;
+
+    // note: this.domBounds is where the canvas element is absolutely positioned
+    // by mithril view()
+    this.domBounds = layoutBounds;
+
+    // this.bounds (scenegraph) has the same width and height, but zero the
+    // left/top because we are the root node in a canvas sceneGraphNode
+    // heirarchy.
+    this.bounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.domBounds.width,
+      height: this.domBounds.height
     });
   }
-  set bounds(ignore) {} // we are the root of canvas scenegraph
 
-  get domBounds() {
-    return this._domBounds;
-  }
-
-  set domBounds(newBounds) {
-    this.dirty = ! this._domBounds || ! this._domBounds.areaEquals(newBounds);
-    this._domBounds = newBounds;
-    // only perform layouting when the domBounds has changed in area.
-    if(this.dirty) {
-      this._layout();
-    }
-  }
-
-  set bioMaps(maps) {
-    this._bioMaps = maps;
-  }
-  get bioMaps() { return this._bioMaps; }
-
-  // override the children prop. getter
-  get children() {
-    return this.correspondenceMarks;
-  }
-  set children(ignore) {} // we create own children in _layout
-
-
-  /* mithril lifecycle callbacks */
-
+  /**
+   * mithril lifecycle method
+   */
   oncreate(vnode) {
-    // note here we are not capturing bounds from the dom, rather, using the
-    // bounds set by the layout manager class (HorizontalLayout or
-    // CircosLayout).
+    super.oncreate(vnode);
+    this.el = vnode.dom;
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
+    this.drawLazily(this.domBounds);
   }
 
-  onupdate() {
-    this.drawLazily(this.bounds);
-  }
-
-  /* dom event handlers */
-
-
-  _onTap(evt) {
-    console.log('onTap', evt, evt.target === this.canvas);
-  }
-
-  /* mithril component render callback */
+  /**
+   * mithril component render callback
+   */
   view() {
-    // note here we are not capturing bounds from the dom, rather, using the
-    // bounds set by the layout manager class (HorizontalLayout or
-    // CircosLayout).
     if(this.domBounds && ! this.domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = this.domBounds;
     }
-
     let b = this.domBounds || {};
     return m('canvas', {
       class: 'cmap-canvas cmap-correspondence-map',
@@ -93,13 +63,9 @@ export class CorrespondenceMap
     });
   }
 
-  _layout() {
-//    console.log('CorrespondenceMap canvas layout');
-    this.correspondenceMarks = [];
-    // TODO: for each bioMap, create a CorrespondenceMark for each common feature
-  }
-
-  // draw canvas scenegraph nodes
+  /**
+   * draw our scenegraph children our canvas element
+   */
   draw() {
     let ctx = this.context2d;
     if(! ctx) return;
@@ -111,7 +77,7 @@ export class CorrespondenceMap
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     //this.children.map(child => child.draw(ctx));
     ctx.fillStyle = 'cyan';
-    ctx.globalAlpha = 0.5;
+    ctx.globalAlpha = 0.2;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),

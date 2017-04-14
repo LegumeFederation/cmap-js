@@ -13,6 +13,6 @@ export class CMAP {
     this.appState = new AppModel({});
     this.UI = new UI(this.appState);
     m.mount(this.rootElement, this.UI);
-    setInterval( () => m.redraw(), 1000);
+    //setInterval( () => m.redraw(), 1000);
   }
 }
