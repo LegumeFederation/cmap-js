@@ -55,7 +55,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    */
   onbeforeremove(vnode) {
     super.onbeforeremove(vnode);
-    this._tearDownEventHandlers();
+    this._gestureEventsTeardown();
   }
 
   /**
@@ -81,28 +81,39 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   /* private functions  */
 
   _setupEventHandlers() {
-    // gestures (hammerjs)
-    let h = Hammer(this.el);
-    h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    h.get('pinch').set({ enable: true });
-    let evts = {
-      eventIds: 'panmove panend pinchmove pinchend tap',
-      handler: (evt) => this._dispatchGestureEvt(evt),
-      teardown: () => h.off(evts.eventIds, evts.handler)
+    //
+    // mouse wheel (hamsterjs)
+    //
+    let hamsterHandler = (evt) => {
+      // note: the hamster callback has additioanl parameters which are being
+      // ignored here (evt, delta, deltaX, deltaY)
+      // normalize the event so it is similar to the hammerjs gestures
+      evt.center = { x: evt.originalEvent.x, y: evt.originalEvent.y };
+      this._dispatchGestureEvt(evt);
     };
-    h.on(evts.eventIds, evts.handler); // enable hammerjs for these events
-    this._gestureEventDefs = evts; // save for component teardown
+    let hamster = Hamster(this.el);
+    hamster.wheel(hamsterHandler);
+    //
+    // gestures (hammerjs)
+    //
+    let hammer = Hammer(this.el);
+    hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    hammer.get('pinch').set({ enable: true });
+    let hammerHandler = (evt) => this._dispatchGestureEvt(evt);
+    let hammerEvents = 'panmove panend pinchmove pinchend tap';
+    hammer.on(hammerEvents, hammerHandler);
+    // create a callback for teardown of all these event handlers
+    this._gestureHandlerTeardown = () => {
+      hamster.unwheel(hamsterHandler);
+      hammer.off(hammerEvents, hammerHandler);
+    };
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
       pan:   new RegExp('^pan'),
       pinch: new RegExp('^pinch'),
-      tap:   new RegExp('^tap')
+      tap:   new RegExp('^tap'),
+      wheel: new RegExp('^wheel')
     };
-  }
-
-  _tearDownEventHandlers() {
-    // gestures (hammerjs)
-    this._gestureEventDefs.teardown();
   }
 
   /**
@@ -130,22 +141,24 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    */
   handleGesture(evt) {
     if(evt.type.match(this._gestureRegex.pan)) {
-      this._onPan(evt);
-      return true;
+      return this._onPan(evt);
     }
     else if (evt.type.match(this._gestureRegex.pinch)) {
-      this._onZoom(evt);
-      return true;
+      return this._onZoom(evt);
+    }
+    else if (evt.type.match(this._gestureRegex.wheel)) {
+      return this._onZoom(evt);
     }
     return false; // do not stop event propagation
   }
 
   _onZoom(evt) {
-    console.log('onZoom', evt);
-    // FIXME: get distance of touch event
+    console.log('LayoutContainer -> onZoom', evt);
+    // FIXME: utilize the distance of touch event
     let normalized = evt.deltaY / this.bounds.height;
     this.appState.tools.zoomFactor += normalized;
     m.redraw();
+    return true; // stop evt propagation
   }
 
   _onPan(evt) {
@@ -169,6 +182,6 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     this.contentBounds.top += delta.y;
     m.redraw();
     this.lastPanEvent = evt;
+    return true; // stop event propagation
   }
-
 }
