@@ -4,6 +4,7 @@
   */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
+import Hammer from 'hammerjs';
 import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../util/Bounds';
@@ -49,6 +50,8 @@ export class BioMap
       tap:   new RegExp('^tap'),
       wheel: new RegExp('^wheel')
     };
+
+    this.verticalScale = 1;
   }
 
   // override the children prop. getter
@@ -110,6 +113,15 @@ export class BioMap
     if(evt.type.match(this._gestureRegex.tap)) {
       return this._onTap(evt);
     }
+    else if (evt.type.match(this._gestureRegex.pinch)) {
+      return this._onZoom(evt);
+    }
+    else if(evt.type.match(this._gestureRegex.wheel)) {
+      return this._onZoom(evt);
+    }
+    else if(evt.type.match(this._gestureRegex.pan)) {
+      return this._onPan(evt);
+    }
     return false; // dont stop evt propagation
   }
 
@@ -131,32 +143,21 @@ export class BioMap
   }
 
   _onZoom(evt) {
-    console.log('onZoom', evt);
-    // // FIXME: get distance of touch event, apply to
-    // let normalized = evt.deltaY / this.bounds.height;
-    // this.state.tools.zoomFactor += normalized;
-    // m.redraw();
+    // TODO: send zoom event to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onZoom -- implement me', evt);
+    this.verticalScale += evt.deltaY;
+    return true; // stop event propagation
   }
 
   _onPan(evt) {
-    console.log('BioMap -> onPan', evt);
-    // hammer provides the delta x,y in a distance since the start of the gesture
-    // // so need to convert it to delta x,y for this event.
-    // if(evt.type === 'panend') {
-    //   this.lastPanEvent = null;
-    //   return;
-    // }
-    // let delta = {};
-    // if(this.lastPanEvent) {
-    //   delta.x = -1 * (this.lastPanEvent.deltaX - evt.deltaX);
-    //   delta.y = -1 * (this.lastPanEvent.deltaY - evt.deltaY);
-    // }
-    // else {
-    //   delta.x = evt.deltaX;
-    //   delta.y = evt.deltaY;
-    // }
-    // m.redraw();
-    this.lastPanEvent = evt;
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    if(evt.direction & Hammer.DIRECTION_VERTICAL) {
+      console.warn('BioMap -> onPan -- vertically; implement me', evt);
+      return true; // stop event propagation
+    }
+    return false; // do not stop propagation
   }
 
   /**
