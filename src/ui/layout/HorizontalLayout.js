@@ -21,6 +21,7 @@ export class HorizontalLayout
     super.oninit(vnode);
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
+    console.log(this.appState);
   }
 
   oncreate(vnode) {
@@ -58,7 +59,11 @@ export class HorizontalLayout
         width: 0, // will be calculated by bioMap
         height: childHeight
       });
-      let component = new BioMapComponent({model, layoutBounds});
+      let component = new BioMapComponent({
+        model,
+        layoutBounds,
+        appState: this.appState,
+      });
       model.component = component; // safe a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
       return component;

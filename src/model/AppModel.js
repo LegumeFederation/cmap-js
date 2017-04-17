@@ -27,6 +27,10 @@ export class AppModel {
       new BioMapModel()
     ];
 
+    this.selection = {
+      bioMaps: [
+      ]
+    };
   }
 
   get allMaps() {

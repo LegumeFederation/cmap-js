@@ -15,8 +15,7 @@ const livereload = () => {
 
 const monitorPubSub = () => {
   let logger = (topic, data) => {
-    let msg = JSON.stringify(data);
-    console.log(`[${topic}] ${msg}`);
+    console.log(`[${topic}]`, data);
   };
   Object.keys(topics).forEach( t => {
     //console.log(`subscribing to: ${t}`);

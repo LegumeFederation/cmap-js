@@ -55,5 +55,9 @@ html, body, #cmap-ui {
 }
 
 .cmap-biomap {
-  border: dashed 1px grey;
+  border: dashed 2px grey;
+}
+
+.cmap-biomap.selected {
+  border: dashed 2px magenta;
 }

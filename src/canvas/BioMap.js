@@ -3,6 +3,7 @@
   * Mithril component representing a Biological Map with a html5 canvas element.
   */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
 import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../util/Bounds';
@@ -11,15 +12,17 @@ import {Bounds} from '../util/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
+import {selectedMap} from '../topics';
 
 export class BioMap
        extends mix(SceneGraphNodeBase)
        .with(DrawLazilyMixin, RegisterComponentMixin) {
 
-  constructor({bioMapModel, layoutBounds}) {
+  constructor({bioMapModel, appState, layoutBounds}) {
     super({});
 
     this.model = bioMapModel;
+    this.appState = appState;
 
     // note: this.domBounds is where the canvas element is absolutely positioned
     // by mithril view()
@@ -39,6 +42,13 @@ export class BioMap
       width: this.domBounds.width,
       height: this.domBounds.height
     });
+    // create some regular expressions for faster dispatching of events
+    this._gestureRegex = {
+      pan:   new RegExp('^pan'),
+      pinch: new RegExp('^pinch'),
+      tap:   new RegExp('^tap'),
+      wheel: new RegExp('^wheel')
+    };
   }
 
   // override the children prop. getter
@@ -50,13 +60,8 @@ export class BioMap
   }
   set children(ignore) {}
 
-  /**
-   * mithril lifecycle method
-   */
-  oninit(vnode) {
-    //console.log('BioMap.oninit', this.domBounds.width, this.domBounds.height);
-    this.model = vnode.attrs.model;
-    this.appState = vnode.attrs.appState;
+  get selected() {
+    return this.appState.selection.bioMaps.indexOf(this) !== -1;
   }
 
   /**
@@ -64,7 +69,6 @@ export class BioMap
    */
   oncreate(vnode) {
     super.oncreate(vnode);
-    this.el = vnode.dom;
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
     this.drawLazily(this.domBounds);
@@ -88,9 +92,9 @@ export class BioMap
       this.lastDrawnMithrilBounds = this.domBounds;
     }
     let b = this.domBounds || {};
-    //console.log('BioMap mithril render', b.width, b.height);
+    let selectedClass = this.selected ? 'selected' : '';
     return m('canvas', {
-      class: 'cmap-canvas cmap-biomap',
+      class: `cmap-canvas cmap-biomap ${selectedClass}`,
       style: `left: ${b.left}px; top: ${b.top}px;
               width: ${b.width}px; height: ${b.height}px;
               transform: rotate(${this.rotation}deg);`,
@@ -103,17 +107,32 @@ export class BioMap
    * custom gesture event dispatch listener; see LayoutContainer
    */
   handleGesture(evt) {
-    console.log('BioMap.handleGesture', evt);
+    if(evt.type.match(this._gestureRegex.tap)) {
+      return this._onTap(evt);
+    }
     return false; // dont stop evt propagation
   }
 
   _onTap(evt) {
-    console.log('onTap', evt, evt.target === this.canvas);
+    let sel = this.appState.selection.bioMaps;
+    let i = sel.indexOf(this);
+    if(i === -1) {
+      sel.push(this);
+    }
+    else {
+      sel.splice(i, 1);
+    }
+    m.redraw();
+    PubSub.publish(selectedMap, {
+      evt: evt,
+      data: this.appState.selection.bioMaps
+    });
+    return true;
   }
 
   _onZoom(evt) {
     console.log('onZoom', evt);
-    // // FIXME: get distance of touch event, apply to 
+    // // FIXME: get distance of touch event, apply to
     // let normalized = evt.deltaY / this.bounds.height;
     // this.state.tools.zoomFactor += normalized;
     // m.redraw();

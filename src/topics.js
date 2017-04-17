@@ -7,5 +7,4 @@ export const selectedMap = 'selectedMap'; // the selected map (canvas) changed
 export const windowResize = 'windowResize'; // the window was resized
 export const move = 'move'; // move tool, drag event
 export const reset = 'reset'; // reset button click
-
-export const layout = 'layout';
+export const layout = 'layout'; // layout changed
