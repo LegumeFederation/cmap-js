@@ -1,0 +1,3 @@
+[submodule "mixwith.js"]
+	path = mixwith.js
+	url = https://github.com/justinfagnani/mixwith.js.git

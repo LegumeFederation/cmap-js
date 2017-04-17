@@ -1,0 +1,58 @@
+{
+  "name": "cmap-js",
+  "version": "0.0.1",
+  "description": "Display and compare biological maps (genetic, physical, cytogenetic, genomic, linkage groups, chromosomes, scaffolds).",
+  "main": "build/cmap.min.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "pretest": "npm run build",
+    "test": "mocha",
+    "coverage": "nyc npm test",
+    "reload": "livereload 'build/'",
+    "watch": "npm-run-all --parallel reload dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncgr/cmap-js.git"
+  },
+  "author": "Andrew Wilkey <awilkey@iastate.edu>, Alex G Rice <agr@ncgr.org>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ncgr/cmap-js/issues"
+  },
+  "homepage": "https://github.com/ncgr/cmap-js#readme",
+  "devDependencies": {
+    "babel-eslint": "^7.2.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-register": "^6.24.0",
+    "chai": "^3.5.0",
+    "cssnano": "^3.9.1",
+    "livereload": "^0.6.0",
+    "mithril-query": "^2.1.1",
+    "mocha": "^3.2.0",
+    "npm-run-all": "^3.1.2",
+    "nyc": "^10.2.0",
+    "postcss-cssnext": "^2.9.0",
+    "postcss-nested": "^1.0.0",
+    "postcss-simple-vars": "^3.0.0",
+    "rollup": "^0.39.0",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^7.0.0",
+    "rollup-plugin-eslint": "^3.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-postcss": "^0.2.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-watch": "^3.0.0"
+  },
+  "dependencies": {
+    "hammerjs": "^2.0.8",
+    "hamsterjs": "^1.1.2",
+    "mithril": "^1.1.1",
+    "pubsub-js": "^1.5.5",
+    "rbush": "^2.0.1"
+  }
+}
