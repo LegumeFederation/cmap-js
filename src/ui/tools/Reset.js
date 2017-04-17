@@ -4,20 +4,22 @@
  */
 import m from 'mithril';
 
-import toolState from '../../state/ToolState';
 // import icon from '../svg-icons/move.svg'; // TODO button icon
-
 
 export class Reset  {
 
-  click() {
-    toolState.reset();
+  // constructor() - prefer do not use in mithril components
+
+  /**
+   * mithril lifecycle method
+   */
+  oninit(vnode) {
+    this.appState = vnode.attrs.appState;
   }
 
   view(vnode) {
     let srcAttrs = vnode.attrs || {};
     let attrs = Object.assign({
-      class: 'pure-button',
       onclick: (e) => this.click(e)
     }, srcAttrs);
     return m('button',
@@ -29,5 +31,13 @@ export class Reset  {
         //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
       ]
     );
+  }
+
+  /**
+   * button's event handler
+   */
+  click() {
+    // FIXME: implement appState reset
+    this.appState.reset();
   }
 }

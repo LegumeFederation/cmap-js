@@ -4,8 +4,10 @@
  * Also the entry point for javascript bundler.
  */
 import './ui/css/cmap.css';
-import {CMAP} from './CMAP';
+
+import './polyfill/index';
 import './developmentTooling';
+import {CMAP} from './CMAP';
 
 // FIXME: this way of exposing the cmap object seems kind of clunky. For
 // implementing a js api, maybe using rollup-plugin-multi-entry would be

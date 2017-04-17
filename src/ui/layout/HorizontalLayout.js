@@ -1,77 +1,99 @@
 /**
-  * HorizontalLayout
+  * HorizontalLayout (left to right)
   * A mithril component for horizontal layout of BioMaps.
   */
 import m from 'mithril';
+import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../util/Bounds';
+import {BioMap as BioMapComponent} from '../../canvas/BioMap';
+import {CorrespondenceMap as CorrMapComponent} from '../../canvas/CorrespondenceMap';
+import {RegisterComponentMixin} from './RegisterComponentMixin';
 
-export class HorizontalLayout extends LayoutBase {
+export class HorizontalLayout
+       extends mix(LayoutBase)
+       .with(RegisterComponentMixin) {
 
-  /* mithril render callback */
+  // constructor() - prefer do not use in mithril components
+
+  oninit(vnode) {
+    super.oninit(vnode);
+    this.bioMapComponents = [];
+    this.correspondenceMapComponents = [];
+    console.log(this.appState);
+  }
+
+  oncreate(vnode) {
+    super.oncreate(vnode);
+    // now this.bounds are known, so the child maps can be layouted
+    this._layoutBioMaps();
+    this._layoutCorrespondenceMaps();
+    m.redraw();
+  }
+
+  /**
+   * mithril component render method
+   */
   view() {
     return m('div', {
       class: 'cmap-layout-horizontal'
     },
-    this.children.map(m)
+    [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
     );
   }
 
-  _layout(domElement) {
-    // keep a reference to dom element so _.layout() can be called in response
-    // to other evts.
-    this._domElement = domElement;
-    let domRect = domElement.getBoundingClientRect();
-    if(! domRect.width || ! domRect.height) {
-      // may occur when component is created but dom element has not yet filled
-      // available space; expect onupdate() will fire and call _layout().
-      return;
-    }
-    let newBounds = new Bounds(domRect);
-    let dirty = ! Bounds.equals(this.domBounds, newBounds);
-    this.domBounds = newBounds;
-    this._layoutBioMaps();
-    this._layoutCorrespondenceMaps();
-    //console.log(this.domBounds, dirty);
-    if(dirty) m.redraw();
-  }
-
+  /**
+   * Horizonal (left to right) layout of BioMaps
+   */
   _layoutBioMaps() {
-    let n = this.bioMaps.length;
-    let padding = Math.floor(this.domBounds.width * 0.1 / n);
-    let childWidth = Math.floor(this.domBounds.width / n - padding);
-    let childHeight = Math.floor(this.domBounds.height);
+    if(! this.bounds) return []; // early out if the layout bounds is unknown
+    let n = this.appState.bioMaps.length;
+    let padding = Math.floor(this.bounds.width * 0.1 / n);
+    let childHeight = Math.floor(this.bounds.height * 0.95);
     let cursor = Math.floor(padding * 0.5);
-    this.bioMaps.forEach( child => {
-      child.domBounds = new Bounds({
+    this.bioMapComponents = this.appState.bioMaps.map( model => {
+      let layoutBounds = new Bounds({
         left: cursor,
-        top: 0,
-        width: childWidth,
+        top: 10,
+        width: 0, // will be calculated by bioMap
         height: childHeight
       });
-      cursor += childWidth + padding;
+      let component = new BioMapComponent({
+        model,
+        layoutBounds,
+        appState: this.appState,
+      });
+      model.component = component; // safe a reference for mapping model -> component
+      cursor += component.domBounds.width + padding;
+      return component;
     });
   }
 
+  /**
+   * Horizontal layout of Correspondence Maps. In this layout, for N maps there
+   * are N -1 correspondence maps.
+   */
   _layoutCorrespondenceMaps() {
-    let childWidth = Math.floor(this.domBounds.width / this.bioMaps.length);
-    let childHeight = Math.floor(this.domBounds.height);
-    let cursor = childWidth * 0.5;
-    this.correspondenceMaps.forEach( (child, i) => {
-      child.domBounds = new Bounds({
-        left: cursor,
-        top: 0,
-        width: childWidth,
+    if(! this.bounds) return []; // early out if our canvas bounds is unknown
+    let childHeight = Math.floor(this.bounds.height * 0.95);
+    let n = this.bioMapComponents.length;
+    this.correspondenceMapComponents = [];
+    for (var i = 0; i < n-1; i++) {
+      let left = this.bioMapComponents[i];
+      let right = this.bioMapComponents[i+1];
+      let layoutBounds = new Bounds({
+        left: Math.floor(left.domBounds.right - left.domBounds.width * 0.5),
+        right: Math.floor(right.domBounds.left + right.domBounds.width * 0.5),
+        top: 10,
         height: childHeight
       });
-      child.bioMaps = {
-        left: this.bioMaps[i],
-        right: this.bioMaps[i+1]
-      };
-      //console.log(child.bioMaps);
-      cursor += childWidth;
-    });
+      let component = new CorrMapComponent({
+        bioMapComponents: [ left, right ],
+        layoutBounds: layoutBounds
+      });
+      this.correspondenceMapComponents.push(component);
+    }
   }
 
 }

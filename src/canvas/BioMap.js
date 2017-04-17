@@ -3,45 +3,55 @@
   * Mithril component representing a Biological Map with a html5 canvas element.
   */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+import Hammer from 'hammerjs';
 import {mix} from '../../mixwith.js/src/mixwith';
-import Hamster from 'hamsterjs';
 
 import {Bounds} from '../util/Bounds';
-import {FeatureMark} from './FeatureMark';
-import {MapBackbone} from './MapBackbone';
+//import {FeatureMark} from './FeatureMark';
+//import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
+import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
+import {selectedMap} from '../topics';
 
-export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
+export class BioMap
+       extends mix(SceneGraphNodeBase)
+       .with(DrawLazilyMixin, RegisterComponentMixin) {
 
-  constructor(params) {
-    super(params);
-    // create a backbone node
-    this.backbone = new MapBackbone({
-      parent: this
+  constructor({bioMapModel, appState, layoutBounds}) {
+    super({});
+
+    this.model = bioMapModel;
+    this.appState = appState;
+
+    // note: this.domBounds is where the canvas element is absolutely positioned
+    // by mithril view()
+    this.domBounds = new Bounds({
+      left: layoutBounds.left,
+      top: layoutBounds.top,
+      width: Math.floor(100 + Math.random() * 500), // FIXME perform actual layout
+      height: layoutBounds.height
     });
-    // create featuremarker nodes
-    this.featureMarkers = [];
-    for (var i = 0; i < 100; i++) {
-      let x = Math.floor(Math.random() * 1000);
-      let featureName = '';
-      for (var j = 0; j < 2; j++) {
-        featureName += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-      }
-      let feature = new FeatureMark({
-        parent: this,
-        coordinates: {
-          start: x,
-          end: x, // FIXME: support ranges
-        },
-        rangeOfCoordinates: { start: 0, end: 1000},
-        featureName: featureName,
-        aliases: []
-      });
-      this.featureMarkers.push(feature);
-    }
-    // TODO: create feature labels
-    this.featureLabels = [];
+
+    // this.bounds (scenegraph) has the same width and height, but zero the
+    // left/top because we are the root node in a canvas sceneGraphNode
+    // heirarchy
+    this.bounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.domBounds.width,
+      height: this.domBounds.height
+    });
+    // create some regular expressions for faster dispatching of events
+    this._gestureRegex = {
+      pan:   new RegExp('^pan'),
+      pinch: new RegExp('^pinch'),
+      tap:   new RegExp('^tap'),
+      wheel: new RegExp('^wheel')
+    };
+
+    this.verticalScale = 1;
   }
 
   // override the children prop. getter
@@ -53,76 +63,105 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
   }
   set children(ignore) {}
 
-  /* define accessors for both bounds and domBounds; because this class is both
-  /* a mithril component (has a view method()) and a scenegraph node (the root
-  /* node for this canvas, we need to maintain both a domBounds and a bounds
-  /* property. */
-  get bounds() {
-    if(! this.domBounds) return new Bounds({top:0, left: 0, width:0, height:0});
-    return new Bounds({
-      top: 0, left: 0,
-      width: this.domBounds.width, height: this.domBounds.height
-    });
-  }
-  set bounds(ignore) {} // we are the root of canvas scenegraph
-
-  get domBounds() {
-    return this._domBounds;
+  get selected() {
+    return this.appState.selection.bioMaps.indexOf(this) !== -1;
   }
 
-  set domBounds(newBounds) {
-    let dirty = ! Bounds.areaEquals(this._domBounds, newBounds);
-    this._domBounds = newBounds;
-    // only perform layouting when the domBounds has changed in area.
-    if(dirty) {
-      this._layout();
-    }
-  }
-
-  /* mithril lifecycle callbacks */
-
+  /**
+   * mithril lifecycle method
+   */
   oncreate(vnode) {
-    // note: here we are not capturing bounds from the dom, rather, using the
-    // bounds set by the layout manager class (HorizontalLayout or
-    // CircosLayout).
-    this.canvas = vnode.dom;
+    super.oncreate(vnode);
+    this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    this.wheelHandler = Hamster(this.canvas).wheel(
-      (event, delta, deltaX, deltaY) => {
-        this._onZoom(event, delta, deltaX, deltaY);
-      }
-    );
-    this.drawLazily(this.bounds);
+    this.drawLazily(this.domBounds);
   }
 
-  onupdate() {
-    this.drawLazily(this.bounds);
+  /**
+   * mithril lifecycle method
+   */
+  onupdate(vnode) {
+    console.assert(this.el === vnode.dom);
+    let b = new Bounds(this.el.getBoundingClientRect());
+    console.log('BioMap.onupdate', b.width, b.height, this.el);
   }
 
-  onremove() {
-    this.wheelHandler.unwheel();
-  }
-
-  /* mithril component render callback */
+  /**
+   * mithril component render method
+   */
   view() {
     // store these bounds, for checking in drawLazily()
     if(this.domBounds && ! this.domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = this.domBounds;
     }
     let b = this.domBounds || {};
-    console.log('BioMap mithril render', b.width, b.height);
+    let selectedClass = this.selected ? 'selected' : '';
     return m('canvas', {
-      class: 'cmap-canvas cmap-biomap',
+      class: `cmap-canvas cmap-biomap ${selectedClass}`,
       style: `left: ${b.left}px; top: ${b.top}px;
               width: ${b.width}px; height: ${b.height}px;
-              transform: rotate(${this.rotation}deg)`,
+              transform: rotate(${this.rotation}deg);`,
       width: b.width,
       height: b.height
     });
   }
 
   /**
-   * draw canvas scenegraph nodes
+   * custom gesture event dispatch listener; see LayoutContainer
+   */
+  handleGesture(evt) {
+    if(evt.type.match(this._gestureRegex.tap)) {
+      return this._onTap(evt);
+    }
+    else if (evt.type.match(this._gestureRegex.pinch)) {
+      return this._onZoom(evt);
+    }
+    else if(evt.type.match(this._gestureRegex.wheel)) {
+      return this._onZoom(evt);
+    }
+    else if(evt.type.match(this._gestureRegex.pan)) {
+      return this._onPan(evt);
+    }
+    return false; // dont stop evt propagation
+  }
+
+  _onTap(evt) {
+    let sel = this.appState.selection.bioMaps;
+    let i = sel.indexOf(this);
+    if(i === -1) {
+      sel.push(this);
+    }
+    else {
+      sel.splice(i, 1);
+    }
+    m.redraw();
+    PubSub.publish(selectedMap, {
+      evt: evt,
+      data: this.appState.selection.bioMaps
+    });
+    return true;
+  }
+
+  _onZoom(evt) {
+    // TODO: send zoom event to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onZoom -- implement me', evt);
+    this.verticalScale += evt.deltaY;
+    return true; // stop event propagation
+  }
+
+  _onPan(evt) {
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    if(evt.direction & Hammer.DIRECTION_VERTICAL) {
+      console.warn('BioMap -> onPan -- vertically; implement me', evt);
+      return true; // stop event propagation
+    }
+    return false; // do not stop propagation
+  }
+
+  /**
+   * draw our scenegraph children our canvas element
    */
   draw() {
     let ctx = this.context2d;
@@ -131,21 +170,13 @@ export class BioMap extends mix(SceneGraphNodeBase).with(DrawLazilyMixin) {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.children.map(child => child.draw(ctx));
+    this.children.map(child => child && child.draw(ctx));
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
   }
 
   /* private methods */
-
-  /* dom event handlers */
-  _onZoom(evt, delta) { // ignoring deltaX, deltaY params
-    console.log('mousewheel on canvas ', delta);
-    // TODO: implement vertical scrolling of this biomap specifically
-    evt.preventDefault();
-    evt.stopPropagation();
-  }
 
   _layout() {
     console.log('BioMap canvas layout', this.bounds.width, this.bounds.height);
