@@ -1,7 +1,8 @@
 /**
- * App state - a global app state, which can be referenced, viewed or lensed, by
- * various UI components. UI components should have only state needed for their
- * specific function, and should not cache, synchronize or duplicate data.
+ * App state - a global app state (or model), which can be referenced, viewed or
+ * lensed, by various UI components. UI components should have only state needed
+ * for their specific function, and should not cache, synchronize or duplicate
+ * data.
  */
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {BioMapModel} from './BioMapModel';
@@ -27,9 +28,9 @@ export class AppModel {
       new BioMapModel()
     ];
 
+    // biomaps can be multi-selected by click or tap
     this.selection = {
-      bioMaps: [
-      ]
+      bioMaps: []
     };
   }
 
@@ -38,6 +39,6 @@ export class AppModel {
   }
 
   reset() {
-    console.log('reset state'); // TODO: implement reset
+    console.log('reset state'); // TODO: implement reset of application model
   }
 }
