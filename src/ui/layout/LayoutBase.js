@@ -3,13 +3,6 @@
   * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
   * CircosLayout.
   */
-//import m from 'mithril';
-import PubSub from 'pubsub-js';
-import Hammer from 'hammerjs';
-
-//import {BioMap} from '../../canvas/BioMap';
-//import {CorrespondenceMap} from '../../canvas/CorrespondenceMap';
-//import {newMap, reset, devNumberofMaps as nmaps} from '../../topics';
 import {Bounds} from '../../util/Bounds';
 
 export class LayoutBase  {

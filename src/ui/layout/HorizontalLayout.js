@@ -34,18 +34,12 @@ export class HorizontalLayout
   /**
    * mithril component render method
    */
-  view(vnode) {
+  view() {
     return m('div', {
-        class: 'cmap-layout-horizontal'
-      },
-      [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
+      class: 'cmap-layout-horizontal'
+    },
+    [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
     );
-  }
-
-
-  handleGesture(evt) {
-    console.log('HorizontalLayout.handleGesture', evt);
-    return true; // stop propagation
   }
 
   /**
@@ -58,16 +52,16 @@ export class HorizontalLayout
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let cursor = Math.floor(padding * 0.5);
     this.bioMapComponents = this.appState.bioMaps.map( model => {
-        let layoutBounds = new Bounds({
-          left: cursor,
-          top: 10,
-          width: 0, // will be calculated by bioMap
-          height: childHeight
+      let layoutBounds = new Bounds({
+        left: cursor,
+        top: 10,
+        width: 0, // will be calculated by bioMap
+        height: childHeight
       });
       let component = new BioMapComponent({model, layoutBounds});
       model.component = component; // safe a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
-      return component
+      return component;
     });
   }
 

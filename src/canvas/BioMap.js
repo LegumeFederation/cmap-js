@@ -6,8 +6,8 @@ import m from 'mithril';
 import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../util/Bounds';
-import {FeatureMark} from './FeatureMark';
-import {MapBackbone} from './MapBackbone';
+//import {FeatureMark} from './FeatureMark';
+//import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
@@ -18,6 +18,8 @@ export class BioMap
 
   constructor({bioMapModel, layoutBounds}) {
     super({});
+
+    this.model = bioMapModel;
 
     // note: this.domBounds is where the canvas element is absolutely positioned
     // by mithril view()
@@ -63,11 +65,6 @@ export class BioMap
   oncreate(vnode) {
     super.oncreate(vnode);
     this.el = vnode.dom;
-    let b = new Bounds(this.el.getBoundingClientRect());
-    //console.log('BioMap.oncreate', b.width, b.height, this.el);
-    // note: here we are not capturing bounds from the dom, rather, using the
-    // bounds set by the layout manager class (HorizontalLayout or
-    // CircosLayout).
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
     this.drawLazily(this.domBounds);
@@ -77,6 +74,7 @@ export class BioMap
    * mithril lifecycle method
    */
   onupdate(vnode) {
+    console.assert(this.el === vnode.dom);
     let b = new Bounds(this.el.getBoundingClientRect());
     console.log('BioMap.onupdate', b.width, b.height, this.el);
   }
@@ -101,10 +99,12 @@ export class BioMap
     });
   }
 
-  /* dom event handlers */
+  /**
+   * custom gesture event dispatch listener; see LayoutContainer
+   */
   handleGesture(evt) {
     console.log('BioMap.handleGesture', evt);
-    return true; // top propagation
+    return false; // dont stop evt propagation
   }
 
   _onTap(evt) {

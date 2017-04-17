@@ -11,7 +11,7 @@ export let RegisterComponentMixin = (superclass) => class extends superclass {
   }
 
   onbeforeremove(vnode) {
-    if(super.onbeforeremove) super.onbeforeremove(vnode)
+    if(super.onbeforeremove) super.onbeforeremove(vnode);
     delete vnode.dom.mithrilComponent;
   }
 };

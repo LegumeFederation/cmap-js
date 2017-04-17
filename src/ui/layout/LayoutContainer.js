@@ -6,6 +6,8 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
+import Hamster from 'hamsterjs';
+
 import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {HorizontalLayout} from './HorizontalLayout';
@@ -44,7 +46,8 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    * mithril lifecycle method
    */
   onupdate(vnode) {
-    this.bounds = new Bounds(this.el.getBoundingClientRect());
+    console.assert(this.el === vnode.dom);
+    this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
   }
 
   /**
@@ -64,7 +67,8 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     return m('div', {
       class: 'cmap-layout-container',
       style: `left: ${b.left}px; top: ${b.top}px;
-              width: ${b.width}px; height: ${b.height}px;`
+              width: ${b.width}px; height: ${b.height}px;
+              transform: scale(${scale})`
     }, [
       this.appState.tools.layout === HorizontalLayout
       ?
@@ -88,6 +92,12 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     };
     h.on(evts.eventIds, evts.handler); // enable hammerjs for these events
     this._gestureEventDefs = evts; // save for component teardown
+    // create some regular expressions for faster dispatching of events
+    this._gestureRegex = {
+      pan:   new RegExp('^pan'),
+      pinch: new RegExp('^pinch'),
+      tap:   new RegExp('^tap')
+    };
   }
 
   _tearDownEventHandlers() {
@@ -107,11 +117,27 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   _dispatchGestureEvt(evt) {
     let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
     let filtered = hitElements.filter( el => {
-      return el.mithrilComponent && el.mithrilComponent.handleGesture
+      return el.mithrilComponent && el.mithrilComponent.handleGesture;
     });
     // dispatch event to all the mithril components, until one returns true;
     // effectively the same as 'stopPropagation' on a normal event bubbling.
     filtered.some( el => el.mithrilComponent.handleGesture(evt) );
+  }
+
+  /**
+   * handle the event from _dispatchGestureEvt. Returns true or false
+   * to stop or continue event propagation.
+   */
+  handleGesture(evt) {
+    if(evt.type.match(this._gestureRegex.pan)) {
+      this._onPan(evt);
+      return true;
+    }
+    else if (evt.type.match(this._gestureRegex.pinch)) {
+      this._onZoom(evt);
+      return true;
+    }
+    return false; // do not stop event propagation
   }
 
   _onZoom(evt) {
