@@ -3,17 +3,23 @@ Display and compare biological maps (genetic, physical, cytogenetic, genomic; li
 
 ## Setup
 
-* Prerequisite: `npm` is required so install https://nodejs.org if you do not have it.
+* Prerequisite: `npm` is required so install [NodeJs](https://nodejs.org) if you do not have it. `npm` is used as javascript package manager and task runner here.
 
+* Clone the project and initialize git submodule(s):
+```
+git clone https://github.com/ncgr/cmap-js.git
+cd cmap-js
+git submodule init
+git submodule update
+```
 * Install the required javascript packages listed in `package.json`
 ```
-cd cmap-js/
 npm install
 ```
 
 ## Build and Tests
 
-* ES6 code is transpiled with Babel and bundled with Rollup, and the results are written into the `build/` directory. Here are some of the available scripts
+* ES6 code is transpiled with Babel and bundled with Rollup, and the results are written into the `build/` directory. Here are some of the available scripts:
 ```
 npm run lint     # runs linter only
 npm run build    # linter and rollup, babel
