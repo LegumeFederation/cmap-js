@@ -54,5 +54,13 @@
     "mithril": "^1.1.1",
     "pubsub-js": "^1.5.5",
     "rbush": "^2.0.1"
+  },
+  "nyc": {
+    "exclude": [
+      "src/main.js",
+      "src/CMAP.js",
+      "src/developmentTooling.js",
+      "build"
+    ]
   }
 }

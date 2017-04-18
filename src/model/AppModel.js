@@ -34,10 +34,6 @@ export class AppModel {
     };
   }
 
-  get allMaps() {
-    return [].concat(this.bioMaps, this.correspondenceMaps);
-  }
-
   reset() {
     console.log('reset state'); // TODO: implement reset of application model
   }
