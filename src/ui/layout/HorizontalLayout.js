@@ -50,6 +50,7 @@ export class HorizontalLayout
     if(! this.bounds) return []; // early out if the layout bounds is unknown
     let n = this.appState.bioMaps.length;
     let padding = Math.floor(this.bounds.width * 0.1 / n);
+    padding = 0; // TODO: decide whether to add padding between the biomaps
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let cursor = Math.floor(padding * 0.5);
     this.bioMapComponents = this.appState.bioMaps.map( model => {

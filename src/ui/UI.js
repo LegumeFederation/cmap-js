@@ -5,6 +5,7 @@
 import m from 'mithril';
 
 //import {Tools} from './tools/Tools';
+import {Header} from './Header';
 import {StatusBar} from './StatusBar';
 import {LayoutContainer} from './layout/LayoutContainer';
 
@@ -28,6 +29,7 @@ export class UI {
       vnode.children && vnode.children.length ?
         vnode.children : [
           //m(Tools, childAttrs)
+          m(Header, childAttrs),
           m('div', { class: 'cmap-layout-viewport cmap-hbox'},
             m(LayoutContainer, childAttrs)
           ),

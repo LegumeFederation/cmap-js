@@ -9,6 +9,6 @@ export class StatusBar {
   // constructor() - prefer do not use in mithril components
 
   view() {
-    return m('div', { class: 'cmap-hbox' }, 'footer/status bar');
+    return m('div.cmap-hbox', '(footer/status bar)');
   }
 }

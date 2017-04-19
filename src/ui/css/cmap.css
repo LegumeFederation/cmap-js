@@ -1,9 +1,12 @@
 html, body, #cmap-ui {
   width: 100%;
   height: 100%;
-  margin: 0;
+  overflow: hidden;
 }
 
+#cmap-ui {
+  margin: 0.5rem;
+}
 .cmap-vbox {
   display: flex;
   flex-direction: column;

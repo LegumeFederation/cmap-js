@@ -39,7 +39,12 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     this.el = vnode.dom; // this is the outer m('div') from view()
     this._setupEventHandlers(this.el);
     this.bounds = new Bounds(this.el.getBoundingClientRect());
-    this.contentBounds = new Bounds(this.bounds);
+    this.contentBounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.bounds.width,
+      height: this.bounds.height
+    });
   }
 
   /**
