@@ -2,7 +2,7 @@
  * App state - a global app state (or model), which can be referenced, viewed or
  * lensed, by various UI components. UI components should have only state needed
  * for their specific function, and should not cache, synchronize or duplicate
- * data.
+ * data from the app state.
  */
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {BioMapModel} from './BioMapModel';
@@ -14,8 +14,7 @@ export class AppModel {
     // tools: pojo w/ properties
     this.tools = {
       zoomFactor : 1,
-      layout: HorizontalLayout,
-      devNumberOfMaps: 3
+      layout: HorizontalLayout // the default layout
     };
 
     // TODO: a Set of DataSourceModels
