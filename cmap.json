@@ -1,0 +1,7 @@
+{
+  "#": "cmap-js example configuration file (json)",
+  "header" : "[header txt from config file...]",
+  "attribution" : "[attribution txt from config file...]",
+  "sources" : [
+  ]
+}

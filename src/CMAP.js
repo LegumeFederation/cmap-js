@@ -14,5 +14,8 @@ export class CMAP {
     this.appState = new AppModel({});
     this.UI = new UI(this.appState);
     m.mount(this.rootElement, this.UI);
+    m.request('cmap.json').then( config => {
+      this.appState.init(config);
+    });
   }
 }

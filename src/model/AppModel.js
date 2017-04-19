@@ -10,27 +10,24 @@ import {BioMapModel} from './BioMapModel';
 export class AppModel {
 
   constructor() {
-
-    // tools: pojo w/ properties
+    // sources and bioMaps arrays will be populated in init()
+    this.sources = [];
+    this.bioMaps = [ new BioMapModel(), new BioMapModel(), new BioMapModel() ];
     this.tools = {
       zoomFactor : 1,
       layout: HorizontalLayout // the default layout
     };
-
-    // TODO: a Set of DataSourceModels
-    this.dataSources = {
-    };
-
-    this.bioMaps = [
-      new BioMapModel(),
-      new BioMapModel(),
-      new BioMapModel()
-    ];
-
-    // biomaps can be multi-selected by click or tap
     this.selection = {
+      // biomaps can be multi-selected by click or tap
       bioMaps: []
     };
+  }
+
+  init({header, attribution, sources}) {
+    this.header = header;
+    this.attribution = attribution;
+    this.sources = sources;
+    // TODO: fetch all data sources and popupate this.bioMaps;
   }
 
   reset() {

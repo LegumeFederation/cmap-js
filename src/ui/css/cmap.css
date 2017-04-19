@@ -1,6 +1,6 @@
 html, body, #cmap-ui {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 1rem);
   overflow: hidden;
 }
 
@@ -63,4 +63,13 @@ html, body, #cmap-ui {
 
 .cmap-biomap.selected {
   border: dashed 2px magenta;
+}
+
+.cmap-header {
+}
+
+.cmap-footer {
+}
+
+.cmap-attribution {
 }
