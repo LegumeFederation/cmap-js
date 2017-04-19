@@ -5,6 +5,7 @@
  */
 import '../node_modules/normalize.css/normalize.css';
 import '../node_modules/skeleton-css/css/skeleton.css';
+import './ui/css/loader.css';
 import './ui/css/cmap.css';
 
 import './polyfill/index';
@@ -27,7 +28,7 @@ const main = () => {
   const evtName = 'DOMContentLoaded';
   const loadedHandler = () => {
     let _cmap = new CMAP();
-    _cmap.init();
+    _cmap.load();
     document.removeEventListener(evtName, loadedHandler);
   };
   document.addEventListener(evtName, loadedHandler);

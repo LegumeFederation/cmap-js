@@ -6,6 +6,7 @@
  */
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {BioMapModel} from './BioMapModel';
+import {DataSourceModel} from './DataSourceModel';
 
 export class AppModel {
 
@@ -21,13 +22,21 @@ export class AppModel {
       // biomaps can be multi-selected by click or tap
       bioMaps: []
     };
+    this.status = '';
+    this.busy = false;
   }
 
-  init({header, attribution, sources}) {
+  load({header, attribution, sources}) {
     this.header = header;
     this.attribution = attribution;
     this.sources = sources;
-    // TODO: fetch all data sources and popupate this.bioMaps;
+    // TODO: fetch all data sources and populate this.bioMaps;
+    let promises = this.sources.map(config => {
+      let dsm = new DataSourceModel(config);
+      this.sources.push(dsm);
+      return dsm.load();
+    });
+    return promises;
   }
 
   reset() {

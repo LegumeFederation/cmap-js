@@ -14,7 +14,10 @@ export class StatusBar {
   view() {
     return m('div', [
       m('div.cmap-attribution', this.appState.attribution),
-      m('div.cmap-footer', 'footer/status bar')
+      m('div.cmap-footer', [
+        this.appState.busy ? m('img[src=images/ajax-loader.gif]') : '',
+        this.appState.status
+      ])
     ]);
   }
 }

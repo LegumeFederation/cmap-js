@@ -3,5 +3,15 @@
   "header" : "[header txt from config file...]",
   "attribution" : "[attribution txt from config file...]",
   "sources" : [
+    {
+      "method": "GET",
+      "data": {},
+      "url": "data/bean_markers+genes.cmap"
+    },
+    {
+      "method": "GET",
+      "data": {},
+      "url": "data/Pv_McClean_NDSU_-_2007.txt"
+    }
   ]
 }
