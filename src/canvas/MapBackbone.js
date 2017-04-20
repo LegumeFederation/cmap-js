@@ -19,12 +19,11 @@ export class MapBackbone extends SceneGraphNodeBase {
       width: backboneWidth,
       height: b.height * 0.95
     });
-    console.log(this.bounds);
   }
 
   draw(ctx) {
     let gb = this.globalBounds || {};
-    ctx.fillStyle = 'lightgrey';
+    ctx.fillStyle = '#fff6e8';
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),

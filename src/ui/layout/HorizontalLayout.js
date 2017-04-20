@@ -73,8 +73,8 @@ export class HorizontalLayout
         height: childHeight
       });
       let component = new BioMapComponent({
-        model,
-        layoutBounds,
+        bioMapModel: model,
+        layoutBounds: layoutBounds,
         appState: this.appState,
       });
       model.component = component; // save a reference for mapping model -> component

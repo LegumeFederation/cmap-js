@@ -8,7 +8,7 @@ import Hammer from 'hammerjs';
 import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../model/Bounds';
-//import {FeatureMark} from './FeatureMark';
+import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
@@ -21,28 +21,12 @@ export class BioMap
 
   constructor({bioMapModel, appState, layoutBounds}) {
     super({});
-
     this.model = bioMapModel;
     this.appState = appState;
-
-    // note: this.domBounds is where the canvas element is absolutely positioned
-    // by mithril view()
-    this.domBounds = new Bounds({
-      left: layoutBounds.left,
-      top: layoutBounds.top,
-      width: Math.floor(100 + Math.random() * 500), // FIXME perform actual layout
-      height: layoutBounds.height
-    });
-
-    // this.bounds (scenegraph) has the same width and height, but zero the
-    // left/top because we are the root node in a canvas sceneGraphNode
-    // heirarchy
-    this.bounds = new Bounds({
-      left: 0,
-      top: 0,
-      width: this.domBounds.width,
-      height: this.domBounds.height
-    });
+    this.verticalScale = 1;
+    this.backbone = null;
+    this.featureMarks = [];
+    this.featureLabels = [];
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
       pan:   new RegExp('^pan'),
@@ -50,15 +34,13 @@ export class BioMap
       tap:   new RegExp('^tap'),
       wheel: new RegExp('^wheel')
     };
-    this.verticalScale = 1;
-    this.featureMarkers = [];
-    this.featureLabels = [];
+    this._layout(layoutBounds);
   }
 
   // override the children prop. getter
   get children() {
     return [this.backbone].concat(
-      this.featureMarkers,
+      this.featureMarks,
       this.featureLabels
     );
   }
@@ -75,7 +57,6 @@ export class BioMap
     super.oncreate(vnode);
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    this._layout();
     this.drawLazily(this.domBounds);
   }
 
@@ -180,18 +161,39 @@ export class BioMap
 
   /* private methods */
 
-  _layout() {
-    console.log('BioMap canvas layout', this.bounds.width, this.bounds.height);
+  /**
+   * perform layout of backbone, feature markers, and feature labels.
+   */
+  _layout(layoutBounds) {
+    // TODO: calculate width based on # of SNPs in layout, and width of feature
+    // labels
+    const width = Math.floor(100 + Math.random() * 200);
+    this.domBounds = new Bounds({
+      left: layoutBounds.left,
+      top: layoutBounds.top,
+      width: width,
+      height: layoutBounds.height
+    });
+    // this.bounds (scenegraph) has the same width and height, but zero the
+    // left/top because we are the root node in a canvas sceneGraphNode
+    // heirarchy
+    this.bounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.domBounds.width,
+      height: this.domBounds.height
+    });
+    // note map backbone will use this.bounds for it's own layout
     this.backbone = new MapBackbone({ parent: this });
-    // set the feature markers on top of the backbone
-    this.featureMarkers.forEach( marker => {
-      let coordinatesToPixels = this.backbone.bounds.height / marker.rangeOfCoordinates.end;
-      let y = marker.coordinates.start * coordinatesToPixels;
-      marker.bounds = new Bounds({
-        top: this.backbone.bounds.top + y,
-        left: this.backbone.bounds.left,
-        width: this.backbone.bounds.width,
-        height: 1
+
+    let filteredFeatures = this.model.features.filter( model => {
+      return model.length <= 0.00001;
+    });
+    this.featureMarks = filteredFeatures.map( model => {
+      return new FeatureMark({
+        featureModel: model,
+        parent: this.backbone,
+        bioMap: this.model
       });
     });
   }

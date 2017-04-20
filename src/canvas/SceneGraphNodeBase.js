@@ -19,10 +19,10 @@ export class SceneGraphNodeBase {
     * @param {Number} rotation - degrees, default 0.
     * @returns {Object}
     */
-  constructor({parent, bounds, rotation = 0, tag}) {
+  constructor({parent, bounds, rotation = 0, tags = []}) {
     this.parent = parent;
     this._rotation = rotation;
-    this._tag = tag;
+    this._tags = tags;
     this.bounds = bounds;
     this._children = []; // note: subclasses implement own children data structure
   }
@@ -34,8 +34,8 @@ export class SceneGraphNodeBase {
   set bounds(b) { this._bounds = b; }
   get rotation() { return this._rotation; }
   set rotation(degrees) { this._rotation = degrees; }
-  get tag() { return this._tag; }
-  set tag(s) { this._tag = s; }
+  get tags() { return this._tags; }
+  set tags(tags) { this._tags = tags; }
 
   /**
   * Traverse all parents bounds to calculate self Bounds on Canvas.
