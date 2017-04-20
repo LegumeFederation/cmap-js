@@ -24,6 +24,7 @@ export class UI {
     let childAttrs = {
       appState: this.appState,
     };
+    this._logRenders();
     return m('div',
       attrs,
       vnode.children && vnode.children.length ?

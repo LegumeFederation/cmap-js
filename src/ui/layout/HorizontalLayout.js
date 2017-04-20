@@ -4,6 +4,8 @@
   */
 import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
+import PubSub from 'pubsub-js';
+import {dataLoaded} from '../../topics';
 
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
@@ -19,13 +21,24 @@ export class HorizontalLayout
 
   oninit(vnode) {
     super.oninit(vnode);
+    console.log('HorizontalLayout.oninit()');
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
+    this.subscriptions = [
+      PubSub.subscribe(dataLoaded, () => this._onDataLoaded())
+    ];
   }
 
   oncreate(vnode) {
     super.oncreate(vnode);
     // now this.bounds are known, so the child maps can be layouted
+  }
+
+  onremove() {
+    this.subscriptions.forEach( token => PubSub.unsubscribe(token) );
+  }
+
+  _onDataLoaded() {
     this._layoutBioMaps();
     this._layoutCorrespondenceMaps();
     m.redraw();

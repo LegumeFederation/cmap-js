@@ -167,6 +167,7 @@ export class BioMap
     let ctx = this.context2d;
     if(! ctx) return;
     console.log('BioMap canvas draw', this.domBounds.width, this.domBounds.height);
+    console.log(this.children);
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines

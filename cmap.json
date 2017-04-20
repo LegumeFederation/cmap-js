@@ -1,7 +1,8 @@
 {
   "#": "cmap-js example configuration file (json format)",
-  "header" : "[header txt from config file...]",
-  "attribution" : "[attribution txt from config file...]",
+  "header" : ": bean_markers+genes.cmap",
+  "attribution" : "data attribution: NCGR 2017",
+  "initialView" : ["Pv11", "Pv07"],
   "sources" : [
     {
       "#" : "http request parameters; data property can be used for query params",

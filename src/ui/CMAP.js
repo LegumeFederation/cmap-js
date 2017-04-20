@@ -25,7 +25,6 @@ export class CMAP {
       Promise.all(promises).then( () => {
         this.appState.status = '';
         this.appState.busy = false;
-        m.redraw();
       });
     });
   }

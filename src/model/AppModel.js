@@ -4,6 +4,9 @@
  * for their specific function, and should not cache, synchronize or duplicate
  * data from the app state.
  */
+import PubSub from 'pubsub-js';
+import {dataLoaded} from '../topics';
+
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {DataSourceModel} from './DataSourceModel';
 
@@ -25,22 +28,32 @@ export class AppModel {
     this.busy = false;
   }
 
-  load({header, attribution, sources}) {
+  /**
+   * load the app model
+   * @param Object - object with properties defined in cmap.json
+   */
+  load({header, attribution, sources, initialView}) {
+    let sourceConfigs = sources;
     this.header = header;
     this.attribution = attribution;
-    let sourceConfigs = sources;
+    this.initialView = initialView;
+    this.biomaps = [];
     let promises = sourceConfigs.map(config => {
       let dsm = new DataSourceModel(config);
       this.sources.push(dsm);
       return dsm.load();
     });
+    // wait for all data sources are loaded, then set this.bioMaps with
+    // only the maps named in initialView
     Promise.all(promises).then( () => {
       this.sources.forEach( source => {
-        source.bioMaps.forEach( map => {
-          this.bioMaps.push(map);
+        Object.keys(source.bioMaps).forEach( mapName => {
+          if(this.initialView.indexOf(mapName) !== -1) {
+            this.bioMaps.push(source.bioMaps[mapName]);
+          }
         });
       });
-      console.log(this.bioMaps);
+      PubSub.publish(dataLoaded);
     });
     return promises;
   }

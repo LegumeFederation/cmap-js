@@ -44,6 +44,11 @@ export class DataSourceModel {
     });
   }
 
+  /**
+   * bioMaps getter
+   *
+   * @return Object - key: map_name val: BioMapModel instance
+   */
   get bioMaps() {
     let modelMap = {};
     this.parseResult.data.forEach( d => {
@@ -63,7 +68,7 @@ export class DataSourceModel {
         })
       );
     });
-    return Object.values(modelMap);
+    return modelMap;
   }
 
 }

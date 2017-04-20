@@ -38,7 +38,7 @@ html, body {
 .cmap-layout-container {
   position: absolute;;
   width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
+  height: calc(100% - 2.5rem);
 }
 
 .cmap-canvas {
