@@ -7,7 +7,7 @@ import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
 import {mix} from '../../mixwith.js/src/mixwith';
 
-import {Bounds} from '../util/Bounds';
+import {Bounds} from '../model/Bounds';
 //import {FeatureMark} from './FeatureMark';
 //import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';

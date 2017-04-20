@@ -5,7 +5,7 @@
   * comes from the browser's DOM by getBoundingClientRect().
   * https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
   */
-import {isNil} from './isNil';
+import {isNil} from '../util/isNil';
 
 export class Bounds {
   /**

@@ -6,7 +6,7 @@
 import m from 'mithril';
 import {mix} from '../../mixwith.js/src/mixwith';
 
-import {Bounds} from '../util/Bounds';
+import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';

@@ -1,17 +1,13 @@
 {
-  "#": "cmap-js example configuration file (json)",
+  "#": "cmap-js example configuration file (json format)",
   "header" : "[header txt from config file...]",
   "attribution" : "[attribution txt from config file...]",
   "sources" : [
     {
+      "#" : "http request parameters; data property can be used for query params",
       "method": "GET",
       "data": {},
       "url": "data/bean_markers+genes.cmap"
-    },
-    {
-      "method": "GET",
-      "data": {},
-      "url": "data/Pv_McClean_NDSU_-_2007.txt"
     }
   ]
 }

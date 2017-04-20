@@ -13,7 +13,7 @@ export class AppModel {
   constructor() {
     // sources and bioMaps arrays will be populated in init()
     this.sources = [];
-    this.bioMaps = [ new BioMapModel(), new BioMapModel(), new BioMapModel() ];
+    this.bioMaps = [ new BioMapModel({}), new BioMapModel({}), new BioMapModel({}) ];
     this.tools = {
       zoomFactor : 1,
       layout: HorizontalLayout // the default layout

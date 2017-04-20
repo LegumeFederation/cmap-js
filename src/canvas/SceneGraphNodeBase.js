@@ -2,7 +2,7 @@
   * SceneGraphNodeBase
   * Base Class representing a drawable element in canvas scenegraph
   */
-import { Bounds } from '../util/Bounds';
+import { Bounds } from '../model/Bounds';
 
 export class SceneGraphNodeBase {
 

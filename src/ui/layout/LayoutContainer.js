@@ -13,7 +13,7 @@ import {mix} from '../../../mixwith.js/src/mixwith';
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
 import {layout as layoutMsg, reset} from '../../topics';
-import {Bounds} from '../../util/Bounds';
+import {Bounds} from '../../model/Bounds';
 import {RegisterComponentMixin} from './RegisterComponentMixin';
 
 

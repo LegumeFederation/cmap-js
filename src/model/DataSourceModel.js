@@ -2,6 +2,7 @@
  * Data source model
  */
 import m from 'mithril';
+import parser from 'papaparse';
 
 export class DataSourceModel {
 
@@ -15,19 +16,26 @@ export class DataSourceModel {
     this.method = method;
     this.data = data;
     this.url = url;
-    this.background = true;
+    this.background = true; // mithril not to redraw upon completion
   }
 
   /**
-   * Load the data source with http
+   * Load the data source with mithril request
    * @return Promise
    */
   load() {
     return m.request(this);
   }
 
+  /**
+   * Callback from mithril request(); instead of the default deserialization
+   * which is JSON, use the papaparse library to parse csv or tab delimited
+   * content.
+   * @param String delimited text - csv or tsv
+   */
   deserialize(data) {
-    this.data = data;
-    // TODO: parse cmap format!
+    this.parseResult = parser.parse(data, { header: true });
+    console.log(this.parseResult);
   }
+
 }

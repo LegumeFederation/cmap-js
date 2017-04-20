@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {LayoutBase} from './LayoutBase';
-import {Bounds} from '../../util/Bounds';
+import {Bounds} from '../../model/Bounds';
 import {RegisterComponentMixin} from './RegisterComponentMixin';
 
 const radians = degrees => degrees * Math.PI / 180;

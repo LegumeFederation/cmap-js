@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {LayoutBase} from './LayoutBase';
-import {Bounds} from '../../util/Bounds';
+import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/CorrespondenceMap';
 import {RegisterComponentMixin} from './RegisterComponentMixin';
@@ -21,7 +21,6 @@ export class HorizontalLayout
     super.oninit(vnode);
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
-    console.log(this.appState);
   }
 
   oncreate(vnode) {

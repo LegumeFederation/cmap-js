@@ -16,11 +16,11 @@ export class CMAP {
     m.mount(this.rootElement, this.UI);
 
     this.appState.status = 'loading configuration file...';
+    this.appState.busy = true;
     m.request('cmap.json').then( config => {
       let numSources = config.sources.length;
       let plural = numSources > 1 ? 's': '';
       this.appState.status = `loading ${numSources} data file${plural}...`;
-      this.appState.busy = true;
       let promises = this.appState.load(config);
       Promise.all(promises).then( () => {
         this.appState.status = '';
