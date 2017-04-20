@@ -3,13 +3,14 @@
  * Instantiate the CMAP class, and initialize it.
  * Also the entry point for bundling of javascript and css.
  */
+import './polyfill/index';
+import './developmentTooling';
+
 import '../node_modules/normalize.css/normalize.css';
 import '../node_modules/skeleton-css/css/skeleton.css';
 import './ui/css/cmap.css';
 
-import './polyfill/index';
-import './developmentTooling';
-import {CMAP} from './CMAP';
+import {CMAP} from './ui/CMAP';
 
 /* istanbul ignore next: unable to test this module because of css imports */
 const main = () => {

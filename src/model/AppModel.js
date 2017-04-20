@@ -5,7 +5,6 @@
  * data from the app state.
  */
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
-import {BioMapModel} from './BioMapModel';
 import {DataSourceModel} from './DataSourceModel';
 
 export class AppModel {
@@ -13,7 +12,7 @@ export class AppModel {
   constructor() {
     // sources and bioMaps arrays will be populated in init()
     this.sources = [];
-    this.bioMaps = [ new BioMapModel({}), new BioMapModel({}), new BioMapModel({}) ];
+    this.bioMaps = [];
     this.tools = {
       zoomFactor : 1,
       layout: HorizontalLayout // the default layout
@@ -29,12 +28,19 @@ export class AppModel {
   load({header, attribution, sources}) {
     this.header = header;
     this.attribution = attribution;
-    this.sources = sources;
-    // TODO: fetch all data sources and populate this.bioMaps;
-    let promises = this.sources.map(config => {
+    let sourceConfigs = sources;
+    let promises = sourceConfigs.map(config => {
       let dsm = new DataSourceModel(config);
       this.sources.push(dsm);
       return dsm.load();
+    });
+    Promise.all(promises).then( () => {
+      this.sources.forEach( source => {
+        source.bioMaps.forEach( map => {
+          this.bioMaps.push(map);
+        });
+      });
+      console.log(this.bioMaps);
     });
     return promises;
   }

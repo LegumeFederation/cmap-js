@@ -3,9 +3,13 @@
  */
 export class BioMapModel {
 
-  constructor({mapName, mapStart, mapStop}) {
-    this.mapName = mapName;
-    this.mapStart = mapStart;
-    this.mapStop = mapStop;
+  constructor({name, features, coordinates = { start: 0, stop: 0}, }) {
+    this.name = name;
+    this.coordinates = Object.freeze(coordinates); // object w/ start and end props
+    this.features = features;
+  }
+
+  get length() {
+    return this.coordinates.stop - this.coordinates.start;
   }
 }

@@ -4,6 +4,10 @@
 import m from 'mithril';
 import parser from 'papaparse';
 
+import {BioMapModel} from './BioMapModel';
+import {Feature} from './Feature';
+
+
 export class DataSourceModel {
 
   /**
@@ -34,8 +38,32 @@ export class DataSourceModel {
    * @param String delimited text - csv or tsv
    */
   deserialize(data) {
-    this.parseResult = parser.parse(data, { header: true });
-    console.log(this.parseResult);
+    this.parseResult = parser.parse(data, {
+      header: true,
+      dynamicTyping: true
+    });
+  }
+
+  get bioMaps() {
+    let modelMap = {};
+    this.parseResult.data.forEach( d => {
+      if(! d.map_name) return;
+      if(! modelMap[d.map_name]) {
+        modelMap[d.map_name] = new BioMapModel({
+          name: d.map_name,
+          features: [],
+          coordinates: { start: d.map_start, stop: d.map_stop }
+        });
+      }
+      modelMap[d.map_name].features.push(
+        new Feature({
+          name: d.feature_name,
+          tags: [d.feature_type],
+          coordinates: { start: d.feature_start, stop: d.feature_stop }
+        })
+      );
+    });
+    return Object.values(modelMap);
   }
 
 }

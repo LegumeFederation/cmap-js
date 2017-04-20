@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Bounds} from '../src/util/Bounds';
+import {Bounds} from '../src/model/Bounds';
 import {SceneGraphNodeBase} from '../src/canvas/SceneGraphNodeBase';
 
 describe('SceneGraphNode test', () => {

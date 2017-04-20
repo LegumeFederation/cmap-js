@@ -1,4 +1,5 @@
-import {CMAP} from '../src/CMAP';
+import './mithrilQuerySetup';
+import {CMAP} from '../../src/ui/CMAP';
 import {assert} from 'chai';
 
 describe('CMAP class', () => {

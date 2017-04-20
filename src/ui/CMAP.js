@@ -2,9 +2,8 @@
   * CMAP
   */
 import m from 'mithril';
-
-import {AppModel} from './model/AppModel';
-import {UI} from './ui/UI';
+import {AppModel} from './../model/AppModel';
+import {UI} from './UI';
 
 /* istanbul ignore next: mithril-query does not work with m.mount, and dom id is hardcoded as well */
 export class CMAP {
@@ -17,6 +16,7 @@ export class CMAP {
 
     this.appState.status = 'loading configuration file...';
     this.appState.busy = true;
+
     m.request('cmap.json').then( config => {
       let numSources = config.sources.length;
       let plural = numSources > 1 ? 's': '';
