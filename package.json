@@ -53,6 +53,7 @@
     "hamsterjs": "^1.1.2",
     "mithril": "^1.1.1",
     "normalize.css": "^6.0.0",
+    "papaparse": "^4.2.0",
     "pubsub-js": "^1.5.5",
     "rbush": "^2.0.1",
     "skeleton-css": "^2.0.4"
