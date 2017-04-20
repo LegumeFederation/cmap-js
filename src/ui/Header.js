@@ -11,7 +11,7 @@ export class Header {
   }
 
   view() {
-    return m('div.cmap-hbox', m('h4', [
+    return m('div.cmap-hbox', m('h4.cmap-header', [
       'cmap-js ',
       m('span.cmap-header', this.appState.header)
     ]));

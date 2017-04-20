@@ -77,7 +77,7 @@ export class HorizontalLayout
         layoutBounds,
         appState: this.appState,
       });
-      model.component = component; // safe a reference for mapping model -> component
+      model.component = component; // save a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
       return component;
     });

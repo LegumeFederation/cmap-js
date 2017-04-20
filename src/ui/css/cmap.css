@@ -69,7 +69,11 @@ html, body {
   border: dashed 2px magenta;
 }
 
-.cmap-header {
+h4.cmap-header {
+  margin-bottom: 0;
+}
+
+span.cmap-header {
 }
 
 .cmap-footer {

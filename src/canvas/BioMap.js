@@ -9,7 +9,7 @@ import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../model/Bounds';
 //import {FeatureMark} from './FeatureMark';
-//import {MapBackbone} from './MapBackbone';
+import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
@@ -50,8 +50,9 @@ export class BioMap
       tap:   new RegExp('^tap'),
       wheel: new RegExp('^wheel')
     };
-
     this.verticalScale = 1;
+    this.featureMarkers = [];
+    this.featureLabels = [];
   }
 
   // override the children prop. getter
@@ -74,6 +75,7 @@ export class BioMap
     super.oncreate(vnode);
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
+    this._layout();
     this.drawLazily(this.domBounds);
   }
 
@@ -167,10 +169,9 @@ export class BioMap
     let ctx = this.context2d;
     if(! ctx) return;
     console.log('BioMap canvas draw', this.domBounds.width, this.domBounds.height);
-    console.log(this.children);
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
-    ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
+    //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     this.children.map(child => child && child.draw(ctx));
     ctx.restore();
     // store these bounds, for checking in drawLazily()
@@ -181,13 +182,7 @@ export class BioMap
 
   _layout() {
     console.log('BioMap canvas layout', this.bounds.width, this.bounds.height);
-    let backboneWidth = this.bounds.width * 0.25;
-    this.backbone.bounds = new Bounds({
-      top: this.domBounds.height * 0.025,
-      left: this.domBounds.width * 0.5 - backboneWidth * 0.5,
-      width: backboneWidth,
-      height: this.domBounds.height * 0.95
-    });
+    this.backbone = new MapBackbone({ parent: this });
     // set the feature markers on top of the backbone
     this.featureMarkers.forEach( marker => {
       let coordinatesToPixels = this.backbone.bounds.height / marker.rangeOfCoordinates.end;

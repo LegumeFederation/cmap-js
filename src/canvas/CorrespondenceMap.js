@@ -74,7 +74,6 @@ export class CorrespondenceMap
 
     let gb = this.globalBounds || {};
     ctx.save();
-    ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     //this.children.map(child => child.draw(ctx));
     ctx.fillStyle = 'cyan';
     ctx.globalAlpha = 0.2;
