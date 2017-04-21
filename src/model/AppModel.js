@@ -54,6 +54,10 @@ export class AppModel {
         });
       });
       PubSub.publish(dataLoaded);
+    }).
+    catch( err => {
+      // TODO: make a nice mithril component to display errors in the UI
+      alert(`While fetching data source(s), ${err}`);
     });
     return promises;
   }

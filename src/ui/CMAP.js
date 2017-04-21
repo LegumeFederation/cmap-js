@@ -26,6 +26,9 @@ export class CMAP {
         this.appState.status = '';
         this.appState.busy = false;
       });
+    }).catch( err => {
+      // TODO: make a nice mithril component to display errors in the UI
+      alert(`While fetching cmap.json config file, ${err}`);
     });
   }
 }
