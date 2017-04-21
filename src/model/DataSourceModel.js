@@ -12,9 +12,10 @@ export class DataSourceModel {
 
   /**
    * create a DataSourceModel
-   * @param Object params having the following properties
-   * @param String HTTP method (GET, POST)
-   * @param String URL
+   * @param Object params having the following properties:
+   * @param String method - HTTP method (GET, POST)
+   * @param Object data - query parameters for the HTTP request
+   * @param String url - HTTP URL
    */
   constructor({method, data, url}) {
     this.method = method;
@@ -40,7 +41,8 @@ export class DataSourceModel {
   deserialize(data) {
     this.parseResult = parser.parse(data, {
       header: true,
-      dynamicTyping: true
+      dynamicTyping: true,
+      skipEmptyLines: true
     });
   }
 
@@ -63,7 +65,9 @@ export class DataSourceModel {
       modelMap[d.map_name].features.push(
         new Feature({
           name: d.feature_name,
-          tags: [d.feature_type],
+          tags: [d.feature_type !== '' ? d.feature_type : null],
+          // TODO: if there is more than one alias, how is it encoded? comma separated?
+          aliases: d.feature_aliases !== '' ? [ d.feature_aliases ] : [],
           coordinates: { start: d.feature_start, stop: d.feature_stop }
         })
       );

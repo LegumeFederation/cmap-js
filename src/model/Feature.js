@@ -35,14 +35,15 @@ class Feature {
  */
 
 // FIXME: when the features are matched on aliases, the returned features
-// do not show the variation in feature.names
+// do not show the variation in feature.names.
+// FIXME: support more than two collections of features
 const featuresInCommon = (features1, features2) => {
   const setupDict = (features) => {
     let dict = {};
     features.forEach( f => {
       dict[f.name] = f;
       f.aliases.forEach( a => {
-        dict[a] = f;
+        if(a) dict[a] = f;
       });
     });
     return dict;

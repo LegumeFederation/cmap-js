@@ -10,6 +10,7 @@ import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
+import {featuresInCommon} from '../model/Feature';
 
 export class CorrespondenceMap
        extends mix(SceneGraphNodeBase)
@@ -91,6 +92,17 @@ export class CorrespondenceMap
     this.lastDrawnCanvasBounds = this.bounds;
   }
 
+  /**
+   * getter for common features between our bioMaps.
+   */
+  get commonFeatures() {
+    // TODO: support more than 2 sets of features (e.g. for circos layout)
+    let leftFeatures = this.bioMapComponents[0].model.features;
+    let rightFeatures = this.bioMapComponents[1].model.features;
+    let common = featuresInCommon(leftFeatures, rightFeatures);
+    return common;
+  }
+
   _layout(layoutBounds) {
     this.domBounds = layoutBounds;
     // this.bounds (scenegraph) has the same width and height, but zero the
@@ -102,5 +114,8 @@ export class CorrespondenceMap
       width: this.domBounds.width,
       height: this.domBounds.height
     });
+    //FIXME: why is commonFeatures always empty? there is a spec test for
+    //featuresInCommon()
+    //console.log(this.commonFeatures);
   }
 }
