@@ -5,8 +5,8 @@
 import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import PubSub from 'pubsub-js';
-import {dataLoaded} from '../../topics';
 
+import {dataLoaded} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
@@ -19,6 +19,9 @@ export class HorizontalLayout
 
   // constructor() - prefer do not use in mithril components
 
+  /**
+   * mithril lifecycle method
+   */
   oninit(vnode) {
     super.oninit(vnode);
     console.log('HorizontalLayout.oninit()');
@@ -29,19 +32,11 @@ export class HorizontalLayout
     ];
   }
 
-  oncreate(vnode) {
-    super.oncreate(vnode);
-    // now this.bounds are known, so the child maps can be layouted
-  }
-
+  /**
+   * mithril lifecycle method
+   */
   onremove() {
     this.subscriptions.forEach( token => PubSub.unsubscribe(token) );
-  }
-
-  _onDataLoaded() {
-    this._layoutBioMaps();
-    this._layoutCorrespondenceMaps();
-    m.redraw();
   }
 
   /**
@@ -53,6 +48,15 @@ export class HorizontalLayout
     },
     [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
     );
+  }
+
+  /**
+   * pub/sub event handler
+   */
+  _onDataLoaded() {
+    this._layoutBioMaps();
+    this._layoutCorrespondenceMaps();
+    m.redraw();
   }
 
   /**
@@ -108,5 +112,4 @@ export class HorizontalLayout
       this.correspondenceMapComponents.push(component);
     }
   }
-
 }
