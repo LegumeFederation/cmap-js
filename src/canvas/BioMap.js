@@ -12,7 +12,7 @@ import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
-import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
+import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
 import {selectedMap} from '../topics';
 
 export class BioMap

@@ -9,7 +9,7 @@ import {mix} from '../../mixwith.js/src/mixwith';
 import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
-import {RegisterComponentMixin} from '../ui/layout/RegisterComponentMixin';
+import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
 
 export class CorrespondenceMap
        extends mix(SceneGraphNodeBase)

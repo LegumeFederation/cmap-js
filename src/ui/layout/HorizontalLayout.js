@@ -11,7 +11,7 @@ import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/CorrespondenceMap';
-import {RegisterComponentMixin} from './RegisterComponentMixin';
+import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout
        extends mix(LayoutBase)
