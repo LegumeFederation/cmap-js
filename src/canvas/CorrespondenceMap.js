@@ -1,7 +1,7 @@
 /**
   * CorrespondenceMap
-  * Mithril component representing correspondence lines between 2 or more
-  * BioMaps with an html5 canvas element.
+  * Mithril component for correspondence lines between 2 or more BioMaps with an
+  * html5 canvas element.
   */
 import m from 'mithril';
 import {mix} from '../../mixwith.js/src/mixwith';
@@ -15,35 +15,39 @@ export class CorrespondenceMap
        extends mix(SceneGraphNodeBase)
        .with(DrawLazilyMixin, RegisterComponentMixin) {
 
-  constructor({bioMapComponents, layoutBounds}) {
+  constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
-
     this.bioMapComponents = bioMapComponents;
-
-    // note: this.domBounds is where the canvas element is absolutely positioned
-    // by mithril view()
-    this.domBounds = layoutBounds;
-
-    // this.bounds (scenegraph) has the same width and height, but zero the
-    // left/top because we are the root node in a canvas sceneGraphNode
-    // heirarchy.
-    this.bounds = new Bounds({
-      left: 0,
-      top: 0,
-      width: this.domBounds.width,
-      height: this.domBounds.height
-    });
+    this.appState = appState;
+    this.verticalScale = 1;
+    this.correspondenceMarks = [];
+    this._layout(layoutBounds);
   }
+
+  // override the children prop. getter
+  get children() {
+    return this.correspondenceMarks;
+  }
+  set children(ignore) {}
 
   /**
    * mithril lifecycle method
    */
   oncreate(vnode) {
     super.oncreate(vnode);
-    this.el = vnode.dom;
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
     this.drawLazily(this.domBounds);
+  }
+
+  /**
+   * mithril lifecycle method
+   */
+  onupdate(vnode) {
+    // TODO: remove this development assistive method
+    console.assert(this.el === vnode.dom);
+    let b = new Bounds(this.el.getBoundingClientRect());
+    console.log('CorrespondenceMap.onupdate', b.width, b.height, this.el);
   }
 
   /**
@@ -71,7 +75,6 @@ export class CorrespondenceMap
     if(! ctx) return;
     if(! this.domBounds) return;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     let gb = this.globalBounds || {};
     ctx.save();
     //this.children.map(child => child.draw(ctx));
@@ -86,5 +89,18 @@ export class CorrespondenceMap
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
+  }
+
+  _layout(layoutBounds) {
+    this.domBounds = layoutBounds;
+    // this.bounds (scenegraph) has the same width and height, but zero the
+    // left/top because we are the root node in a canvas sceneGraphNode
+    // heirarchy.
+    this.bounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.domBounds.width,
+      height: this.domBounds.height
+    });
   }
 }

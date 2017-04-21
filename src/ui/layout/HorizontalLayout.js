@@ -107,6 +107,7 @@ export class HorizontalLayout
       });
       let component = new CorrMapComponent({
         bioMapComponents: [ left, right ],
+        appState: this.appState,
         layoutBounds: layoutBounds
       });
       this.correspondenceMapComponents.push(component);

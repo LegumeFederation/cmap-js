@@ -64,6 +64,7 @@ export class BioMap
    * mithril lifecycle method
    */
   onupdate(vnode) {
+    // TODO: remove this development assistive method
     console.assert(this.el === vnode.dom);
     let b = new Bounds(this.el.getBoundingClientRect());
     console.log('BioMap.onupdate', b.width, b.height, this.el);
@@ -87,6 +88,23 @@ export class BioMap
       width: b.width,
       height: b.height
     });
+  }
+
+  /**
+   * draw our scenegraph children our canvas element
+   */
+  draw() {
+    let ctx = this.context2d;
+    if(! ctx) return;
+    if(! this.domBounds) return;
+    console.log('BioMap canvas draw', this.domBounds.width, this.domBounds.height);
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.save();
+    //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
+    this.children.map(child => child && child.draw(ctx));
+    ctx.restore();
+    // store these bounds, for checking in drawLazily()
+    this.lastDrawnCanvasBounds = this.bounds;
   }
 
   /**
@@ -142,24 +160,6 @@ export class BioMap
     }
     return false; // do not stop propagation
   }
-
-  /**
-   * draw our scenegraph children our canvas element
-   */
-  draw() {
-    let ctx = this.context2d;
-    if(! ctx) return;
-    console.log('BioMap canvas draw', this.domBounds.width, this.domBounds.height);
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    ctx.save();
-    //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.children.map(child => child && child.draw(ctx));
-    ctx.restore();
-    // store these bounds, for checking in drawLazily()
-    this.lastDrawnCanvasBounds = this.bounds;
-  }
-
-  /* private methods */
 
   /**
    * perform layout of backbone, feature markers, and feature labels.
