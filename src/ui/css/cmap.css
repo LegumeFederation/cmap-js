@@ -1,7 +1,14 @@
-html, body, #cmap-ui {
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
+  overflow: hidden;
+}
+
+#cmap-ui {
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  margin: 2rem;
 }
 
 .cmap-vbox {
@@ -18,9 +25,8 @@ html, body, #cmap-ui {
 }
 
 .cmap-layout {
-  width: 100%;
-  height: 100%;
-  margin: 0;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
 }
 
 .cmap-layout-viewport {
@@ -31,8 +37,8 @@ html, body, #cmap-ui {
 
 .cmap-layout-container {
   position: absolute;;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2.5rem);
 }
 
 .cmap-canvas {
@@ -40,14 +46,15 @@ html, body, #cmap-ui {
 }
 
 .cmap-layout-horizontal {
-  width: 100%;
-  height: 100%;
-  position: relative;;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  position: relative;
 }
 
 .cmap-layout-circos {
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  position: relative;
 }
 
 .cmap-correspondence-map {
@@ -60,4 +67,17 @@ html, body, #cmap-ui {
 
 .cmap-biomap.selected {
   border: dashed 2px magenta;
+}
+
+h4.cmap-header {
+  margin-bottom: 0;
+}
+
+span.cmap-header {
+}
+
+.cmap-footer {
+}
+
+.cmap-attribution {
 }

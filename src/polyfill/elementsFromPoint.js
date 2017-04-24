@@ -11,6 +11,7 @@ if (!document.elementsFromPoint) {
   document.elementsFromPoint = elementsFromPoint;
 }
 
+/* istanbul ignore next: depends on browser native elementFromPoint(x,y) */
 function elementsFromPoint(x, y) {
   var parents = [];
   var parent = void 0;

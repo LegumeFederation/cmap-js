@@ -6,8 +6,8 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {LayoutBase} from './LayoutBase';
-import {Bounds} from '../../util/Bounds';
-import {RegisterComponentMixin} from './RegisterComponentMixin';
+import {Bounds} from '../../model/Bounds';
+import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 const radians = degrees => degrees * Math.PI / 180;
 //const degrees = radians => radians * 180 / Math.PI; // TODO: remove if unused

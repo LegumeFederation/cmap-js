@@ -1,5 +1,5 @@
 import {expect, assert} from 'chai';
-import {Bounds} from '../src/util/Bounds';
+import {Bounds} from '../src/model/Bounds';
 
 describe('Bounds test', () => {
   let params = {
@@ -58,6 +58,15 @@ describe('Bounds test', () => {
     assert(b1.equals(b2));
   });
 
+  it('equals() handles nils', () => {
+    let b = new Bounds(params);
+    [null, undefined].forEach( nil => {
+      assert(! Bounds.equals(nil, b));
+      assert(! Bounds.equals(b,   nil));
+      assert(! Bounds.equals(nil, nil));
+    });
+  });
+
   it('emptyArea()', () => {
     let b = new Bounds({top: 10, left: 10, width: 0, height: 0});
     assert(b.isEmptyArea);
@@ -83,5 +92,14 @@ describe('Bounds test', () => {
     let b = new Bounds({top: 10, left: 10, width: 10.5, height: 2});
     let bp = new Bounds({top: 10, left: 10, width: 10, height: 2});
     expect(b.areaEquals(bp));
+  });
+
+  it('areaEquals() handles nils', () => {
+    let b = new Bounds(params);
+    [null, undefined].forEach( nil => {
+      assert(! Bounds.areaEquals(nil, b));
+      assert(! Bounds.areaEquals(b,   nil));
+      assert(! Bounds.areaEquals(nil, nil));
+    });
   });
 });

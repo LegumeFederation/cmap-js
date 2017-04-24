@@ -4,12 +4,14 @@
   */
 import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
+import PubSub from 'pubsub-js';
 
+import {dataLoaded} from '../../topics';
 import {LayoutBase} from './LayoutBase';
-import {Bounds} from '../../util/Bounds';
+import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/CorrespondenceMap';
-import {RegisterComponentMixin} from './RegisterComponentMixin';
+import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout
        extends mix(LayoutBase)
@@ -17,19 +19,24 @@ export class HorizontalLayout
 
   // constructor() - prefer do not use in mithril components
 
+  /**
+   * mithril lifecycle method
+   */
   oninit(vnode) {
     super.oninit(vnode);
+    console.log('HorizontalLayout.oninit()');
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
-    console.log(this.appState);
+    this.subscriptions = [
+      PubSub.subscribe(dataLoaded, () => this._onDataLoaded())
+    ];
   }
 
-  oncreate(vnode) {
-    super.oncreate(vnode);
-    // now this.bounds are known, so the child maps can be layouted
-    this._layoutBioMaps();
-    this._layoutCorrespondenceMaps();
-    m.redraw();
+  /**
+   * mithril lifecycle method
+   */
+  onremove() {
+    this.subscriptions.forEach( token => PubSub.unsubscribe(token) );
   }
 
   /**
@@ -44,12 +51,22 @@ export class HorizontalLayout
   }
 
   /**
+   * pub/sub event handler
+   */
+  _onDataLoaded() {
+    this._layoutBioMaps();
+    this._layoutCorrespondenceMaps();
+    m.redraw();
+  }
+
+  /**
    * Horizonal (left to right) layout of BioMaps
    */
   _layoutBioMaps() {
     if(! this.bounds) return []; // early out if the layout bounds is unknown
     let n = this.appState.bioMaps.length;
     let padding = Math.floor(this.bounds.width * 0.1 / n);
+    padding = 0; // TODO: decide whether to add padding between the biomaps
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let cursor = Math.floor(padding * 0.5);
     this.bioMapComponents = this.appState.bioMaps.map( model => {
@@ -60,11 +77,11 @@ export class HorizontalLayout
         height: childHeight
       });
       let component = new BioMapComponent({
-        model,
-        layoutBounds,
+        bioMapModel: model,
+        layoutBounds: layoutBounds,
         appState: this.appState,
       });
-      model.component = component; // safe a reference for mapping model -> component
+      model.component = component; // save a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
       return component;
     });
@@ -90,10 +107,10 @@ export class HorizontalLayout
       });
       let component = new CorrMapComponent({
         bioMapComponents: [ left, right ],
+        appState: this.appState,
         layoutBounds: layoutBounds
       });
       this.correspondenceMapComponents.push(component);
     }
   }
-
 }

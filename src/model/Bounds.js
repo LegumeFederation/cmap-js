@@ -5,7 +5,7 @@
   * comes from the browser's DOM by getBoundingClientRect().
   * https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
   */
-import {isNil} from './isNil';
+import {isNil} from '../util/isNil';
 
 export class Bounds {
   /**
@@ -20,7 +20,7 @@ export class Bounds {
   * @param {Number} height
   * @returns {Object}
   */
-  constructor({top, left, bottom, right, width, height}) {
+  constructor({top, left, bottom, right, width, height, allowSubpixel=true}) {
     this.bottom = bottom;
     this.left = left;
     this.right = right;
@@ -32,6 +32,17 @@ export class Bounds {
     if(isNil(this.height)) this.height = this.bottom - this.top;
     if(isNil(this.bottom)) this.bottom = this.top + this.height;
     if(isNil(this.right)) this.right = this.left + this.width;
+
+    if(! allowSubpixel) {
+      this.bottom = Math.floor(this.bottom);
+      this.top = Math.floor(this.top);
+      this.left = Math.floor(this.left);
+      this.right = Math.floor(this.right);
+      this.width = Math.floor(this.width);
+      this.height = Math.floor(this.height);
+      if(this.x) this.x = Math.floor(this.x);
+      if(this.y) this.x = Math.floor(this.y);
+    }
   }
 
   /**
