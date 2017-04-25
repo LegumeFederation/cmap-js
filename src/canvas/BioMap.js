@@ -11,6 +11,7 @@ import {Bounds} from '../model/Bounds';
 import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import { Group }  from './SceneGraphNodeGroup';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
 import {selectedMap} from '../topics';
@@ -38,13 +39,13 @@ export class BioMap
   }
 
   // override the children prop. getter
-  get children() {
-    return [this.backbone].concat(
-      this.featureMarks,
-      this.featureLabels
-    );
-  }
-  set children(ignore) {}
+ // get children() {
+ //   return [this.backbone].concat(
+ //     this.featureMarks,
+ //     this.featureLabels
+ //   );
+ // }
+ // set children(ignore) {}
 
   get selected() {
     return this.appState.selection.bioMaps.indexOf(this) !== -1;
@@ -164,10 +165,23 @@ export class BioMap
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
+
+  /**
+   *
+   * Lifecycle of a layout change
+   *  - Get new canvas bounds
+   *  - Place backbone
+   *  - Place groups (markers, QTLs, &c)
+   *  - Update rbush trees
+   *  - Update conngruence map(s)
+   */
   _layout(layoutBounds) {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
     // labels
+    console.log('layout BioMap');
     const width = Math.floor(100 + Math.random() * 200);
+    this.children = [];
+    console.log(this.children);
     this.domBounds = new Bounds({
       left: layoutBounds.left,
       top: layoutBounds.top,
@@ -185,6 +199,12 @@ export class BioMap
     });
     // note map backbone will use this.bounds for it's own layout
     this.backbone = new MapBackbone({ parent: this });
+    this.addChild(this.backbone);
+
+    let markerGroup = new Group({parent:this.backbone});
+    this.addChild(markerGroup);
+    markerGroup.bounds = this.backbone.bounds;
+
 
     let filteredFeatures = this.model.features.filter( model => {
       return model.length <= 0.00001;
@@ -196,5 +216,11 @@ export class BioMap
         bioMap: this.model
       });
     });
+
+    this.featureMarks.forEach( mark => {
+      markerGroup.addChild(mark);
+    });
+
+    console.log(this.children);
   }
 }

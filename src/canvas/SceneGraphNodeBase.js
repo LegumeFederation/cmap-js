@@ -27,12 +27,16 @@ export class SceneGraphNodeBase {
     this._children = []; // note: subclasses implement own children data structure
   }
 
+	/* getters and setters */
   /* define getters for our properties; note subclasses can override setters,
     e.g. to perform layout or calculations based on new state */
+  /* getters */
   get children() { return this._children; }
   get bounds() { return this._bounds; }
   set bounds(b) { this._bounds = b; }
   get rotation() { return this._rotation; }
+  /* setters */
+  set children(b) { this._children = b};
   set rotation(degrees) { this._rotation = degrees; }
   get tags() { return this._tags; }
   set tags(tags) { this._tags = tags; }
@@ -56,6 +60,7 @@ export class SceneGraphNodeBase {
     });
   }
 
+	/* public methods/*
   /**
    * Translate coordinates to canvas space. When an element wants to draw on
    * canvas, it requires translating into global coordinates for the canvas.
@@ -68,5 +73,44 @@ export class SceneGraphNodeBase {
   translatePointToGlobal({x, y}) {
     let gb = this.globalBounds;
     return {x: x + gb.left, y: y + gb.top};
+  }
+
+  /**
+   * Adds a child node to the _children array
+   * and changes child node's parent to this node
+   *
+   * @param {object} node - SceneGraphNode derived item to insert as a child
+   **/
+  addChild(node){
+    if(node.parent){
+      node.parent.removeChild(node);
+    }
+    node.parent = this;
+    if(this._children.indexOf(node) === -1)  this._children.push(node);
+  }
+
+  /**
+   * Removes a child node from the _children array
+   * and changes child node's parent to this node
+   *
+   * @param {object} node - SceneGraphNode derived node to remove
+   **/
+  removeChild(node){
+    //TODO: May need to use a indexOf polyfill if targeting IE < 9
+    let index = this._children.indexOf(node);
+    if(index > -1){
+      this._children.splice(index,1);
+    }
+	}
+
+  /**
+   * Traverse children and call their draw on the provided context
+   *
+   * #param {object} ctx - canvas context
+   *
+   */
+
+  draw(ctx){
+    this.children.forEach(child => child.draw(ctx));
   }
 }

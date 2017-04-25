@@ -30,5 +30,6 @@ export class MapBackbone extends SceneGraphNodeBase {
       Math.floor(gb.width),
       Math.floor(gb.height)
     );
+    this.children.forEach( child => child.draw(ctx));
   }
 }
