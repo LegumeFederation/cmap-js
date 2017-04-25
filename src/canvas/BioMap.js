@@ -23,6 +23,11 @@ export class BioMap
   constructor({bioMapModel, appState, layoutBounds}) {
     super({});
     this.model = bioMapModel;
+    this.model.visible = {
+      start: this.model.coordinates.start,
+      stop: this.model.coordinates.stop
+    };
+    // set up coordinate bounds for view scaling
     this.appState = appState;
     this.verticalScale = 1;
     this.backbone = null;
@@ -181,7 +186,6 @@ export class BioMap
     console.log('layout BioMap');
     const width = Math.floor(100 + Math.random() * 200);
     this.children = [];
-    console.log(this.children);
     this.domBounds = new Bounds({
       left: layoutBounds.left,
       top: layoutBounds.top,
@@ -205,7 +209,6 @@ export class BioMap
     this.addChild(markerGroup);
     markerGroup.bounds = this.backbone.bounds;
 
-
     let filteredFeatures = this.model.features.filter( model => {
       return model.length <= 0.00001;
     });
@@ -221,6 +224,5 @@ export class BioMap
       markerGroup.addChild(mark);
     });
 
-    console.log(this.children);
   }
 }
