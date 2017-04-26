@@ -145,13 +145,13 @@ export class BioMap
       sel.splice(i, 1);
     }
     m.redraw();
-    console.log( evt.srcEvent.layerX, evt.srcEvent.layerY);
-       // this.locMap.search(
-       //   {minX: evt.srcEvent.layerX,
-       //    maxX: evt.srcEvent.layerX,
-       //    minY: evt.srcEvent.layerY,
-       //    maxY: evt.srcEvent.layerY
-       //   }));
+    console.log(this.locMap.all());
+    this.markerGroup.locMap.search(
+          {minX: evt.srcEvent.layerX,
+           maxX: evt.srcEvent.layerX,
+           minY: evt.srcEvent.layerY-5,
+           maxY: evt.srcEvent.layerY+5
+          }).forEach(hit => { console.log( hit.data)});
     PubSub.publish(selectedMap, {
       evt: evt,
       data: this.appState.selection.bioMaps
@@ -221,10 +221,10 @@ export class BioMap
       maxY: this.backbone.globalBounds.bottom,
       data: this.backbone
     });
-    this.locMap.insert(this.backbone.locMap.all());
 
     let markerGroup = new Group({parent:this.backbone});
     this.addChild(markerGroup);
+    this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
 
     let filteredFeatures = this.model.features.filter( model => {
