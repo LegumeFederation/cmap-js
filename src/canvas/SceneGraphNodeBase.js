@@ -2,6 +2,9 @@
   * SceneGraphNodeBase
   * Base Class representing a drawable element in canvas scenegraph
   */
+
+import  rbush  from 'rbush';
+
 import { Bounds } from '../model/Bounds';
 
 export class SceneGraphNodeBase {
@@ -25,6 +28,8 @@ export class SceneGraphNodeBase {
     this._tags = tags;
     this.bounds = bounds;
     this._children = []; // note: subclasses implement own children data structure
+    this.locMap = rbush();
+    this._visble = [];
   }
 
 	/* getters and setters */
@@ -35,10 +40,18 @@ export class SceneGraphNodeBase {
   get bounds() { return this._bounds; }
   set bounds(b) { this._bounds = b; }
   get rotation() { return this._rotation; }
-  /* setters */
-  set children(b) { this._children = b};
-  set rotation(degrees) { this._rotation = degrees; }
   get tags() { return this._tags; }
+  get visible(){ 
+    let vis = [];
+    let bob = this.children.map( child => {
+      return child.locMap.all();
+    });
+    bob.forEach(item =>{ vis = vis.concat(item);});
+    return vis;
+  }
+  /* setters */
+  set children(b) { this._children = b;}
+  set rotation(degrees) { this._rotation = degrees; }
   set tags(tags) { this._tags = tags; }
 
   /**
@@ -101,8 +114,7 @@ export class SceneGraphNodeBase {
     if(index > -1){
       this._children.splice(index,1);
     }
-	}
-
+  }
   /**
    * Traverse children and call their draw on the provided context
    *

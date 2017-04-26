@@ -43,7 +43,7 @@ export class BioMap
     this._layout(layoutBounds);
   }
 
-  // override the children prop. getter
+ // override the children prop. getter
  // get children() {
  //   return [this.backbone].concat(
  //     this.featureMarks,
@@ -107,7 +107,7 @@ export class BioMap
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.children.map(child => child && child.draw(ctx));
+    this.visible.map(child => child && child.data.draw(ctx));
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
@@ -117,6 +117,7 @@ export class BioMap
    * custom gesture event dispatch listener; see LayoutContainer
    */
   handleGesture(evt) {
+    console.log(evt);
     if(evt.type.match(this._gestureRegex.tap)) {
       return this._onTap(evt);
     }
@@ -133,6 +134,8 @@ export class BioMap
   }
 
   _onTap(evt) {
+    console.log('tap');
+    console.log(evt);
     let sel = this.appState.selection.bioMaps;
     let i = sel.indexOf(this);
     if(i === -1) {
@@ -142,6 +145,13 @@ export class BioMap
       sel.splice(i, 1);
     }
     m.redraw();
+    console.log( evt.srcEvent.layerX, evt.srcEvent.layerY);
+       // this.locMap.search(
+       //   {minX: evt.srcEvent.layerX,
+       //    maxX: evt.srcEvent.layerX,
+       //    minY: evt.srcEvent.layerY,
+       //    maxY: evt.srcEvent.layerY
+       //   }));
     PubSub.publish(selectedMap, {
       evt: evt,
       data: this.appState.selection.bioMaps
@@ -178,7 +188,7 @@ export class BioMap
    *  - Place backbone
    *  - Place groups (markers, QTLs, &c)
    *  - Update rbush trees
-   *  - Update conngruence map(s)
+   *  - Update congruence map(s)
    */
   _layout(layoutBounds) {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
@@ -204,6 +214,14 @@ export class BioMap
     // note map backbone will use this.bounds for it's own layout
     this.backbone = new MapBackbone({ parent: this });
     this.addChild(this.backbone);
+    this.backbone.locMap.insert({
+      minX: this.backbone.globalBounds.left,
+      minY: this.backbone.globalBounds.top,
+      maxX: this.backbone.globalBounds.right,
+      maxY: this.backbone.globalBounds.bottom,
+      data: this.backbone
+    });
+    this.locMap.insert(this.backbone.locMap.all());
 
     let markerGroup = new Group({parent:this.backbone});
     this.addChild(markerGroup);
@@ -212,17 +230,26 @@ export class BioMap
     let filteredFeatures = this.model.features.filter( model => {
       return model.length <= 0.00001;
     });
+    let fmData = [];
     this.featureMarks = filteredFeatures.map( model => {
-      return new FeatureMark({
+      let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
         bioMap: this.model
       });
+      markerGroup.addChild(fm);
+      fmData.push({
+        minY: fm.globalBounds.top,
+        maxY: fm.globalBounds.bottom,
+        minX: fm.globalBounds.left,
+        maxX: fm.globalBounds.right,
+        data:fm
+      });
+      return fm;
     });
 
-    this.featureMarks.forEach( mark => {
-      markerGroup.addChild(mark);
-    });
-
+    markerGroup.locMap.load(fmData);
+    this.locMap.load(this.visible);
+    console.log(this.locMap.all());
   }
 }
