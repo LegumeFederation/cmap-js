@@ -10,6 +10,7 @@ import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
 import { Group }  from './SceneGraphNodeGroup';
+import { MapTrack } from './MapTrack';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -85,6 +86,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
     // labels
     console.log('layout BioMap');
+    // Setup Canvas
     const width = Math.floor(100 + Math.random() * 200);
     this.children = [];
     this.domBounds = new Bounds({
@@ -93,53 +95,49 @@ export class BioMap extends SceneGraphNodeCanvas {
       width: width,
       height: layoutBounds.height
     });
-    // this.bounds (scenegraph) has the same width and height, but zero the
-    // left/top because we are the root node in a canvas sceneGraphNode
-    // heirarchy
     this.bounds = new Bounds({
       left: 0,
       top: 0,
       width: this.domBounds.width,
       height: this.domBounds.height
     });
-    // note map backbone will use this.bounds for it's own layout
-    this.backbone = new MapBackbone({ parent: this });
-    this.addChild(this.backbone);
-    this.backbone.locMap.insert({
-      minX: this.backbone.globalBounds.left,
-      minY: this.backbone.globalBounds.top,
-      maxX: this.backbone.globalBounds.right,
-      maxY: this.backbone.globalBounds.bottom,
-      data: this.backbone
-    });
 
-    let markerGroup = new Group({parent:this.backbone});
-    this.addChild(markerGroup);
-    this.markerGroup = markerGroup;
-    markerGroup.bounds = this.backbone.bounds;
+    //Add children tracks
+    this.backbone = new MapTrack({parent:this});
+    this.children.push(this.backbone);
+   // // this.bounds (scenegraph) has the same width and height, but zero the
+   // // left/top because we are the root node in a canvas sceneGraphNode
+   // // heirarchy
+   // // note map backbone will use this.bounds for it's own layout
+   // this.backbone = new MapBackbone({ parent: this });
+   // this.addChild(this.backbone);
+   // let markerGroup = new Group({parent:this.backbone});
+   // this.addChild(markerGroup);
+   // this.markerGroup = markerGroup;
+   // markerGroup.bounds = this.backbone.bounds;
 
-    let filteredFeatures = this.model.features.filter( model => {
-      return model.length <= 0.00001;
-    });
-    let fmData = [];
-    this.featureMarks = filteredFeatures.map( model => {
-      let fm = new FeatureMark({
-        featureModel: model,
-        parent: this.backbone,
-        bioMap: this.model
-      });
-      markerGroup.addChild(fm);
-      fmData.push({
-        minY: fm.globalBounds.top,
-        maxY: fm.globalBounds.bottom,
-        minX: fm.globalBounds.left,
-        maxX: fm.globalBounds.right,
-        data:fm
-      });
-      return fm;
-    });
+   // let filteredFeatures = this.model.features.filter( model => {
+   //   return model.length <= 0.00001;
+   // });
+   // let fmData = [];
+   // this.featureMarks = filteredFeatures.map( model => {
+   //   let fm = new FeatureMark({
+   //     featureModel: model,
+   //     parent: this.backbone,
+   //     bioMap: this.model
+   //   });
+   //   markerGroup.addChild(fm);
+   //   fmData.push({
+   //     minY: fm.globalBounds.top,
+   //     maxY: fm.globalBounds.bottom,
+   //     minX: fm.globalBounds.left,
+   //     maxX: fm.globalBounds.right,
+   //     data:fm
+   //   });
+   //   return fm;
+   // });
 
-    markerGroup.locMap.load(fmData);
-    this.locMap.load(this.visible);
+   // markerGroup.locMap.load(fmData);
+   // this.locMap.load(this.visible);
   }
 }

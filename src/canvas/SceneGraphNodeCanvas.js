@@ -39,6 +39,7 @@ export class SceneGraphNodeCanvas
     return this.appState.selection.bioMaps.indexOf(this) !== -1;
   }
 
+
   /**
    * mithril lifecycle method
    */
@@ -90,7 +91,8 @@ export class SceneGraphNodeCanvas
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.visible.map(child => child && child.data.draw(ctx));
+    console.log(this.children); 
+    this.children.map(child => child && child.draw(ctx));
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
