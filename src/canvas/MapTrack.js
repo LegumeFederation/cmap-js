@@ -26,6 +26,13 @@ export class  MapTrack extends SceneGraphNodeTrack {
 
 		this.backbone = new MapBackbone({ parent: this});	
 		this.addChild(this.backbone);
+    this.locMap.insert({
+      minX: this.bounds.left,
+      maxX: this.bounds.right,
+      minY: this.bounds.bottom,
+      maxY: this.bounds.top,
+      data: this.backbone
+    });
 
 		let markerGroup = new Group({parent:this});
     this.addChild(markerGroup);
@@ -59,4 +66,5 @@ export class  MapTrack extends SceneGraphNodeTrack {
     markerGroup.locMap.load(fmData);
     this.locMap.load(this.visible);
   }
+
 }

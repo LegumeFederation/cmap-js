@@ -91,8 +91,8 @@ export class SceneGraphNodeCanvas
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    console.log(this.children); 
-    this.children.map(child => child && child.draw(ctx));
+    console.log(this.visible); 
+    this.visible.map(child => child && child.data.draw(ctx));
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
