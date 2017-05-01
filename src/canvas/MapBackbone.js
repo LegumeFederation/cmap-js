@@ -10,8 +10,9 @@ export class MapBackbone extends SceneGraphNodeBase {
 
   constructor(params) {
     super(params);
+    console.log('AddingBackbone');
     const b = params.parent.bounds;
-    const backboneWidth = Math.floor(b.width * 0.25);
+    const backboneWidth = this.parent.bounds.width;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.height * 0.025,
@@ -19,10 +20,13 @@ export class MapBackbone extends SceneGraphNodeBase {
       width: backboneWidth,
       height: b.height * 0.95
     });
+    console.log(this);
   }
 
   draw(ctx) {
+    console.log('drawingBackbone');
     let gb = this.globalBounds || {};
+    console.log(gb);
     ctx.fillStyle = '#fff6e8';
     ctx.fillRect(
       Math.floor(gb.left),
@@ -30,5 +34,6 @@ export class MapBackbone extends SceneGraphNodeBase {
       Math.floor(gb.width),
       Math.floor(gb.height)
     );
+    this.children.forEach( child => child.draw(ctx));
   }
 }

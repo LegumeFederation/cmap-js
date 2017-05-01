@@ -2,6 +2,9 @@
   * SceneGraphNodeBase
   * Base Class representing a drawable element in canvas scenegraph
   */
+
+import  rbush  from 'rbush';
+
 import { Bounds } from '../model/Bounds';
 
 export class SceneGraphNodeBase {
@@ -25,16 +28,30 @@ export class SceneGraphNodeBase {
     this._tags = tags;
     this.bounds = bounds;
     this._children = []; // note: subclasses implement own children data structure
+    this.locMap = rbush();
+    this._visble = [];
   }
 
+	/* getters and setters */
   /* define getters for our properties; note subclasses can override setters,
     e.g. to perform layout or calculations based on new state */
+  /* getters */
   get children() { return this._children; }
   get bounds() { return this._bounds; }
   set bounds(b) { this._bounds = b; }
   get rotation() { return this._rotation; }
-  set rotation(degrees) { this._rotation = degrees; }
   get tags() { return this._tags; }
+  get visible(){ 
+    let vis = [];
+    let bob = this.children.map( child => {
+      return child.locMap.all();
+    });
+    bob.forEach(item =>{ vis = vis.concat(item);});
+    return vis;
+  }
+  /* setters */
+  set children(b) { this._children = b;}
+  set rotation(degrees) { this._rotation = degrees; }
   set tags(tags) { this._tags = tags; }
 
   /**
@@ -56,6 +73,7 @@ export class SceneGraphNodeBase {
     });
   }
 
+	/* public methods/*
   /**
    * Translate coordinates to canvas space. When an element wants to draw on
    * canvas, it requires translating into global coordinates for the canvas.
@@ -68,5 +86,43 @@ export class SceneGraphNodeBase {
   translatePointToGlobal({x, y}) {
     let gb = this.globalBounds;
     return {x: x + gb.left, y: y + gb.top};
+  }
+
+  /**
+   * Adds a child node to the _children array
+   * and changes child node's parent to this node
+   *
+   * @param {object} node - SceneGraphNode derived item to insert as a child
+   **/
+  addChild(node){
+    if(node.parent){
+      node.parent.removeChild(node);
+    }
+    node.parent = this;
+    if(this._children.indexOf(node) === -1)  this._children.push(node);
+  }
+
+  /**
+   * Removes a child node from the _children array
+   * and changes child node's parent to this node
+   *
+   * @param {object} node - SceneGraphNode derived node to remove
+   **/
+  removeChild(node){
+    //TODO: May need to use a indexOf polyfill if targeting IE < 9
+    let index = this._children.indexOf(node);
+    if(index > -1){
+      this._children.splice(index,1);
+    }
+  }
+  /**
+   * Traverse children and call their draw on the provided context
+   *
+   * #param {object} ctx - canvas context
+   *
+   */
+
+  draw(ctx){
+    this.children.forEach(child => child.draw(ctx));
   }
 }
