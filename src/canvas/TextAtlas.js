@@ -70,7 +70,16 @@ export class TextAtlas {
     });
   }
 
-  draw({font, word, ctx, x, y, width=null, height=null}) {
+  /**
+   * draw some text using the offscreen canvas technique.
+   * @param Object params - an object with the following properties:
+   * @param String font - which font specification to use
+   * @param String word - which word or phrase to draw
+   * @param Object ctx - canvas context2d to draw into
+   * @param Number x - the horizontal coordinate
+   * @param Number y - ths vertical coordinate
+   */
+  draw({font, word, ctx, x, y}) {
     const srcBounds = this.index[word][font];
     const srcCanvas = this.atlases[font].canvas;
     ctx.drawImage(

@@ -78,6 +78,7 @@ export class TextRendererBenchmark {
     });
     let t1 = performance.now();
     let delta =  Math.floor(t1 - t0);
+    // eslint-disable-next-line no-console
     console.log(`new TextAtlas() of ${this.words.length} words took ${delta} ms (one time)`);
     const ctx = this.canvas.getContext('2d');
     elapsedTime = 0;
