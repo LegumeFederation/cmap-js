@@ -13,14 +13,16 @@ export class DataSourceModel {
   /**
    * create a DataSourceModel
    * @param Object params having the following properties:
-   * @param String method - HTTP method (GET, POST)
-   * @param Object data - query parameters for the HTTP request
-   * @param String url - HTTP URL
+   * @param String method - HTTP method, get or post (required)
+   * @param String url - HTTP URL (required)
+   * @param String uniquePrefix - namespace or identifier to prefix (required)
+   * @param Object data - query string parameters for the request (optional)
    */
-  constructor({method, data, url}) {
+  constructor({method, data, url, uniquePrefix}) {
     this.method = method;
     this.data = data;
     this.url = url;
+    this.uniquePrefix = uniquePrefix;
     this.background = true; // mithril not to redraw upon completion
   }
 
@@ -47,22 +49,25 @@ export class DataSourceModel {
   }
 
   /**
-   * bioMaps getter
+   * bioMaps getter; return a mapping of the uniquified map name to
+   * an instance of BioMapModel.
    *
-   * @return Object - key: map_name val: BioMapModel instance
+   * @return Object - key: prefix + map_name -> val: BioMapModel instance
    */
   get bioMaps() {
     let modelMap = {};
     this.parseResult.data.forEach( d => {
       if(! d.map_name) return;
-      if(! modelMap[d.map_name]) {
-        modelMap[d.map_name] = new BioMapModel({
+      let uniqueMapName = `${this.uniquePrefix}${d.map_name}`;
+      if(! modelMap[uniqueMapName]) {
+        modelMap[uniqueMapName] = new BioMapModel({
+          uniqueName: uniqueMapName,
           name: d.map_name,
           features: [],
           coordinates: { start: d.map_start, stop: d.map_stop }
         });
       }
-      modelMap[d.map_name].features.push(
+      modelMap[uniqueMapName].features.push(
         new Feature({
           name: d.feature_name,
           tags: [d.feature_type !== '' ? d.feature_type : null],
