@@ -8,7 +8,8 @@
       "#" : "http request parameters; data property can be used for query params",
       "method": "GET",
       "data": {},
-      "url": "data/bean_markers+genes.cmap"
+      "url": "data/bean_markers+genes.cmap",
+      "uniquePrefix" : "my_pv_data"
     }
   ]
 }
