@@ -9,7 +9,8 @@
     "pretest": "npm run build",
     "test": "mocha",
     "coverage": "nyc npm test",
-    "watch": "rollup -c -w --environment WATCH:yes"
+    "watch": "rollup -c -w --environment WATCH:yes",
+    "validate-config" : "ajv -s cmap-schema.json -d cmap.json"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/ncgr/cmap-js#readme",
   "devDependencies": {
+    "ajv": "^5.0.1",
     "babel-eslint": "^7.2.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015-rollup": "^3.0.0",
