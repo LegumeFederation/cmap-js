@@ -114,8 +114,6 @@ export class CorrespondenceMap
       width: this.domBounds.width,
       height: this.domBounds.height
     });
-    //FIXME: why is commonFeatures always empty? there is a spec test for
-    //featuresInCommon()
-    //console.log(this.commonFeatures);
+    console.log(`# of features in common: ${this.commonFeatures.length}`);
   }
 }

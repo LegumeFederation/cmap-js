@@ -9,6 +9,7 @@ import './developmentTooling';
 import '../node_modules/normalize.css/normalize.css';
 import '../node_modules/skeleton-css/css/skeleton.css';
 import './ui/css/cmap.css';
+import './util/concatAll';
 
 import {CMAP} from './ui/CMAP';
 

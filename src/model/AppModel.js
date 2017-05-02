@@ -46,13 +46,15 @@ export class AppModel {
     // wait for all data sources are loaded, then set this.bioMaps with
     // only the maps named in initialView
     Promise.all(promises).then( () => {
-      this.sources.forEach( source => {
-        Object.keys(source.bioMaps).forEach( mapName => {
-          if(this.initialView.indexOf(mapName) !== -1) {
-            this.bioMaps.push(source.bioMaps[mapName]);
-          }
-        });
-      });
+      const allMaps = this.sources.map( src => Object.values(src.bioMaps) ).concatAll();
+      this.bioMaps = this.initialView.map( uniqMapName => {
+        const res = allMaps.filter(map => map.uniqueName === uniqMapName );
+        if(res.length == 0) {
+          // TODO: make a nice mithril component to display errors in the UI
+          alert(`failed to resolve initialView entry: ${uniqMapName}`);
+        }
+        return res;
+      }).concatAll();
       PubSub.publish(dataLoaded);
     }).
     catch( err => {

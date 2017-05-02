@@ -2,14 +2,19 @@
   "#": "cmap-js example configuration file (json format)",
   "header" : ": bean_markers+genes.cmap",
   "attribution" : "data attribution: NCGR 2017",
-  "initialView" : ["Pv11", "Pv07"],
+  "initialView" : ["pv_markers_genes_Pv02", "pv_consensus_Pv02"],
   "sources" : [
     {
-      "#" : "http request parameters; data property can be used for query params",
+      "#" : "note: data property can be used for http query params",
       "method": "GET",
       "data": {},
       "url": "data/bean_markers+genes.cmap",
-      "uniquePrefix" : "my_pv_data"
+      "uniquePrefix" : "pv_markers_genes_"
+    },
+    {
+      "method": "GET",
+      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
+      "uniquePrefix" : "pv_consensus_"
     }
   ]
 }
