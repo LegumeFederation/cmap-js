@@ -1,12 +1,11 @@
-#Canvas
-src/canvas/ contains user-interface elements based on Canvas graphics API.
-
+# Canvas
+`src/canvas/` contains user-interface elements based on Canvas graphics API.
 There are:
 * multiple canvas DOM elements, drawn offscreen and composited.
 * the src/canvas classes are organized into a "scenegraph" with parent-child
   relationships.
 
-##Node Classes:
+## Node Classes:
 * `SceneGraphNodeBase` - base node that all others are based on.
 * `SceneGraphNodeGeometry` - node that houses an element to be drawn.
   * `line`
@@ -21,5 +20,5 @@ There are:
 * `SceneGraphNodeRoot` - NOT REIMPLEMENTED: SceneGraphNodeBase with explicit 0,0 top and left. Used for navigating rtrees between canvases.
 * `SceneGraphNodeText` - NOT IMPLEMENTED: Like Geometry, but for text items.
 
-##Notes about how canvas draws:
+## Notes about how canvas draws:
 When canvas is drawing paths (ctx.path()/ctx.stroke(), ctx.strokeRect() and related) when you change the strokeWidth, the stroke width is split equally above and below the stroke points. Don't forget to set bounding boxes accordingly when drawing new geometries.
