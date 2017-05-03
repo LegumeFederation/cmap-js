@@ -12,8 +12,8 @@ export class FeatureMark extends SceneGraphNodeBase {
     this.model = featureModel;
     this.featureMap = bioMap;
     this.lineWidth = 1.0;
-    let pixelScaleFactor = parent.bounds.height / bioMap.length;
-    let y = this._translateScale(this.model.coordinates.start) * pixelScaleFactor;
+    this.pixelScaleFactor = parent.bounds.height / bioMap.length;
+    let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: y,
@@ -24,17 +24,19 @@ export class FeatureMark extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
+    let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
+    this.bounds.top = y;
     let gb = this.globalBounds || {};
     ctx.beginPath();
     ctx.lineWidth = this.lineWidth;
     ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
-    ctx.lineTo(Math.floor(gb.right), Math.floor(gb.bottom - this.lineWidth));
+    ctx.lineTo(Math.floor(gb.right), Math.floor(gb.top));
     ctx.stroke();
   }
 
   _translateScale(point){
-    let coord = this.featureMap.coordinates;
-    let vis = this.featureMap.visible;
+    let coord = this.mapCoordinates.base;
+    let vis = this.mapCoordinates.visible;
     return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
   }
 }
