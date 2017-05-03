@@ -76,5 +76,7 @@ export class AppModel {
    */
   _onReset() {
     this.setupInitialView();
+    this.tools.zoomFactor  = 1;
+    this.tools.layout = HorizontalLayout;
   }
 }

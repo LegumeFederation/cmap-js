@@ -3,41 +3,29 @@
  * A mithril component of a Reset button.
  */
 import m from 'mithril';
-
-// import icon from '../svg-icons/move.svg'; // TODO button icon
+import PubSub from 'pubsub-js';
+import {reset} from '../../topics';
 
 export class Reset  {
 
   // constructor() - prefer do not use in mithril components
 
   /**
-   * mithril lifecycle method
+   * mithril render callback
    */
-  oninit(vnode) {
-    this.appState = vnode.attrs.appState;
-  }
-
-  view(vnode) {
-    let srcAttrs = vnode.attrs || {};
-    let attrs = Object.assign({
-      onclick: (e) => this.click(e)
-    }, srcAttrs);
-    return m('button',
-      attrs,
-      vnode.children && vnode.children.length ?
-      vnode.children :
-      [
-        'Reset',
-        //m('span', { class: 'cmap-toolbar-icon'}, m.trust(icon))
-      ]
-    );
+  view() {
+    return m('button', {
+      onclick: () => this._onClick()
+    }, [
+      m('i.material-icons', 'restore_page'),
+      'Reset'
+    ]);
   }
 
   /**
-   * button's event handler
+   * reset button event handler
    */
-  click() {
-    // FIXME: implement appState reset
-    this.appState.reset();
+  _onClick() {
+    PubSub.publish(reset, null);
   }
 }

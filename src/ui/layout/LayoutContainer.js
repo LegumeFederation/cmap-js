@@ -57,7 +57,6 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    * mithril lifecycle method
    */
   onupdate(vnode) {
-    console.assert(this.el === vnode.dom);
     this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
   }
 
@@ -67,8 +66,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   view() {
     let b = this.contentBounds || {}; // relative bounds of the layout-container
     let scale = this.appState.tools.zoomFactor;
-    return m('div', {
-      class: 'cmap-layout-container',
+    return m('div.cmap-layout-container', {
       style: `left: ${b.left}px; top: ${b.top}px;
               width: ${b.width}px; height: ${b.height}px;
               transform: scale(${scale})`
@@ -135,8 +133,13 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    * PubSub event handler
    */
   _onReset() {
-    // TODO: implement _onReset()
-    console.warn('implement _onReset()');
+    this.contentBounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.bounds.width,
+      height: this.bounds.height
+    });
+    m.redraw();
   }
 
 }

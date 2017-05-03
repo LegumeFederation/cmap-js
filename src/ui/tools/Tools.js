@@ -20,15 +20,7 @@ export class Tools  {
   /**
    * mithril component render method
    */
-  view(vnode) {
-    let srcAttrs = vnode.attrs || {};
-    let attrs = Object.assign({class: 'tools cmap-hbox'}, srcAttrs);
-    return m('div',
-      attrs,
-      vnode.children && vnode.children.length ?
-        vnode.children : [
-          m(Reset, { appState: this.appState })
-        ]
-    );
+  view() {
+    return m('div.tools.cmap-hbox', m(Reset));
   }
 }

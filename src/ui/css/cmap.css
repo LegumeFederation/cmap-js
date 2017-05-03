@@ -81,3 +81,5 @@ span.cmap-header {
 
 .cmap-attribution {
 }
+
+button > i{ vertical-align: middle !important; }

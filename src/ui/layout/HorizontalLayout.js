@@ -42,10 +42,8 @@ export class HorizontalLayout
    * mithril component render method
    */
   view() {
-    return m('div', {
-      class: 'cmap-layout-horizontal'
-    },
-    [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
+    return m('div.cmap-layout-horizontal',
+      [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
     );
   }
 
