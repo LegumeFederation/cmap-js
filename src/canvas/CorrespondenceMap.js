@@ -11,6 +11,7 @@ import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
 import {featuresInCommon} from '../model/Feature';
+import {CorrespondenceMark} from './CorrespondenceMark';
 
 export class CorrespondenceMap
        extends mix(SceneGraphNodeBase)
@@ -78,7 +79,7 @@ export class CorrespondenceMap
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     let gb = this.globalBounds || {};
     ctx.save();
-    //this.children.map(child => child.draw(ctx));
+    this.visible.map(child => child.data.draw(ctx));
     ctx.fillStyle = 'cyan';
     ctx.globalAlpha = 0.2;
     ctx.fillRect(
@@ -108,12 +109,42 @@ export class CorrespondenceMap
     // this.bounds (scenegraph) has the same width and height, but zero the
     // left/top because we are the root node in a canvas sceneGraphNode
     // heirarchy.
+    let gb1 = this.bioMapComponents[0].visible[0].data.globalBounds;
+    let gb2 = this.bioMapComponents[0].visible[0].data.globalBounds;
+    console.log('biomap bounds', gb1);
     this.bounds = new Bounds({
       left: 0,
-      top: 0,
+      top: gb1.top,
       width: this.domBounds.width,
-      height: this.domBounds.height
+      height: gb2.height
     });
-    console.log(`# of features in common: ${this.commonFeatures.length}`);
+    let corrData = [];
+    let bioMapCoordinates = [
+      this.bioMapComponents[0].mapCoordinates, 
+      this.bioMapComponents[1].mapCoordinates
+    ];
+    this.commonFeatures.forEach( feature => {
+      let corrMark = new CorrespondenceMark({
+        parent:this,
+        featurePair: feature,
+        mapCoordinates:bioMapCoordinates,
+        bioMap : this.bioMapComponents
+      });
+      this.addChild(corrMark);
+      corrData.push({
+        minX:this.bounds.left,
+        maxX:this.bounds.right ,
+        minY:feature[0].coordinates.start ,
+        maxY: feature[1].coordinates.start,
+        data: corrMark
+      }) 
+    });
+    this.locMap.load(corrData); 
+    console.log('bioMap', this.locMap.all());
+    console.log('# of features in common',this.commonFeatures);
+  }
+
+  get visible(){
+    return this.locMap.all();
   }
 }

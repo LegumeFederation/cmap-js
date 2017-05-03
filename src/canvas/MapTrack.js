@@ -26,6 +26,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.mC = this.parent.mapCoordinates;
 		this.backbone = new MapBackbone({ parent: this});	
 		this.addChild(this.backbone);
+    this.backBounds = this.backbone.bounds;
    // this.locMap.insert({
    //   minX: this.bounds.left,
    //   maxX: this.bounds.right,
