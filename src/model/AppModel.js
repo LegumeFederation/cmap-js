@@ -5,15 +5,15 @@
  * data from the app state.
  */
 import PubSub from 'pubsub-js';
-import {dataLoaded} from '../topics';
 
+import {dataLoaded, reset} from '../topics';
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {DataSourceModel} from './DataSourceModel';
 
 export class AppModel {
 
   constructor() {
-    // sources and bioMaps arrays will be populated in init()
+    // sources and bioMaps arrays will be populated in load()
     this.sources = [];
     this.bioMaps = [];
     this.tools = {
@@ -24,6 +24,9 @@ export class AppModel {
       // biomaps can be multi-selected by click or tap
       bioMaps: []
     };
+    PubSub.subscribe(reset, () => this._onReset());
+    // the status and busy properties are be displayed in the UI,
+    // and can be freely changed via these properties
     this.status = '';
     this.busy = false;
   }
@@ -46,15 +49,8 @@ export class AppModel {
     // wait for all data sources are loaded, then set this.bioMaps with
     // only the maps named in initialView
     Promise.all(promises).then( () => {
-      const allMaps = this.sources.map( src => Object.values(src.bioMaps) ).concatAll();
-      this.bioMaps = this.initialView.map( uniqMapName => {
-        const res = allMaps.filter(map => map.uniqueName === uniqMapName );
-        if(res.length == 0) {
-          // TODO: make a nice mithril component to display errors in the UI
-          alert(`failed to resolve initialView entry: ${uniqMapName}`);
-        }
-        return res;
-      }).concatAll();
+      this.allMaps = this.sources.map( src => Object.values(src.bioMaps) ).concatAll();
+      this.setupInitialView();
       PubSub.publish(dataLoaded);
     }).
     catch( err => {
@@ -64,7 +60,21 @@ export class AppModel {
     return promises;
   }
 
-  reset() {
-    console.log('reset state'); // TODO: implement reset of application model
+  setupInitialView() {
+    this.bioMaps = this.initialView.map( uniqMapName => {
+      const res = this.allMaps.filter(map => map.uniqueName === uniqMapName );
+      if(res.length == 0) {
+        // TODO: make a nice mithril component to display errors in the UI
+        alert(`failed to resolve initialView entry: ${uniqMapName}`);
+      }
+      return res;
+    }).concatAll();
+  }
+
+  /**
+   * PubSub event handler
+   */
+  _onReset() {
+    this.setupInitialView();
   }
 }
