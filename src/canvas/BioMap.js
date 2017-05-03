@@ -61,9 +61,13 @@ export class BioMap extends SceneGraphNodeCanvas {
     console.warn('BioMap -> onZoom -- implement me', evt);
     this.verticalScale += evt.deltaY;
 		let mcv = this.mapCoordinates.base;
+    let zStart = (mcv.start - this.verticalScale*.1);
+    let zStop = (mcv.stop + this.verticalScale*.1);
+    zStart = zStart < mcv.start ? mcv.start : zStart;
+    zStop = zStop > mcv.stop ? mcv.stop : zStop;
 		this.mapCoordinates.visible = {
-			start: mcv.start - this.verticalScale*.1,
-			stop: mcv.stop + this.verticalScale*.1
+			start: zStart,
+			stop: zStop
 		}
 		this.draw();
 		console.log('wheelZoom',this.verticalScale,this.mapCoordinates.visible);
