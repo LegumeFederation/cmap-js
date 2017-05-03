@@ -13,6 +13,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
+    console.log('mapTrack',this.parent);
     const b = this.parent.bounds;
     const backboneWidth = b.width * 0.25;
     this.bounds = new Bounds({
@@ -22,17 +23,16 @@ export class  MapTrack extends SceneGraphNodeTrack {
       width: backboneWidth,
       height: b.height * 0.95
     });
-		console.log(this.bounds.width);
-
+    this.mC = this.parent.mapCoordinates;
 		this.backbone = new MapBackbone({ parent: this});	
 		this.addChild(this.backbone);
-    this.locMap.insert({
-      minX: this.bounds.left,
-      maxX: this.bounds.right,
-      minY: this.bounds.bottom,
-      maxY: this.bounds.top,
-      data: this.backbone
-    });
+   // this.locMap.insert({
+   //   minX: this.bounds.left,
+   //   maxX: this.bounds.right,
+   //   minY: this.parent.mapCoordinates.start,
+   //   maxY: this.parent.mapCoordinates.stop,
+   //   data: this.backbone
+   // });
 
 		let markerGroup = new Group({parent:this});
     this.addChild(markerGroup);
@@ -54,8 +54,8 @@ export class  MapTrack extends SceneGraphNodeTrack {
       });
       markerGroup.addChild(fm);
       fmData.push({
-        minY: fm.globalBounds.top,
-        maxY: fm.globalBounds.bottom,
+        minY: model.coordinates.start,
+        maxY: model.coordinates.stop,
         minX: fm.globalBounds.left,
         maxX: fm.globalBounds.right,
         data:fm
@@ -64,7 +64,24 @@ export class  MapTrack extends SceneGraphNodeTrack {
     });
 
     markerGroup.locMap.load(fmData);
-    this.locMap.load(this.visible);
+    this.locMap.load(fmData);
   }
 
+  get visible(){
+    let vis = [{
+      minX: this.bounds.left,
+      maxX: this.bounds.right,
+      minY: this.parent.mapCoordinates.start,
+      maxY: this.parent.mapCoordinates.stop,
+      data: this.backbone
+    }];
+
+    vis = vis.concat(this.locMap.search({
+      minX: this.bounds.left,
+      maxX: this.bounds.right,
+      minY: this.mC.visible.start,
+      maxY: this.mC.visible.stop
+    }));
+    return vis;
+  }
 }

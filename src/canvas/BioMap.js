@@ -4,6 +4,7 @@
   * SceneGraphNodeCanvas representing a biological map and its associated tracks
   *
   */
+import m from 'mithril';
 
 import {Bounds} from '../model/Bounds';
 import {FeatureMark} from './FeatureMark';
@@ -20,6 +21,16 @@ export class BioMap extends SceneGraphNodeCanvas {
       start: this.model.coordinates.start,
       stop: this.model.coordinates.stop
     };
+    this.mapCoordinates = {
+      base: {
+        start: this.model.coordinates.start,
+        stop: this.model.coordinates.stop
+      },
+      visible: {
+        start: this.model.coordinates.start,
+        stop: this.model.coordinates.stop
+      }
+    }
     // set up coordinate bounds for view scaling
     this.appState = appState;
     this.verticalScale = 1;
@@ -44,6 +55,20 @@ export class BioMap extends SceneGraphNodeCanvas {
    */
 
 
+	_onZoom(evt) {
+    // TODO: send zoom event to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onZoom -- implement me', evt);
+    this.verticalScale += evt.deltaY;
+		let mcv = this.mapCoordinates.base;
+		this.mapCoordinates.visible = {
+			start: mcv.start - this.verticalScale*.1,
+			stop: mcv.stop + this.verticalScale*.1
+		}
+		this.draw();
+		console.log('wheelZoom',this.verticalScale,this.mapCoordinates.visible);
+    return true; // stop event propagation
+  }
 //  _onTap(evt) {
 //    console.log('tap');
 //    console.log(evt);
@@ -139,5 +164,16 @@ export class BioMap extends SceneGraphNodeCanvas {
 
    // markerGroup.locMap.load(fmData);
    // this.locMap.load(this.visible);
+  }
+  
+  get visible(){
+    let vis = [];
+    let cVis = this.children.map(child => {
+     return child.visible;
+    });
+    cVis.forEach(item => {
+      vis = vis.concat(item)
+    });
+    return vis;
   }
 }
