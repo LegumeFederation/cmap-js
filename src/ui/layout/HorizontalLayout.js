@@ -24,7 +24,6 @@ export class HorizontalLayout
    */
   oninit(vnode) {
     super.oninit(vnode);
-    console.log('HorizontalLayout.oninit()');
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
     this.subscriptions = [

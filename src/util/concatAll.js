@@ -1,5 +1,5 @@
 /**
- * http://reactivex.io/learnrx/
+ * concatAll() aka flattenDeep(), based on http://reactivex.io/learnrx/
  */
 Array.prototype.concatAll = function() {
   var results = [];

@@ -30,7 +30,6 @@ export class UI extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
     super.oncreate(vnode);
     this.el = vnode.dom;
-    console.log(this.el.mithrilComponent);
     this._setupEventHandlers(this.el);
   }
 

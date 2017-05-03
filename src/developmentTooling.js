@@ -8,6 +8,7 @@ import * as topics from './topics';
 
 const monitorPubSub = () => {
   let logger = (topic, data) => {
+    // eslint-disable-next-line no-console
     console.log(`[${topic}]`, data);
   };
   Object.keys(topics).forEach( t => {
@@ -17,5 +18,6 @@ const monitorPubSub = () => {
 };
 
 if (ENV !== 'production') {
+  PubSub.immediateExceptions = true;
   monitorPubSub();
 }
