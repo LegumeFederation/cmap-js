@@ -12,12 +12,11 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
     this.model = featurePair;
     this.mapCoordinates = mapCoordinates;
     this.lineWidth = 1.0;
+    
     this.pixelScaleFactor = [
-      bioMap[0].backbone.backBounds.height / bioMap[0].model.length, 
-      bioMap[1].backbone.backBounds.height / bioMap[1].model.length
+      bioMap[0].backbone.backbone.globalBounds.height / bioMap[0].model.length, 
+      bioMap[1].backbone.backbone.globalBounds.height / bioMap[1].model.length
     ];
-    console.log('cmark',this.pixelScaleFactor);
-    console.log(bioMap);
     let leftY = this._translateScale(
         this.mapCoordinates[0].base,
         this.mapCoordinates[0].visible,
@@ -26,13 +25,14 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
         this.mapCoordinates[1].base,
         this.mapCoordinates[1].visible,
         this.model[1].coordinates.start) * this.pixelScaleFactor[1];
-    let w = bioMap[1].backbone.backBounds.width/2; 
+    let w = bioMap[1].backbone.backbone.bounds.width/2; 
+
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: leftY,
-      bottom: rightY,
-      left: bioMap[0].backbone.backBounds.width/2,
-      right: (parent.bounds.right - w)
+      left: parent.bounds.left,
+      height: leftY-rightY,
+      width: parent.bounds.width
     });
   }
 
@@ -45,12 +45,9 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
         this.mapCoordinates[1].base,
         this.mapCoordinates[1].visible,
         this.model[1].coordinates.start) *  this.pixelScaleFactor[1];
-
-    console.log('coords left: ', this.model[0].coordinates.start, leftY)
     this.bounds.top = leftY;
     this.bounds.bottom = rightY;
     let gb = this.globalBounds || {};
-    console.log('drawing', gb);
 
     ctx.beginPath();
     ctx.lineWidth = this.lineWidth;

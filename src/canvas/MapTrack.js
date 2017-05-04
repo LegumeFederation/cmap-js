@@ -26,7 +26,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.mC = this.parent.mapCoordinates;
 		this.backbone = new MapBackbone({ parent: this});	
 		this.addChild(this.backbone);
-    this.backBounds = this.backbone.bounds;
    // this.locMap.insert({
    //   minX: this.bounds.left,
    //   maxX: this.bounds.right,
@@ -41,13 +40,12 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
 
-    let filteredFeatures = this.parent.model.features.filter( model => {
+    this.filteredFeatures = this.parent.model.features.filter( model => {
       return model.length <= 0.00001;
     });
     let fmData = [];
 		console.log('features');
-		console.log(filteredFeatures);
-    this.featureMarks = filteredFeatures.map( model => {
+    this.featureMarks = this.filteredFeatures.map( model => {
       let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
@@ -69,14 +67,14 @@ export class  MapTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
+    console.log('gettingVisible', this);
     let vis = [{
       minX: this.bounds.left,
       maxX: this.bounds.right,
-      minY: this.parent.mapCoordinates.start,
-      maxY: this.parent.mapCoordinates.stop,
+      minY: this.parent.mapCoordinates.base.start,
+      maxY: this.parent.mapCoordinates.base.stop,
       data: this.backbone
     }];
-
     vis = vis.concat(this.locMap.search({
       minX: this.bounds.left,
       maxX: this.bounds.right,

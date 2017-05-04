@@ -8,10 +8,11 @@ import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import {CorrespondenceMark} from './CorrespondenceMark';
+import {Group} from './SceneGraphNodeGroup';
 import {DrawLazilyMixin} from './DrawLazilyMixin';
 import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
 import {featuresInCommon} from '../model/Feature';
-import {CorrespondenceMark} from './CorrespondenceMark';
 
 export class CorrespondenceMap
        extends mix(SceneGraphNodeBase)
@@ -79,7 +80,6 @@ export class CorrespondenceMap
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     let gb = this.globalBounds || {};
     ctx.save();
-    this.visible.map(child => child.data.draw(ctx));
     ctx.fillStyle = 'cyan';
     ctx.globalAlpha = 0.2;
     ctx.fillRect(
@@ -89,6 +89,7 @@ export class CorrespondenceMap
       Math.floor(gb.height)
     );
     ctx.restore();
+    this.visible.map(child => child.data.draw(ctx));
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
   }
@@ -98,8 +99,10 @@ export class CorrespondenceMap
    */
   get commonFeatures() {
     // TODO: support more than 2 sets of features (e.g. for circos layout)
-    let leftFeatures = this.bioMapComponents[0].model.features;
-    let rightFeatures = this.bioMapComponents[1].model.features;
+    //let leftFeatures = this.bioMapComponents[0].model.features;
+    //let rightFeatures = this.bioMapComponents[1].model.features;
+    let leftFeatures = this.bioMapComponents[0].backbone.filteredFeatures;
+    let rightFeatures = this.bioMapComponents[1].backbone.filteredFeatures;
     let common = featuresInCommon(leftFeatures, rightFeatures);
     return common;
   }
@@ -109,28 +112,37 @@ export class CorrespondenceMap
     // this.bounds (scenegraph) has the same width and height, but zero the
     // left/top because we are the root node in a canvas sceneGraphNode
     // heirarchy.
-    let gb1 = this.bioMapComponents[0].visible[0].data.globalBounds;
-    let gb2 = this.bioMapComponents[0].visible[0].data.globalBounds;
-    console.log('biomap bounds', gb1);
+    let gb1 = this.bioMapComponents[0].backbone.backbone.globalBounds;
     this.bounds = new Bounds({
       left: 0,
-      top: gb1.top,
+      top: 0,
       width: this.domBounds.width,
-      height: gb2.height
+      height: this.domBounds.height
     });
+    
     let corrData = [];
+    let coorGroup = new Group({parent:this});
+    coorGroup.bounds = new Bounds({
+      top: gb1.top,
+      left: this.bioMapComponents[0].backbone.backbone.bounds.width/4,
+      width: this.domBounds.width - gb1.width,
+      height: gb1.height,
+    });
+    this.addChild(coorGroup);
+    console.log('childBounds', this.globalBounds, coorGroup.globalBounds);
+
     let bioMapCoordinates = [
       this.bioMapComponents[0].mapCoordinates, 
       this.bioMapComponents[1].mapCoordinates
     ];
     this.commonFeatures.forEach( feature => {
       let corrMark = new CorrespondenceMark({
-        parent:this,
+        parent: coorGroup,
         featurePair: feature,
         mapCoordinates:bioMapCoordinates,
         bioMap : this.bioMapComponents
       });
-      this.addChild(corrMark);
+      coorGroup.addChild(corrMark);
       corrData.push({
         minX:this.bounds.left,
         maxX:this.bounds.right ,

@@ -37,6 +37,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.backbone = null;
     this.featureMarks = [];
     this.featureLabels = [];
+    this.cMap = [];
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
       pan:   new RegExp('^pan'),
@@ -70,7 +71,6 @@ export class BioMap extends SceneGraphNodeCanvas {
 			stop: zStop
 		}
 		this.draw();
-		console.log('wheelZoom',this.verticalScale,this.mapCoordinates.visible);
     return true; // stop event propagation
   }
 //  _onTap(evt) {
