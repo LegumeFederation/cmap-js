@@ -1,10 +1,12 @@
 /**
-  * Tools
-  * A mithril component of the UI tools in a div.
+  * A mithril component of the UI tools in a div (toolbar).
   */
 import m from 'mithril';
 
-import {Reset} from './Reset';
+import {ResetButton} from './ResetButton';
+import {RemoveMapButton} from './RemoveMapButton';
+import {AddMapButton} from './AddMapButton';
+import {FilterButton} from './FilterButton';
 
 export class Tools  {
 
@@ -21,6 +23,11 @@ export class Tools  {
    * mithril component render method
    */
   view() {
-    return m('div.tools.cmap-hbox', m(Reset));
+    return m('div.tools.cmap-hbox', [
+      m(ResetButton),
+      m(FilterButton),
+      m(AddMapButton),
+      m(RemoveMapButton)
+    ]);
   }
 }

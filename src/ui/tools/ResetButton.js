@@ -6,7 +6,7 @@ import m from 'mithril';
 import PubSub from 'pubsub-js';
 import {reset} from '../../topics';
 
-export class Reset  {
+export class ResetButton {
 
   // constructor() - prefer do not use in mithril components
 
@@ -15,17 +15,20 @@ export class Reset  {
    */
   view() {
     return m('button', {
-      onclick: () => this._onClick()
+      onclick: evt => this._onClick(evt)
     }, [
-      m('i.material-icons', 'restore_page'),
-      'Reset'
+      m('i.material-icons', 'restore'),
+      'Reset View'
     ]);
   }
 
   /**
    * reset button event handler
    */
-  _onClick() {
+  _onClick(evt) {
     PubSub.publish(reset, null);
+    // subscribers to the reset topic may m.redraw if they need to; suppress
+    // redraw for the current event.
+    evt.redraw = false;
   }
 }

@@ -82,4 +82,12 @@ span.cmap-header {
 .cmap-attribution {
 }
 
-button > i{ vertical-align: middle !important; }
+button > i{
+  vertical-align: -30%;
+}
+
+div.tools button {
+  margin-right: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}

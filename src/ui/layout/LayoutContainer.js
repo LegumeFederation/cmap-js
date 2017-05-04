@@ -9,7 +9,7 @@ import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
-import {layout as layoutMsg, reset} from '../../topics';
+import {reset} from '../../topics';
 import {Bounds} from '../../model/Bounds';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
@@ -25,8 +25,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     super.oninit(vnode);
     this.appState = vnode.attrs.appState;
 
-    PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data));
-    PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data));
+    PubSub.subscribe(reset, () => this._onReset());
 
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
