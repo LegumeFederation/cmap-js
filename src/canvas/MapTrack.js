@@ -24,17 +24,10 @@ export class  MapTrack extends SceneGraphNodeTrack {
       height: b.height * 0.95
     });
     this.mC = this.parent.mapCoordinates;
-		this.backbone = new MapBackbone({ parent: this});	
-		this.addChild(this.backbone);
-   // this.locMap.insert({
-   //   minX: this.bounds.left,
-   //   maxX: this.bounds.right,
-   //   minY: this.parent.mapCoordinates.start,
-   //   maxY: this.parent.mapCoordinates.stop,
-   //   data: this.backbone
-   // });
+    this.backbone = new MapBackbone({ parent: this});	
+    this.addChild(this.backbone);
 
-		let markerGroup = new Group({parent:this});
+    let markerGroup = new Group({parent:this});
     this.addChild(markerGroup);
 
     this.markerGroup = markerGroup;
@@ -44,7 +37,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
       return model.length <= 0.00001;
     });
     let fmData = [];
-		console.log('features');
     this.featureMarks = this.filteredFeatures.map( model => {
       let fm = new FeatureMark({
         featureModel: model,
@@ -67,7 +59,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
-    console.log('gettingVisible', this);
     let vis = [{
       minX: this.bounds.left,
       maxX: this.bounds.right,

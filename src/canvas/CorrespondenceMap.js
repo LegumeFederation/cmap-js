@@ -3,21 +3,14 @@
   * Mithril component for correspondence lines between 2 or more BioMaps with an
   * html5 canvas element.
   */
-import m from 'mithril';
-import {mix} from '../../mixwith.js/src/mixwith';
 
 import {Bounds} from '../model/Bounds';
-import {SceneGraphNodeBase} from './SceneGraphNodeBase';
-import {CorrespondenceMark} from './CorrespondenceMark';
+import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
 import {Group} from './SceneGraphNodeGroup';
-import {DrawLazilyMixin} from './DrawLazilyMixin';
-import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
+import {CorrespondenceMark} from './CorrespondenceMark';
 import {featuresInCommon} from '../model/Feature';
 
-export class CorrespondenceMap
-       extends mix(SceneGraphNodeBase)
-       .with(DrawLazilyMixin, RegisterComponentMixin) {
-
+export class CorrespondenceMap extends SceneGraphNodeCanvas{
   constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
     this.bioMapComponents = bioMapComponents;
@@ -25,49 +18,6 @@ export class CorrespondenceMap
     this.verticalScale = 1;
     this.correspondenceMarks = [];
     this._layout(layoutBounds);
-  }
-
-  // override the children prop. getter
-  get children() {
-    return this.correspondenceMarks;
-  }
-  set children(ignore) {}
-
-  /**
-   * mithril lifecycle method
-   */
-  oncreate(vnode) {
-    super.oncreate(vnode);
-    this.canvas = this.el = vnode.dom;
-    this.context2d = this.canvas.getContext('2d');
-    this.drawLazily(this.domBounds);
-  }
-
-  /**
-   * mithril lifecycle method
-   */
-  onupdate(vnode) {
-    // TODO: remove this development assistive method
-    console.assert(this.el === vnode.dom);
-    let b = new Bounds(this.el.getBoundingClientRect());
-    console.log('CorrespondenceMap.onupdate', b.width, b.height, this.el);
-  }
-
-  /**
-   * mithril component render callback
-   */
-  view() {
-    if(this.domBounds && ! this.domBounds.isEmptyArea) {
-      this.lastDrawnMithrilBounds = this.domBounds;
-    }
-    let b = this.domBounds || {};
-    return m('canvas', {
-      class: 'cmap-canvas cmap-correspondence-map',
-      style: `left: ${b.left}px; top: ${b.top}px;
-              width: ${b.width}px; height: ${b.height}px;`,
-      width: b.width,
-      height: b.height
-    });
   }
 
   /**
@@ -149,11 +99,10 @@ export class CorrespondenceMap
         minY:feature[0].coordinates.start ,
         maxY: feature[1].coordinates.start,
         data: corrMark
-      }) 
+      });
     });
     this.locMap.load(corrData); 
     console.log('bioMap', this.locMap.all());
-    console.log('# of features in common',this.commonFeatures);
   }
 
   get visible(){
