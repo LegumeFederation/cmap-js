@@ -154,7 +154,7 @@ export class SceneGraphNodeCanvas
       console.warn('BioMap -> onPan -- vertically; implement me', evt);
       return true; // stop event propagation
     }
-    return true; // do not stop propagation
+    return false; // do not stop propagation
   }
 
 	/**
