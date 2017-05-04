@@ -119,6 +119,19 @@ export class SceneGraphNodeCanvas
   _onTap(evt) {
     console.log('tap');
     console.log(evt);
+    return false;
+  }
+
+  _onZoom(evt) {
+    // TODO: send zoom event to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onZoom -- implement me', evt);
+    return false; // stop event propagation
+  }
+
+  _onTap(evt) {
+    console.log('tap');
+    console.log(evt);
     let sel = this.appState.selection.bioMaps;
     let i = sel.indexOf(this);
     if(i === -1) {
@@ -132,16 +145,8 @@ export class SceneGraphNodeCanvas
       evt: evt,
       data: this.appState.selection.bioMaps
     });
-    return true;
+    return false;
   }
-
-  _onZoom(evt) {
-    // TODO: send zoom event to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
-    console.warn('BioMap -> onZoom -- implement me', evt);
-    return true; // stop event propagation
-  }
-
   _onPan(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -149,7 +154,7 @@ export class SceneGraphNodeCanvas
       console.warn('BioMap -> onPan -- vertically; implement me', evt);
       return true; // stop event propagation
     }
-    return false; // do not stop propagation
+    return true; // do not stop propagation
   }
 
 	/**

@@ -72,6 +72,7 @@ export class BioMap extends SceneGraphNodeCanvas {
 		this.draw();
     let cMaps = document.getElementsByClassName("cmap-correspondence-map");
     [].forEach.call(cMaps, el =>{
+      console.log(el);
       el.mithrilComponent.draw();
     });
     return true; // stop event propagation
