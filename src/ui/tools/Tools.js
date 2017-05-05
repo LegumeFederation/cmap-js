@@ -8,6 +8,8 @@ import {RemoveMapButton} from './RemoveMapButton';
 import {AddMapButton} from './AddMapButton';
 import {FilterButton} from './FilterButton';
 import {MapRemovalDialog} from './MapRemovalDialog';
+import {MapAdditionDialog} from './MapAdditionDialog';
+
 
 export class Tools  {
 
@@ -29,7 +31,9 @@ export class Tools  {
       m('div.cmap-toolbar.cmap-hbox', [
         m(ResetButton),
         m(FilterButton),
-        m(AddMapButton),
+        m(AddMapButton, {
+          onclick: () => this.currentDialog = MapAdditionDialog
+        }),
         m(RemoveMapButton, {
           onclick: () => this.currentDialog = MapRemovalDialog
         })

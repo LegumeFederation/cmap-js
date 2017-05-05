@@ -10,19 +10,13 @@ export class AddMapButton {
   /**
   * mithril render callback
   */
-  view() {
+  view(vnode) {
     const attrs = {
-      onclick: evt => this._onClick(evt)
+      onclick: vnode.attrs.onclick
     };
     return m('button', attrs, [
       m('i.material-icons', 'add_circle_outline'),
       'Add Map'
     ]);
-  }
-
-  /**
-  * button event handler
-  */
-  _onClick() {
   }
 }

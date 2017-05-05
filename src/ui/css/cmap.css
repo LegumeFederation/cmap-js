@@ -73,6 +73,10 @@ h4.cmap-header {
   margin-bottom: 0;
 }
 
+.cmap-tools h5 {
+  margin-bottom: 0;
+}
+
 span.cmap-header {
 }
 
@@ -82,9 +86,14 @@ span.cmap-header {
 .cmap-attribution {
 }
 
-.cmap-map-removal-dialog {
+.cmap-map-removal-dialog, .cmap-map-addition-dialog {
   padding-left: 2rem;
-  border-left: solid 4px grey;;
+  border-left: solid 4px grey;
+}
+
+.cmap-map-addition-dialog label {
+  display: inline-block;
+  margin: 0 0.5rem 0 0.5rem;
 }
 
 button > i{
@@ -101,4 +110,11 @@ button[disabled] {
   background:#ccc;
   border-color: #ccc;
   text-shadow:none;
+}
+
+span.cmap-map-name-chip {
+  background: #eee;
+  border-radius: 4px;
+  padding: 0.2rem 1rem 0.2rem 1rem;
+  margin-right: 0.5rem;
 }

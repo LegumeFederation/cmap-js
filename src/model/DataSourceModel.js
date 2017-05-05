@@ -62,6 +62,7 @@ export class DataSourceModel {
       if(! modelMap[uniqueMapName]) {
         modelMap[uniqueMapName] = new BioMapModel({
           uniqueName: uniqueMapName,
+          dsn: this.uniquePrefix,
           name: d.map_name,
           features: [],
           coordinates: { start: d.map_start, stop: d.map_stop }

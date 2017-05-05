@@ -10,3 +10,4 @@ export const dataLoaded = 'loaded'; // data finished loading, or was filtered/up
 // map removal: this means the bioMap objects sent in the message, were removed
 // by user
 export const mapRemoved = 'mapRemoved';
+export const mapAdded = 'mapAdded';
