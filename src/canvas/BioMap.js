@@ -10,6 +10,7 @@ import rbush from 'rbush';
 import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
 import {MapTrack} from './MapTrack';
+import {QtlTrack} from './QtlTrack';
 import {selectedMap} from '../topics';
 
 export class BioMap extends SceneGraphNodeCanvas {
@@ -44,6 +45,27 @@ export class BioMap extends SceneGraphNodeCanvas {
       wheel: new RegExp('^wheel')
     };
     this._layout(layoutBounds);
+  }
+  /**
+   * culls elements to draw down to only those visible within the view 
+   * bounds
+   */
+  get visible(){
+    let vis = [];
+    let cVis = this.children.map(child => {
+      return child.visible;
+    });
+    cVis.forEach(item => {
+      vis = vis.concat(item);
+    });
+    return vis;
+  }
+  /**
+   * children.visible() culls hits based on map coordiantes
+   * the hitMap is based on canvas global coordinates.
+   * */
+  get hitMap(){
+    return this.locMap;
   }
 
   /**
@@ -141,25 +163,12 @@ export class BioMap extends SceneGraphNodeCanvas {
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
     this.children.push(this.backbone);
-
+    let qtl  = new QtlTrack({parent:this});
+    this.children.push(qtl);
     // load local rBush tree for hit detection
     this._loadHitMap();
   }
   
-  get visible(){
-    let vis = [];
-    let cVis = this.children.map(child => {
-      return child.visible;
-    });
-    cVis.forEach(item => {
-      vis = vis.concat(item);
-    });
-    return vis;
-  }
-
-  get hitMap(){
-    return this.locMap;
-  }
 
   _loadHitMap(){
     let hits = [];

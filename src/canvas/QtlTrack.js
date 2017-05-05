@@ -1,15 +1,15 @@
 /**
-  * MapBackbone
-  * A SceneGraphNode representing a backbone, simply a rectangle representing
-  * the background.
+  * QtlTrack 
+  * A SceneGraphNode representing a collection of QTLs.
   */
 import {SceneGraphNodeTrack} from './SceneGraphNodeTrack';
 import { Group } from './SceneGraphNodeGroup';
 import {Bounds} from '../model/Bounds';
+import {QTL} from './QTL';
 import {FeatureMark} from './FeatureMark';
 import {MapBackbone} from './MapBackbone';
 
-export class  MapTrack extends SceneGraphNodeTrack {
+export class  QtlTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
@@ -19,33 +19,32 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.height * 0.025,
-      left: b.width * 0.5 - backboneWidth * 0.5,
-      width: backboneWidth,
+      left: this.parent.backbone.bounds.right + 20,
+      width: backboneWidth*.75,
       height: b.height * 0.95
     });
-    this.mC = this.parent.mapCoordinates;
+    this.mapCoordinates = this.parent.mapCoordinates;
     this.backbone = new MapBackbone({ parent: this});	
     this.addChild(this.backbone);
 
-    let markerGroup = new Group({parent:this});
-    this.addChild(markerGroup);
+    let qtlGroup = new Group({parent:this});
+    this.addChild(qtlGroup);
+    this.qtlGroup = qtlGroup;
 
-    this.markerGroup = markerGroup;
-    markerGroup.bounds = this.backbone.bounds;
-    console.log('All features', this.parent.model);
-    console.log('QTL set', this.parent.model.features.filter(model => {
-      return model.length > 1 }))
+    qtlGroup.bounds = this.bounds;
+    //console.log('QTL set', this.parent.model.features.filter(model => {
+    //  return model.length > 1 }))
     this.filteredFeatures = this.parent.model.features.filter( model => {
-      return model.length <= 0.00001;
+      return model.length >1;
     });
     let fmData = [];
-    this.featureMarks = this.filteredFeatures.map( model => {
-      let fm = new FeatureMark({
+    this.qtlMarks = this.filteredFeatures.map( model => {
+      let fm = new QTL ({
         featureModel: model,
         parent: this.backbone,
         bioMap: this.parent.model
       });
-      markerGroup.addChild(fm);
+    //  markerGroup.addChild(fm);
       fmData.push({
         minY: model.coordinates.start,
         maxY: model.coordinates.stop,
@@ -56,30 +55,25 @@ export class  MapTrack extends SceneGraphNodeTrack {
       return fm;
     });
 
-    markerGroup.locMap.load(fmData);
+    qtlGroup.locMap.load(fmData);
     this.locMap.load(fmData);
+    console.log('visible qtls',this.visible);
   }
 
   get visible(){
-    let vis = [{
-      minX: this.bounds.left,
-      maxX: this.bounds.right,
-      minY: this.parent.mapCoordinates.base.start,
-      maxY: this.parent.mapCoordinates.base.stop,
-      data: this.backbone
-    }];
-    vis = vis.concat(this.locMap.search({
-      minX: this.bounds.left,
-      maxX: this.bounds.right,
-      minY: this.mC.visible.start,
-      maxY: this.mC.visible.stop
-    }));
-    return vis;
+    return this.locMap.all();
+    //return this.locMap.search({
+    //  minX: this.bounds.left,
+    //  maxX: this.bounds.right,
+    //  minY: this.mapCoordinates.visible.start,
+    //  maxY: this.mapCoordinates.visible.stop
+    //});
   }
 
   get hitMap(){
+    return [];
     let bbGb = this.backbone.globalBounds;
-    return this.markerGroup.children.map( child =>{
+    return this.children.map( child =>{
       return {
         minY: child.globalBounds.bottom,
         maxY: child.globalBounds.top,
