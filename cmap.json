@@ -1,11 +1,11 @@
 {
   "#": "cmap-js example configuration file (json format)",
-  "header" : ": bean_markers+genes.cmap",
-  "attribution" : "data attribution: NCGR 2017",
+  "header" : ": bean markers and consensus",
+  "attribution" : "data attribution: Galeano, Fernandez 2011",
   "initialView" : ["pv_markers_genes_Pv02", "pv_consensus_Pv02"],
   "sources" : [
     {
-      "#" : "note: data property can be used for http query params",
+      "#" : "note: the data property may supply http query params. see https://github.com/ncgr/cmap-js for more info.",
       "method": "GET",
       "data": {},
       "url": "data/bean_markers+genes.cmap",

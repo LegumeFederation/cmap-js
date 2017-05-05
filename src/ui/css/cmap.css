@@ -58,11 +58,11 @@ html, body {
 }
 
 .cmap-correspondence-map {
-  border: dashed 2px cyan;
+  /* border: dashed 2px cyan; */
 }
 
 .cmap-biomap {
-  border: dashed 2px grey;
+  /* border: dashed 2px grey; */
 }
 
 .cmap-biomap.selected {

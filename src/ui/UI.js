@@ -30,7 +30,6 @@ export class UI extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
     super.oncreate(vnode);
     this.el = vnode.dom;
-    console.log(this.el.mithrilComponent);
     this._setupEventHandlers(this.el);
   }
 
@@ -76,14 +75,16 @@ export class UI extends mix().with(RegisterComponentMixin) {
    * setup mouse wheel (hamsterjs) handlers.
    */
   _setupMousewheel() {
-    let hamsterHandler = (evt) => {
-      // note: the hamster callback has additioanl parameters which are being
-      // ignored here (evt, delta, deltaX, deltaY)
-      // normalize the event so it is similar to the hammerjs gestures
+    const hamster = Hamster(this.el);
+    const hamsterHandler = (evt, delta, deltaX, deltaY) => {
+      // hamsterjs claims to normalizizing the event object, across browsers,
+      // but at least in firefox it is not because deltaY is not on the evt.
+      evt.deltaY = deltaY; // workaround
+      // add an additional property to make it similar enough to the pinch
+      // gesture so event consumers can just implement one 'zoom', if they want.
       evt.center = { x: evt.originalEvent.x, y: evt.originalEvent.y };
       this._dispatchGestureEvt(evt);
     };
-    let hamster = Hamster(this.el);
     hamster.wheel(hamsterHandler);
   }
 
@@ -91,11 +92,11 @@ export class UI extends mix().with(RegisterComponentMixin) {
    * setup gesture (hammerjs) handlers.
    */
   _setupGestures() {
-    let hammer = Hammer(this.el);
+    const hammer = Hammer(this.el);
+    const hammerHandler = (evt) => this._dispatchGestureEvt(evt);
+    const hammerEvents = 'panmove panend pinchmove pinchend tap';
     hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
     hammer.get('pinch').set({ enable: true });
-    let hammerHandler = (evt) => this._dispatchGestureEvt(evt);
-    let hammerEvents = 'panmove panend pinchmove pinchend tap';
     hammer.on(hammerEvents, hammerHandler);
   }
 

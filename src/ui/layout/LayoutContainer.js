@@ -130,4 +130,13 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     this.lastPanEvent = evt;
     return true; // stop event propagation
   }
+
+  /**
+   * PubSub event handler
+   */
+  _onReset() {
+    // TODO: implement _onReset()
+    console.warn('implement _onReset()');
+  }
+
 }
