@@ -11,16 +11,9 @@ export class QTL extends SceneGraphNodeBase {
     this.model = featureModel;
     this.featureMap = bioMap;
     this.lineWidth = 1.0;
-    this.pixelScaleFactor = parent.bounds.height / bioMap.length;
+    this.pixelScaleFactor = parent.parent.backbone.bounds.height / bioMap.length;
     let y1 = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
     let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
-    console.log(this.parent.locMap.search({
-      minY: this.model.coordinates.start,
-      maxY: this.model.coordinates.stop,
-      minX: 0,
-      maxX:1000
-    })
-    );
     let leftLoc = 0;
     this.parent.locMap.search({
       minY: this.model.coordinates.start,
@@ -29,7 +22,7 @@ export class QTL extends SceneGraphNodeBase {
       maxX:1000
     }).forEach(overlap => {
       if(overlap.data){
-        if (overlap.data.bounds.right > leftLoc);
+        if (overlap.data.bounds.right === leftLoc+13);
         leftLoc = overlap.data.bounds.right + 3;
       }
     });
