@@ -5,13 +5,12 @@
   *
   */
 import m from 'mithril';
+import rbush from 'rbush';
 
 import {Bounds} from '../model/Bounds';
-import {FeatureMark} from './FeatureMark';
-import {MapBackbone} from './MapBackbone';
 import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
-import { Group }  from './SceneGraphNodeGroup';
-import { MapTrack } from './MapTrack';
+import {MapTrack} from './MapTrack';
+import {selectedMap} from '../topics';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -30,7 +29,7 @@ export class BioMap extends SceneGraphNodeCanvas {
         start: this.model.coordinates.start,
         stop: this.model.coordinates.stop
       }
-    }
+    };
     // set up coordinate bounds for view scaling
     this.appState = appState;
     this.verticalScale = 1;
@@ -55,66 +54,68 @@ export class BioMap extends SceneGraphNodeCanvas {
    */
 
 
-	_onZoom(evt) {
+  _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onZoom -- implement me', evt);
-    this.verticalScale += evt.deltaY;
-		let mcv = this.mapCoordinates.base;
+    this.verticalScale -= evt.deltaY;
+    let mcv = this.mapCoordinates.base;
     let zStart = (mcv.start - this.verticalScale*.1);
     let zStop = (mcv.stop + this.verticalScale*.1);
     zStart = zStart < mcv.start ? mcv.start : zStart;
     zStop = zStop > mcv.stop ? mcv.stop : zStop;
-		this.mapCoordinates.visible = {
-			start: zStart,
-			stop: zStop
-		}
-		this.draw();
-    let cMaps = document.getElementsByClassName("cmap-correspondence-map");
+    this.mapCoordinates.visible = {
+      start: zStart,
+      stop: zStop
+    };
+    this.draw();
+
+    //redraw all correspondence maps, could technically do some magic with
+    //appending a specific class to correspondence maps based on which maps a
+    //biomap is attached to, but with potential circos layout, it is more sane
+    //to just redraw them all.
+    
+    let cMaps = document.getElementsByClassName('cmap-correspondence-map');
     [].forEach.call(cMaps, el =>{
       console.log(el);
       el.mithrilComponent.draw();
     });
     return true; // stop event propagation
   }
-//  _onTap(evt) {
-//    console.log('tap');
-//    console.log(evt);
-//    let sel = this.appState.selection.bioMaps;
-//    let i = sel.indexOf(this);
-//    if(i === -1) {
-//      sel.push(this);
-//    }
-//    else {
-//      sel.splice(i, 1);
-//    }
-//    m.redraw();
-//    console.log(this.locMap.all());
-//    this.markerGroup.locMap.search(
-//      {minX: evt.srcEvent.layerX,
-//       maxX: evt.srcEvent.layerX,
-//       minY: evt.srcEvent.layerY-5,
-//       maxY: evt.srcEvent.layerY+5
-//      }).forEach(hit => { console.log( hit.data)});
-//
-//    PubSub.publish(selectedMap, {
-//      evt: evt,
-//      data: this.appState.selection.bioMaps
-//    });
-//    return true;
-//  }
+  _onTap(evt) {
+    console.log('tap');
+    console.log(evt);
+    let sel = this.appState.selection.bioMaps;
+    let i = sel.indexOf(this);
+    if(i === -1) {
+      sel.push(this);
+    }
+    else {
+      sel.splice(i, 1);
+    }
+    m.redraw();
+    this._loadHitMap();
+    let hits = [];
+    this.hitMap.search(
+      {minX: evt.srcEvent.layerX,
+       maxX: evt.srcEvent.layerX,
+       minY: evt.srcEvent.layerY-5,
+       maxY: evt.srcEvent.layerY+5
+      }).forEach(hit => { hits.push(hit.data.model.name)});
+    console.log(hits);
+    window.alert( hits.join(' , '));
+
+    PubSub.publish(selectedMap, {
+      evt: evt,
+      data: this.appState.selection.bioMaps
+    });
+    return true;
+  }
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
-  /**
-   *
-   * Lifecycle of a layout change
-   *  - Get new canvas bounds
-   *  - Place backbone
-   *  - Place groups (markers, QTLs, &c)
-   *  - Update rbush trees
-   *  - Update congruence map(s)
-   */
+  
+  
   _layout(layoutBounds) {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
     // labels
@@ -135,54 +136,39 @@ export class BioMap extends SceneGraphNodeCanvas {
       width: this.domBounds.width,
       height: this.domBounds.height
     });
-
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
     this.children.push(this.backbone);
-   // // this.bounds (scenegraph) has the same width and height, but zero the
-   // // left/top because we are the root node in a canvas sceneGraphNode
-   // // heirarchy
-   // // note map backbone will use this.bounds for it's own layout
-   // this.backbone = new MapBackbone({ parent: this });
-   // this.addChild(this.backbone);
-   // let markerGroup = new Group({parent:this.backbone});
-   // this.addChild(markerGroup);
-   // this.markerGroup = markerGroup;
-   // markerGroup.bounds = this.backbone.bounds;
 
-   // let filteredFeatures = this.model.features.filter( model => {
-   //   return model.length <= 0.00001;
-   // });
-   // let fmData = [];
-   // this.featureMarks = filteredFeatures.map( model => {
-   //   let fm = new FeatureMark({
-   //     featureModel: model,
-   //     parent: this.backbone,
-   //     bioMap: this.model
-   //   });
-   //   markerGroup.addChild(fm);
-   //   fmData.push({
-   //     minY: fm.globalBounds.top,
-   //     maxY: fm.globalBounds.bottom,
-   //     minX: fm.globalBounds.left,
-   //     maxX: fm.globalBounds.right,
-   //     data:fm
-   //   });
-   //   return fm;
-   // });
-
-   // markerGroup.locMap.load(fmData);
-   // this.locMap.load(this.visible);
+    // load local rBush tree for hit detection
+    this._loadHitMap();
   }
   
   get visible(){
     let vis = [];
     let cVis = this.children.map(child => {
-     return child.visible;
+      return child.visible;
     });
     cVis.forEach(item => {
-      vis = vis.concat(item)
+      vis = vis.concat(item);
     });
     return vis;
+  }
+
+  get hitMap(){
+    return this.locMap;
+  }
+
+  _loadHitMap(){
+    let hits = [];
+    let childrenHits = this.children.map(child => {
+      return child.hitMap;
+    });
+    console.log('loading', childrenHits);
+    childrenHits.forEach(child =>{
+      hits = hits.concat(child);
+    });
+    this.locMap = rbush();
+    this.locMap.load(hits);
   }
 }

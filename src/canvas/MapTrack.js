@@ -74,4 +74,17 @@ export class  MapTrack extends SceneGraphNodeTrack {
     }));
     return vis;
   }
+
+  get hitMap(){
+    let bbGb = this.backbone.globalBounds;
+    return this.markerGroup.children.map( child =>{
+      return {
+        minY: child.globalBounds.bottom,
+        maxY: child.globalBounds.top,
+        minX: bbGb.left ,
+        maxX: bbGb.right ,
+        data: child
+      }
+    });
+  }
 }
