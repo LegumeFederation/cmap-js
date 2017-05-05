@@ -103,7 +103,9 @@ export class BioMap extends SceneGraphNodeCanvas {
        maxY: evt.srcEvent.layerY+5
       }).forEach(hit => { hits.push(hit.data.model.name)});
     console.log(hits);
-    window.alert( hits.join(' , '));
+    if(hits.length > 0){
+      window.alert( hits.join(' , '));
+    };
 
     PubSub.publish(selectedMap, {
       evt: evt,
