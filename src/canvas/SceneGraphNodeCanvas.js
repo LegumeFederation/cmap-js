@@ -140,7 +140,6 @@ export class SceneGraphNodeCanvas
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onZoom -- implement me', evt);
-    this.verticalScale += evt.deltaY;
     return true; // stop event propagation
   }
 

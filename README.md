@@ -10,19 +10,16 @@ do not have it. `npm` is used as javascript package manager and task runner
 here.
 
 - Clone the project and initialize git submodule(s):
-
-  ```
-git clone https://github.com/ncgr/cmap-js.git
-cd cmap-js
-git submodule init
-git submodule update
-  ```
-
+   ```    
+    git clone https://github.com/ncgr/cmap-js.git
+    cd cmap-js
+    git submodule init
+    git submodule update
+    ```
 - Install the required javascript packages listed in `package.json`
-
-  ```
-npm install
-  ```
+    ```
+    npm install
+    ```
 
 ## Build and Tests
 
