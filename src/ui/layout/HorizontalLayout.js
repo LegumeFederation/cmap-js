@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, mapRemoved} from '../../topics';
+import {dataLoaded, mapRemoved, reset} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
@@ -28,8 +28,9 @@ export class HorizontalLayout
     this.correspondenceMapComponents = [];
     this.subscriptions = [
       PubSub.subscribe(dataLoaded, () => this._onDataLoaded()),
-      // do the same thing in response to map removal
-      PubSub.subscribe(mapRemoved, () => this._onDataLoaded())
+      // do the same thing in response to map removal, and reset button
+      PubSub.subscribe(mapRemoved, () => this._onDataLoaded()),
+      PubSub.subscribe(reset, () => this._onDataLoaded())
     ];
   }
 
