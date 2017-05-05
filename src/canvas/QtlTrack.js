@@ -19,7 +19,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.height * 0.025,
-      left: this.parent.backbone.bounds.right + 20,
+      left: this.parent.backbone.bounds.left - 10,
       width: backboneWidth*.75,
       height: b.height * 0.95
     });
@@ -35,27 +35,30 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     //console.log('QTL set', this.parent.model.features.filter(model => {
     //  return model.length > 1 }))
     this.filteredFeatures = this.parent.model.features.filter( model => {
-      return model.length >1;
+      return model.length > 1;
     });
+    console.log('filtered features', this.filteredFeatures);
     let fmData = [];
     this.qtlMarks = this.filteredFeatures.map( model => {
       let fm = new QTL ({
         featureModel: model,
-        parent: this.backbone,
+        parent: qtlGroup,
         bioMap: this.parent.model
       });
-    //  markerGroup.addChild(fm);
-      fmData.push({
-        minY: model.coordinates.start,
+      qtlGroup.addChild(fm);
+        let loc = {
+          minY: model.coordinates.start,
         maxY: model.coordinates.stop,
         minX: fm.globalBounds.left,
         maxX: fm.globalBounds.right,
         data:fm
-      });
+        };
+      qtlGroup.locMap.insert(loc);
+
+      fmData.push(loc);
       return fm;
     });
 
-    qtlGroup.locMap.load(fmData);
     this.locMap.load(fmData);
     console.log('visible qtls',this.visible);
   }

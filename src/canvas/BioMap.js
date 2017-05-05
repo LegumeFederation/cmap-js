@@ -167,6 +167,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.children.push(qtl);
     // load local rBush tree for hit detection
     this._loadHitMap();
+    m.redraw();
   }
   
 
