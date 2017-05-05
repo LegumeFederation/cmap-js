@@ -82,12 +82,23 @@ span.cmap-header {
 .cmap-attribution {
 }
 
+.cmap-map-removal-dialog {
+  padding-left: 2rem;
+  border-left: solid 4px grey;;
+}
+
 button > i{
   vertical-align: -30%;
 }
 
-div.tools button {
+div.cmap-tools button {
   margin-right: 0.5rem;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+button[disabled] {
+  background:#ccc;
+  border-color: #ccc;
+  text-shadow:none;
 }
