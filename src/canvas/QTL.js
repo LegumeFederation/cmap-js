@@ -15,6 +15,7 @@ export class QTL extends SceneGraphNodeBase {
     let y1 = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
     let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
     let leftLoc = 0;
+    let leftArr = [];
     this.parent.locMap.search({
       minY: this.model.coordinates.start,
       maxY: this.model.coordinates.stop,
@@ -22,10 +23,20 @@ export class QTL extends SceneGraphNodeBase {
       maxX:1000
     }).forEach(overlap => {
       if(overlap.data){
-        if (overlap.data.bounds.right === leftLoc+13);
-        leftLoc = overlap.data.bounds.right + 3;
+        if(overlap.data.bounds.right > leftLoc){
+          leftLoc = overlap.data.bounds.right+1;
+        }
+        leftArr.push(overlap.data.bounds.left);
       }
     });
+    leftArr = leftArr.sort((a,b)=>{return a-b});
+    for( let i = 0; i < leftArr.length; ++i){
+      if( leftArr[i] !== i*11){
+        leftLoc = i*11;
+        break;
+      };
+    };
+   
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: y1,
