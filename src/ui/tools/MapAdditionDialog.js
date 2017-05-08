@@ -2,8 +2,6 @@
  * A mithril component for map removal dialog
  */
 import m from 'mithril';
-import PubSub from 'pubsub-js';
-import {mapAdded} from '../../topics';
 
 export class MapAdditionDialog {
 
@@ -21,7 +19,26 @@ export class MapAdditionDialog {
   /**
    * event handler for cancel button.
    */
-  onCancel(evt) {
+  _onCancel(evt) {
+    evt.preventDefault();
+    this.onDismiss(evt);
+  }
+
+  /**
+   * event handler for add-on-right button
+   */
+  _onAddRight(evt) {
+    const i = this.model.bioMaps.length;
+    this.model.addMap(this.selection, i);
+    evt.preventDefault();
+    this.onDismiss(evt);
+  }
+
+  /**
+   * event handler for add-on-left button
+   */
+  _onAddLeft(evt) {
+    this.model.addMap(this.selection, 0);
     evt.preventDefault();
     this.onDismiss(evt);
   }
@@ -73,7 +90,7 @@ export class MapAdditionDialog {
       m('button', {
           disabled: this.selection ? false : true,
           class: this.selection ? 'button-primary' : 'button',
-          onclick: evt => this.onCancel(evt)
+          onclick: evt => this._onAddLeft(evt)
         }, [
           m('i.material-icons', 'keyboard_arrow_left'),
           'Add Map On Left'
@@ -82,13 +99,13 @@ export class MapAdditionDialog {
       m('button.button',  {
           disabled: this.selection ? false : true,
           class: this.selection ? 'button-primary' : 'button',
-          onclick: evt => this.onCancel(evt)
+          onclick: evt => this._onAddRight(evt)
         }, [
           m('i.material-icons', 'keyboard_arrow_right'),
           'Add Map On Right'
         ]
       ),
-      m('button.button', { onclick: evt => this.onCancel(evt) }, [
+      m('button.button', { onclick: evt => this._onCancel(evt) }, [
         m('i.material-icons', 'cancel'),
         'Cancel'
       ])
