@@ -50,6 +50,8 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
       width: this.bounds.width,
       height: this.bounds.height
     });
+    // save these dimensions for 'reset' event
+    this.originalContentBounds = new Bounds(this.contentBounds);
   }
 
   /**
@@ -132,12 +134,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    * PubSub event handler
    */
   _onReset() {
-    this.contentBounds = new Bounds({
-      left: 0,
-      top: 0,
-      width: this.bounds.width,
-      height: this.bounds.height
-    });
+    this.contentBounds = new Bounds(this.originalContentBounds);
     m.redraw();
   }
 
