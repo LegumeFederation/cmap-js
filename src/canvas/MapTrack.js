@@ -24,29 +24,20 @@ export class  MapTrack extends SceneGraphNodeTrack {
       height: b.height * 0.95
     });
     this.mC = this.parent.mapCoordinates;
-		this.backbone = new MapBackbone({ parent: this});	
-		this.addChild(this.backbone);
-   // this.locMap.insert({
-   //   minX: this.bounds.left,
-   //   maxX: this.bounds.right,
-   //   minY: this.parent.mapCoordinates.start,
-   //   maxY: this.parent.mapCoordinates.stop,
-   //   data: this.backbone
-   // });
+    this.backbone = new MapBackbone({ parent: this});	
+    this.addChild(this.backbone);
 
-		let markerGroup = new Group({parent:this});
+    let markerGroup = new Group({parent:this});
     this.addChild(markerGroup);
 
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
 
-    let filteredFeatures = this.parent.model.features.filter( model => {
+    this.filteredFeatures = this.parent.model.features.filter( model => {
       return model.length <= 0.00001;
     });
     let fmData = [];
-		console.log('features');
-		console.log(filteredFeatures);
-    this.featureMarks = filteredFeatures.map( model => {
+    this.featureMarks = this.filteredFeatures.map( model => {
       let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
@@ -71,11 +62,10 @@ export class  MapTrack extends SceneGraphNodeTrack {
     let vis = [{
       minX: this.bounds.left,
       maxX: this.bounds.right,
-      minY: this.parent.mapCoordinates.start,
-      maxY: this.parent.mapCoordinates.stop,
+      minY: this.parent.mapCoordinates.base.start,
+      maxY: this.parent.mapCoordinates.base.stop,
       data: this.backbone
     }];
-
     vis = vis.concat(this.locMap.search({
       minX: this.bounds.left,
       maxX: this.bounds.right,
@@ -83,5 +73,18 @@ export class  MapTrack extends SceneGraphNodeTrack {
       maxY: this.mC.visible.stop
     }));
     return vis;
+  }
+
+  get hitMap(){
+    let bbGb = this.backbone.globalBounds;
+    return this.markerGroup.children.map( child =>{
+      return {
+        minY: child.globalBounds.bottom,
+        maxY: child.globalBounds.top,
+        minX: bbGb.left ,
+        maxX: bbGb.right ,
+        data: child
+      }
+    });
   }
 }

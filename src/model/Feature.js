@@ -51,7 +51,9 @@ const featuresInCommon = (features1, features2) => {
   let dict1 = setupDict(features1);
   let dict2 = setupDict(features2);
   let intersectedKeys = Object.keys(dict1).filter( key => dict2[key] );
-  return intersectedKeys.map( key => dict1[key] );
+  return intersectedKeys.map( key => {
+    return   [ dict1[key], dict2[key] ];
+  });
 };
 
 export {Feature, featuresInCommon};

@@ -46,10 +46,10 @@ export class SceneGraphNodeBase {
   get tags() { return this._tags; }
   get visible(){ 
     let vis = [];
-    let bob = this.children.map( child => {
+    let childVisible = this.children.map( child => {
       return child.locMap.all();
     });
-    bob.forEach(item =>{ vis = vis.concat(item);});
+    childVisible.forEach(item =>{ vis = vis.concat(item);});
     return vis;
   }
   /* setters */
@@ -74,6 +74,21 @@ export class SceneGraphNodeBase {
       width: this.bounds.width,
       height: this.bounds.height
     });
+  }
+
+  /**
+   *  Traverse children, returning hitmap
+   *
+   *  @returns {Array} - array of rbush entries
+   */
+
+  get hitMap(){
+    let hits = [];
+    let childMap = this.children.map( child => {
+      return child.hitMap;
+    });
+    childMap.forEach(item =>{ hits = hits.concat(item);});
+    return hits;
   }
 
 	/* public methods/*
@@ -124,7 +139,6 @@ export class SceneGraphNodeBase {
    * #param {object} ctx - canvas context
    *
    */
-
   draw(ctx){
     this.children.forEach(child => child.draw(ctx));
   }

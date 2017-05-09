@@ -4,18 +4,13 @@
   * html5 canvas element.
   */
 import m from 'mithril';
-import {mix} from '../../mixwith.js/src/mixwith';
-
 import {Bounds} from '../model/Bounds';
-import {SceneGraphNodeBase} from './SceneGraphNodeBase';
-import {DrawLazilyMixin} from './DrawLazilyMixin';
-import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
+import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
+import {Group} from './SceneGraphNodeGroup';
+import {CorrespondenceMark} from './CorrespondenceMark';
 import {featuresInCommon} from '../model/Feature';
 
-export class CorrespondenceMap
-       extends mix(SceneGraphNodeBase)
-       .with(DrawLazilyMixin, RegisterComponentMixin) {
-
+export class CorrespondenceMap extends SceneGraphNodeCanvas{
   constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
     this.bioMapComponents = bioMapComponents;
@@ -23,49 +18,6 @@ export class CorrespondenceMap
     this.verticalScale = 1;
     this.correspondenceMarks = [];
     this._layout(layoutBounds);
-  }
-
-  // override the children prop. getter
-  get children() {
-    return this.correspondenceMarks;
-  }
-  set children(ignore) {}
-
-  /**
-   * mithril lifecycle method
-   */
-  oncreate(vnode) {
-    super.oncreate(vnode);
-    this.canvas = this.el = vnode.dom;
-    this.context2d = this.canvas.getContext('2d');
-    this.drawLazily(this.domBounds);
-  }
-
-  /**
-   * mithril lifecycle method
-   */
-  onupdate(vnode) {
-    // TODO: remove this development assistive method
-    console.assert(this.el === vnode.dom);
-    let b = new Bounds(this.el.getBoundingClientRect());
-    console.log('CorrespondenceMap.onupdate', b.width, b.height, this.el);
-  }
-
-  /**
-   * mithril component render callback
-   */
-  view() {
-    if(this.domBounds && ! this.domBounds.isEmptyArea) {
-      this.lastDrawnMithrilBounds = this.domBounds;
-    }
-    let b = this.domBounds || {};
-    return m('canvas', {
-      class: 'cmap-canvas cmap-correspondence-map',
-      style: `left: ${b.left}px; top: ${b.top}px;
-              width: ${b.width}px; height: ${b.height}px;`,
-      width: b.width,
-      height: b.height
-    });
   }
 
   /**
@@ -78,7 +30,6 @@ export class CorrespondenceMap
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     let gb = this.globalBounds || {};
     ctx.save();
-    //this.children.map(child => child.draw(ctx));
     ctx.fillStyle = 'cyan';
     ctx.globalAlpha = 0.2;
     ctx.fillRect(
@@ -88,6 +39,7 @@ export class CorrespondenceMap
       Math.floor(gb.height)
     );
     ctx.restore();
+    this.visible.map(child => child.data.draw(ctx));
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
   }
@@ -97,10 +49,30 @@ export class CorrespondenceMap
    */
   get commonFeatures() {
     // TODO: support more than 2 sets of features (e.g. for circos layout)
-    let leftFeatures = this.bioMapComponents[0].model.features;
-    let rightFeatures = this.bioMapComponents[1].model.features;
+    //let leftFeatures = this.bioMapComponents[0].model.features;
+    //let rightFeatures = this.bioMapComponents[1].model.features;
+    let leftFeatures = this.bioMapComponents[0].backbone.filteredFeatures;
+    let rightFeatures = this.bioMapComponents[1].backbone.filteredFeatures;
     let common = featuresInCommon(leftFeatures, rightFeatures);
     return common;
+  }
+
+  /**
+   * +   * mithril component render callback
+   *
+   */
+  view() {
+    if(this.domBounds && ! this.domBounds.isEmptyArea) {
+      this.lastDrawnMithrilBounds = this.domBounds;
+    }
+    let b = this.domBounds || {};
+    return m('canvas', {
+      class: 'cmap-canvas cmap-correspondence-map',
+      style: `left: ${b.left}px; top: ${b.top}px;
+      width: ${b.width}px; height: ${b.height}px;`,
+      width: b.width,
+      height: b.height
+    });
   }
 
   _layout(layoutBounds) {
@@ -108,12 +80,50 @@ export class CorrespondenceMap
     // this.bounds (scenegraph) has the same width and height, but zero the
     // left/top because we are the root node in a canvas sceneGraphNode
     // heirarchy.
+    let gb1 = this.bioMapComponents[0].backbone.backbone.globalBounds;
     this.bounds = new Bounds({
       left: 0,
       top: 0,
       width: this.domBounds.width,
       height: this.domBounds.height
     });
-    console.log(`# of features in common: ${this.commonFeatures.length}`);
+    
+    let corrData = [];
+    let coorGroup = new Group({parent:this});
+    coorGroup.bounds = new Bounds({
+      top: gb1.top,
+      left: this.bioMapComponents[0].backbone.backbone.bounds.width/4,
+      width: this.domBounds.width - gb1.width,
+      height: gb1.height,
+    });
+    this.addChild(coorGroup);
+    console.log('childBounds', this.globalBounds, coorGroup.globalBounds);
+
+    let bioMapCoordinates = [
+      this.bioMapComponents[0].mapCoordinates, 
+      this.bioMapComponents[1].mapCoordinates
+    ];
+    this.commonFeatures.forEach( feature => {
+      let corrMark = new CorrespondenceMark({
+        parent: coorGroup,
+        featurePair: feature,
+        mapCoordinates:bioMapCoordinates,
+        bioMap : this.bioMapComponents
+      });
+      coorGroup.addChild(corrMark);
+      corrData.push({
+        minX:this.bounds.left,
+        maxX:this.bounds.right ,
+        minY:feature[0].coordinates.start ,
+        maxY: feature[1].coordinates.start,
+        data: corrMark
+      });
+    });
+    this.locMap.load(corrData); 
+    console.log('bioMap', this.locMap.all());
+  }
+
+  get visible(){
+    return this.locMap.all();
   }
 }

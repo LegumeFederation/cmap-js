@@ -32,6 +32,11 @@ export class FeatureMark extends SceneGraphNodeBase {
     ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
     ctx.lineTo(Math.floor(gb.right), Math.floor(gb.top));
     ctx.stroke();
+    // reset bounding box to fit the new stroke location/width
+    // lineWidth adds equal percent of passed width above and below path
+    this.bounds.top = y - this.lineWidth/2;
+    this.bounds.bottom = y + this.lineWidth/2;
+     
   }
 
   _translateScale(point){

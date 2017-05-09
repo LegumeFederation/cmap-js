@@ -91,7 +91,6 @@ export class SceneGraphNodeCanvas
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    console.log(this.visible); 
     this.visible.map(child => child && child.data.draw(ctx));
     ctx.restore();
     // store these bounds, for checking in drawLazily()
@@ -120,6 +119,19 @@ export class SceneGraphNodeCanvas
   _onTap(evt) {
     console.log('tap');
     console.log(evt);
+    return false;
+  }
+
+  _onZoom(evt) {
+    // TODO: send zoom event to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onZoom -- implement me', evt);
+    return false; // stop event propagation
+  }
+
+  _onTap(evt) {
+    console.log('tap');
+    console.log(evt);
     let sel = this.appState.selection.bioMaps;
     let i = sel.indexOf(this);
     if(i === -1) {
@@ -133,16 +145,8 @@ export class SceneGraphNodeCanvas
       evt: evt,
       data: this.appState.selection.bioMaps
     });
-    return true;
+    return false;
   }
-
-  _onZoom(evt) {
-    // TODO: send zoom event to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
-    console.warn('BioMap -> onZoom -- implement me', evt);
-    return true; // stop event propagation
-  }
-
   _onPan(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
