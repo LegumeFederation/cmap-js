@@ -9,7 +9,7 @@ const params =  {
   coordinates: { start: 42, stop: 142 }
 };
 
-describe('BioMapModel class', () => {
+describe('BioMapModel test', () => {
 
   it('constructor works', () => {
     const model = new BioMapModel(params);

@@ -6,7 +6,7 @@ import {AppModel} from '../../src/model/AppModel';
 
 const config = require('../../cmap.json');
 
-describe('AppModel class', () => {
+describe('AppModel test', () => {
 
   it('constructor works', () => {
     const model = new AppModel();
