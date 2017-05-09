@@ -42,12 +42,6 @@ describe('Feature test', () => {
     }
     let res = featuresInCommon(features1, features2);
     expect(res.length).to.equal(3);
-    expect(res.map( feature => feature.name)).eql(
-      [
-        'feature 8',
-        'feature 9',
-        'feature 10'
-      ]);
   });
 
   it('featuresInCommon() with aliases', () => {
@@ -66,11 +60,5 @@ describe('Feature test', () => {
     }
     let res = featuresInCommon(features1, features2);
     expect(res.length).to.equal(3);
-    expect(res.map( feature => feature.name)).eql(
-      [
-        'feature 8',
-        'feature 9',
-        'feature 10'
-      ]);
   });
 });
