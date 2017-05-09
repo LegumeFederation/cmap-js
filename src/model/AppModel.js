@@ -85,7 +85,6 @@ export class AppModel {
    * PubSub event handler
    */
   _onReset() {
-    this.setupInitialView();
     this.tools.zoomFactor  = 1;
     this.tools.layout = HorizontalLayout;
   }
