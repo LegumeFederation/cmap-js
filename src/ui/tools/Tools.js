@@ -6,7 +6,7 @@ import m from 'mithril';
 import {ResetButton} from './ResetButton';
 import {RemoveMapButton} from './RemoveMapButton';
 import {AddMapButton} from './AddMapButton';
-import {FilterButton} from './FilterButton';
+//import {FilterButton} from './FilterButton';
 import {MapRemovalDialog} from './MapRemovalDialog';
 import {MapAdditionDialog} from './MapAdditionDialog';
 
@@ -30,7 +30,7 @@ export class Tools  {
     return m('div.cmap-tools', [
       m('div.cmap-toolbar.cmap-hbox', [
         m(ResetButton),
-        m(FilterButton),
+        //m(FilterButton),
         m(AddMapButton, {
           onclick: () => this.currentDialog = MapAdditionDialog
         }),
