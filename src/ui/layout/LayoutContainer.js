@@ -13,6 +13,8 @@ import {reset} from '../../topics';
 import {Bounds} from '../../model/Bounds';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
+// define allowed min/max range for scale (zoom operation)
+const SCALE = Object.freeze({ min: 0.05, max: 2});
 
 export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
@@ -98,10 +100,10 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   }
 
   _onZoom(evt) {
-    console.log('LayoutContainer -> onZoom', evt);
-    // FIXME: utilize the distance of touch event
-    let normalized = evt.deltaY / this.bounds.height;
-    this.appState.tools.zoomFactor += normalized;
+    // TODO: utilize the distance of touch event for better interaction
+    const normalized = evt.deltaY / this.bounds.height;
+    const z = this.appState.tools.zoomFactor + normalized;
+    this.appState.tools.zoomFactor = Math.clamp(z, SCALE.min, SCALE.max);
     m.redraw();
     return true; // stop evt propagation
   }
