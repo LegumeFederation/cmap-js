@@ -67,14 +67,16 @@ export class BioMap extends SceneGraphNodeCanvas {
     return this.locMap;
   }
 
+  get mapBounds(){
+    return this.mapCoordinates;
+  }
+
   /**
    * 
    * Re-implement lifecycle/gestrue components as needed to appease 
    * the items on the canvas. 
    *
    */
-
-
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -83,8 +85,18 @@ export class BioMap extends SceneGraphNodeCanvas {
     let mcv = this.mapCoordinates.base;
     let zStart = (mcv.start - this.verticalScale*.1);
     let zStop = (mcv.stop + this.verticalScale*.1);
-    zStart = zStart < mcv.start ? mcv.start : zStart;
-    zStop = zStop > mcv.stop ? mcv.stop : zStop;
+    if(zStart < mcv.start) {
+      zStart = mcv.start; 
+    } else if ( zStart > zStop ){
+      zStart = zStop;
+    }
+    
+    if(zStop > mcv.stop) {
+      zStop = mcv.stop; 
+    } else if ( zStop < zStart ){
+      zStop = zStart;
+    }
+    
     this.mapCoordinates.visible = {
       start: zStart,
       stop: zStop
@@ -127,6 +139,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
     // labels
     console.log('layout BioMap');
+    console.log(this.vnode);
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
     const width = 500;
