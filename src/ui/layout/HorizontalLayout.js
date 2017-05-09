@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, mapAdded, mapRemoved, reset} from '../../topics';
+import {dataLoaded, mapAdded, mapRemoved} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
@@ -33,7 +33,6 @@ export class HorizontalLayout
       PubSub.subscribe(dataLoaded, handler),
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
-      PubSub.subscribe(reset, handler)
     ];
   }
 
