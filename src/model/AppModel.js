@@ -6,7 +6,7 @@
  */
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, reset} from '../topics';
+import {dataLoaded, reset, mapAdded} from '../topics';
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {DataSourceModel} from './DataSourceModel';
 
@@ -72,9 +72,20 @@ export class AppModel {
   }
 
   /**
+   * Add map at the given index (note, this is called by MapAdditionDialog)
+   * @param Object bioMap - a bioMap from one of the already loaded data sources.
+   * @param Number index - zero based index into the bioMaps array.
+   */
+  addMap(bioMap, index=0) {
+    this.bioMaps.splice(index, 0, bioMap);
+    PubSub.publish(mapAdded, bioMap);
+  }
+
+  /**
    * PubSub event handler
    */
   _onReset() {
-    this.setupInitialView();
+    this.tools.zoomFactor  = 1;
+    this.tools.layout = HorizontalLayout;
   }
 }

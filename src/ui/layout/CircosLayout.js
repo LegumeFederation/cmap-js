@@ -61,10 +61,8 @@ export class CircosLayout
 
   /* mithril render callback */
   view() {
-    return m('div', {
-      class: 'cmap-layout-circos'
-    },
-    this.children.map(m)
+    return m('div.cmap-layout-circos',
+      this.children.map(m)
     );
   }
 }

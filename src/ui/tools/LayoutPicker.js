@@ -24,36 +24,32 @@ export class LayoutPicker  {
   /**
    * mithril component render method
    */
-  view(vnode) {
-    return m('fieldset',
-      vnode.attrs,
-      vnode.children && vnode.children.length ?
-      vnode.children :
-      [
-        m('legend', 'layout:'),
-        m('label', { for: 'horizontal-radio'}, [
-          m('input', {
-            type: 'radio',
-            name: 'layout',
-            value: HorizontalLayout,
-            id: 'horizontal-radio',
-            checked: this.appState.tools.layout === HorizontalLayout,
-            onchange: e => this.onchange(e)
-          }),
-          'horizontal'
-        ]),
-        m('label', { for: 'circos-radio'}, [
-          m('input', {
-            type: 'radio',
-            name: 'layout',
-            value: CircosLayout,
-            id: 'circos-radio',
-            checked: this.appState.tools.layout === CircosLayout,
-            onchange: e => this.onchange(e)
-          }),
-          'circos'
-        ])
-      ]
+  view() {
+    return m('fieldset', [
+      m('legend', 'layout:'),
+      m('label', { for: 'horizontal-radio'}, [
+        m('input', {
+          type: 'radio',
+          name: 'layout',
+          value: HorizontalLayout,
+          id: 'horizontal-radio',
+          checked: this.appState.tools.layout === HorizontalLayout,
+          onchange: e => this.onchange(e)
+        }),
+        'horizontal'
+      ]),
+      m('label', { for: 'circos-radio'}, [
+        m('input', {
+          type: 'radio',
+          name: 'layout',
+          value: CircosLayout,
+          id: 'circos-radio',
+          checked: this.appState.tools.layout === CircosLayout,
+          onchange: e => this.onchange(e)
+        }),
+        'circos'
+      ])
+    ]
     );
   }
 
