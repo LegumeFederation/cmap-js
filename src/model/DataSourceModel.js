@@ -46,6 +46,10 @@ export class DataSourceModel {
       dynamicTyping: true,
       skipEmptyLines: true
     });
+    if(this.parseResult.errors.length) {
+      console.error(this.parseResult.errors);
+      alert(`There were parsing errors in ${this.url}, please see console.`);
+    }
   }
 
   /**
