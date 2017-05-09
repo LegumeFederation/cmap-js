@@ -67,10 +67,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     return this.locMap;
   }
 
-  get mapBounds(){
-    return this.mapCoordinates;
-  }
-
   /**
    * 
    * Re-implement lifecycle/gestrue components as needed to appease 
