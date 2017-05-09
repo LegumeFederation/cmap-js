@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import PubSub from 'pubsub-js';
 
-import {dataLoaded} from '../../topics';
+import {dataLoaded, mapAdded, mapRemoved} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
@@ -26,8 +26,13 @@ export class HorizontalLayout
     super.oninit(vnode);
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
+    const handler = () => this._onDataLoaded();
     this.subscriptions = [
-      PubSub.subscribe(dataLoaded, () => this._onDataLoaded())
+      // all of these topics have effectively the same event handler for
+      // the purposes of horizontal layout.
+      PubSub.subscribe(dataLoaded, handler),
+      PubSub.subscribe(mapRemoved, handler),
+      PubSub.subscribe(mapAdded, handler),
     ];
   }
 
@@ -42,10 +47,8 @@ export class HorizontalLayout
    * mithril component render method
    */
   view() {
-    return m('div', {
-      class: 'cmap-layout-horizontal'
-    },
-    [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
+    return m('div.cmap-layout-horizontal',
+      [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
     );
   }
 

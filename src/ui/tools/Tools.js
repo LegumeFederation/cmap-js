@@ -1,10 +1,15 @@
 /**
-  * Tools
-  * A mithril component of the UI tools in a div.
+  * A mithril component of the UI tools in a div (toolbar).
   */
 import m from 'mithril';
 
-import {Reset} from './Reset';
+import {ResetButton} from './ResetButton';
+import {RemoveMapButton} from './RemoveMapButton';
+import {AddMapButton} from './AddMapButton';
+//import {FilterButton} from './FilterButton';
+import {MapRemovalDialog} from './MapRemovalDialog';
+import {MapAdditionDialog} from './MapAdditionDialog';
+
 
 export class Tools  {
 
@@ -15,20 +20,28 @@ export class Tools  {
    */
   oninit(vnode) {
     this.appState = vnode.attrs.appState;
+    this.currentDialog = vnode.attrs.dialog;
   }
 
   /**
    * mithril component render method
    */
-  view(vnode) {
-    let srcAttrs = vnode.attrs || {};
-    let attrs = Object.assign({class: 'tools cmap-hbox'}, srcAttrs);
-    return m('div',
-      attrs,
-      vnode.children && vnode.children.length ?
-        vnode.children : [
-          m(Reset, { appState: this.appState })
-        ]
-    );
+  view() {
+    return m('div.cmap-tools', [
+      m('div.cmap-toolbar.cmap-hbox', [
+        m(ResetButton),
+        //m(FilterButton),
+        m(AddMapButton, {
+          onclick: () => this.currentDialog = MapAdditionDialog
+        }),
+        m(RemoveMapButton, {
+          onclick: () => this.currentDialog = MapRemovalDialog
+        })
+      ]),
+      this.currentDialog && m(this.currentDialog, {
+        model: this.appState,
+        onDismiss: () => this.currentDialog = null,
+      })
+    ]);
   }
 }

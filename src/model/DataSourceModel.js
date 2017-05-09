@@ -46,6 +46,10 @@ export class DataSourceModel {
       dynamicTyping: true,
       skipEmptyLines: true
     });
+    if(this.parseResult.errors.length) {
+      console.error(this.parseResult.errors);
+      alert(`There were parsing errors in ${this.url}, please see console.`);
+    }
   }
 
   /**
@@ -62,6 +66,7 @@ export class DataSourceModel {
       if(! modelMap[uniqueMapName]) {
         modelMap[uniqueMapName] = new BioMapModel({
           uniqueName: uniqueMapName,
+          dsn: this.uniquePrefix,
           name: d.map_name,
           features: [],
           coordinates: { start: d.map_start, stop: d.map_stop }
