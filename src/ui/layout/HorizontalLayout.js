@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, mapAdded, mapRemoved} from '../../topics';
+import {dataLoaded, mapAdded, mapRemoved, reset} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/BioMap';
@@ -33,6 +33,7 @@ export class HorizontalLayout
       PubSub.subscribe(dataLoaded, handler),
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
+      PubSub.subscribe(reset,() => { this._onReset();})
     ];
   }
 
@@ -114,5 +115,21 @@ export class HorizontalLayout
       });
       this.correspondenceMapComponents.push(component);
     }
+  }
+  /**
+   * Reset local zoom here. Easier to iterate through base element
+   * and redraw components once from the base layout than deal with
+   * it through the individual components. 
+   * (Difficulty in reaching the mithril component to get canvas context)
+   *
+   */
+  _onReset(){
+    console.log("reset view h layout", this);
+    this.bioMapComponents.forEach(item => {
+      item.mapCoordinates.visible = item.mapCoordinates.base;
+    });
+    [].forEach.call(this.el.children, el =>{
+      el.mithrilComponent.draw();
+    });
   }
 }
