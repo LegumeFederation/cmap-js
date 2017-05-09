@@ -29,13 +29,13 @@ export class QTL extends SceneGraphNodeBase {
         leftArr.push(overlap.data.bounds.left);
       }
     });
-    leftArr = leftArr.sort((a,b)=>{return a-b});
+    leftArr = leftArr.sort((a,b)=>{return a-b;});
     for( let i = 0; i < leftArr.length; ++i){
       if( leftArr[i] !== i*11){
         leftLoc = i*11;
         break;
-      };
-    };
+      }
+    }
    
     this.bounds = new Bounds({
       allowSubpixel: false,
@@ -70,7 +70,7 @@ export class QTL extends SceneGraphNodeBase {
     );
     this.children.forEach( child => child.draw(ctx));
   }
-	_translateScale(point){
+  _translateScale(point){
     let coord = this.mapCoordinates.base;
     let vis = this.mapCoordinates.visible;
     return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;

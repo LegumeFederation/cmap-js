@@ -116,12 +116,6 @@ export class SceneGraphNodeCanvas
     return false; // dont stop evt propagation
   }
 
-  _onTap(evt) {
-    console.log('tap');
-    console.log(evt);
-    return false;
-  }
-
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)

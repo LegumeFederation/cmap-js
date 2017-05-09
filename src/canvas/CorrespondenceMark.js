@@ -25,7 +25,6 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
         this.mapCoordinates[1].base,
         this.mapCoordinates[1].visible,
         this.model[1].coordinates.start) * this.pixelScaleFactor[1];
-    let w = bioMap[1].backbone.backbone.bounds.width/2; 
 
     this.bounds = new Bounds({
       allowSubpixel: false,

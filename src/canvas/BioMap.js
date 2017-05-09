@@ -11,7 +11,6 @@ import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
 import {MapTrack} from './MapTrack';
 import {QtlTrack} from './QtlTrack';
-import {selectedMap} from '../topics';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -92,10 +91,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     };
     this.draw();
 
-    //redraw all correspondence maps, could technically do some magic with
-    //appending a specific class to correspondence maps based on which maps a
-    //biomap is attached to, but with potential circos layout, it is more sane
-    //to just redraw them all.
     
     let cMaps = document.getElementsByClassName('cmap-correspondence-map');
     [].forEach.call(cMaps, el =>{
@@ -104,41 +99,29 @@ export class BioMap extends SceneGraphNodeCanvas {
     });
     return true; // stop event propagation
   }
+
   _onTap(evt) {
     console.log('tap');
     console.log(evt);
-    let sel = this.appState.selection.bioMaps;
-    let i = sel.indexOf(this);
-    if(i === -1) {
-      sel.push(this);
-    }
-    else {
-      sel.splice(i, 1);
-    }
     m.redraw();
     this._loadHitMap();
     let hits = [];
-    this.hitMap.search(
-      {minX: evt.srcEvent.layerX,
-       maxX: evt.srcEvent.layerX,
-       minY: evt.srcEvent.layerY-5,
-       maxY: evt.srcEvent.layerY+5
-      }).forEach(hit => { hits.push(hit.data.model.name)});
-    console.log(hits);
+    this.hitMap.search({
+      minX: evt.srcEvent.layerX,
+      maxX: evt.srcEvent.layerX,
+      minY: evt.srcEvent.layerY-5,
+      maxY: evt.srcEvent.layerY+5
+    }).forEach(hit => { hits.push(hit.data.model.name);});
     if(hits.length > 0){
       window.alert( hits.join(' , '));
-    };
+    }
 
-    PubSub.publish(selectedMap, {
-      evt: evt,
-      data: this.appState.selection.bioMaps
-    });
     return true;
   }
+
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
-  
   
   _layout(layoutBounds) {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
