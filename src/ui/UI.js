@@ -6,12 +6,14 @@ import m from 'mithril';
 import Hammer from 'hammerjs';
 import Hamster from 'hamsterjs';
 import {mix} from '../../mixwith.js/src/mixwith';
+import PubSub from 'pubsub-js';
 
-//import {Tools} from './tools/Tools';
+import {Tools} from './tools/Tools';
 import {Header} from './Header';
 import {StatusBar} from './StatusBar';
 import {LayoutContainer} from './layout/LayoutContainer';
 import {RegisterComponentMixin} from './RegisterComponentMixin';
+import {reset} from '../topics';
 
 export class UI extends mix().with(RegisterComponentMixin) {
 
@@ -36,28 +38,22 @@ export class UI extends mix().with(RegisterComponentMixin) {
   /**
    * mithril component render callback
    */
-  view(vnode) {
-    let srcAttrs = vnode.attrs || {};
-    let attrs = Object.assign({class: 'cmap-layout cmap-vbox'}, srcAttrs);
-    let childAttrs = {
+  view() {
+    const childAttrs = {
       appState: this.appState,
     };
     this._logRenders();
-    return m('div',
-      attrs,
-      vnode.children && vnode.children.length ?
-        vnode.children : [
-          //m(Tools, childAttrs)
-          m(Header, childAttrs),
-          m('div', { class: 'cmap-layout-viewport cmap-hbox'},
-            m(LayoutContainer, {
-              appState: this.appState,
-              registerComponentCallback: (comp) => this._layoutContainer = comp
-            })
-          ),
-          m(StatusBar, childAttrs)
-        ]
-    );
+    return m('div.cmap-layout.cmap-vbox', [
+      m(Header, childAttrs),
+      m(Tools, childAttrs),
+      m('div.cmap-layout-viewport.cmap-hbox', {  id: 'cmap-layout-viewport' },
+        m(LayoutContainer, {
+          appState: this.appState,
+          registerComponentCallback: (comp) => this._layoutContainer = comp
+        })
+      ),
+      m(StatusBar, childAttrs)
+    ]);
   }
 
   _logRenders() {
@@ -69,6 +65,20 @@ export class UI extends mix().with(RegisterComponentMixin) {
   _setupEventHandlers() {
     this._setupMousewheel();
     this._setupGestures();
+    this._setupPubSub();
+  }
+
+  /**
+   * Setup pubsub subscriptions
+   */
+  _setupPubSub() {
+    PubSub.subscribe(reset, () => {
+      // if the viewport were refactored into it's own mithril component, then
+      // doing a lookup by ID would be unnecessary.
+      const viewport = document.getElementById('cmap-layout-viewport');
+      viewport.scrollTop = 0;
+      viewport.scrollLeft = 0;
+    });
   }
 
   /**

@@ -9,7 +9,7 @@ import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
-import {layout as layoutMsg, reset} from '../../topics';
+import {reset} from '../../topics';
 import {Bounds} from '../../model/Bounds';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
@@ -25,8 +25,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     super.oninit(vnode);
     this.appState = vnode.attrs.appState;
 
-    PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data));
-    PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data));
+    PubSub.subscribe(reset, () => this._onReset());
 
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
@@ -51,13 +50,14 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
       width: this.bounds.width,
       height: this.bounds.height
     });
+    // save these dimensions for 'reset' event
+    this.originalContentBounds = new Bounds(this.contentBounds);
   }
 
   /**
    * mithril lifecycle method
    */
   onupdate(vnode) {
-    console.assert(this.el === vnode.dom);
     this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
   }
 
@@ -67,8 +67,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   view() {
     let b = this.contentBounds || {}; // relative bounds of the layout-container
     let scale = this.appState.tools.zoomFactor;
-    return m('div', {
-      class: 'cmap-layout-container',
+    return m('div.cmap-layout-container', {
       style: `left: ${b.left}px; top: ${b.top}px;
               width: ${b.width}px; height: ${b.height}px;
               transform: scale(${scale})`
@@ -135,8 +134,8 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    * PubSub event handler
    */
   _onReset() {
-    // TODO: implement _onReset()
-    console.warn('implement _onReset()');
+    this.contentBounds = new Bounds(this.originalContentBounds);
+    m.redraw();
   }
 
 }
