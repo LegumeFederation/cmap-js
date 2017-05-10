@@ -21,7 +21,7 @@ html, body {
   display: flex;
   flex-direction: row;
   align-content: stretch;
-  justify-content: space-evenly;
+  justify-content: start;
 }
 
 .cmap-layout {
