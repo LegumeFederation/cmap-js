@@ -10,7 +10,14 @@
     "attribution" : { "type" : "string" },
     "initialView" : {
       "type" : "array",
-      "items" : { "type": "string" }
+      "items" : {
+        "type": "object",
+        "properties" : {
+          "source" : { "type" : "string" },
+          "map" : { "type" : "string" }
+        },
+        "required" : ["source", "map"]
+      }
     },
     "sources" : {
       "type" : "array",
@@ -18,12 +25,12 @@
         "type" : "object",
         "properties" : {
           "#" : { "type": "string" },
-          "uniquePrefix" : { "type" : "string" },
+          "id" : { "type" : "string" },
           "method" : { "type" : "string"},
           "data" : { "type" : "object" },
           "url" : { "type" : "string" }
         },
-        "required" : ["url", "method", "uniquePrefix"]
+        "required" : ["url", "method", "id"]
       }
     }
   },

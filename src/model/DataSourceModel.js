@@ -13,16 +13,16 @@ export class DataSourceModel {
   /**
    * create a DataSourceModel
    * @param Object params having the following properties:
+   * @param String id - uniqueId string for the data source (required)
    * @param String method - HTTP method, get or post (required)
    * @param String url - HTTP URL (required)
-   * @param String uniquePrefix - namespace or identifier to prefix (required)
    * @param Object data - query string parameters for the request (optional)
    */
-  constructor({method, data, url, uniquePrefix}) {
+  constructor({id, method, data, url}) {
+    this.id = id;
     this.method = method;
     this.data = data;
     this.url = url;
-    this.uniquePrefix = uniquePrefix;
     this.background = true; // mithril not to redraw upon completion
   }
 
@@ -59,30 +59,35 @@ export class DataSourceModel {
    * @return Object - key: prefix + map_name -> val: BioMapModel instance
    */
   get bioMaps() {
-    let modelMap = {};
-    this.parseResult.data.forEach( d => {
-      if(! d.map_name) return;
-      let uniqueMapName = `${this.uniquePrefix}${d.map_name}`;
-      if(! modelMap[uniqueMapName]) {
-        modelMap[uniqueMapName] = new BioMapModel({
-          uniqueName: uniqueMapName,
-          dsn: this.uniquePrefix,
-          name: d.map_name,
-          features: [],
-          coordinates: { start: d.map_start, stop: d.map_stop }
-        });
-      }
-      modelMap[uniqueMapName].features.push(
-        new Feature({
-          name: d.feature_name,
-          tags: [d.feature_type !== '' ? d.feature_type : null],
-          // TODO: if there is more than one alias, how is it encoded? comma separated?
-          aliases: d.feature_aliases !== '' ? [ d.feature_aliases ] : [],
-          coordinates: { start: d.feature_start, stop: d.feature_stop }
-        })
-      );
-    });
-    return modelMap;
+    const res = {};
+    try {
+      this.parseResult.data.forEach( d => {
+        if(! d.map_name) return;
+        const uniqueMapName = `{this.id}/${d.map_name}`;
+        if(! res[uniqueMapName]) {
+          const model = new BioMapModel({
+            source: this,
+            name: d.map_name,
+            features: [],
+            coordinates: { start: d.map_start, stop: d.map_stop }
+          });
+          res[uniqueMapName] = model;
+        }
+        res[uniqueMapName].features.push(
+          new Feature({
+            name: d.feature_name,
+            tags: [d.feature_type !== '' ? d.feature_type : null],
+            // TODO: if there is more than one alias, how is it encoded? comma separated?
+            aliases: d.feature_aliases !== '' ? [ d.feature_aliases ] : [],
+            coordinates: { start: d.feature_start, stop: d.feature_stop }
+          })
+        );
+      });
+    } catch(e) {
+      console.trace();
+      console.error(e);
+    }
+    return res;
   }
 
 }

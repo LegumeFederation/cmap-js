@@ -66,14 +66,14 @@ export class MapAdditionDialog {
           m('tbody',
             this.model.sources.map( source => {
               return m('tr', [
-                m('td', source.uniquePrefix),
+                m('td', source.id),
                 m('td', allMaps.filter( map => {
-                  return (map.dsn === source.uniquePrefix &&
+                  return (map.source === source &&
                           this.model.bioMaps.indexOf(map) === -1);
                 }).map( map => {
                     return m('label', [
                       m('input[type="radio"]', {
-                        name: `maps4${source.uniquePrefix}`,
+                        name: `maps4${source.id}`,
                         checked: this.selection === map,
                         value: map.uniqueName,
                         onchange: (evt) => this._onSelection(evt, map)

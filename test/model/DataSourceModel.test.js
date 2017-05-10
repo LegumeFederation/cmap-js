@@ -12,7 +12,7 @@ describe('DataSourceModel test', () => {
         .that.is.a('string');
       expect(model).to.have.property('url')
         .that.is.a('string');
-      expect(model).to.have.property('uniquePrefix')
+      expect(model).to.have.property('id')
         .that.is.a('string');
       expect(model).to.have.property('background')
         .that.is.a('boolean');

@@ -55,17 +55,27 @@ export class AppModel {
     }).
     catch( err => {
       // TODO: make a nice mithril component to display errors in the UI
-      alert(`While fetching data source(s), ${err}`);
+      const msg = `While fetching data source(s), ${err}`;
+      console.error(msg);
+      console.trace();
+      alert(msg);
     });
     return promises;
   }
 
   setupInitialView() {
-    this.bioMaps = this.initialView.map( uniqMapName => {
-      const res = this.allMaps.filter(map => map.uniqueName === uniqMapName );
+    this.bioMaps = this.initialView.map( viewConf => {
+      const res = this.allMaps.filter(map => {
+        return (viewConf.source === map.source.id &&
+                viewConf.map === map.name);
+      });
       if(res.length == 0) {
         // TODO: make a nice mithril component to display errors in the UI
-        alert(`failed to resolve initialView entry: ${uniqMapName}`);
+        const info = JSON.stringify(viewConf);
+        const msg = `failed to resolve initialView entry: ${info}`;
+        console.error(msg);
+        console.trace();
+        alert(msg);
       }
       return res;
     }).concatAll();
