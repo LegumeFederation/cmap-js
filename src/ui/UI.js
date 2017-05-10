@@ -121,34 +121,12 @@ export class UI extends mix().with(RegisterComponentMixin) {
     */
   _dispatchGestureEvt(evt) {
     let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
-    let off = this.el.getBoundingClientRect()
-    console.log('dispatch',this);
     let filtered = hitElements.filter( el => {
       return (el.mithrilComponent && el.mithrilComponent.handleGesture);
     });
-    function getOffset( el ) {
-      var _x = 0;
-      var _y = 0;
-      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-        _x += el.offsetLeft - el.scrollLeft;
-        _y += el.offsetTop - el.scrollTop;
-        el = el.offsetParent;
-      }
-      return { top: _y, left: _x };
-    }
     // dispatch event to all the mithril components, until one returns true;
     // effectively the same as 'stopPropagation' on a normal event bubbling.
-    filtered.some( el => {
-      let elGlobalOffset = getOffset(el);
-      // We have to calculate the new layer position per element
-      if(evt.type === "tap"){
-        evt.calcEvent = {
-          x: (evt.srcEvent.pageX - (elGlobalOffset.left)),
-          y: (evt.srcEvent.pageY - (elGlobalOffset.top))
-        };
-      }
-      el.mithrilComponent.handleGesture(evt);
-    });
+    filtered.some( el => el.mithrilComponent.handleGesture(evt));
   }
   /**
    * Gesture event recapture and force upon the LayoutContainer. This is to
