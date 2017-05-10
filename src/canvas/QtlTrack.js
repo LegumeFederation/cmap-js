@@ -43,6 +43,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         bioMap: this.parent.model
       });
       qtlGroup.addChild(fm);
+      console.log(fm.globalB);
       let loc = {
         minY: model.coordinates.start,
         maxY: model.coordinates.stop,
@@ -71,16 +72,15 @@ export class  QtlTrack extends SceneGraphNodeTrack {
   }
 
   get hitMap(){
-    return [];
-    //let bbGb = this.backbone.globalBounds;
-    //return this.children.map( child =>{
-    //  return {
-    //    minY: child.globalBounds.bottom,
-    //    maxY: child.globalBounds.top,
-    //    minX: bbGb.left ,
-    //    maxX: bbGb.right ,
-    //    data: child
-    //  }
-    //});
+    //return [];
+    return this.qtlGroup.children.map( child =>{
+      return {
+        minY: child.globalBounds.top,
+        maxY: child.globalBounds.bottom,
+        minX: child.globalBounds.left,
+        maxX: child.globalBounds.right ,
+        data: child
+      }
+    });
   }
 }
