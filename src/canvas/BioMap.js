@@ -116,10 +116,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._loadHitMap();
     let hits = [];
     this.hitMap.search({
-      minX: evt.srcEvent.layerX,
-      maxX: evt.srcEvent.layerX,
-      minY: evt.srcEvent.layerY-5,
-      maxY: evt.srcEvent.layerY+5
+      minX: evt.calcEvent.x,
+      maxX: evt.calcEvent.x,
+      minY: evt.calcEvent.y-2,
+      maxY: evt.calcEvent.y+2
     }).forEach(hit => { 
       console.log(hit);
       hits.push(hit.data.model.name);});
