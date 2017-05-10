@@ -80,7 +80,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         minX: child.globalBounds.left,
         maxX: child.globalBounds.right ,
         data: child
-      }
+      };
     });
   }
 }
