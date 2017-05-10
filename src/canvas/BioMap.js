@@ -76,12 +76,13 @@ export class BioMap extends SceneGraphNodeCanvas {
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
-    console.warn('BioMap -> onZoom -- implement me', evt);
+    console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
-    this.verticalScale -= evt.deltaY < 0 ? -0.5 : 0.5;
+		this.verticalScale += evt.deltaY < 0 ? 0.5 : -0.5;
+    if(this.verticalScale < 0.0) this.verticalScale = 0.0;
     let mcv = this.mapCoordinates.base;
-    let zStart = (mcv.start - this.verticalScale);
-    let zStop = (mcv.stop + this.verticalScale);
+    let zStart = (mcv.start + this.verticalScale);
+    let zStop = (mcv.stop - this.verticalScale);
     if(zStart < mcv.start) {
       zStart = mcv.start; 
     } else if ( zStart > zStop ){
@@ -103,15 +104,13 @@ export class BioMap extends SceneGraphNodeCanvas {
     
     let cMaps = document.getElementsByClassName('cmap-correspondence-map');
     [].forEach.call(cMaps, el =>{
-      console.log(el);
       el.mithrilComponent.draw();
     });
     return true; // stop event propagation
   }
 
   _onTap(evt) {
-    console.log('tap BioMap', this, evt);
-    console.log(evt);
+    console.log('BioMap -> tap', evt);
 		function getOffset( el ) {
       var _x = 0;
       var _y = 0;
@@ -138,9 +137,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       minY: globalPos.y-2,
       maxY: globalPos.y+2
     }).forEach(hit => { 
-      console.log(hit);
       hits.push(hit.data.model.name);});
-    console.log(evt.srcEvent);
     if(hits.length > 0){
       window.alert( hits.join('\n'));
     }
@@ -155,8 +152,7 @@ export class BioMap extends SceneGraphNodeCanvas {
   _layout(layoutBounds) {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
     // labels
-    console.log('layout BioMap');
-    console.log(this.vnode);
+    console.log('BioMap -> layout');
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
     const width = 500;
@@ -189,12 +185,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     let childrenHits = this.children.map(child => {
       return child.hitMap;
     });
-    console.log('loading', childrenHits);
     childrenHits.forEach(child =>{
       hits = hits.concat(child);
     });
     this.locMap = rbush();
     this.locMap.load(hits);
-    console.log(this.locMap.all());
   }
 }
