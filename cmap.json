@@ -7,7 +7,12 @@
       "map" : "Pv02"
     }, {
      "source" : "pv_consensus",
-     "map" : "Pv02"
+     "map" : "Pv02",
+     "filters" : [{
+       "column" : "feature_type",
+       "operator" : "include",
+       "value" : "gene"
+     }]
     }
   ],
   "sources" : [ {
