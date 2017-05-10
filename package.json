@@ -10,7 +10,8 @@
     "test": "mocha",
     "coverage": "nyc npm test",
     "watch": "rollup -c -w --environment WATCH:yes",
-    "validate-config": "ajv -s cmap-schema.json -d cmap.json"
+    "validate-config": "ajv -s cmap-schema.json -d cmap.json",
+    "postinstall": "gunzip --keep --quiet --force data/*.gz"
   },
   "repository": {
     "type": "git",
