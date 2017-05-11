@@ -104,7 +104,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
   _setupGestures() {
     const hammer = Hammer(this.el);
     const hammerHandler = (evt) => this._dispatchGestureEvt(evt);
-    const hammerEvents = 'panmove panend pinchmove pinchend tap';
+    const hammerEvents = 'panmove panend panstart pinchmove pinchend tap';
     hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
     hammer.get('pinch').set({ enable: true });
     hammer.on(hammerEvents, hammerHandler);
@@ -120,6 +120,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
     *    canvas own scenegraph contents, etc.)
     */
   _dispatchGestureEvt(evt) {
+    console.log('hammer event', evt.type);
     let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
     let filtered = hitElements.filter( el => {
       return (el.mithrilComponent && el.mithrilComponent.handleGesture);
