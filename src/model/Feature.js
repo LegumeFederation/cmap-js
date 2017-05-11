@@ -32,12 +32,12 @@ class Feature {
 
 /**
  * Find the common features based on name and aliases.
+ * @param Array features1 - 1st collection of features
+ * @param Array features2 - 2nd collection of features
+ * @return Array - tuples of results in common [[feat1, feat2], ...]
  */
-
-// FIXME: when the features are matched on aliases, the returned features
-// do not show the variation in feature.names.
-// FIXME: support more than two collections of features
-const featuresInCommon = (features1, features2) => {
+// TODO: support more than two collections of features
+function featuresInCommon(features1, features2) {
   const setupDict = (features) => {
     let dict = {};
     features.forEach( f => {
@@ -52,8 +52,8 @@ const featuresInCommon = (features1, features2) => {
   let dict2 = setupDict(features2);
   let intersectedKeys = Object.keys(dict1).filter( key => dict2[key] );
   return intersectedKeys.map( key => {
-    return   [ dict1[key], dict2[key] ];
+    return [ dict1[key], dict2[key] ];
   });
-};
+}
 
 export {Feature, featuresInCommon};
