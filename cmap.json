@@ -7,12 +7,7 @@
       "map" : "Pv02"
     }, {
      "source" : "pv_consensus",
-     "map" : "Pv02",
-     "filters" : [{
-       "column" : "feature_type",
-       "operator" : "include",
-       "value" : "gene"
-     }]
+     "map" : "Pv02"
     }
   ],
   "sources" : [ {
@@ -24,7 +19,12 @@
     }, {
       "id" : "pv_consensus",
       "method": "GET",
-      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap"
+      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
+      "filters" : [{
+        "column" : "feature_type_acc",
+        "operator" : "equals",
+        "value" : "AFLP"
+     }]
     }
   ]
 }

@@ -7,6 +7,7 @@ import parser from 'papaparse';
 import {BioMapModel} from './BioMapModel';
 import {Feature} from './Feature';
 
+// TODO: implement filtering at data loading time
 
 export class DataSourceModel {
 
@@ -18,11 +19,12 @@ export class DataSourceModel {
    * @param String url - HTTP URL (required)
    * @param Object data - query string parameters for the request (optional)
    */
-  constructor({id, method, data, url}) {
+  constructor({id, method, data, url, filters}) {
     this.id = id;
     this.method = method;
     this.data = data;
     this.url = url;
+    this.filters = filters || [];
     this.background = true; // mithril not to redraw upon completion
   }
 
@@ -63,6 +65,7 @@ export class DataSourceModel {
     try {
       this.parseResult.data.forEach( d => {
         if(! d.map_name) return;
+        if(! this.includeRecord(d)) return;
         const uniqueMapName = `${this.id}/${d.map_name}`;
         if(! res[uniqueMapName]) {
           const model = new BioMapModel({
@@ -90,4 +93,32 @@ export class DataSourceModel {
     return res;
   }
 
+  /**
+   * Check record against filters and return true for inclusion. All filters are
+   * processed sequentially and the result is all or nothing, effectively like
+   * SQL AND.
+   *
+   * @param Object d - key/value properies of 1 record
+   * @return Boolean - true for include, false for exclude
+   */
+  includeRecord(d) {
+    let hits = 0;
+    this.filters.forEach( f => {
+      let col = f.column;
+      if(d.hasOwnProperty(col)) {
+        let testVal = d[col];
+        let match;
+        if(f.operator === 'equals') {
+          match = (testVal === f.value);
+        }
+        else if(f.operator === 'regex') {
+          match = testVal.match(f.value);
+        }
+        if(match && f.not ? ! match : match) {
+          ++hits;
+        }
+      }
+    });
+    return (hits === this.filters.length);
+  }
 }

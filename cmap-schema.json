@@ -9,7 +9,8 @@
       "type" : "object",
       "properties" : {
         "column" : { "type" : "string" },
-        "operator" : { "enum" : [ "include", "exclude" ] },
+        "not" : { "type" : "boolean" },
+        "operator" : { "enum" : [ "equals", "regex" ] },
         "value" : { "type" : "string" }
       },
       "required" : ["column", "operator", "value"]
