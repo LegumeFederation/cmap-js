@@ -30,6 +30,8 @@ export class CMAP {
       });
     }).catch( err => {
       // TODO: make a nice mithril component to display errors in the UI
+      console.error(err);
+      console.trace();
       alert(`While fetching cmap.json config file, ${err}`);
     });
   }
