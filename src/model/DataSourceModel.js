@@ -63,7 +63,7 @@ export class DataSourceModel {
     try {
       this.parseResult.data.forEach( d => {
         if(! d.map_name) return;
-        const uniqueMapName = `{this.id}/${d.map_name}`;
+        const uniqueMapName = `${this.id}/${d.map_name}`;
         if(! res[uniqueMapName]) {
           const model = new BioMapModel({
             source: this,
