@@ -77,8 +77,8 @@ export class  MapTrack extends SceneGraphNodeTrack {
         data:fm
       });
       lmData.push({
-        minY: lm.globalBounds.top,
-        maxY: lm.globalBounds.bottom,
+        minY: model.coordinates.start,
+        maxY: model.coordinates.stop,
         minX: lm.globalBounds.left,
         maxX: lm.globalBounds.right,
         data: lm
@@ -94,23 +94,27 @@ export class  MapTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
+    let coord = this.mapCoordinates.base;
+    let visc = this.mapCoordinates.visible;
     let vis = [{
       minX: this.bounds.left,
       maxX: this.bounds.right,
-      minY: this.parent.mapCoordinates.base.start,
-      maxY: this.parent.mapCoordinates.base.stop,
+      minY: coord.start,
+      maxY: coord.stop,
       data: this.backbone
     }];
     vis = vis.concat(this.locMap.search({
       minX: this.bounds.left,
       maxX: this.bounds.right,
-      minY: this.mC.visible.start,
-      maxY: this.mC.visible.stop
+      minY: visc.start,
+      maxY: visc.stop
     }));
     let labels = [];
-    let start = this.backbone.globalBounds.top;
-    let stop = this.backbone.globalBounds.bottom;
-    let step = this.labelGroup.children[0].bounds.height/2;
+    let start = visc.start;
+    let stop = visc.stop;
+		let psf = this.labelGroup.children[0].pixelScaleFactor;
+    let step =(visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start;
+		console.log(step);
     for(let i = start; i < stop; i+=step){
      
      let item =  knn( this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left,i,1)[0];
@@ -141,17 +145,5 @@ export class  MapTrack extends SceneGraphNodeTrack {
   }
 
   loadLabelMap(){
-    //this.labelGroup.locMap = rbush();
-    //this.labelGroup.locMap.load(
-    //  this.labelGroup.children.map( child =>{
-    //    return {
-    //      minY: child.globalBounds.bottom,
-    //      maxY: child.globalBounds.top,
-    //      minX: child.globalBounds.left,
-    //      maxX: child.globalBounds.right,
-    //      data: child
-    //    };
-    //  })
-    //);
   }
 }
