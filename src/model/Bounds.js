@@ -21,30 +21,119 @@ export class Bounds {
   * @returns {Object}
   */
   constructor({top, left, bottom, right, width, height, allowSubpixel=true}) {
-    this.bottom = bottom;
-    this.left = left;
-    this.right = right;
-    this.top = top;
-    this.height = height;
-    this.width = width;
+    this._bottom = bottom;
+    this._left = left;
+    this._right = right;
+    this._top = top;
+    this._height = height;
+    this._width = width;
+    this.allowSubpixel = allowSubpixel;
 
-    if(isNil(this.width)) this.width = this.right - this.left;
-    if(isNil(this.height)) this.height = this.bottom - this.top;
-    if(isNil(this.bottom)) this.bottom = this.top + this.height;
-    if(isNil(this.right)) this.right = this.left + this.width;
+    if(isNil(this.width)) this._width = this.right - this.left;
+    if(isNil(this.height)) this._height = this.bottom - this.top;
+    if(isNil(this.bottom)) this._bottom = this.top + this.height;
+    if(isNil(this.right)) this._right = this.left + this.width;
 
     if(! allowSubpixel) {
-      this.bottom = Math.floor(this.bottom);
-      this.top = Math.floor(this.top);
-      this.left = Math.floor(this.left);
-      this.right = Math.floor(this.right);
-      this.width = Math.floor(this.width);
-      this.height = Math.floor(this.height);
+      this._bottom = Math.floor(this.bottom);
+      this._top = Math.floor(this.top);
+      this._left = Math.floor(this.left);
+      this._right = Math.floor(this.right);
+      this._width = Math.floor(this.width);
+      this._height = Math.floor(this.height);
       if(this.x) this.x = Math.floor(this.x);
-      if(this.y) this.x = Math.floor(this.y);
+      if(this.y) this.y = Math.floor(this.y);
+    }
+  }
+  /**
+   * Getters and setters, should be allowed to update bounds without having to
+   * resort to making a new bounds object.
+   */
+
+  get bottom() {
+    return this._bottom;
+  }
+  
+  set bottom(val){
+    if(this.allowSubpixel){
+      this._bottom = val;
+      this._height = this._bottom - this._top;
+    } else {
+      this._bottom = Math.floor(val);
+      this._height = Math.floor(this._bottom - this._top);
     }
   }
 
+  get top() {
+    return this._top;
+  }
+  
+  set top(val){
+    if(this.allowSubpixel){
+      this._top = val;
+      this._height = this._bottom - this._top;
+    } else {
+      this._top = Math.floor(val);
+      this._height = Math.floor(this._bottom - this._top);
+    }
+  }
+
+  get left() {
+    return this._left;
+  }
+  
+  set left(val){
+    if(this.allowSubpixel){
+      this._left = val;
+      this._width = this._right - this._left;
+    } else {
+      this._left = Math.floor(val);
+      this._width = Math.floor(this._right - this._left);
+    }
+  }
+
+  get right() {
+    return this._right;
+  }
+  
+  set right(val){
+    if(this.allowSubpixel){
+      this._right = val;
+      this._width = this._right - this._left;
+    } else {
+      this._right = Math.floor(val);
+      this._width = Math.floor(this._right - this._left);
+    }
+  }
+
+  get width() {
+    return this._width;
+  }
+  
+  set width(val){
+    if(this.allowSubpixel){
+      this._width = val;
+      this._right = this._left + this._width;
+    } else {
+      this._right = Math.floor(val);
+      this._width = Math.floor(this._left + this._width);
+    }
+  }
+
+  get height() {
+    return this._height;
+  }
+  
+  set height(val){
+    if(this.allowSubpixel){
+      this._height = val;
+      this._bottom = this._top + this._height;
+    } else {
+      this._height = Math.floor(val);
+      this._bottom = Math.floor(this._top + this._height);
+    }
+  }
+  
   /**
    * Check if width or height is zero, making the Bounds effectively empty.
    */

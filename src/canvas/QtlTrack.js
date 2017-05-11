@@ -12,13 +12,13 @@ export class  QtlTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log('mapTrack',this.parent);
+    console.log('mapTrack',this.parent.backbone.labelGroup.globalBounds.right);
     const b = this.parent.bounds;
     const backboneWidth = b.width * 0.25;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.height * 0.025,
-      left: this.parent.backbone.bounds.left - 20,
+      left: 200,
       width: backboneWidth*.75,
       height: b.height * 0.95
     });

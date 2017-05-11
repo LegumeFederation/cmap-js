@@ -79,7 +79,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
 		this.verticalScale += evt.deltaY < 0 ? 0.5 : -0.5;
-    if(this.verticalScale < 0.0) this.verticalScale = 0.0;
+    if(this.verticalScale <= 0) this.verticalScale = 0.0;
     let mcv = this.mapCoordinates.base;
     let zStart = (mcv.start + this.verticalScale);
     let zStop = (mcv.stop - this.verticalScale);
@@ -99,6 +99,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       start: zStart,
       stop: zStop
     };
+    this.backbone.loadLabelMap();
     this.draw();
 
     
@@ -155,7 +156,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     console.log('BioMap -> layout');
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
-    const width = 500;
+    const width = 550;
     this.children = [];
     this.domBounds = new Bounds({
       left: layoutBounds.left,

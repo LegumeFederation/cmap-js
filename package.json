@@ -61,6 +61,7 @@
     "pubsub-js": "^1.5.5",
     "random-words": "0.0.1",
     "rbush": "^2.0.1",
+    "rbush-knn": "^2.0.0",
     "skeleton-css": "^2.0.4"
   },
   "nyc": {
