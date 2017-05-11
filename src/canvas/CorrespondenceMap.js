@@ -30,8 +30,7 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     let gb = this.globalBounds || {};
     ctx.save();
-    ctx.fillStyle = 'cyan';
-    ctx.globalAlpha = 0.2;
+    ctx.globalAlpha = 0;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),

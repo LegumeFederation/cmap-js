@@ -1,5 +1,5 @@
 import {expect, assert} from 'chai';
-import {Bounds} from '../src/model/Bounds';
+import {Bounds} from '../../src/model/Bounds';
 
 describe('Bounds test', () => {
   let params = {
