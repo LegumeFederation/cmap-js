@@ -39,7 +39,7 @@ export class AppModel {
     let sourceConfigs = sources;
     this.header = header;
     this.attribution = attribution;
-    this.initialView = initialView;
+    this.initialView = initialView || [];
     this.biomaps = [];
     let promises = sourceConfigs.map(config => {
       let dsm = new DataSourceModel(config);
@@ -50,7 +50,12 @@ export class AppModel {
     // only the maps named in initialView
     Promise.all(promises).then( () => {
       this.allMaps = this.sources.map( src => Object.values(src.bioMaps) ).concatAll();
-      this.setupInitialView();
+      if(! this.initialView.length) {
+        this.defaultInitialView();
+      }
+      else {
+        this.setupInitialView();
+      }
       PubSub.publish(dataLoaded);
     }).
     catch( err => {
@@ -63,6 +68,9 @@ export class AppModel {
     return promises;
   }
 
+  /**
+   * create this.bioMaps based on initialView of config file.
+   */
   setupInitialView() {
     this.bioMaps = this.initialView.map( viewConf => {
       const res = this.allMaps.filter(map => {
@@ -79,6 +87,14 @@ export class AppModel {
       }
       return res;
     }).concatAll();
+  }
+
+  /**
+   * create this.bioMaps based on first map from each datasource (e.g if
+   * initialView was not defined in config file).
+   */
+  defaultInitialView() {
+    this.bioMaps = this.sources.map( src => Object.values(src.bioMaps)[0] );
   }
 
   /**
