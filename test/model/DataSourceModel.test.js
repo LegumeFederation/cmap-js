@@ -97,5 +97,8 @@ const data =
 "Pv01	0	69.6073	13.4293	13.4313	phavu.Phvul.001G073900	gene\n" +
 "Pv01	0	69.6073	1.34743	1.35232	phavu.Phvul.001G011600	gene\n" +
 "Pv01	0	69.6073	13.4815	13.5003	phavu.Phvul.001G074000	gene\n" +
+"Pv01	0	69.6073	13.5095	13.5121	phavu.Phvul.001G074100	gene\n" +
+"Pv01	0	69.6073	13.5127	13.52	phavu.Phvul.001G074200	gene\n"; 
 "Pv01	0	69.6073	13.5095	13.5121	phavu.Phvul.001G074100	gene_test\n" +
 "Pv01	0	69.6073	13.5127	13.52	phavu.Phvul.001G074200	xyz_test\n";
+

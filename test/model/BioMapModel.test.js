@@ -1,5 +1,4 @@
 import {expect} from 'chai';
-
 import {BioMapModel} from '../../src/model/BioMapModel';
 import {DataSourceModel} from '../../src/model/DataSourceModel';
 
