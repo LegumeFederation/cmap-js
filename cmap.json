@@ -19,12 +19,7 @@
     }, {
       "id" : "pv_consensus",
       "method": "GET",
-      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
-      "filters" : [{
-        "column" : "feature_type_acc",
-        "operator" : "equals",
-        "value" : "AFLP"
-     }]
+      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap"
     }
   ]
 }

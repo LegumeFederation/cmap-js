@@ -43,15 +43,50 @@ export class DataSourceModel {
    * @param String delimited text - csv or tsv
    */
   deserialize(data) {
-    this.parseResult = parser.parse(data, {
+    const res = parser.parse(data, {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true
     });
-    if(this.parseResult.errors.length) {
-      console.error(this.parseResult.errors);
+    if(res.errors.length) {
+      console.error(res.errors);
       alert(`There were parsing errors in ${this.url}, please see console.`);
     }
+    // apply filters from config file
+    res.data = res.data.filter( d => this.includeRecord(d) );
+    this.parseResult = res;
+  }
+
+  /**
+   * Check record against filters and return true for inclusion. All filters are
+   * processed sequentially and the result is all or nothing, effectively like
+   * SQL AND.
+   *
+   * @param Object d - key/value properies of 1 record
+   * @return Boolean - true for include, false for exclude
+   */
+  includeRecord(d) {
+    let hits = 0;
+    this.filters.forEach( f => {
+      let col = f.column;
+      if(d.hasOwnProperty(col)) {
+        let testVal = d[col];
+        let match;
+        if(f.operator === 'equals') {
+          match = (testVal === f.value);
+        }
+        else if(f.operator === 'regex') {
+          match = testVal.match(f.value);
+        }
+        if(f.not) {
+          if(! match) ++hits;
+        }
+        else {
+          if(match) ++hits;
+        }
+      }
+    });
+    return (hits === this.filters.length);
   }
 
   /**
@@ -65,7 +100,6 @@ export class DataSourceModel {
     try {
       this.parseResult.data.forEach( d => {
         if(! d.map_name) return;
-        if(! this.includeRecord(d)) return;
         const uniqueMapName = `${this.id}/${d.map_name}`;
         if(! res[uniqueMapName]) {
           const model = new BioMapModel({
@@ -91,34 +125,5 @@ export class DataSourceModel {
       console.error(e);
     }
     return res;
-  }
-
-  /**
-   * Check record against filters and return true for inclusion. All filters are
-   * processed sequentially and the result is all or nothing, effectively like
-   * SQL AND.
-   *
-   * @param Object d - key/value properies of 1 record
-   * @return Boolean - true for include, false for exclude
-   */
-  includeRecord(d) {
-    let hits = 0;
-    this.filters.forEach( f => {
-      let col = f.column;
-      if(d.hasOwnProperty(col)) {
-        let testVal = d[col];
-        let match;
-        if(f.operator === 'equals') {
-          match = (testVal === f.value);
-        }
-        else if(f.operator === 'regex') {
-          match = testVal.match(f.value);
-        }
-        if(match && f.not ? ! match : match) {
-          ++hits;
-        }
-      }
-    });
-    return (hits === this.filters.length);
   }
 }
