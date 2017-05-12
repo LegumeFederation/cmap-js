@@ -32,7 +32,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
 
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
-
     this.filteredFeatures = this.parent.model.features.filter( model => {
       return model.length <= 0.00001;
     });
@@ -84,7 +83,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
         minX: bbGb.left ,
         maxX: bbGb.right ,
         data: child
-      }
+      };
     });
   }
 }

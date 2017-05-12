@@ -10,7 +10,7 @@ import rbush from 'rbush';
 import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
 import {MapTrack} from './MapTrack';
-import {selectedMap} from '../topics';
+import {QtlTrack} from './QtlTrack';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -45,6 +45,27 @@ export class BioMap extends SceneGraphNodeCanvas {
     };
     this._layout(layoutBounds);
   }
+  /**
+   * culls elements to draw down to only those visible within the view 
+   * bounds
+   */
+  get visible(){
+    let vis = [];
+    let cVis = this.children.map(child => {
+      return child.visible;
+    });
+    cVis.forEach(item => {
+      vis = vis.concat(item);
+    });
+    return vis;
+  }
+  /**
+   * children.visible() culls hits based on map coordiantes
+   * the hitMap is based on canvas global coordinates.
+   * */
+  get hitMap(){
+    return this.locMap;
+  }
 
   /**
    * 
@@ -52,76 +73,86 @@ export class BioMap extends SceneGraphNodeCanvas {
    * the items on the canvas. 
    *
    */
-
-
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
-    console.warn('BioMap -> onZoom -- implement me', evt);
-    this.verticalScale -= evt.deltaY;
+    console.warn('BioMap -> onZoom', evt);
+    // normalise scroll delta
+		this.verticalScale += evt.deltaY < 0 ? 0.5 : -0.5;
+    if(this.verticalScale < 0.0) this.verticalScale = 0.0;
     let mcv = this.mapCoordinates.base;
-    let zStart = (mcv.start - this.verticalScale*.1);
-    let zStop = (mcv.stop + this.verticalScale*.1);
-    zStart = zStart < mcv.start ? mcv.start : zStart;
-    zStop = zStop > mcv.stop ? mcv.stop : zStop;
+    let zStart = (mcv.start + this.verticalScale);
+    let zStop = (mcv.stop - this.verticalScale);
+    if(zStart < mcv.start) {
+      zStart = mcv.start; 
+    } else if ( zStart > zStop ){
+      zStart = zStop;
+    }
+    
+    if(zStop > mcv.stop) {
+      zStop = mcv.stop; 
+    } else if ( zStop < zStart ){
+      zStop = zStart;
+    }
+    
     this.mapCoordinates.visible = {
       start: zStart,
       stop: zStop
     };
     this.draw();
 
-    //redraw all correspondence maps, could technically do some magic with
-    //appending a specific class to correspondence maps based on which maps a
-    //biomap is attached to, but with potential circos layout, it is more sane
-    //to just redraw them all.
     
     let cMaps = document.getElementsByClassName('cmap-correspondence-map');
     [].forEach.call(cMaps, el =>{
-      console.log(el);
       el.mithrilComponent.draw();
     });
     return true; // stop event propagation
   }
+
   _onTap(evt) {
-    console.log('tap');
-    console.log(evt);
-    let sel = this.appState.selection.bioMaps;
-    let i = sel.indexOf(this);
-    if(i === -1) {
-      sel.push(this);
+    console.log('BioMap -> tap', evt);
+		function getOffset( el ) {
+      var _x = 0;
+      var _y = 0;
+      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+        _x += el.offsetLeft - el.scrollLeft;
+        _y += el.offsetTop - el.scrollTop;
+        el = el.offsetParent;
+      }
+      return { top: _y, left: _x };
     }
-    else {
-      sel.splice(i, 1);
-    }
+		let pageOffset = getOffset(this.canvas);
+		let globalPos = {
+			'x': evt.srcEvent.pageX - pageOffset.left,
+			'y': evt.srcEvent.pageY - pageOffset.top
+		};
+
+
     m.redraw();
     this._loadHitMap();
     let hits = [];
-    this.hitMap.search(
-      {minX: evt.srcEvent.layerX,
-       maxX: evt.srcEvent.layerX,
-       minY: evt.srcEvent.layerY-5,
-       maxY: evt.srcEvent.layerY+5
-      }).forEach(hit => { hits.push(hit.data.model.name)});
-    console.log(hits);
+    this.hitMap.search({
+      minX: globalPos.x,
+      maxX: globalPos.x,
+      minY: globalPos.y-2,
+      maxY: globalPos.y+2
+    }).forEach(hit => { 
+      hits.push(hit.data.model.name);});
     if(hits.length > 0){
-      window.alert( hits.join(' , '));
-    };
+      window.alert( hits.join('\n'));
+    }
 
-    PubSub.publish(selectedMap, {
-      evt: evt,
-      data: this.appState.selection.bioMaps
-    });
     return true;
   }
+
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
   
-  
   _layout(layoutBounds) {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
     // labels
-    console.log('layout BioMap');
+    console.log('BioMap -> layout');
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
     const width = 500;
@@ -141,32 +172,19 @@ export class BioMap extends SceneGraphNodeCanvas {
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
     this.children.push(this.backbone);
-
+    let qtl  = new QtlTrack({parent:this});
+    this.children.push(qtl);
     // load local rBush tree for hit detection
     this._loadHitMap();
+    m.redraw();
   }
   
-  get visible(){
-    let vis = [];
-    let cVis = this.children.map(child => {
-      return child.visible;
-    });
-    cVis.forEach(item => {
-      vis = vis.concat(item);
-    });
-    return vis;
-  }
-
-  get hitMap(){
-    return this.locMap;
-  }
 
   _loadHitMap(){
     let hits = [];
     let childrenHits = this.children.map(child => {
       return child.hitMap;
     });
-    console.log('loading', childrenHits);
     childrenHits.forEach(child =>{
       hits = hits.concat(child);
     });

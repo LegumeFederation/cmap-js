@@ -8,7 +8,6 @@ export class Group extends SceneGraphNodeBase {
 
   constructor(params) {
     super(params);
-    this.test = "whee!";
   }
 
 }
