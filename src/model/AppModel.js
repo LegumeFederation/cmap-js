@@ -39,7 +39,7 @@ export class AppModel {
     let sourceConfigs = sources;
     this.header = header;
     this.attribution = attribution;
-    this.initialView = initialView;
+    this.initialView = initialView || [];
     this.biomaps = [];
     let promises = sourceConfigs.map(config => {
       let dsm = new DataSourceModel(config);
@@ -50,25 +50,51 @@ export class AppModel {
     // only the maps named in initialView
     Promise.all(promises).then( () => {
       this.allMaps = this.sources.map( src => Object.values(src.bioMaps) ).concatAll();
-      this.setupInitialView();
+      if(! this.initialView.length) {
+        this.defaultInitialView();
+      }
+      else {
+        this.setupInitialView();
+      }
       PubSub.publish(dataLoaded);
     }).
     catch( err => {
       // TODO: make a nice mithril component to display errors in the UI
-      alert(`While fetching data source(s), ${err}`);
+      const msg = `While fetching data source(s), ${err}`;
+      console.error(msg);
+      console.trace();
+      alert(msg);
     });
     return promises;
   }
 
+  /**
+   * create this.bioMaps based on initialView of config file.
+   */
   setupInitialView() {
-    this.bioMaps = this.initialView.map( uniqMapName => {
-      const res = this.allMaps.filter(map => map.uniqueName === uniqMapName );
+    this.bioMaps = this.initialView.map( viewConf => {
+      const res = this.allMaps.filter(map => {
+        return (viewConf.source === map.source.id &&
+                viewConf.map === map.name);
+      });
       if(res.length == 0) {
         // TODO: make a nice mithril component to display errors in the UI
-        alert(`failed to resolve initialView entry: ${uniqMapName}`);
+        const info = JSON.stringify(viewConf);
+        const msg = `failed to resolve initialView entry: ${info}`;
+        console.error(msg);
+        console.trace();
+        alert(msg);
       }
       return res;
     }).concatAll();
+  }
+
+  /**
+   * create this.bioMaps based on first map from each datasource (e.g if
+   * initialView was not defined in config file).
+   */
+  defaultInitialView() {
+    this.bioMaps = this.sources.map( src => Object.values(src.bioMaps)[0] );
   }
 
   /**

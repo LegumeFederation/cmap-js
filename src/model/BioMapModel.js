@@ -3,21 +3,37 @@
  */
 export class BioMapModel {
 
+  /**
+   * create a BioMapModel
+   * @param Object params having the following properties:
+   * @param String name - the map name
+   * @param Object source - the DataSourceModel where bioMap was loaded from
+   * @param Object coordinates - object w/ start and stop props
+   * @param Array features - an array of Feature instances.
+   */
   constructor({
     name,
-    dsn, // same as uniquePrefix
-    uniqueName,
+    source,
     features,
     coordinates = { start: 0, stop: 0}
   }) {
-    this.uniqueName = uniqueName;
     this.name = name;
-    this.dsn = dsn; // data source uniqueId
-    this.coordinates = Object.freeze(coordinates); // object w/ start and end props
+    this.source = source;
     this.features = features;
+    this.coordinates = Object.freeze(coordinates);
   }
 
+  /**
+   * getter for length (coordinates.stop - coordinates.start)
+   */
   get length() {
     return this.coordinates.stop - this.coordinates.start;
+  }
+
+  /**
+   * getter for unique name (prefix map name the id of data source)
+   */
+  get uniqueName() {
+    return `${this.source.id}/${this.name}`;
   }
 }
