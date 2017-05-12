@@ -1,23 +1,23 @@
 import {expect} from 'chai';
 import {BioMapModel} from '../../src/model/BioMapModel';
+import {DataSourceModel} from '../../src/model/DataSourceModel';
 
-const params =  {
+
+
+let model;
+const params = {
   name: 'Pv01',
-  dsn: 'my_data_',
-  uniqueName: 'my_data_Pv01',
   features: [],
-  coordinates: { start: 42, stop: 142 }
+  coordinates: { start: 42, stop: 142 },
+  source: new DataSourceModel( { id: 'test'} )
 };
 
 describe('BioMapModel test', () => {
-
   it('constructor works', () => {
-    const model = new BioMapModel(params);
-    expect(model).to.have.property('uniqueName')
-      .that.is.a('string');
+    model = new BioMapModel(params);
+    expect(model).to.have.property('source')
+      .that.is.an('object');
     expect(model).to.have.property('name')
-      .that.is.a('string');
-    expect(model).to.have.property('dsn')
       .that.is.a('string');
     expect(model).to.have.property('features')
       .that.is.an('array');
@@ -28,8 +28,12 @@ describe('BioMapModel test', () => {
   });
 
   it('length getter works', () => {
-    const model = new BioMapModel(params);
     expect(model.length).to.equal(100);
   });
 
+  it('uniqueName getter works', () => {
+    expect(model).to.have.property('uniqueName')
+      .that.is.a('string');
+    expect(model.uniqueName).to.equal('test/Pv01');
+  });
 });

@@ -4,13 +4,38 @@
   "title" : "cmap-js schema",
   "description" : "For more info, see https://github.com/ncgr/cmap-js",
   "type" : "object",
+  "definitions" : {
+    "filter" : {
+      "type" : "object",
+      "properties" : {
+        "column" : { "type" : "string" },
+        "not" : { "type" : "boolean" },
+        "operator" : { "enum" : [ "equals", "regex" ] },
+        "value" : { "type" : "string" }
+      },
+      "required" : ["column", "operator", "value"]
+    }
+  },
   "properties" : {
     "#" : { "type" : "string"},
     "header" : { "type" : "string"},
     "attribution" : { "type" : "string" },
     "initialView" : {
       "type" : "array",
-      "items" : { "type": "string" }
+      "items" : {
+        "type": "object",
+        "properties" : {
+          "source" : { "type" : "string" },
+          "map" : { "type" : "string" },
+          "filters" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/filter"
+            }
+          }
+        },
+        "required" : ["source", "map"]
+      }
     },
     "sources" : {
       "type" : "array",
@@ -18,12 +43,18 @@
         "type" : "object",
         "properties" : {
           "#" : { "type": "string" },
-          "uniquePrefix" : { "type" : "string" },
+          "id" : { "type" : "string" },
           "method" : { "type" : "string"},
           "data" : { "type" : "object" },
-          "url" : { "type" : "string" }
+          "url" : { "type" : "string" },
+          "filters" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/filter"
+            }
+          }
         },
-        "required" : ["url", "method", "uniquePrefix"]
+        "required" : ["url", "method", "id"]
       }
     }
   },

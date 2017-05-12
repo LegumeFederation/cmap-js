@@ -12,7 +12,7 @@ describe('DataSourceModel test', () => {
         .that.is.a('string');
       expect(model).to.have.property('url')
         .that.is.a('string');
-      expect(model).to.have.property('uniquePrefix')
+      expect(model).to.have.property('id')
         .that.is.a('string');
       expect(model).to.have.property('background')
         .that.is.a('boolean');
@@ -30,6 +30,62 @@ describe('DataSourceModel test', () => {
     expect(model.parseResult.data).to.have.lengthOf(9);
   });
 
+  it('includeRecord equals', () => {
+    let model;
+    config.sources[1].filters = [{
+      column : 'feature_type',
+      operator : 'equals',
+      value : 'gene_test'
+    }];
+    model = new DataSourceModel(config.sources[1]);
+    model.deserialize(data);
+    expect(model.parseResult.errors).to.be.empty;
+    expect(model.parseResult.data).to.have.lengthOf(1);
+  });
+
+  it('includeRecord not', () => {
+    let model;
+    config.sources[1].filters = [{
+      column : 'feature_type',
+      not: true,
+      operator : 'equals',
+      value : 'gene_test'
+    }];
+    model = new DataSourceModel(config.sources[1]);
+    model.deserialize(data);
+    expect(model.parseResult.errors).to.be.empty;
+    expect(model.parseResult.data).to.have.lengthOf(8);
+  });
+
+  it('includeRecord regex', () => {
+    let model;
+    config.sources[1].filters = [{
+      column : 'feature_type',
+      operator : 'regex',
+      value : '^g.+'
+    }];
+    model = new DataSourceModel(config.sources[1]);
+    model.deserialize(data);
+    expect(model.parseResult.errors).to.be.empty;
+    expect(model.parseResult.data).to.have.lengthOf(8);
+  });
+
+  it('includeRecord multiple filters', () => {
+    let model;
+    config.sources[1].filters = [{
+      column : 'map_name',
+      operator : 'equals',
+      value : 'Pv01'
+    }, {
+      column : 'feature_type',
+      operator : 'regex',
+      value : '_test$'
+    }];
+    model = new DataSourceModel(config.sources[1]);
+    model.deserialize(data);
+    expect(model.parseResult.errors).to.be.empty;
+    expect(model.parseResult.data).to.have.lengthOf(2);
+  });
 });
 
 const data =
@@ -43,3 +99,6 @@ const data =
 "Pv01	0	69.6073	13.4815	13.5003	phavu.Phvul.001G074000	gene\n" +
 "Pv01	0	69.6073	13.5095	13.5121	phavu.Phvul.001G074100	gene\n" +
 "Pv01	0	69.6073	13.5127	13.52	phavu.Phvul.001G074200	gene\n"; 
+"Pv01	0	69.6073	13.5095	13.5121	phavu.Phvul.001G074100	gene_test\n" +
+"Pv01	0	69.6073	13.5127	13.52	phavu.Phvul.001G074200	xyz_test\n";
+
