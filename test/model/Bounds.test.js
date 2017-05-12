@@ -13,7 +13,12 @@ describe('Bounds test', () => {
 
   it('constructor works', () => {
     let b = new Bounds(params);
-    expect(b).eql(params);
+    expect(b.top).eql(params.top);
+    expect(b.bottom).eql(params.bottom);
+    expect(b.left).eql(params.left);
+    expect(b.right).eql(params.right);
+    expect(b.width).eql(params.width);
+    expect(b.height).eql(params.height);
   });
 
   it('constructor calculates missing width, height', () => {
@@ -37,7 +42,8 @@ describe('Bounds test', () => {
   it('ignores x and y properties from DOMRect', () => {
     let paramsWithExtras = Object.assign({ x: -1, y: -1 }, params);
     let b = new Bounds(paramsWithExtras);
-    expect(b).eql(params);
+    expect(b.x).eql(undefined);
+    expect(b.y).eql(undefined);
   });
 
   it('equals()', () => {
