@@ -84,6 +84,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     let mcv = this.mapCoordinates.base;
     let zStart = (mcv.start + this.verticalScale);
     let zStop = (mcv.stop - this.verticalScale);
+    if(zStop - zStart < .01){
+      this.verticalScale -=0.5;
+      return true;
+    }
     if(zStart < mcv.start) {
       zStart = mcv.start; 
     } else if ( zStart > zStop ){
