@@ -3,66 +3,67 @@
   * A SceneGraphNode representing a backbone, simply a rectangle representing
   * the background.
   */
-import {SceneGraphNodeTrack} from './SceneGraphNodeTrack';
+import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 import {Bounds} from '../model/Bounds';
 
-export class  ZoomRuler extends SceneGraphNodeTrack {
+export class Ruler extends SceneGraphNodeBase {
 
   constructor(params) {
     super(params);
-    console.log('mapZoomBar');
-    const b = this.parent.backbone.backbone.bounds;
+    console.log('Adding Ruler');
+    this.mapCoordinates = params.parent.mapCoordinates;
+    this.pixelScaleFactor = this.parent.backbone.markerGroup.children[0].pixelScaleFactor;
+    const b = params.parent.backbone.backbone.globalBounds;
+    const backboneWidth = this.parent.bounds.width;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height ,
-      left: b.left - 40,
-      width: 20,
-      height: b.height
+      top: params.parent.backbone.backbone.globalBounds.top,
+      left: b.left -20,
+      width: 10,
+      height: b.height 
     });
-    console.log('setting up ruler');
+    console.log(this);
   }
 
   draw(ctx) {
+    this.children.forEach( child => child.draw(ctx));
+    let start = this._translateScale(this.mapCoordinates.visible.start) * this.pixelScaleFactor;
+    let stop = this._translateScale(this.mapCoordinates.visible.stop) * this.pixelScaleFactor;
+    console.log('drawing Ruler',start,stop);
     let gb = this.globalBounds || {};
-    console.log('drawing ruler',gb);
-    ctx.beginPath();
-    ctx.lineWidth = 5.0;
-    ctx.strokeStyle = 'black';
-    ctx.moveTo(Math.floor(10), Math.floor(0));
-    ctx.moveTo(Math.floor(10), Math.floor(500));
+
+		ctx.beginPath();
+    ctx.lineWidth = 1.0;
+		ctx.strokeStyle = 'black';
+    ctx.moveTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.top));
+    ctx.lineTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.bottom));
     ctx.stroke();
-    console.log('ruler Drawn');
-  //  let y1 = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
-  //  let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
-  //  let start = this._translateScale(this.mapCoordinates.visible.start) * this.pixelScaleFactor;
-  //  let stop = this._translateScale(this.mapCoordinates.visible.stop) * this.pixelScaleFactor;
-  //  if (y2 < start || y1 > stop) return;
-  //  if (y1 < start) y1 = start;
-  //  if (y2 > stop) y2 = stop;
-  //  this.bounds = new Bounds({
-  //    top: y1,
-  //    height: y2-y1,
-  //    left: this.bounds.left,
-  //    width: 10
-  //  });
-  //  let gb = this.globalBounds || {};
-  //  ctx.fillStyle = 'DarkBlue';
-  //  ctx.fillRect(
-  //    Math.floor(gb.left),
-  //    Math.floor(gb.top),
-  //    Math.floor(gb.width),
-  //    Math.floor(gb.height)
-  //  );
-  //  this.children.forEach( child => child.draw(ctx));
+
+    ctx.fillStyle = 'aqua';
+		var height = stop - start > 1 ? stop-start : 1.0;
+    ctx.fillRect(
+      Math.floor(gb.left),
+      Math.floor(start + gb.top),
+      Math.floor(gb.width),
+      Math.floor(height)
+    );
+
+		ctx.font = '12px Raleway';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'black';
+		let text = [this.mapCoordinates.base.start,this.mapCoordinates.base.stop];
+    ctx.fillText(text[0],gb.left - 5 - ctx.measureText(text[0]).width,(gb.top));
+    ctx.fillText(text[1],gb.left - 5 - ctx.measureText(text[1]).width,(gb.bottom));
+
   }
-  get visible(){
-    return {
-      data: this
-    }
-  }
+
   _translateScale(point){
-    let coord = this.mapCoordinates.base;
-    let vis = this.mapCoordinates.visible;
+    let vis = this.mapCoordinates.base;
+    let coord = this.mapCoordinates.visible;
     return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
+  }
+
+  get  visible(){
+    return {data:this};
   }
 }

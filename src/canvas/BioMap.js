@@ -11,6 +11,7 @@ import {Bounds} from '../model/Bounds';
 import {SceneGraphNodeCanvas} from './SceneGraphNodeCanvas';
 import {MapTrack} from './MapTrack';
 import {QtlTrack} from './QtlTrack';
+import {Ruler} from './Ruler';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -173,6 +174,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
     this.children.push(this.backbone);
+    this.ruler = new Ruler({parent:this});
+    this.children.push(this.ruler);
     let qtl  = new QtlTrack({parent:this});
     this.children.push(qtl);
     // load local rBush tree for hit detection

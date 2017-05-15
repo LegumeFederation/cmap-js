@@ -30,7 +30,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.mC = this.parent.mapCoordinates;
     this.backbone = new MapBackbone({ parent: this});	
     this.addChild(this.backbone);
-
     let markerGroup = new Group({parent:this});
     this.addChild(markerGroup);
 
