@@ -29,20 +29,26 @@ export class Ruler extends SceneGraphNodeBase {
     this.children.forEach( child => child.draw(ctx));
     let start = this._translateScale(this.mapCoordinates.visible.start) * this.pixelScaleFactor;
     let stop = this._translateScale(this.mapCoordinates.visible.stop) * this.pixelScaleFactor;
+		let text = [this.mapCoordinates.base.start.toFixed(4),this.mapCoordinates.base.stop.toFixed(4)];
+    let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
+
     console.log('drawing Ruler',start,stop);
     let gb = this.globalBounds || {};
+
+    ctx.fillText(text[0],gb.right - w + 5, (gb.top));
+    ctx.fillText(text[1],gb.right - w + 5,(gb.bottom));
 
 		ctx.beginPath();
     ctx.lineWidth = 1.0;
 		ctx.strokeStyle = 'black';
-    ctx.moveTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.top));
-    ctx.lineTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.bottom));
+    ctx.moveTo(Math.floor(gb.left - w + gb.width/2), Math.floor(gb.top));
+    ctx.lineTo(Math.floor(gb.left - w + gb.width/2), Math.floor(gb.bottom));
     ctx.stroke();
 
     ctx.fillStyle = 'aqua';
 		var height = stop - start > 1 ? stop-start : 1.0;
     ctx.fillRect(
-      Math.floor(gb.left),
+      Math.floor(gb.left - w),
       Math.floor(start + gb.top),
       Math.floor(gb.width),
       Math.floor(height)
@@ -51,9 +57,9 @@ export class Ruler extends SceneGraphNodeBase {
 		ctx.font = '12px Raleway';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'black';
-		let text = [this.mapCoordinates.base.start,this.mapCoordinates.base.stop];
-    ctx.fillText(text[0],gb.left - 5 - ctx.measureText(text[0]).width,(gb.top));
-    ctx.fillText(text[1],gb.left - 5 - ctx.measureText(text[1]).width,(gb.bottom));
+		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];
+    ctx.fillText(text[0],gb.left - w - 5 - ctx.measureText(text[0]).width,(start+gb.top));
+    ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(start+gb.top + height));
 
   }
 
