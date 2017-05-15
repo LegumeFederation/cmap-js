@@ -36,7 +36,7 @@ export class Ruler extends SceneGraphNodeBase {
     let gb = this.globalBounds || {};
 
     ctx.fillText(text[0],gb.right - w + 5, (gb.top));
-    ctx.fillText(text[1],gb.right - w + 5,(gb.bottom));
+    ctx.fillText(text[1],gb.right - w + 5,(gb.bottom + 12));
 
 		ctx.beginPath();
     ctx.lineWidth = 1.0;
@@ -59,7 +59,7 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.fillStyle = 'black';
 		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];
     ctx.fillText(text[0],gb.left - w - 5 - ctx.measureText(text[0]).width,(start+gb.top));
-    ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(start+gb.top + height));
+    ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(start+gb.top + height + 12));
 
   }
 
