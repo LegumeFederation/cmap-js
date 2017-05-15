@@ -124,7 +124,6 @@ export class HorizontalLayout
    *
    */
   _onReset(){
-    console.log("reset view h layout", this);
     this.bioMapComponents.forEach(item => {
       item.mapCoordinates.visible = item.mapCoordinates.base;
     });

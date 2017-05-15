@@ -3,7 +3,6 @@
   * A SceneGraphNode representing a backbone, simply a rectangle representing
   * the background.
   */
-import rbush from 'rbush';
 import knn from 'rbush-knn';
 
 import {SceneGraphNodeTrack} from './SceneGraphNodeTrack';
