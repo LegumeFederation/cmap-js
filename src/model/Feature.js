@@ -13,7 +13,12 @@ class Feature {
    * @param {Object} aliases - array of alternate names, optional
    * @returns {Object}
    */
-  constructor({coordinates = { start: 0, end: 0}, name, tags=[], aliases=[]}) {
+  constructor({
+    coordinates = { start: 0, stop: 0},
+    name,
+    tags=[],
+    aliases=[],
+  }) {
     this.coordinates = Object.freeze(coordinates); // object w/ start and end props
     this.name = name;
     this.tags = tags;
@@ -21,33 +26,34 @@ class Feature {
   }
 
   get length() {
-    return this.coordinates.end - this.coordinates.start;
+    return this.coordinates.stop - this.coordinates.start;
   }
 }
 
 /**
- * Find the common features based on name and aliases shared
+ * Find the common features based on name and aliases.
+ * @param Array features1 - 1st collection of features
+ * @param Array features2 - 2nd collection of features
+ * @return Array - tuples of results in common [[feat1, feat2], ...]
  */
-
-// FIXME: when the features are matched on aliases, the returned features
-// do not show the variation in feature.names
-const featuresInCommon = (features1, features2) => {
+// TODO: support more than two collections of features
+function featuresInCommon(features1, features2) {
   const setupDict = (features) => {
     let dict = {};
     features.forEach( f => {
       dict[f.name] = f;
       f.aliases.forEach( a => {
-        dict[a] = f;
+        if(a) dict[a] = f;
       });
     });
     return dict;
   };
   let dict1 = setupDict(features1);
   let dict2 = setupDict(features2);
-  let set1 = new Set(Object.keys(dict1));
-  let set2 = new Set(Object.keys(dict2));
-  let intersection = new Set([...set1].filter(x => set2.has(x)));
-  return Array.from(intersection).map(key => dict1[key]);
-};
+  let intersectedKeys = Object.keys(dict1).filter( key => dict2[key] );
+  return intersectedKeys.map( key => {
+    return [ dict1[key], dict2[key] ];
+  });
+}
 
 export {Feature, featuresInCommon};

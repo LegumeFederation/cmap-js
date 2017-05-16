@@ -6,6 +6,8 @@ import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import uglify from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
 
 // PostCSS plugins
 import simplevars from 'postcss-simple-vars';
@@ -58,7 +60,15 @@ export default {
       exclude: 'node_modules/**',
       ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
+    (process.env.WATCH === 'yes' && serve({
+      open: true,
+      verbose: true,
+      contentBase: '',
+      host: 'localhost',
+      port: 8888
+    })),
+    (process.env.WATCH === 'yes' && livereload()),
     // uglify/minify only in production
-    (process.env.NODE_ENV === 'production' && uglify())
+    (process.env.NODE_ENV === 'production' && uglify()),
   ],
 };

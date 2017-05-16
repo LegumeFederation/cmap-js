@@ -4,8 +4,7 @@ import {UI} from '../../src/ui/UI';
 describe('UI component', () => {
   it('should generate appropriate output', () => {
     let component = new UI();
-    let output = mq(component);
-    output.should.have('div');
-    // TODO: finish test
+    let out = mq(component);
+    out.should.have('div.cmap-layout.cmap-vbox > div.cmap-layout-viewport.cmap-hbox');
   });
 });

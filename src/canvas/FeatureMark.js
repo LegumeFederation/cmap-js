@@ -3,42 +3,45 @@
   * A SceneGraphNode representing a feature on a Map with a line or hash mark.
   */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import {Bounds} from '../model/Bounds';
 
 export class FeatureMark extends SceneGraphNodeBase {
 
-  constructor(params) {
-    super(params);
-    this.coordinates = params.coordinates;
-    this.rangeOfCoordinates = params.rangeOfCoordinates;
-    this.aliases = params.aliases;
+  constructor({parent, bioMap, featureModel}) {
+    super({parent, tags: [featureModel.name]});
+    this.model = featureModel;
+    this.featureMap = bioMap;
+    this.lineWidth = 1.0;
+    this.pixelScaleFactor = parent.bounds.height / bioMap.length;
+    let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: y,
+      left: 0,
+      width: parent.bounds.width,
+      height: this.lineWidth
+    });
   }
 
   draw(ctx) {
-    this.drawLine(ctx);
-      //this.drawLabel();
-  }
-
-  drawLine(ctx) {
-    let gb = this.globalBounds;
+    let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
+    this.bounds.top = y;
+    let gb = this.globalBounds || {};
     ctx.beginPath();
+    ctx.lineWidth = this.lineWidth;
     ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
     ctx.lineTo(Math.floor(gb.right), Math.floor(gb.top));
     ctx.stroke();
+    // reset bounding box to fit the new stroke location/width
+    // lineWidth adds equal percent of passed width above and below path
+    this.bounds.top = y - this.lineWidth/2;
+    this.bounds.bottom = y + this.lineWidth/2;
+     
   }
 
-  // drawLabel() {
-  //   // FIXME: dont calculate all these measures every draw cycle
-  //   let ctx = this.context2d;
-  //   let canvasWidth = ctx.canvas.clientWidth;
-  //   let canvasHeight = ctx.canvas.clientHeight;
-  //   let width = canvasWidth * 0.33;
-  //   let height = canvasHeight * 0.95;
-  //   let coordinatesToPixels = height / this.rangeOfCoordinates.end;
-  //   let gutter = Math.floor(width * 0.2);
-  //   let x = Math.floor(canvasWidth * 0.5 - width * 0.5 - gutter)
-  //   let y = Math.floor(height * 0.025 + this.coordinates.start * coordinatesToPixels);
-  //   ctx.font = '9px sans-serif';
-  //   ctx.fillStyle = 'black';
-  //   ctx.fillText(this.featureName, x, y, gutter);
-  // }
+  _translateScale(point){
+    let coord = this.mapCoordinates.base;
+    let vis = this.mapCoordinates.visible;
+    return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
+  }
 }

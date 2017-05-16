@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Bounds} from '../src/util/Bounds';
+import {Bounds} from '../src/model/Bounds';
 import {SceneGraphNodeBase} from '../src/canvas/SceneGraphNodeBase';
 
 describe('SceneGraphNode test', () => {
@@ -17,13 +17,13 @@ describe('SceneGraphNode test', () => {
     let params = {
       parent: parent,
       bounds: bounds,
-      tag: 'test',
+      tags: ['test'],
       rotation: 45
     };
     let node = new SceneGraphNodeBase(params);
     expect(node.parent).to.equal(parent);
     expect(node.bounds).eql(bounds);
-    expect(node.tag).to.equal('test');
+    expect(node.tags).eql(['test']);
     expect(node.rotation).to.equal(45);
   });
 

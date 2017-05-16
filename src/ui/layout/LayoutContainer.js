@@ -5,17 +5,16 @@
   */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import Hammer from 'hammerjs';
-import Hamster from 'hamsterjs';
-
 import {mix} from '../../../mixwith.js/src/mixwith';
 
 import {HorizontalLayout} from './HorizontalLayout';
 import {CircosLayout} from './CircosLayout';
-import {layout as layoutMsg, reset} from '../../topics';
-import {Bounds} from '../../util/Bounds';
-import {RegisterComponentMixin} from './RegisterComponentMixin';
+import {reset} from '../../topics';
+import {Bounds} from '../../model/Bounds';
+import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
+// define allowed min/max range for scale (zoom operation)
+const SCALE = Object.freeze({ min: 0.05, max: 2});
 
 export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
@@ -25,88 +24,11 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    * mithril lifecycle method
    */
   oninit(vnode) {
+    super.oninit(vnode);
     this.appState = vnode.attrs.appState;
 
-    PubSub.subscribe(layoutMsg, (msg, data) => this._onLayoutChange(msg, data));
-    PubSub.subscribe(reset, (msg, data) => this._onReset(msg, data));
-  }
+    PubSub.subscribe(reset, () => this._onReset());
 
-  /**
-   * mithril lifecycle method
-   */
-  oncreate(vnode) {
-    super.oncreate(vnode);
-    this.el = vnode.dom; // this is the outer m('div') from view()
-    this._setupEventHandlers(this.el);
-    this.bounds = new Bounds(this.el.getBoundingClientRect());
-    this.contentBounds = new Bounds(this.bounds);
-  }
-
-  /**
-   * mithril lifecycle method
-   */
-  onupdate(vnode) {
-    console.assert(this.el === vnode.dom);
-    this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
-  }
-
-  /**
-   * mithril lifecycle method
-   */
-  onbeforeremove(vnode) {
-    super.onbeforeremove(vnode);
-    this._gestureEventsTeardown();
-  }
-
-  /**
-   * mithril component render method
-   */
-  view() {
-    let b = this.contentBounds || {}; // relative bounds of the layout-container
-    let scale = this.appState.tools.zoomFactor;
-    return m('div', {
-      class: 'cmap-layout-container',
-      style: `left: ${b.left}px; top: ${b.top}px;
-              width: ${b.width}px; height: ${b.height}px;
-              transform: scale(${scale})`
-    }, [
-      this.appState.tools.layout === HorizontalLayout
-      ?
-      m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds })
-      :
-      m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
-    ]);
-  }
-
-  /* private functions  */
-
-  _setupEventHandlers() {
-    //
-    // mouse wheel (hamsterjs)
-    //
-    let hamsterHandler = (evt) => {
-      // note: the hamster callback has additioanl parameters which are being
-      // ignored here (evt, delta, deltaX, deltaY)
-      // normalize the event so it is similar to the hammerjs gestures
-      evt.center = { x: evt.originalEvent.x, y: evt.originalEvent.y };
-      this._dispatchGestureEvt(evt);
-    };
-    let hamster = Hamster(this.el);
-    hamster.wheel(hamsterHandler);
-    //
-    // gestures (hammerjs)
-    //
-    let hammer = Hammer(this.el);
-    hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    hammer.get('pinch').set({ enable: true });
-    let hammerHandler = (evt) => this._dispatchGestureEvt(evt);
-    let hammerEvents = 'panmove panend pinchmove pinchend tap';
-    hammer.on(hammerEvents, hammerHandler);
-    // create a callback for teardown of all these event handlers
-    this._gestureHandlerTeardown = () => {
-      hamster.unwheel(hamsterHandler);
-      hammer.off(hammerEvents, hammerHandler);
-    };
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
       pan:   new RegExp('^pan'),
@@ -117,22 +39,47 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   }
 
   /**
-   * Custom dispatch of ui events. Layout elements like BioMap and
-   * CorrespondenceMap are visually overlapping, and so do not fit cleanly into
-   * the js event capture or bubbling phases. Query the dom at the events
-   * coordinates, and dispatch the event to child who
-   * a) intersects with this point
-   * b) wants to handle this event (it can decide whether to based on it's
-   * canvas scenegraph contents)
+   * mithril lifecycle method
    */
-  _dispatchGestureEvt(evt) {
-    let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
-    let filtered = hitElements.filter( el => {
-      return el.mithrilComponent && el.mithrilComponent.handleGesture;
+  oncreate(vnode) {
+    super.oncreate(vnode);
+    this.el = vnode.dom; // this is the outer m('div') from view()
+    //this._setupEventHandlers(this.el);
+    this.bounds = new Bounds(this.el.getBoundingClientRect());
+    this.contentBounds = new Bounds({
+      left: 0,
+      top: 0,
+      width: this.bounds.width,
+      height: this.bounds.height
     });
-    // dispatch event to all the mithril components, until one returns true;
-    // effectively the same as 'stopPropagation' on a normal event bubbling.
-    filtered.some( el => el.mithrilComponent.handleGesture(evt) );
+    // save these dimensions for 'reset' event
+    this.originalContentBounds = new Bounds(this.contentBounds);
+  }
+
+  /**
+   * mithril lifecycle method
+   */
+  onupdate(vnode) {
+    this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
+  }
+
+  /**
+   * mithril component render method
+   */
+  view() {
+    let b = this.contentBounds || {}; // relative bounds of the layout-container
+    let scale = this.appState.tools.zoomFactor;
+    return m('div.cmap-layout-container', {
+      style: `left: ${b.left}px; top: ${b.top}px;
+              width: ${b.width}px; height: ${b.height}px;
+              transform: scale(${scale})`
+    }, [
+      this.appState.tools.layout === HorizontalLayout
+      ?
+      m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds })
+      :
+      m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
+    ]);
   }
 
   /**
@@ -153,10 +100,10 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   }
 
   _onZoom(evt) {
-    console.log('LayoutContainer -> onZoom', evt);
-    // FIXME: utilize the distance of touch event
-    let normalized = evt.deltaY / this.bounds.height;
-    this.appState.tools.zoomFactor += normalized;
+    // TODO: utilize the distance of touch event for better interaction
+    const normalized = evt.deltaY / this.bounds.height;
+    const z = this.appState.tools.zoomFactor + normalized;
+    this.appState.tools.zoomFactor = Math.clamp(z, SCALE.min, SCALE.max);
     m.redraw();
     return true; // stop evt propagation
   }
@@ -184,4 +131,13 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     this.lastPanEvent = evt;
     return true; // stop event propagation
   }
+
+  /**
+   * PubSub event handler
+   */
+  _onReset() {
+    this.contentBounds = new Bounds(this.originalContentBounds);
+    m.redraw();
+  }
+
 }

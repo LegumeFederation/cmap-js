@@ -2,7 +2,10 @@
   * SceneGraphNodeBase
   * Base Class representing a drawable element in canvas scenegraph
   */
-import { Bounds } from '../util/Bounds';
+
+import  rbush  from 'rbush';
+
+import { Bounds } from '../model/Bounds';
 
 export class SceneGraphNodeBase {
 
@@ -19,23 +22,40 @@ export class SceneGraphNodeBase {
     * @param {Number} rotation - degrees, default 0.
     * @returns {Object}
     */
-  constructor({parent, bounds, rotation = 0, tag}) {
+  constructor({parent, bounds, rotation = 0, tags = []}) {
     this.parent = parent;
+    if(parent){
+      this.mapCoordinates = parent.mapCoordinates;
+    }
     this._rotation = rotation;
-    this._tag = tag;
+    this._tags = tags;
     this.bounds = bounds;
     this._children = []; // note: subclasses implement own children data structure
+    this.locMap = rbush();
+    this._visble = [];
   }
 
+	/* getters and setters */
   /* define getters for our properties; note subclasses can override setters,
     e.g. to perform layout or calculations based on new state */
+  /* getters */
   get children() { return this._children; }
   get bounds() { return this._bounds; }
   set bounds(b) { this._bounds = b; }
   get rotation() { return this._rotation; }
+  get tags() { return this._tags; }
+  get visible(){ 
+    let vis = [];
+    let childVisible = this.children.map( child => {
+      return child.locMap.all();
+    });
+    childVisible.forEach(item =>{ vis = vis.concat(item);});
+    return vis;
+  }
+  /* setters */
+  set children(b) { this._children = b;}
   set rotation(degrees) { this._rotation = degrees; }
-  get tag() { return this._tag; }
-  set tag(s) { this._tag = s; }
+  set tags(tags) { this._tags = tags; }
 
   /**
   * Traverse all parents bounds to calculate self Bounds on Canvas.
@@ -57,6 +77,22 @@ export class SceneGraphNodeBase {
   }
 
   /**
+   *  Traverse children, returning hitmap
+   *
+   *  @returns {Array} - array of rbush entries
+   */
+
+  get hitMap(){
+    let hits = [];
+    let childMap = this.children.map( child => {
+      return child.hitMap;
+    });
+    childMap.forEach(item =>{ hits = hits.concat(item);});
+    return hits;
+  }
+
+	/* public methods/*
+  /**
    * Translate coordinates to canvas space. When an element wants to draw on
    * canvas, it requires translating into global coordinates for the canvas.
    *
@@ -68,5 +104,42 @@ export class SceneGraphNodeBase {
   translatePointToGlobal({x, y}) {
     let gb = this.globalBounds;
     return {x: x + gb.left, y: y + gb.top};
+  }
+
+  /**
+   * Adds a child node to the _children array
+   * and changes child node's parent to this node
+   *
+   * @param {object} node - SceneGraphNode derived item to insert as a child
+   **/
+  addChild(node){
+    if(node.parent){
+      node.parent.removeChild(node);
+    }
+    node.parent = this;
+    if(this._children.indexOf(node) === -1)  this._children.push(node);
+  }
+
+  /**
+   * Removes a child node from the _children array
+   * and changes child node's parent to this node
+   *
+   * @param {object} node - SceneGraphNode derived node to remove
+   **/
+  removeChild(node){
+    //TODO: May need to use a indexOf polyfill if targeting IE < 9
+    let index = this._children.indexOf(node);
+    if(index > -1){
+      this._children.splice(index,1);
+    }
+  }
+  /**
+   * Traverse children and call their draw on the provided context
+   *
+   * #param {object} ctx - canvas context
+   *
+   */
+  draw(ctx){
+    this.children.forEach(child => child.draw(ctx));
   }
 }

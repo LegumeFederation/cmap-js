@@ -1,5 +1,5 @@
 import {expect, assert} from 'chai';
-import {Bounds} from '../src/util/Bounds';
+import {Bounds} from '../../src/model/Bounds';
 
 describe('Bounds test', () => {
   let params = {
@@ -13,7 +13,12 @@ describe('Bounds test', () => {
 
   it('constructor works', () => {
     let b = new Bounds(params);
-    expect(b).eql(params);
+    expect(b.top).eql(params.top);
+    expect(b.bottom).eql(params.bottom);
+    expect(b.left).eql(params.left);
+    expect(b.right).eql(params.right);
+    expect(b.width).eql(params.width);
+    expect(b.height).eql(params.height);
   });
 
   it('constructor calculates missing width, height', () => {
@@ -37,7 +42,8 @@ describe('Bounds test', () => {
   it('ignores x and y properties from DOMRect', () => {
     let paramsWithExtras = Object.assign({ x: -1, y: -1 }, params);
     let b = new Bounds(paramsWithExtras);
-    expect(b).eql(params);
+    expect(b.x).eql(undefined);
+    expect(b.y).eql(undefined);
   });
 
   it('equals()', () => {
@@ -56,6 +62,15 @@ describe('Bounds test', () => {
     let b2 = new Bounds(params);
     assert(Bounds.equals(b1, b2));
     assert(b1.equals(b2));
+  });
+
+  it('equals() handles nils', () => {
+    let b = new Bounds(params);
+    [null, undefined].forEach( nil => {
+      assert(! Bounds.equals(nil, b));
+      assert(! Bounds.equals(b,   nil));
+      assert(! Bounds.equals(nil, nil));
+    });
   });
 
   it('emptyArea()', () => {
@@ -83,5 +98,14 @@ describe('Bounds test', () => {
     let b = new Bounds({top: 10, left: 10, width: 10.5, height: 2});
     let bp = new Bounds({top: 10, left: 10, width: 10, height: 2});
     expect(b.areaEquals(bp));
+  });
+
+  it('areaEquals() handles nils', () => {
+    let b = new Bounds(params);
+    [null, undefined].forEach( nil => {
+      assert(! Bounds.areaEquals(nil, b));
+      assert(! Bounds.areaEquals(b,   nil));
+      assert(! Bounds.areaEquals(nil, nil));
+    });
   });
 });
