@@ -11,8 +11,8 @@ export class Ruler extends SceneGraphNodeBase {
   constructor(params) {
     super(params);
     console.log('Adding Ruler');
-    this.mapCoordinates = params.parent.mapCoordinates;
-    this.pixelScaleFactor = this.parent.backbone.markerGroup.children[0].pixelScaleFactor;
+    this.mapCoordinates = params.parent.model.view;
+    this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
     const b = params.parent.backbone.backbone.globalBounds;
     const backboneWidth = this.parent.bounds.width;
     this.bounds = new Bounds({
@@ -54,7 +54,7 @@ export class Ruler extends SceneGraphNodeBase {
       Math.floor(height)
     );
 
-		ctx.font = '12px Raleway';
+		ctx.font = '12px Nunito';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'black';
 		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];

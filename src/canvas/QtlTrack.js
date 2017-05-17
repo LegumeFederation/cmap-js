@@ -23,8 +23,6 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       height: b.height * 0.95
     });
     this.mapCoordinates = this.parent.mapCoordinates;
-    this.backbone = new MapBackbone({ parent: this});	
-    this.addChild(this.backbone);
 
     let qtlGroup = new Group({parent:this});
     this.addChild(qtlGroup);

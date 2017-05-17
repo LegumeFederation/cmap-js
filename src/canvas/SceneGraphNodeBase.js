@@ -24,9 +24,6 @@ export class SceneGraphNodeBase {
     */
   constructor({parent, bounds, rotation = 0, tags = []}) {
     this.parent = parent;
-    if(parent){
-      this.mapCoordinates = parent.mapCoordinates;
-    }
     this._rotation = rotation;
     this._tags = tags;
     this.bounds = bounds;

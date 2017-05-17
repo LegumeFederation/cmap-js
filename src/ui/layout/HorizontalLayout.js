@@ -125,7 +125,8 @@ export class HorizontalLayout
    */
   _onReset(){
     this.bioMapComponents.forEach(item => {
-      item.mapCoordinates.visible = item.mapCoordinates.base;
+      item.model.view.visible = item.model.view.base;
+      item.verticalScale = 1.0;
     });
     [].forEach.call(this.el.children, el =>{
       el.mithrilComponent.draw();

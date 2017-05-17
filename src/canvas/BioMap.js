@@ -21,7 +21,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       start: this.model.coordinates.start,
       stop: this.model.coordinates.stop
     };
-    this.mapCoordinates = {
+    this.model.view = {
       base: {
         start: this.model.coordinates.start,
         stop: this.model.coordinates.stop
@@ -33,7 +33,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     };
     // set up coordinate bounds for view scaling
     this.appState = appState;
-    this.verticalScale = 1;
+    this.verticalScale = 0;
     this.backbone = null;
     this.featureMarks = [];
     this.featureLabels = [];
@@ -80,8 +80,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
 		this.verticalScale += evt.deltaY < 0 ? 0.5 : -0.5;
-    if(this.verticalScale <= 0) this.verticalScale = 0.0;
-    let mcv = this.mapCoordinates.base;
+    if(this.verticalScale <= 0.0) this.verticalScale = 0.0;
+    let mcv = this.model.view.base;
     let zStart = (mcv.start + this.verticalScale);
     let zStop = (mcv.stop - this.verticalScale);
     if(zStop - zStart < .01){
@@ -100,7 +100,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       zStop = zStart;
     }
     
-    this.mapCoordinates.visible = {
+    this.model.view.visible = {
       start: zStart,
       stop: zStop
     };
@@ -158,9 +158,9 @@ export class BioMap extends SceneGraphNodeCanvas {
   _layout(layoutBounds) {
     // TODO: calculate width based on # of SNPs in layout, and width of feature
     // labels
-    console.log('BioMap -> layout');
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
+    console.log('BioMap -> layout');
     const width = 550;
     this.children = [];
     this.domBounds = new Bounds({
