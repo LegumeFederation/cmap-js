@@ -1,8 +1,8 @@
 import {expect} from 'chai';
-import {Bounds} from '../../src/model/Bounds';
-import {SceneGraphNodeBase} from '../../src/canvas/SceneGraphNodeBase';
+import {Bounds} from '../../../src/model/Bounds';
+import {SceneGraphNodeBase} from '../../../src/canvas/node/SceneGraphNodeBase';
 
-describe('SceneGraphNode test', function() {
+describe('SceneGraphNodeBase test', function() {
 
   it('constructor works', function() {
     let bounds = new Bounds({
