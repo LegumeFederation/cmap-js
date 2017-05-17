@@ -1,8 +1,8 @@
 import {assert} from 'chai';
 import {isNil} from '../../src/util/isNil';
 
-describe('isNil test', () => {
-  it('ok', () => {
+describe('isNil test', function() {
+  it('ok', function() {
     assert(! isNil(0));
     assert(! isNil(''));
     assert(! isNil('foo'));

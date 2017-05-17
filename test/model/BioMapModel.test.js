@@ -12,8 +12,8 @@ const params = {
   source: new DataSourceModel( { id: 'test'} )
 };
 
-describe('BioMapModel test', () => {
-  it('constructor works', () => {
+describe('BioMapModel test', function() {
+  it('constructor works', function() {
     model = new BioMapModel(params);
     expect(model).to.have.property('source')
       .that.is.an('object');
@@ -27,11 +27,11 @@ describe('BioMapModel test', () => {
     expect(model.coordinates.stop).to.equal(142);
   });
 
-  it('length getter works', () => {
+  it('length getter works', function() {
     expect(model.length).to.equal(100);
   });
 
-  it('uniqueName getter works', () => {
+  it('uniqueName getter works', function() {
     expect(model).to.have.property('uniqueName')
       .that.is.a('string');
     expect(model.uniqueName).to.equal('test/Pv01');

@@ -1,8 +1,8 @@
 import {assert, expect} from 'chai';
 import '../../src/util/concatAll';
 
-describe('concatAll test', () => {
-  it('ok', () => {
+describe('concatAll test', function() {
+  it('ok', function() {
     assert(Array.prototype.concatAll);
     const input = [
       [1,2,3],

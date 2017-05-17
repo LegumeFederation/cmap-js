@@ -119,7 +119,7 @@ export class SceneGraphNodeBase {
 
   /**
    * Removes a child node from the _children array
-   * and changes child node's parent to this node
+   * and changes child node's parent to undefined 
    *
    * @param {object} node - SceneGraphNode derived node to remove
    **/
@@ -129,6 +129,7 @@ export class SceneGraphNodeBase {
     if(index > -1){
       this._children.splice(index,1);
     }
+    node.parent = null;
   }
   /**
    * Traverse children and call their draw on the provided context
