@@ -6,7 +6,6 @@ import {SceneGraphNodeTrack} from './SceneGraphNodeTrack';
 import { Group } from './SceneGraphNodeGroup';
 import {Bounds} from '../model/Bounds';
 import {QTL} from './QTL';
-import {MapBackbone} from './MapBackbone';
 
 export class  QtlTrack extends SceneGraphNodeTrack {
 

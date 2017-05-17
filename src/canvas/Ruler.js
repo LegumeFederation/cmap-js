@@ -14,7 +14,6 @@ export class Ruler extends SceneGraphNodeBase {
     this.mapCoordinates = params.parent.model.view;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
     const b = params.parent.backbone.backbone.globalBounds;
-    const backboneWidth = this.parent.bounds.width;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: params.parent.backbone.backbone.globalBounds.top,

@@ -13,7 +13,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
     this.featureMap = bioMap;
     this.fontSize = '12px';
     this.fontFace = 'Nunito';
-    this.fontColor = 'black'
+    this.fontColor = 'black';
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.bounds = new Bounds({
       allowSubpixel: false,
@@ -34,7 +34,6 @@ export class FeatureLabel extends SceneGraphNodeBase {
     ctx.fillStyle = this.fontColor;
     ctx.fillText(this.model.name,gb.left,(gb.top + gb.height/3));
     // reset bounding box to fit the new stroke location/width
-    // lineWidth adds equal percent of passed width above and below path
     this.bounds.right = ctx.measureText(this.model.name).width;
     if(this.parent.bounds.right < this.bounds.right) this.parent.bounds.right = this.bounds.right;
   }
