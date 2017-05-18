@@ -38,19 +38,12 @@ export class SceneGraphNodeBase {
   /* getters */
   get children() { return this._children; }
   get bounds() { return this._bounds; }
-  set bounds(b) { this._bounds = b; }
   get rotation() { return this._rotation; }
   get tags() { return this._tags; }
-  get visible(){ 
-    let vis = [];
-    let childVisible = this.children.map( child => {
-      return child.locMap.all();
-    });
-    childVisible.forEach(item =>{ vis = vis.concat(item);});
-    return vis;
-  }
+
   /* setters */
   set children(b) { this._children = b;}
+  set bounds(b) { this._bounds = b; }
   set rotation(degrees) { this._rotation = degrees; }
   set tags(tags) { this._tags = tags; }
 
@@ -71,6 +64,22 @@ export class SceneGraphNodeBase {
       width: this.bounds.width,
       height: this.bounds.height
     });
+  }
+
+  /**
+   * Use rbush to returni children nodes that may be visible.
+   * At this level, it is assumed that there is no viewport
+   * constraints to the filter.
+   *
+   *  @retrun {Array} - array of rbush nodes
+   */
+  get visible(){ 
+    let vis = [];
+    let childVisible = this.children.map( child => {
+      return child.locMap.all();
+    });
+    childVisible.forEach(item =>{ vis = vis.concat(item);});
+    return vis;
   }
 
   /**
