@@ -1,42 +1,42 @@
 /**
-  * MapBackbone
-  * A SceneGraphNode representing a backbone, simply a rectangle representing
-  * the background.
+  * ruler
+  * A SceneGraphNode representing ruler and zoom position for a given backbone
+  *
   */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 
 export class Ruler extends SceneGraphNodeBase {
 
-  constructor(params) {
-    super(params);
-    console.log('Adding Ruler');
-    this.mapCoordinates = params.parent.model.view;
+  constructor({parent, bioMap}) {
+    super({parent});
+    this.mapCoordinates = bioMap.view;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
-    const b = params.parent.backbone.backbone.globalBounds;
+    const b = this.mapCoordinates.backbone;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: params.parent.backbone.backbone.globalBounds.top,
+      top: b.top,
       left: b.left -20,
       width: 10,
       height: b.height 
     });
-    console.log(this);
   }
 
   draw(ctx) {
-    this.children.forEach( child => child.draw(ctx));
     let start = this._translateScale(this.mapCoordinates.visible.start) * this.pixelScaleFactor;
     let stop = this._translateScale(this.mapCoordinates.visible.stop) * this.pixelScaleFactor;
 		let text = [this.mapCoordinates.base.start.toFixed(4),this.mapCoordinates.base.stop.toFixed(4)];
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
-
-    console.log('drawing Ruler',start,stop);
+   
     let gb = this.globalBounds || {};
-
+    // draw baseline labels
+		ctx.font = '12px Nunito';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'black';
     ctx.fillText(text[0],gb.right - w + 5, (gb.top));
     ctx.fillText(text[1],gb.right - w + 5,(gb.bottom + 12));
 
+    //Draw baseline ruler
 		ctx.beginPath();
     ctx.lineWidth = 1.0;
 		ctx.strokeStyle = 'black';
@@ -44,6 +44,7 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.lineTo(Math.floor(gb.left - w + gb.width/2), Math.floor(gb.bottom));
     ctx.stroke();
 
+    // Draw "zoom box"
     ctx.fillStyle = 'aqua';
 		var height = stop - start > 1 ? stop-start : 1.0;
     ctx.fillRect(
@@ -53,13 +54,12 @@ export class Ruler extends SceneGraphNodeBase {
       Math.floor(height)
     );
 
-		ctx.font = '12px Nunito';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = 'black';
+    // Draw zoom position labels
 		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];
     ctx.fillText(text[0],gb.left - w - 5 - ctx.measureText(text[0]).width,(start+gb.top));
     ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(start+gb.top + height + 12));
 
+    this.children.forEach( child => child.draw(ctx));
   }
 
   _translateScale(point){

@@ -178,7 +178,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
     this.children.push(this.backbone);
-    this.ruler = new Ruler({parent:this});
+    this.model.view.backbone = this.backbone.backbone.globalBounds;
+    this.ruler = new Ruler({parent:this, bioMap:this.model});
     this.children.push(this.ruler);
     let qtl  = new QtlTrack({parent:this});
     this.children.push(qtl);
