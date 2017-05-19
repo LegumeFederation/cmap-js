@@ -5,7 +5,6 @@
   *
   */
 import m from 'mithril';
-import rbush from 'rbush';
 
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
@@ -197,7 +196,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     childrenHits.forEach(child =>{
       hits = hits.concat(child);
     });
-    this.locMap = rbush();
+    this.locMap.clear();// = rbush();
     this.locMap.load(hits);
   }
 }
