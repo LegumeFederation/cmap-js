@@ -56,6 +56,7 @@ export class Ruler extends SceneGraphNodeBase {
 
     // Draw zoom position labels
 		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];
+    ctx.fillStyle = 'black';
     ctx.fillText(text[0],gb.left - w - 5 - ctx.measureText(text[0]).width,(start+gb.top));
     ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(start+gb.top + height + 12));
 

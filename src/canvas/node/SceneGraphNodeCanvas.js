@@ -150,13 +150,4 @@ export class SceneGraphNodeCanvas
     }
     return false; // do not stop propagation
   }
-
-	/**
-	 * Performs layout of "track" items. A canvas is meant to display one-or-more
-	 * tracks (logical groupings of features and their associated labels) 
-	 * so _layout needs to be implemented on a canvas-by-canvas basis
-	 */
-//  _layout(layoutBounds) {
-//	//	this.children._layout(layoutBounds);
-//  }
 }

@@ -3,26 +3,28 @@ import {Bounds} from '../../../src/model/Bounds';
 import {Group} from '../../../src/canvas/node/SceneGraphNodeGroup';
 
 describe('SceneGraphNodeGroup test', function() {
-  it('constructor works', function() {
-    let bounds = new Bounds({
-      top: 1,
-      bottom: 11,
-      left: 10,
-      right: 20,
-      width: 10,
-      height: 10
+  describe('constructor', function() {
+    it('should create a new group', function() {
+      let bounds = new Bounds({
+        top: 1,
+        bottom: 11,
+        left: 10,
+        right: 20,
+        width: 10,
+        height: 10
+      });
+      let parent = {};
+      let params = {
+        parent: parent,
+        bounds: bounds,
+        tags: ['test'],
+        rotation: 45
+      };
+      let node = new Group(params);
+      expect(node.parent).to.equal(parent);
+      expect(node.bounds).eql(bounds);
+      expect(node.tags).eql(['test']);
+      expect(node.rotation).to.equal(45);
     });
-    let parent = {};
-    let params = {
-      parent: parent,
-      bounds: bounds,
-      tags: ['test'],
-      rotation: 45
-    };
-    let node = new Group(params);
-    expect(node.parent).to.equal(parent);
-    expect(node.bounds).eql(bounds);
-    expect(node.tags).eql(['test']);
-    expect(node.rotation).to.equal(45);
   });
 });
