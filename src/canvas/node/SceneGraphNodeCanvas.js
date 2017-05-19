@@ -87,7 +87,6 @@ export class SceneGraphNodeCanvas
     let ctx = this.context2d;
     if(! ctx) return;
     if(! this.domBounds) return;
-    console.log('canvas draw', this.domBounds.width, this.domBounds.height);
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
@@ -100,7 +99,6 @@ export class SceneGraphNodeCanvas
    * custom gesture event dispatch listener; see LayoutContainer
    */
   handleGesture(evt) {
-    console.log(evt);
     if(evt.type.match(this._gestureRegex.tap)) {
       return this._onTap(evt);
     }
@@ -124,8 +122,6 @@ export class SceneGraphNodeCanvas
   }
 
   _onTap(evt) {
-    console.log('tap');
-    console.log(evt);
     let sel = this.appState.selection.bioMaps;
     let i = sel.indexOf(this);
     if(i === -1) {

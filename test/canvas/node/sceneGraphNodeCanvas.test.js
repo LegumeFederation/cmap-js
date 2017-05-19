@@ -62,10 +62,40 @@ describe('SceneGraphNodeCanvas test', function() {
 
   describe('public methods', function() {
     describe('draw(ctx)', function() {
-      it('should not throw an error when invoked', function() { 
+      it('should return if no context', function() { 
         let p1 = baseParams();
         let parentNode = new SceneGraphNodeCanvas(p1);
         expect(function() {parentNode.draw()}).to.not.throw();
+      });
+      it('should return if no bounds', function() { 
+        let p1 = baseParams();
+        let parentNode = new SceneGraphNodeCanvas(p1);
+				parentNode.context2d = {
+					clearRect : ()=>{return true;},
+					save : () => {return true;},
+					restore : () => {return true;},
+				};
+        expect(function() {parentNode.draw()}).to.not.throw();
+      });
+      it('should propegate if both domBounds and context', function() { 
+        let p1 = baseParams();
+        let parentNode = new SceneGraphNodeCanvas(p1);
+				parentNode.context2d = {
+					clearRect : ()=>{return true;},
+					save : () => {return true;},
+					restore : () => {return true;},
+				};
+				parentNode.canvas = {width:10, height:10};
+				let domBounds =  new Bounds({
+    		  top: 1,
+    		  left: 10,
+    		  width: 10,
+    		  height: 10
+    		});
+				parentNode.domBounds = domBounds;
+				parentNode.bounds = domBounds;
+				parentNode.draw();
+				expect(parentNode.lastDrawnCanvasBounds).to.eql(domBounds);
       });
     });
 		describe('handleGesture(evt)', function() {
