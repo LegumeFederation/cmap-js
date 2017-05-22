@@ -98,19 +98,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     } else if ( zStop < zStart ){
       zStop = zStart;
     }
-    
-    this.model.view.visible = {
-      start: zStart,
-      stop: zStop
-    };
-    this.backbone.loadLabelMap();
-    this.draw();
-
-    
-    let cMaps = document.getElementsByClassName('cmap-correspondence-map');
-    [].forEach.call(cMaps, el =>{
-      el.mithrilComponent.draw();
-    });
+    this._redrawViewport({start:zStart,stop:zStop});    
     return true; // stop event propagation
   }
 
@@ -149,7 +137,38 @@ export class BioMap extends SceneGraphNodeCanvas {
 
     return true;
   }
-
+	_onPanStart(evt) {
+	    // TODO: send pan events to the scenegraph elements which compose the biomap
+	    // (dont scale the canvas element itself)
+	    this.zoomP = {};
+	    console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
+	    this.zoomP.start = this.pToM(evt.srcEvent.layerY);
+	    if(this.zoomP.start < this.model.view.base.start){
+				 this.zoomP.start = this.model.view.base.start;
+			}
+	  	return true;
+	  }
+	  _onPanEnd(evt) {
+	    // TODO: send pan events to the scenegraph elements which compose the biomap
+	    // (dont scale the canvas element itself)
+	    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt,this.model.view.base);
+	    this.zoomP.stop = this.pToM(evt.srcEvent.layerY);
+      console.log(this.model.view);
+	    if(this.zoomP.stop > this.model.view.base.stop){
+				this.zoomP.stop = this.model.view.base.stop;
+			}
+	    let zStart = this.zoomP.start <= this.zoomP.stop ? this.zoomP.start : this.zoomP.stop;
+	    let zStop = this.zoomP.stop >= this.zoomP.start ? this.zoomP.stop : this.zoomP.start;
+			this._redrawViewport({start:zStart, stop:zStop});
+	    return true; // do not stop propagation
+	  }
+	
+	  pToM(point){
+	    let coord = this.model.view.base;
+	    let visc = this.model.view.visible;
+	    let psf = this.model.view.pixelScaleFactor;
+	    return (visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start))-20;
+	}
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
@@ -186,7 +205,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._loadHitMap();
     m.redraw();
   }
-  
 
   _loadHitMap(){
     let hits = [];
@@ -198,5 +216,19 @@ export class BioMap extends SceneGraphNodeCanvas {
     });
     this.locMap.clear();// = rbush();
     this.locMap.load(hits);
+  }
+
+  _redrawViewport(coordinates){
+    this.model.view.visible = {
+      start: coordinates.start,
+      stop: coordinates.stop
+    };
+    this.backbone.loadLabelMap();
+    this.draw();
+    
+    let cMaps = document.getElementsByClassName('cmap-correspondence-map');
+    [].forEach.call(cMaps, el =>{
+      el.mithrilComponent.draw();
+    });
   }
 }
