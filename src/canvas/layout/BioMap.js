@@ -132,7 +132,6 @@ export class BioMap extends SceneGraphNodeCanvas {
       if(left < (globalPos.x-evt.deltaX) && 
         (globalPos.x-evt.deltaX) < (left+this.ruler.bounds.width)){
         console.log("clicked on ruler",evt.deltaY);
-
         this.zoomP.ruler = true;
         this.zoomP.delta = 0;
         this._moveRuler(evt);
@@ -143,6 +142,16 @@ export class BioMap extends SceneGraphNodeCanvas {
 	      if(this.zoomP.start < this.model.view.base.start){
 		  		 this.zoomP.start = this.model.view.base.start;
 		  	}
+   			let ctx = this.context2d;
+				this.zoomP.corner = {top:globalPos.y-evt.deltaY,left:globalPos.x-evt.deltaX};	
+   			ctx.lineWidth = 1.0;
+   			ctx.strokeStyle = 'black';
+   			ctx.strokeRect(
+   		  	Math.floor(globalPos.x-evt.deltaX),
+   		  	Math.floor(globalPos.y-evet.deltaY),
+   		  	Math.floor(globalPos.x),
+   		  	Math.floor(globalPos.y)
+   			);
       }
 	  	return true;
 	  }
@@ -164,7 +173,19 @@ export class BioMap extends SceneGraphNodeCanvas {
       let delta = evt.deltaY / this.model.view.pixelScaleFactor;
       console.log('pan delta',delta);
       this._moveRuler(evt);
-    };
+    } else {
+      let globalPos = this._pageToCanvas(evt);
+			this.draw();
+    	let ctx = this.context2d;
+    	ctx.lineWidth = 1.0;
+    	ctx.strokeStyle = 'black';
+    	ctx.strokeRect(
+      Math.floor(this.zoomP.corner.left),
+      Math.floor(this.zoomP.corner.top),
+      Math.floor(globalPos.x - this.zoomP.corner.left),
+      Math.floor(globalPos.y -this.zoomP.corner.top )
+    	);
+		}
     return true;
   }
 	_onPanEnd(evt) {
