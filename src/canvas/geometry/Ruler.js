@@ -23,8 +23,8 @@ export class Ruler extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let start = this._translateScale(this.mapCoordinates.visible.start) * this.pixelScaleFactor;
-    let stop = this._translateScale(this.mapCoordinates.visible.stop) * this.pixelScaleFactor;
+    let start = this.mapCoordinates.visible.start * this.pixelScaleFactor;
+    let stop = this.mapCoordinates.visible.stop * this.pixelScaleFactor;
 		let text = [this.mapCoordinates.base.start.toFixed(4),this.mapCoordinates.base.stop.toFixed(4)];
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
    
@@ -61,12 +61,6 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(start+gb.top + height + 12));
 
     this.children.forEach( child => child.draw(ctx));
-  }
-
-  _translateScale(point){
-    let vis = this.mapCoordinates.base;
-    let coord = this.mapCoordinates.visible;
-    return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
   }
 
   get  visible(){

@@ -104,23 +104,8 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   _onTap(evt) {
     console.log('BioMap -> tap', evt);
-		function getOffset( el ) {
-      var _x = 0;
-      var _y = 0;
-      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-        _x += el.offsetLeft - el.scrollLeft;
-        _y += el.offsetTop - el.scrollTop;
-        el = el.offsetParent;
-      }
-      return { top: _y, left: _x };
-    }
-		let pageOffset = getOffset(this.canvas);
-		let globalPos = {
-			'x': evt.srcEvent.pageX - pageOffset.left,
-			'y': evt.srcEvent.pageY - pageOffset.top
-		};
 
-
+    let globalPos = this._pageToCanvas(evt);
     m.redraw();
     this._loadHitMap();
     let hits = [];
@@ -130,9 +115,10 @@ export class BioMap extends SceneGraphNodeCanvas {
       minY: globalPos.y-2,
       maxY: globalPos.y+2
     }).forEach(hit => { 
-      hits.push(hit.data.model.name);});
+      console.log(hit);
+      hits.push([hit.data.model.name,hit.data.model.coordinates.start]);});
     if(hits.length > 0){
-      window.alert( hits.join('\n'));
+      window.alert(hits.join('\n'));
     }
 
     return true;
@@ -142,7 +128,16 @@ export class BioMap extends SceneGraphNodeCanvas {
 	    // (dont scale the canvas element itself)
 	    this.zoomP = {};
 	    console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
-	    this.zoomP.start = this.pToM(evt.srcEvent.layerY);
+      let globalPos = this._pageToCanvas(evt);
+      if(this.ruler.globalBounds.left < globalPos.x && 
+        globalPos.x < this.ruler.globalBounds.right){
+        
+        console.log("clicked on ruler");
+      } else {
+        console.log("didn't click on ruler");
+      } 
+	    this.zoomP.start = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top-evt.deltaY);
+      console.log("clicked at",globalPos.y-this.ruler.globalBounds.top,evt.deltaY);
 	    if(this.zoomP.start < this.model.view.base.start){
 				 this.zoomP.start = this.model.view.base.start;
 			}
@@ -152,7 +147,9 @@ export class BioMap extends SceneGraphNodeCanvas {
 	    // TODO: send pan events to the scenegraph elements which compose the biomap
 	    // (dont scale the canvas element itself)
 	    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt,this.model.view.base);
-	    this.zoomP.stop = this.pToM(evt.srcEvent.layerY);
+      let globalPos = this._pageToCanvas(evt);
+	    this.zoomP.stop = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top);
+      console.log(this.zoomP);
       console.log(this.model.view);
 	    if(this.zoomP.stop > this.model.view.base.stop){
 				this.zoomP.stop = this.model.view.base.stop;
@@ -162,13 +159,38 @@ export class BioMap extends SceneGraphNodeCanvas {
 			this._redrawViewport({start:zStart, stop:zStop});
 	    return true; // do not stop propagation
 	  }
-	
-	  pToM(point){
-	    let coord = this.model.view.base;
-	    let visc = this.model.view.visible;
-	    let psf = this.model.view.pixelScaleFactor;
-	    return (visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start))-20;
-	}
+    /**
+     *  Converts a pixel position to the  canvas' backbone coordinate system.
+     *
+     */	
+  _pixelToCoordinate(point){
+	  let coord = this.model.view.base;
+	  let visc = this.model.view.visible;
+	  let psf = this.model.view.pixelScaleFactor;
+	  return (visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start));
+  };
+
+    /**
+     * Convert point from page coordinates to canvas coordinates
+     *
+     */
+  _pageToCanvas( evt ){
+    function getOffset( el ) {
+      var _x = 0;
+      var _y = 0;
+      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+        _x += el.offsetLeft - el.scrollLeft;
+        _y += el.offsetTop - el.scrollTop;
+        el = el.offsetParent;
+      }
+      return { top: _y, left: _x };
+    }
+    let pageOffset = getOffset(this.canvas);
+    return {
+      'x': evt.srcEvent.pageX - pageOffset.left,
+      'y': evt.srcEvent.pageY - pageOffset.top
+    };
+  };
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
