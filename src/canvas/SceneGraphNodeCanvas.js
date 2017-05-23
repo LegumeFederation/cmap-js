@@ -31,7 +31,10 @@ export class SceneGraphNodeCanvas
       pan:   new RegExp('^pan'),
       pinch: new RegExp('^pinch'),
       tap:   new RegExp('^tap'),
-      wheel: new RegExp('^wheel')
+      wheel: new RegExp('^wheel'),
+      panend: new RegExp('^panend'),
+      panstart: new RegExp('^panstart')
+
     };
   }
 
@@ -111,7 +114,13 @@ export class SceneGraphNodeCanvas
       return this._onZoom(evt);
     }
     else if(evt.type.match(this._gestureRegex.pan)) {
-      return this._onPan(evt);
+      if(evt.type === 'panend'){
+        return this._onPanEnd(evt);
+      } else if ( evt.type === 'panstart'){
+        return this._onPanStart(evt);
+      } else {
+        return this._onPan(evt);
+      }
     }
     return false; // dont stop evt propagation
   }
@@ -148,6 +157,18 @@ export class SceneGraphNodeCanvas
       console.warn('BioMap -> onPan -- vertically; implement me', evt);
       return true; // stop event propagation
     }
+    return true; // do not stop propagation
+  }
+  _onPanStart(evt) {
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+      console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
+      return false;
+  }
+  _onPanEnd(evt) {
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt);
     return false; // do not stop propagation
   }
 

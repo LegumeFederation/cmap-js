@@ -73,6 +73,44 @@ export class BioMap extends SceneGraphNodeCanvas {
    * the items on the canvas. 
    *
    */
+ _onPanStart(evt) {
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+      console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
+      this.zoomP = {};
+      this.zoomP.start = this.pToM(evt.srcEvent.layerY);
+      console.warn('BioMap -> onPanStart -- vertically; implement me', evt,this.zoomP.start);
+    if(this.zoomP.start < this.mapCoordinates.base.start) this.zoomP.start = this.mapCoordinates.base.start;
+      return true;
+  }
+  _onPanEnd(evt) {
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt);
+    this.zoomP.stop = this.pToM(evt.srcEvent.layerY);
+    if(this.zoomP.stop > this.mapCoordinates.base.stop) this.zoomP.stop = this.mapCoordinates.base.stop;
+    this.mapCoordinates.visible = {
+      start: this.zoomP.start <= this.zoomP.stop ? this.zoomP.start : this.zoomP.stop,
+      stop: this.zoomP.stop >= this.zoomP.start ? this.zoomP.stop : this.zoomP.start
+
+    };
+    this.draw();
+
+
+    let cMaps = document.getElementsByClassName('cmap-correspondence-map');
+    [].forEach.call(cMaps, el =>{
+      el.mithrilComponent.draw();
+    });
+    return true; // do not stop propagation
+  }
+
+  pToM(point){
+    let coord = this.mapCoordinates.base;
+    let visc = this.mapCoordinates.visible;
+    let psf = this.backbone.labelGroup.children[0].pixelScaleFactor;
+    return (visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start))-20;
+  }
+
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -99,7 +137,6 @@ export class BioMap extends SceneGraphNodeCanvas {
       start: zStart,
       stop: zStop
     };
-    this.backbone.loadLabelMap();
     this.draw();
 
     
