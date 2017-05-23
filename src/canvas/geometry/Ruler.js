@@ -27,7 +27,8 @@ export class Ruler extends SceneGraphNodeBase {
     let stop = this.mapCoordinates.visible.stop * this.pixelScaleFactor;
 		let text = [this.mapCoordinates.base.start.toFixed(4),this.mapCoordinates.base.stop.toFixed(4)];
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
-   
+    this.textWidth = w; 
+
     let gb = this.globalBounds || {};
     // draw baseline labels
 		ctx.font = '12px Nunito';

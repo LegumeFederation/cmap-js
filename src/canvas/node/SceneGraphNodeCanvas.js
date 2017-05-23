@@ -149,9 +149,9 @@ export class SceneGraphNodeCanvas
     // (dont scale the canvas element itself)
     if(evt.direction & Hammer.DIRECTION_VERTICAL) {
       console.warn('BioMap -> onPan -- vertically; implement me', evt);
-      return true; // stop event propagation
+      return false; // stop event propagation
     }
-    return true; // do not stop propagation
+    return false; // do not stop propagation
   }
   _onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap

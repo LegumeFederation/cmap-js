@@ -78,11 +78,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
-		this.verticalScale += evt.deltaY < 0 ? 0.5 : -0.5;
-    if(this.verticalScale <= 0.0) this.verticalScale = 0.0;
+		this.verticalScale = evt.deltaY < 0 ? -0.5 : 0.5;
     let mcv = this.model.view.base;
-    let zStart = (mcv.start + this.verticalScale);
-    let zStop = (mcv.stop - this.verticalScale);
+    let zStart = (this.model.view.visible.start + this.verticalScale);
+    let zStop = (this.model.view.visible.stop - this.verticalScale);
     if(zStop - zStart < .01){
       this.verticalScale -=0.5;
       return true;
@@ -103,8 +102,7 @@ export class BioMap extends SceneGraphNodeCanvas {
   }
 
   _onTap(evt) {
-    console.log('BioMap -> tap', evt);
-
+    console.log('BioMap -> tap', evt, this.ruler);
     let globalPos = this._pageToCanvas(evt);
     m.redraw();
     this._loadHitMap();
@@ -129,36 +127,69 @@ export class BioMap extends SceneGraphNodeCanvas {
 	    this.zoomP = {};
 	    console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
       let globalPos = this._pageToCanvas(evt);
-      if(this.ruler.globalBounds.left < globalPos.x && 
-        globalPos.x < this.ruler.globalBounds.right){
-        
-        console.log("clicked on ruler");
-      } else {
-        console.log("didn't click on ruler");
-      } 
-	    this.zoomP.start = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top-evt.deltaY);
-      console.log("clicked at",globalPos.y-this.ruler.globalBounds.top,evt.deltaY);
-	    if(this.zoomP.start < this.model.view.base.start){
-				 this.zoomP.start = this.model.view.base.start;
-			}
+      let left = this.ruler.globalBounds.left - this.ruler.textWidth;
+      // scroll view vs box select
+      if(left < (globalPos.x-evt.deltaX) && 
+        (globalPos.x-evt.deltaX) < (left+this.ruler.bounds.width)){
+        console.log("clicked on ruler",evt.deltaY);
+
+        this.zoomP.ruler = true;
+        this.zoomP.delta = 0;
+        this._moveRuler(evt);
+
+      } else { 
+        this.zoomP.ruler = false;
+	      this.zoomP.start = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top-evt.deltaY);
+	      if(this.zoomP.start < this.model.view.base.start){
+		  		 this.zoomP.start = this.model.view.base.start;
+		  	}
+      }
 	  	return true;
 	  }
-	  _onPanEnd(evt) {
-	    // TODO: send pan events to the scenegraph elements which compose the biomap
-	    // (dont scale the canvas element itself)
-	    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt,this.model.view.base);
+  _moveRuler(evt){
+    console.log('delta',evt.deltaY - this.zoomP.delta);
+    let delta = (evt.deltaY - this.zoomP.delta) / this.model.view.pixelScaleFactor;
+    if(this.model.view.visible.start+delta < this.model.view.base.start){
+      delta = this.model.view.base.start - this.model.view.visible.start;
+    } else if(this.model.view.visible.stop+delta > this.model.view.base.stop){
+      delta = this.model.view.base.stop - this.model.view.visible.stop;
+    }
+    this.model.view.visible.start += delta;
+    this.model.view.visible.stop += delta;
+		this._redrawViewport({start:this.model.view.visible.start, stop:this.model.view.visible.stop});
+    this.zoomP.delta = evt.deltaY;
+  }
+  _onPan(evt){
+    if(this.zoomP && this.zoomP.ruler){
+      let delta = evt.deltaY / this.model.view.pixelScaleFactor;
+      console.log('pan delta',delta);
+      this._moveRuler(evt);
+    };
+    return true;
+  }
+	_onPanEnd(evt) {
+	  // TODO: send pan events to the scenegraph elements which compose the biomap
+	  // (dont scale the canvas element itself)
+	  console.warn('BioMap -> onPanEnd -- vertically; implement me', evt,this.model.view.base);
+    if(this.zoomP && this.zoomP.ruler){
+      let delta = evt.deltaY / this.model.view.pixelScaleFactor;
+      console.log('pan delta',delta);
+      this._moveRuler(evt);
+    } else {
       let globalPos = this._pageToCanvas(evt);
 	    this.zoomP.stop = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top);
       console.log(this.zoomP);
       console.log(this.model.view);
 	    if(this.zoomP.stop > this.model.view.base.stop){
-				this.zoomP.stop = this.model.view.base.stop;
-			}
+		  	this.zoomP.stop = this.model.view.base.stop;
+		  }
 	    let zStart = this.zoomP.start <= this.zoomP.stop ? this.zoomP.start : this.zoomP.stop;
 	    let zStop = this.zoomP.stop >= this.zoomP.start ? this.zoomP.stop : this.zoomP.start;
-			this._redrawViewport({start:zStart, stop:zStop});
-	    return true; // do not stop propagation
-	  }
+		  this._redrawViewport({start:zStart, stop:zStop});
+    }
+    this.zoomP.ruler = false;
+	  return true; // do not stop propagation
+	}
     /**
      *  Converts a pixel position to the  canvas' backbone coordinate system.
      *
