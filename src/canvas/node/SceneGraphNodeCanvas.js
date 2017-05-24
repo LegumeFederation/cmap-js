@@ -27,6 +27,11 @@ export class SceneGraphNodeCanvas
     this.model = model;
     this.appState = appState;
     this.verticalScale = 1;
+    this.info = {
+      visible:false,
+      top:0,
+      left:0
+    };
     this._gestureRegex = {
       pan:   new RegExp('^pan'),
       pinch: new RegExp('^pinch'),
@@ -69,15 +74,29 @@ export class SceneGraphNodeCanvas
       this.lastDrawnMithrilBounds = this.domBounds;
     }
     let b = this.domBounds || {};
+    let info = this.info || {};
+    console.log(this,this.info,b);
     let selectedClass = this.selected ? 'selected' : '';
-    return m('canvas', {
-      class: `cmap-canvas cmap-biomap ${selectedClass}`,
-      style: `left: ${b.left}px; top: ${b.top}px;
-              width: ${b.width}px; height: ${b.height}px;
-              transform: rotate(${this.rotation}deg);`,
-      width: b.width,
-      height: b.height
-    });
+    let infoVisible = info.visible ? 'visible' : 'hidden';
+    return [
+      m('canvas', {
+       class: `cmap-canvas biomap-info ${selectedClass}`,
+       style: `left: ${b.left}px; top: ${b.top}px;
+               width: ${b.width}px; height: ${b.height}px;
+               transform: rotate(${this.rotation}deg);`,
+       width: b.width,
+       height: b.height
+     }),
+      m('div', {
+       class: `biomap-info`,
+       style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
+               width: 10em; height: 5em; border:2px  solid black;
+               background: white; visibility: ${infoVisible};
+               position: absolute; display: inline-block`,
+       width: 10,
+       height: 10
+     })
+    ];
   }
 
   /**

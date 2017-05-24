@@ -102,22 +102,30 @@ export class BioMap extends SceneGraphNodeCanvas {
   }
 
   _onTap(evt) {
-    console.log('BioMap -> tap', evt, this.ruler);
+    console.log('BioMap -> tap dat', evt, this);
     let globalPos = this._pageToCanvas(evt);
-    m.redraw();
     this._loadHitMap();
     let hits = [];
+		this.info.visible = false;
+		this.info.top = globalPos.y;
+		this.info.left = globalPos.x;
     this.hitMap.search({
       minX: globalPos.x,
       maxX: globalPos.x,
       minY: globalPos.y-2,
       maxY: globalPos.y+2
     }).forEach(hit => { 
-      console.log(hit);
-      hits.push([hit.data.model.name,hit.data.model.coordinates.start]);});
+      hits.push(hit.data);//.model.name,hit.data.model.coordinates.start]);
+		});
     if(hits.length > 0){
-      window.alert(hits.join('\n'));
+			this.info.visible = true;
+			let info = this.el.nextSibling;
+			this.info.top = hits[0].globalBounds.top;
+			this.info.left = hits[0].globalBounds.right;
+			let names = hits.map(hit => { return hit.model.name; });
+      info.innerHTML= `<p> ${names.join('\n')} <\p>`;
     }
+		m.redraw();
 
     return true;
   }
