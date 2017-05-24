@@ -156,7 +156,7 @@ export class BioMap extends SceneGraphNodeCanvas {
    			ctx.strokeStyle = 'black';
    			ctx.strokeRect(
    		  	Math.floor(globalPos.x-evt.deltaX),
-   		  	Math.floor(globalPos.y-evet.deltaY),
+   		  	Math.floor(globalPos.y-evt.deltaY),
    		  	Math.floor(globalPos.x),
    		  	Math.floor(globalPos.y)
    			);
