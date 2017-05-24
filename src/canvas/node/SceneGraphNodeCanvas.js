@@ -90,10 +90,10 @@ export class SceneGraphNodeCanvas
       m('div', {
        class: `biomap-info`,
        style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
-               width: 10em; height: 5em; border:2px  solid black;
+               width: 10em; height: 5em; border:1px solid #bbb;
                background: white; visibility: ${infoVisible};
                position: absolute; display: inline-block; overflow-y:auto;
-               z-index:10000`,
+               z-index:10000; border-radius:4px;`,
        width: 10,
        height: 10
      })

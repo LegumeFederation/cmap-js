@@ -122,6 +122,7 @@ export class BioMap extends SceneGraphNodeCanvas {
 			let info = this.el.nextSibling;
 			this.info.top = hits[0].globalBounds.top;
 			this.info.left = hits[0].globalBounds.right;
+      this.info.data = hits[0];
 			let names = hits.map(hit => { return hit.model.name; });
       info.innerHTML= `<p> ${names.join('\n')} <\p>`;
     }
@@ -312,5 +313,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     [].forEach.call(cMaps, el =>{
       el.mithrilComponent.draw();
     });
+    this.info.top = this.info.data.globalBounds.top;
+    m.redraw();
   }
 }
