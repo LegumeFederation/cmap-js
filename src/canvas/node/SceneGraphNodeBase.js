@@ -5,7 +5,7 @@
 
 import  rbush  from 'rbush';
 
-import { Bounds } from '../model/Bounds';
+import { Bounds } from '../../model/Bounds';
 
 export class SceneGraphNodeBase {
 
@@ -24,9 +24,6 @@ export class SceneGraphNodeBase {
     */
   constructor({parent, bounds, rotation = 0, tags = []}) {
     this.parent = parent;
-    if(parent){
-      this.mapCoordinates = parent.mapCoordinates;
-    }
     this._rotation = rotation;
     this._tags = tags;
     this.bounds = bounds;
@@ -41,19 +38,12 @@ export class SceneGraphNodeBase {
   /* getters */
   get children() { return this._children; }
   get bounds() { return this._bounds; }
-  set bounds(b) { this._bounds = b; }
   get rotation() { return this._rotation; }
   get tags() { return this._tags; }
-  get visible(){ 
-    let vis = [];
-    let childVisible = this.children.map( child => {
-      return child.locMap.all();
-    });
-    childVisible.forEach(item =>{ vis = vis.concat(item);});
-    return vis;
-  }
+
   /* setters */
   set children(b) { this._children = b;}
+  set bounds(b) { this._bounds = b; }
   set rotation(degrees) { this._rotation = degrees; }
   set tags(tags) { this._tags = tags; }
 
@@ -74,6 +64,22 @@ export class SceneGraphNodeBase {
       width: this.bounds.width,
       height: this.bounds.height
     });
+  }
+
+  /**
+   * Use rbush to returni children nodes that may be visible.
+   * At this level, it is assumed that there is no viewport
+   * constraints to the filter.
+   *
+   *  @retrun {Array} - array of rbush nodes
+   */
+  get visible(){ 
+    let vis = [];
+    let childVisible = this.children.map( child => {
+      return child.locMap.all();
+    });
+    childVisible.forEach(item =>{ vis = vis.concat(item);});
+    return vis;
   }
 
   /**
@@ -122,7 +128,7 @@ export class SceneGraphNodeBase {
 
   /**
    * Removes a child node from the _children array
-   * and changes child node's parent to this node
+   * and changes child node's parent to undefined 
    *
    * @param {object} node - SceneGraphNode derived node to remove
    **/
@@ -132,6 +138,7 @@ export class SceneGraphNodeBase {
     if(index > -1){
       this._children.splice(index,1);
     }
+    node.parent = null;
   }
   /**
    * Traverse children and call their draw on the provided context

@@ -2,11 +2,10 @@
   * QtlTrack 
   * A SceneGraphNode representing a collection of QTLs.
   */
-import {SceneGraphNodeTrack} from './SceneGraphNodeTrack';
-import { Group } from './SceneGraphNodeGroup';
-import {Bounds} from '../model/Bounds';
-import {QTL} from './QTL';
-import {MapBackbone} from './MapBackbone';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
+import { Group } from '../node/SceneGraphNodeGroup';
+import {Bounds} from '../../model/Bounds';
+import {QTL} from '../geometry/QTL';
 
 export class  QtlTrack extends SceneGraphNodeTrack {
 
@@ -23,8 +22,6 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       height: b.height * 0.95
     });
     this.mapCoordinates = this.parent.mapCoordinates;
-    this.backbone = new MapBackbone({ parent: this});	
-    this.addChild(this.backbone);
 
     let qtlGroup = new Group({parent:this});
     this.addChild(qtlGroup);

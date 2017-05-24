@@ -110,6 +110,11 @@ export class DataSourceModel {
           });
           res[uniqueMapName] = model;
         }
+        else {
+            if (d.map_stop > res[uniqueMapName].coordinates.stop) {
+                res[uniqueMapName].coordinates.stop = d.map_stop;
+            }
+        }
         res[uniqueMapName].features.push(
           new Feature({
             name: d.feature_name,

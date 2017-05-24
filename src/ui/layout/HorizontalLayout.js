@@ -9,8 +9,8 @@ import PubSub from 'pubsub-js';
 import {dataLoaded, mapAdded, mapRemoved, reset} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
-import {BioMap as BioMapComponent} from '../../canvas/BioMap';
-import {CorrespondenceMap as CorrMapComponent} from '../../canvas/CorrespondenceMap';
+import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
+import {CorrespondenceMap as CorrMapComponent} from '../../canvas/layout/CorrespondenceMap';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout
@@ -125,7 +125,8 @@ export class HorizontalLayout
    */
   _onReset(){
     this.bioMapComponents.forEach(item => {
-      item.mapCoordinates.visible = item.mapCoordinates.base;
+      item.model.view.visible = item.model.view.base;
+      item.verticalScale = 1.0;
     });
     [].forEach.call(this.el.children, el =>{
       el.mithrilComponent.draw();

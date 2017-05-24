@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {Feature, featuresInCommon} from '../../src/model/Feature';
 
-describe('Feature test', () => {
+describe('Feature test', function() {
   let params = {
     name: 'test feature',
     tags: ['hilite', 'etc'],
@@ -12,12 +12,12 @@ describe('Feature test', () => {
     }
   };
 
-  it('constructor works', () => {
+  it('constructor works', function() {
     let f = new Feature(params);
     expect(f).eql(params);
   });
 
-  it('length()', () => {
+  it('length()', function() {
     let f = new Feature(params);
     expect(f.length).to.equal(0);
     let p1 = Object.assign(params, {
@@ -28,7 +28,7 @@ describe('Feature test', () => {
     expect(f.length).to.equal(42);
   });
 
-  it('featuresInCommon()', () => {
+  it('featuresInCommon()', function() {
     let i, features1 = [], features2 = [];
     for (i = 1; i <= 10; i++) {
       let name = `feature ${i}`;
@@ -44,7 +44,7 @@ describe('Feature test', () => {
     expect(res.length).to.equal(3);
   });
 
-  it('featuresInCommon() with aliases', () => {
+  it('featuresInCommon() with aliases', function() {
     let i, features1 = [], features2 = [];
     for (i = 1; i <= 10; i++) {
       let name = `feature ${i}`;

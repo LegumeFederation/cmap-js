@@ -7,14 +7,14 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
-//import rbush from 'rbush';
-import {mix} from '../../mixwith.js/src/mixwith';
 
-import {DrawLazilyMixin} from './DrawLazilyMixin';
-import {RegisterComponentMixin} from '../ui/RegisterComponentMixin';
-import {selectedMap} from '../topics';
+import {mix} from '../../../mixwith.js/src/mixwith';
 
-import {Bounds} from '../model/Bounds';
+import {DrawLazilyMixin} from '../DrawLazilyMixin';
+import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin';
+import {selectedMap} from '../../topics';
+
+import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 
@@ -87,7 +87,6 @@ export class SceneGraphNodeCanvas
     let ctx = this.context2d;
     if(! ctx) return;
     if(! this.domBounds) return;
-    console.log('canvas draw', this.domBounds.width, this.domBounds.height);
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
@@ -100,7 +99,6 @@ export class SceneGraphNodeCanvas
    * custom gesture event dispatch listener; see LayoutContainer
    */
   handleGesture(evt) {
-    console.log(evt);
     if(evt.type.match(this._gestureRegex.tap)) {
       return this._onTap(evt);
     }
@@ -111,8 +109,15 @@ export class SceneGraphNodeCanvas
       return this._onZoom(evt);
     }
     else if(evt.type.match(this._gestureRegex.pan)) {
-      return this._onPan(evt);
+      if(evt.type === 'panend'){
+        return this._onPanEnd(evt);
+      } else if ( evt.type === 'panstart'){
+        return this._onPanStart(evt);
+      } else {
+        return this._onPan(evt);
+      }
     }
+
     return false; // dont stop evt propagation
   }
 
@@ -124,8 +129,6 @@ export class SceneGraphNodeCanvas
   }
 
   _onTap(evt) {
-    console.log('tap');
-    console.log(evt);
     let sel = this.appState.selection.bioMaps;
     let i = sel.indexOf(this);
     if(i === -1) {
@@ -146,17 +149,20 @@ export class SceneGraphNodeCanvas
     // (dont scale the canvas element itself)
     if(evt.direction & Hammer.DIRECTION_VERTICAL) {
       console.warn('BioMap -> onPan -- vertically; implement me', evt);
-      return true; // stop event propagation
+      return false; // stop event propagation
     }
     return false; // do not stop propagation
   }
-
-	/**
-	 * Performs layout of "track" items. A canvas is meant to display one-or-more
-	 * tracks (logical groupings of features and their associated labels) 
-	 * so _layout needs to be implemented on a canvas-by-canvas basis
-	 */
-//  _layout(layoutBounds) {
-//	//	this.children._layout(layoutBounds);
-//  }
+  _onPanStart(evt) {
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+      console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
+      return false;
+  }
+  _onPanEnd(evt) {
+    // TODO: send pan events to the scenegraph elements which compose the biomap
+    // (dont scale the canvas element itself)
+    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt);
+    return false; // do not stop propagation
+  }
 }

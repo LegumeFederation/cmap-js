@@ -5,12 +5,12 @@
   */
 import knn from 'rbush-knn';
 
-import {SceneGraphNodeTrack} from './SceneGraphNodeTrack';
-import { Group } from './SceneGraphNodeGroup';
-import {Bounds} from '../model/Bounds';
-import {FeatureMark} from './FeatureMark';
-import {MapBackbone} from './MapBackbone';
-import {FeatureLabel} from './FeatureLabel';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
+import { Group } from '../node/SceneGraphNodeGroup';
+import {Bounds} from '../../model/Bounds';
+import {FeatureMark} from '../geometry/FeatureMark';
+import {MapBackbone} from '../geometry/MapBackbone';
+import {FeatureLabel} from '../geometry/FeatureLabel';
 
 export class  MapTrack extends SceneGraphNodeTrack {
 
@@ -18,6 +18,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     super(params);
     console.log('mapTrack',this.parent);
     const b = this.parent.bounds;
+    let bioModel = this.parent.model;
     //const backboneWidth = b.width * 0.2;
     const backboneWidth =  60;
     this.bounds = new Bounds({
@@ -28,12 +29,17 @@ export class  MapTrack extends SceneGraphNodeTrack {
       height: b.height * 0.95
     });
     this.mC = this.parent.mapCoordinates;
-    this.backbone = new MapBackbone({ parent: this});	
+    console.log('loading backbone', this, bioModel);
+    this.backbone = new MapBackbone({ parent: this, bioMap: bioModel});	
     this.addChild(this.backbone);
 
+    // calculate scale factor between backbone coordinates in pixels
+    bioModel.view.pixelScaleFactor = this.backbone.bounds.height/bioModel.length;
+    bioModel.view.backbone = this.globalBounds;
+
+    // Setup groups for markers and labels
     let markerGroup = new Group({parent:this});
     this.addChild(markerGroup);
-
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
     this.addChild(markerGroup);
@@ -48,17 +54,19 @@ export class  MapTrack extends SceneGraphNodeTrack {
       width: 20
     });
 
-    this.filteredFeatures = this.parent.model.features.filter( model => {
+    // Filter features for drawing
+    this.filteredFeatures = bioModel.features.filter( model => {
       return model.length <= 0.00001;
     });
 
+    //Place features and their labels, prepare to add to rtree
     let fmData = [];
     let lmData = [];
     this.featureMarks = this.filteredFeatures.map( model => {
       let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
-        bioMap: this.parent.model
+        bioMap: bioModel
       });
 
       let lm = new FeatureLabel({
@@ -82,19 +90,20 @@ export class  MapTrack extends SceneGraphNodeTrack {
         maxX: lm.globalBounds.right,
         data: lm
       });
-
       return fm;
     });
 
+    // Load group rtrees for markers and labels
     markerGroup.locMap.load(fmData);
     labelGroup.locMap.load(lmData);
     console.log(fmData);
+    // load this rtree with markers (elements that need hit detection)
     this.locMap.load(fmData);
   }
 
   get visible(){
-    let coord = this.mapCoordinates.base;
-    let visc = this.mapCoordinates.visible;
+    let coord = this.parent.model.view.base;
+    let visc = this.parent.model.view.visible;
     let vis = [{
       minX: this.bounds.left,
       maxX: this.bounds.right,

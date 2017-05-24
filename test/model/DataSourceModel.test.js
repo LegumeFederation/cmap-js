@@ -3,9 +3,9 @@ import {DataSourceModel} from '../../src/model/DataSourceModel';
 
 const config = require('../../cmap.json');
 
-describe('DataSourceModel test', () => {
+describe('DataSourceModel test', function() {
 
-  it('constructor works', () => {
+  it('constructor works', function() {
     config.sources.forEach( params => {
       const model = new DataSourceModel(params);
       expect(model).to.have.property('method')
@@ -21,7 +21,7 @@ describe('DataSourceModel test', () => {
 
   // TODO: test the load() function which will cause an http fetch.
 
-  it('deserialize works', () => {
+  it('deserialize works', function() {
     const model = new DataSourceModel(config.sources[0]);
     model.deserialize(data);
     expect(model).to.have.property('parseResult')
@@ -30,7 +30,7 @@ describe('DataSourceModel test', () => {
     expect(model.parseResult.data).to.have.lengthOf(9);
   });
 
-  it('includeRecord equals', () => {
+  it('includeRecord equals', function() {
     let model;
     config.sources[1].filters = [{
       column : 'feature_type',
@@ -43,7 +43,7 @@ describe('DataSourceModel test', () => {
     expect(model.parseResult.data).to.have.lengthOf(1);
   });
 
-  it('includeRecord not', () => {
+  it('includeRecord not', function() {
     let model;
     config.sources[1].filters = [{
       column : 'feature_type',
@@ -57,7 +57,7 @@ describe('DataSourceModel test', () => {
     expect(model.parseResult.data).to.have.lengthOf(8);
   });
 
-  it('includeRecord regex', () => {
+  it('includeRecord regex', function() {
     let model;
     config.sources[1].filters = [{
       column : 'feature_type',
@@ -70,7 +70,7 @@ describe('DataSourceModel test', () => {
     expect(model.parseResult.data).to.have.lengthOf(8);
   });
 
-  it('includeRecord multiple filters', () => {
+  it('includeRecord multiple filters', function() {
     let model;
     config.sources[1].filters = [{
       column : 'map_name',

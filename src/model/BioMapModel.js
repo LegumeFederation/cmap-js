@@ -20,7 +20,7 @@ export class BioMapModel {
     this.name = name;
     this.source = source;
     this.features = features;
-    this.coordinates = Object.freeze(coordinates);
+    this.coordinates = coordinates;
   }
 
   /**

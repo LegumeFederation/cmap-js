@@ -6,9 +6,9 @@ import {AppModel} from '../../src/model/AppModel';
 
 const config = require('../../cmap.json');
 
-describe('AppModel test', () => {
+describe('AppModel test', function() {
 
-  it('constructor works', () => {
+  it('constructor works', function() {
     const model = new AppModel();
     expect(model).to.have.property('sources')
       .that.is.an('array');
@@ -28,7 +28,7 @@ describe('AppModel test', () => {
   // data files from URL. Setup an http server running in nodejs to complete
   // this test.
 
-  // it('load() works', () => {
+  // it('load() works', function() {
   //   const model = new AppModel();
   //   const promises = model.load(config);
   //   const p = Promise.all(promises);
