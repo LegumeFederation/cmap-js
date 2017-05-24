@@ -1,4 +1,6 @@
 /**
+    this.info.top = this.info.data.globalBounds.top;
+    m.redraw();
   * BioMap
   *
   * SceneGraphNodeCanvas representing a biological map and its associated tracks
@@ -313,7 +315,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     [].forEach.call(cMaps, el =>{
       el.mithrilComponent.draw();
     });
-    this.info.top = this.info.data.globalBounds.top;
+    if(this.info.visible){this.info.top = this.info.data.globalBounds.top;}
     m.redraw();
   }
 }
