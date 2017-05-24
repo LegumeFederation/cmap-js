@@ -127,9 +127,11 @@ export class HorizontalLayout
     this.bioMapComponents.forEach(item => {
       item.model.view.visible = item.model.view.base;
       item.verticalScale = 1.0;
+      item.info.visible = false;
     });
-    [].forEach.call(this.el.children, el =>{
-      el.mithrilComponent.draw();
+    [].forEach.call(document.getElementsByClassName('cmap-canvas'), el =>{
+       el.mithrilComponent.draw();
     });
+    m.redraw();
   }
 }

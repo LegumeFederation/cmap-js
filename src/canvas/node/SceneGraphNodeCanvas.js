@@ -80,7 +80,7 @@ export class SceneGraphNodeCanvas
     let infoVisible = info.visible ? 'visible' : 'hidden';
     return [
       m('canvas', {
-       class: `cmap-canvas biomap-info ${selectedClass}`,
+       class: `cmap-canvas cmap-biomap ${selectedClass}`,
        style: `left: ${b.left}px; top: ${b.top}px;
                width: ${b.width}px; height: ${b.height}px;
                transform: rotate(${this.rotation}deg);`,
@@ -92,7 +92,8 @@ export class SceneGraphNodeCanvas
        style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
                width: 10em; height: 5em; border:2px  solid black;
                background: white; visibility: ${infoVisible};
-               position: absolute; display: inline-block; overflow-y:auto`,
+               position: absolute; display: inline-block; overflow-y:auto;
+               z-index:10000`,
        width: 10,
        height: 10
      })
