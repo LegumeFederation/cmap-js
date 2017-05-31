@@ -38,6 +38,12 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.backbone = null;
     this.featureMarks = [];
     this.featureLabels = [];
+    this.info = {
+      top:0,
+      left:0,
+      visible:"hidden"
+    }
+
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
       pan:   new RegExp('^pan'),
@@ -108,7 +114,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     let globalPos = this._pageToCanvas(evt);
     this._loadHitMap();
     let hits = [];
-		this.info.visible = false;
+		this.info.visible = 'hidden';
 		this.info.top = globalPos.y;
 		this.info.left = globalPos.x;
     this.hitMap.search({
@@ -120,13 +126,12 @@ export class BioMap extends SceneGraphNodeCanvas {
       hits.push(hit.data);//.model.name,hit.data.model.coordinates.start]);
 		});
     if(hits.length > 0){
-			this.info.visible = true;
-			let info = this.el.nextSibling;
+			this.info.visible = 'true';
 			this.info.top = hits[0].globalBounds.top;
 			this.info.left = hits[0].globalBounds.right;
-      this.info.data = hits[0];
+      this.info.data = hits;
 			let names = hits.map(hit => { return hit.model.name; });
-      info.innerHTML= `<p> ${names.join('\n')} <\p>`;
+      this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
     }
 		m.redraw();
 
@@ -264,7 +269,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
     console.log('BioMap -> layout');
-    const width = 550;
+    const width = 500;
     this.children = [];
     this.domBounds = new Bounds({
       left: layoutBounds.left,

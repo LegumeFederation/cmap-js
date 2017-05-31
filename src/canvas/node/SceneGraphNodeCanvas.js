@@ -75,29 +75,26 @@ export class SceneGraphNodeCanvas
     }
     let b = this.domBounds || {};
     let info = this.info || {};
-    console.log(this,this.info,b);
     let selectedClass = this.selected ? 'selected' : '';
-    let infoVisible = info.visible ? 'visible' : 'hidden';
-    return [
-      m('canvas', {
+    return  m('canvas', {
        class: `cmap-canvas cmap-biomap ${selectedClass}`,
        style: `left: ${b.left}px; top: ${b.top}px;
                width: ${b.width}px; height: ${b.height}px;
                transform: rotate(${this.rotation}deg);`,
        width: b.width,
        height: b.height
-     }),
-      m('div', {
-       class: `biomap-info`,
-       style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
-               width: 10em; height: 5em; border:1px solid #bbb;
-               background: white; visibility: ${infoVisible};
-               position: absolute; display: inline-block; overflow-y:auto;
-               z-index:10000; border-radius:4px;`,
-       width: 10,
-       height: 10
-     })
-    ];
+     });
+    //  m('div', {
+    //   class: `biomap-info`,
+    //   style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
+    //           width: 10em; height: 5em; border:1px solid #bbb;
+    //           background: white; visibility: ${infoVisible};
+    //           position: absolute; display: inline-block; overflow-y:auto;
+    //           z-index:10000; border-radius:4px;`,
+    //   width: 10,
+    //   height: 10
+    // })
+    //];
   }
 
   /**
