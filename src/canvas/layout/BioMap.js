@@ -141,6 +141,7 @@ export class BioMap extends SceneGraphNodeCanvas {
 	    // TODO: send pan events to the scenegraph elements which compose the biomap
 	    // (dont scale the canvas element itself)
 	    this.zoomP = {};
+      this.zoomP.pStart = true;
 	    console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
       let globalPos = this._pageToCanvas(evt);
       let left = this.ruler.globalBounds.left - this.ruler.textWidth;
@@ -185,6 +186,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.zoomP.delta = evt.deltaY;
   }
   _onPan(evt){
+    // block propegation if pan hasn't started
+    if (!this.zoomP || !this.zoomP.pStart) return true;
     if(this.zoomP && this.zoomP.ruler){
       let delta = evt.deltaY / this.model.view.pixelScaleFactor;
       console.log('pan delta',delta);
@@ -208,6 +211,8 @@ export class BioMap extends SceneGraphNodeCanvas {
 	  // TODO: send pan events to the scenegraph elements which compose the biomap
 	  // (dont scale the canvas element itself)
 	  console.warn('BioMap -> onPanEnd -- vertically; implement me', evt,this.model.view.base);
+    // block propegation if pan hasn't started
+    if (!this.zoomP || !this.zoomP.pStart) return true;
     if(this.zoomP && this.zoomP.ruler){
       let delta = evt.deltaY / this.model.view.pixelScaleFactor;
       console.log('pan delta',delta);
@@ -225,6 +230,7 @@ export class BioMap extends SceneGraphNodeCanvas {
 		  this._redrawViewport({start:zStart, stop:zStop});
     }
     this.zoomP.ruler = false;
+    this.zoomP.pStart = false;
 	  return true; // do not stop propagation
 	}
     /**
@@ -320,7 +326,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     [].forEach.call(cMaps, el =>{
       el.mithrilComponent.draw();
     });
-    if(this.info.visible){this.info.top = this.info.data.globalBounds.top;}
+    // move top of popover if currently visible
+    if(this.info.visible !== 'hidden'){
+      this.info.top = this.info.data[0].globalBounds.top;
+    }
     m.redraw();
   }
 }
