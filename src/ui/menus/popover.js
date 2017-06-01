@@ -42,12 +42,13 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
     if(!data) return;
 
     let bob = data.map(item => {
-      console.log(item);
+      console.log('popitem',item);
       let start = m('div', 'start:  '+ item.model.coordinates.start);
       let stop = m('div', 'stop:  '+ item.model.coordinates.stop);
-      let tags = item.model.tags.length > 0 ? m('div', 'type:  ' + item.model.tags[0]): [];
+      let tags = item.model.tags.length > 0 && typeof item.model.tags[0] != 'undefined' ? m('div','tags:  ',item.model.tags.join('\n')) : [];
+      let aliases = item.model.aliases.length > 0 && item.model.aliases[0] != 'undefined'  ?  m('div','aliases:  ',item.model.aliases.join('\n')) : [];
       return [m('div',{class:'biomap-info-name'},item.model.name),
-        m('div',{class:'biomap-info-data'},[start,stop,tags])
+        m('div',{class:'biomap-info-data'},[start,stop,tags, aliases])
       ];
     });
     
