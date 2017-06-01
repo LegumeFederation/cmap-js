@@ -118,3 +118,26 @@ span.cmap-map-name-chip {
   padding: 0.2rem 1rem 0.2rem 1rem;
   margin-right: 0.5rem;
 }
+
+.biomap-info {
+  width: 15em;
+  height: 10em;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: white;
+  position: absolute;
+  display: inline-block;
+  overflow-y: auto;
+  z-index: 100000;
+}
+
+.biomap-info-name {
+  margin: 5px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.biomap-info-data {
+  margin: 5px 20px 5px 20px;
+}

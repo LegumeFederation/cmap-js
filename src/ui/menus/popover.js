@@ -26,27 +26,32 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
     let b = vnode.state.domBounds || {};
 		let info = vnode.state.info || {data:[]};
     console.log(vnode);
-    
 		return m('div', {
        class: `biomap-info`,
+       //style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
+       //        width: 15em; height: 10em; border:1px solid #bbb;
+       //        background: white; visibility: ${info.visible};
+       //        position: absolute; display: inline-block; overflow-y:auto;
+       //        z-index:10000; border-radius:4px;`,
        style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
-               width: 10em; height: 5em; border:1px solid #bbb;
-               background: white; visibility: ${info.visible};
-               position: absolute; display: inline-block; overflow-y:auto;
-               z-index:10000; border-radius:4px;`,
-       width: 10,
-       height: 10,
+               visibility: ${info.visible};`,
      },this._generateInner(info.data));
   }
 
   _generateInner(data){
-    console.log('data to generate',data);
     if(!data) return;
-    console.log('data to generate',data);
+
     let bob = data.map(item => {
-      return m('li',item.model.name);
+      console.log(item);
+      let start = m('div', 'start:  '+ item.model.coordinates.start);
+      let stop = m('div', 'stop:  '+ item.model.coordinates.stop);
+      let tags = item.model.tags.length > 0 ? m('div', 'type:  ' + item.model.tags[0]): [];
+      return [m('div',{class:'biomap-info-name'},item.model.name),
+        m('div',{class:'biomap-info-data'},[start,stop,tags])
+      ];
     });
-    return m('ul',{},bob);
+    
+    return m('div',{},bob);
   }
 
 
