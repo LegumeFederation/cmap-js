@@ -23,8 +23,8 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
    * mithril component render method
    */
   view(vnode) {
-    let b = vnode.state.domBounds || {};
-		let info = vnode.state.info || {data:[]};
+    let b = vnode.attrs.domBounds || {};
+		let info = vnode.attrs.info || {data:[]};
     console.log(vnode);
 		return m('div', {
        class: `biomap-info`,
@@ -46,7 +46,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
       let start = m('div', 'start:  '+ item.model.coordinates.start);
       let stop = m('div', 'stop:  '+ item.model.coordinates.stop);
       let tags = item.model.tags.length > 0 && typeof item.model.tags[0] != 'undefined' ? m('div','tags:  ',item.model.tags.join('\n')) : [];
-      let aliases = item.model.aliases.length > 0 && item.model.aliases[0] != 'undefined'  ?  m('div','aliases:  ',item.model.aliases.join('\n')) : [];
+      let aliases = item.model.aliases.length > 0 && typeof item.model.aliases[0] != 'undefined'  ?  m('div','aliases:  ',item.model.aliases.join('\n')) : [];
       return [m('div',{class:'biomap-info-name'},item.model.name),
         m('div',{class:'biomap-info-data'},[start,stop,tags, aliases])
       ];

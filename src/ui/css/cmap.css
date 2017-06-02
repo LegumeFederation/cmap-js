@@ -135,8 +135,10 @@ span.cmap-map-name-chip {
   margin: 5px;
   border: 1px solid #bbb;
   border-radius: 4px;
+  background:white;
   text-align: center;
 }
+
 
 .biomap-info-data {
   margin: 5px 20px 5px 20px;

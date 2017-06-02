@@ -51,7 +51,8 @@ export class HorizontalLayout
    */
   view() {
     return m('div.cmap-layout-horizontal',
-      [].concat(this.bioMapComponents, this.correspondenceMapComponents, this.popoverComponents).map(m)
+        [this.bioMapComponents.map(m), this.correspondenceMapComponents.map(m),
+        this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds})})]
     );
   }
 
