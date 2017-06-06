@@ -74,7 +74,6 @@ export class SceneGraphNodeCanvas
       this.lastDrawnMithrilBounds = this.domBounds;
     }
     let b = this.domBounds || {};
-    let info = this.info || {};
     let selectedClass = this.selected ? 'selected' : '';
     return  m('canvas', {
        class: `cmap-canvas cmap-biomap ${selectedClass}`,
@@ -84,17 +83,6 @@ export class SceneGraphNodeCanvas
        width: b.width,
        height: b.height
      });
-    //  m('div', {
-    //   class: `biomap-info`,
-    //   style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
-    //           width: 10em; height: 5em; border:1px solid #bbb;
-    //           background: white; visibility: ${infoVisible};
-    //           position: absolute; display: inline-block; overflow-y:auto;
-    //           z-index:10000; border-radius:4px;`,
-    //   width: 10,
-    //   height: 10
-    // })
-    //];
   }
 
   /**

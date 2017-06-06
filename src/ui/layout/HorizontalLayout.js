@@ -11,7 +11,7 @@ import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/layout/CorrespondenceMap';
-import {Popover} from '../menus/popover';
+import {Popover} from '../menus/Popover';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout
@@ -52,7 +52,7 @@ export class HorizontalLayout
   view() {
     return m('div.cmap-layout-horizontal',
         [this.bioMapComponents.map(m), this.correspondenceMapComponents.map(m),
-        this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds})})]
+        this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
 
@@ -96,7 +96,6 @@ export class HorizontalLayout
   _layoutPopovers(){
     this.popoverComponents = this.bioMapComponents.map( model => {
       let component = new Popover();
-      console.log("making pops",model);
       component.info = model.info;
       component.domBounds = model.domBounds;
       return component;
@@ -139,7 +138,7 @@ export class HorizontalLayout
     this.bioMapComponents.forEach(item => {
       item.model.view.visible = item.model.view.base;
       item.verticalScale = 1.0;
-      item.info.visible = "hidden";
+      item.info.visible = 'hidden';
     });
     [].forEach.call(document.getElementsByClassName('cmap-canvas'), el =>{
        el.mithrilComponent.draw();
