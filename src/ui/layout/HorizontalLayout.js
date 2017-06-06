@@ -28,6 +28,7 @@ export class HorizontalLayout
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
     this.popoverComponents=[];
+		this.swapComponents=[];
     const handler = () => this._onDataLoaded();
     this.subscriptions = [
       // all of these topics have effectively the same event handler for
@@ -51,7 +52,7 @@ export class HorizontalLayout
    */
   view() {
     return m('div.cmap-layout-horizontal',
-        [this.bioMapComponents.map(m), this.correspondenceMapComponents.map(m),
+        [this.swapComponents,this.bioMapComponents.map(m), this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
@@ -61,10 +62,50 @@ export class HorizontalLayout
    */
   _onDataLoaded() {
     this._layoutBioMaps();
+		this._layoutSwapComponents();
     this._layoutCorrespondenceMaps();
     this._layoutPopovers();
     m.redraw();
   }
+
+	_layoutSwapComponents(){
+		this.swapComponents = [];
+    let n = this.bioMapComponents.length;
+		let maps = this;
+    for (var i = 0; i < n; i++) {
+			let bMap = this.bioMapComponents[i];
+			const b = i;
+			let left ='',right='';
+			if(b>0){
+				left = m('button', {class:'swap-left', onclick: function() {
+						console.log('click left!', b);
+						if(b > 0){
+							const tmp = maps.appState.bioMaps[b-1];
+							maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
+							maps.appState.bioMaps[b] = tmp;
+							maps._onDataLoaded();
+						}
+			    }},'left');
+			}
+
+			if(b< n-1){
+					right = m('button', {class:'swap-right', onclick: function() {
+						if(b < n-1){
+							const tmp = maps.appState.bioMaps[b];
+							maps.appState.bioMaps[b] = maps.appState.bioMaps[b+1];
+							maps.appState.bioMaps[b+1] = tmp;
+							maps._onDataLoaded();
+			      }
+			    }},'right');
+			}
+	
+			this.swapComponents.push( m('div', {
+			 class: 'swap-div', id: `swap-${i}`,
+			 style: `position:absolute; display:inline-block; left: ${bMap.domBounds.left}px; top: ${bMap.domBounds.top-10}px;`},
+				[left, right]));
+		}
+		
+	}
 
   /**
    * Horizonal (left to right) layout of BioMaps
@@ -101,7 +142,8 @@ export class HorizontalLayout
       return component;
     });
   }
-  /**
+
+	/**
    * Horizontal layout of Correspondence Maps. In this layout, for N maps there
    * are N -1 correspondence maps.
    */
