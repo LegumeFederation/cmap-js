@@ -128,7 +128,7 @@ span.cmap-map-name-chip {
   position: absolute;
   display: inline-block;
   overflow-y: auto;
-  z-index: 100000;
+  z-index: 10;
 }
 
 .biomap-info-name {
@@ -145,4 +145,19 @@ span.cmap-map-name-chip {
 
 .biomap-info-data {
   margin: 5px 20px 5px 20px;
+}
+.swap-div{
+  z-index:100;
+}
+.swap-map-order{
+  margin: 5px 10px 5px 10px;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: white;
+  text-align:center;
+}
+
+.swap-map-order:hover {
+  background:#ccc;
 }

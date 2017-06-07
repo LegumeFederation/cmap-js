@@ -77,8 +77,7 @@ export class HorizontalLayout
 			const b = i;
 			let left ='',right='';
 			if(b>0){
-				left = m('button', {class:'swap-left', onclick: function() {
-						console.log('click left!', b);
+				left = m('div', {class:'swap-map-order', onclick: function() {
 						if(b > 0){
 							const tmp = maps.appState.bioMaps[b-1];
 							maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
@@ -89,7 +88,7 @@ export class HorizontalLayout
 			}
 
 			if(b< n-1){
-					right = m('button', {class:'swap-right', onclick: function() {
+					right = m('div', {class:'swap-map-order', onclick: function() {
 						if(b < n-1){
 							const tmp = maps.appState.bioMaps[b];
 							maps.appState.bioMaps[b] = maps.appState.bioMaps[b+1];

@@ -41,7 +41,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.info = {
       top:0,
       left:0,
-      visible:'hidden'
+      display:'none'
     };
 
     // create some regular expressions for faster dispatching of events
@@ -114,9 +114,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     let globalPos = this._pageToCanvas(evt);
     this._loadHitMap();
     let hits = [];
-		this.info.visible = 'hidden';
-		this.info.top = globalPos.y;
-		this.info.left = globalPos.x;
     this.hitMap.search({
       minX: globalPos.x,
       maxX: globalPos.x,
@@ -126,14 +123,17 @@ export class BioMap extends SceneGraphNodeCanvas {
       hits.push(hit.data);//.model.name,hit.data.model.coordinates.start]);
 		});
     if(hits.length > 0){
-			this.info.visible = 'true';
+			this.info.display = 'inline-block';
 			this.info.top = hits[0].globalBounds.top;
 			this.info.left = hits[0].globalBounds.right;
       this.info.data = hits;
 			let names = hits.map(hit => { return hit.model.name; });
       this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
+		  m.redraw();
+    } else if(this.info.display !== 'none'){
+      this.info.display = 'none';
+		  m.redraw();
     }
-		m.redraw();
 
     return true;
   }
