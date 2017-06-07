@@ -11,6 +11,7 @@ import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/layout/CorrespondenceMap';
+import {Popover} from '../menus/Popover';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout
@@ -26,6 +27,7 @@ export class HorizontalLayout
     super.oninit(vnode);
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
+    this.popoverComponents=[];
     const handler = () => this._onDataLoaded();
     this.subscriptions = [
       // all of these topics have effectively the same event handler for
@@ -49,7 +51,8 @@ export class HorizontalLayout
    */
   view() {
     return m('div.cmap-layout-horizontal',
-      [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
+        [this.bioMapComponents.map(m), this.correspondenceMapComponents.map(m),
+        this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
 
@@ -59,6 +62,7 @@ export class HorizontalLayout
   _onDataLoaded() {
     this._layoutBioMaps();
     this._layoutCorrespondenceMaps();
+    this._layoutPopovers();
     m.redraw();
   }
 
@@ -89,7 +93,14 @@ export class HorizontalLayout
       return component;
     });
   }
-
+  _layoutPopovers(){
+    this.popoverComponents = this.bioMapComponents.map( model => {
+      let component = new Popover();
+      component.info = model.info;
+      component.domBounds = model.domBounds;
+      return component;
+    });
+  }
   /**
    * Horizontal layout of Correspondence Maps. In this layout, for N maps there
    * are N -1 correspondence maps.
@@ -127,9 +138,11 @@ export class HorizontalLayout
     this.bioMapComponents.forEach(item => {
       item.model.view.visible = item.model.view.base;
       item.verticalScale = 1.0;
+      item.info.visible = 'hidden';
     });
-    [].forEach.call(this.el.children, el =>{
-      el.mithrilComponent.draw();
+    [].forEach.call(document.getElementsByClassName('cmap-canvas'), el =>{
+       el.mithrilComponent.draw();
     });
+    m.redraw();
   }
 }

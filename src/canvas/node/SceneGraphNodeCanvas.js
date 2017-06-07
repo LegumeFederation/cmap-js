@@ -27,6 +27,11 @@ export class SceneGraphNodeCanvas
     this.model = model;
     this.appState = appState;
     this.verticalScale = 1;
+    this.info = {
+      visible:false,
+      top:0,
+      left:0
+    };
     this._gestureRegex = {
       pan:   new RegExp('^pan'),
       pinch: new RegExp('^pinch'),
@@ -70,14 +75,14 @@ export class SceneGraphNodeCanvas
     }
     let b = this.domBounds || {};
     let selectedClass = this.selected ? 'selected' : '';
-    return m('canvas', {
-      class: `cmap-canvas cmap-biomap ${selectedClass}`,
-      style: `left: ${b.left}px; top: ${b.top}px;
-              width: ${b.width}px; height: ${b.height}px;
-              transform: rotate(${this.rotation}deg);`,
-      width: b.width,
-      height: b.height
-    });
+    return  m('canvas', {
+       class: `cmap-canvas cmap-biomap ${selectedClass}`,
+       style: `left: ${b.left}px; top: ${b.top}px;
+               width: ${b.width}px; height: ${b.height}px;
+               transform: rotate(${this.rotation}deg);`,
+       width: b.width,
+       height: b.height
+     });
   }
 
   /**
