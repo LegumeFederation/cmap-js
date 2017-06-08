@@ -149,6 +149,7 @@ span.cmap-map-name-chip {
 }
 .swap-div{
   z-index:100;
+  display:flex;
 }
 .swap-map-order{
   margin: 5px 10px 5px 10px;
@@ -157,8 +158,15 @@ span.cmap-map-name-chip {
   border-radius: 4px;
   background: white;
   text-align:center;
+  top:50%;
+  bottom: 50%;
 }
-
+.map-title{
+  margin: 5px 10px 5px 10px;
+  padding: 5px 10px 5px 10px;
+  text-align: center;
+  background: white;
+}
 .swap-map-order:hover {
   background:#ccc;
 }

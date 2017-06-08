@@ -52,7 +52,7 @@ export class HorizontalLayout
    */
   view() {
     return m('div.cmap-layout-horizontal',
-        [this.swapComponents,this.bioMapComponents.map(m), this.correspondenceMapComponents.map(m),
+        [this.swapComponents,this.correspondenceMapComponents.map(m), this.bioMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
@@ -74,6 +74,7 @@ export class HorizontalLayout
 		let maps = this;
     for (var i = 0; i < n; i++) {
 			let bMap = this.bioMapComponents[i];
+      console.log('swap test',bMap);
 			const b = i;
 			let left ='',right='';
 			if(b>0){
@@ -84,8 +85,10 @@ export class HorizontalLayout
 							maps.appState.bioMaps[b] = tmp;
 							maps._onDataLoaded();
 						}
-			    }},'left');
-			}
+			    }},'<');
+			} else {
+				left = m('div', {class:'swap-map-order',style:'background:#ccc;'},'<');
+      }
 
 			if(b< n-1){
 					right = m('div', {class:'swap-map-order', onclick: function() {
@@ -95,13 +98,15 @@ export class HorizontalLayout
 							maps.appState.bioMaps[b+1] = tmp;
 							maps._onDataLoaded();
 			      }
-			    }},'right');
-			}
+			    }},'>');
+			} else {
+				right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
+      }
 	
 			this.swapComponents.push( m('div', {
 			 class: 'swap-div', id: `swap-${i}`,
-			 style: `position:absolute; display:inline-block; left: ${bMap.domBounds.left}px; top: ${bMap.domBounds.top-10}px;`},
-				[left, right]));
+			 style: `position:absolute; left: ${Math.floor(bMap.domBounds.right-bMap.domBounds.width*.75)}px; top: ${bMap.domBounds.top}px;`},
+				[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
 		}
 		
 	}
