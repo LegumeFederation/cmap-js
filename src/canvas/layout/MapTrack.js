@@ -23,10 +23,10 @@ export class  MapTrack extends SceneGraphNodeTrack {
     const backboneWidth =  60;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height * 0.025,
+      top: b.height * 0.1,
       left: b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
-      height: b.height * 0.95
+      height: b.height * 0.9
     });
     this.mC = this.parent.mapCoordinates;
     console.log('loading backbone', this, bioModel);

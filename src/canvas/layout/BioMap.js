@@ -273,12 +273,12 @@ export class BioMap extends SceneGraphNodeCanvas {
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
     console.log('BioMap -> layout');
-    const width = 500;
+    const width = Math.floor(layoutBounds.width/this.appState.bioMaps.length);
     this.children = [];
     this.domBounds = new Bounds({
       left: layoutBounds.left,
       top: layoutBounds.top,
-      width: width,
+      width: width > 500 ? width:500,
       height: layoutBounds.height
     });
     this.bounds = new Bounds({

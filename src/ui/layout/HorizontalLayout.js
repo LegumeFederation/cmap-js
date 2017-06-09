@@ -52,7 +52,7 @@ export class HorizontalLayout
    */
   view() {
     return m('div.cmap-layout-horizontal',
-        [this.swapComponents,this.correspondenceMapComponents.map(m), this.bioMapComponents.map(m),
+        [this.swapComponents,this.bioMapComponents.map(m),this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
@@ -125,7 +125,7 @@ export class HorizontalLayout
       let layoutBounds = new Bounds({
         left: cursor,
         top: 10,
-        width: 0, // will be calculated by bioMap
+        width: Math.floor(this.bounds.width), // will be calculated by bioMap
         height: childHeight
       });
       let component = new BioMapComponent({
