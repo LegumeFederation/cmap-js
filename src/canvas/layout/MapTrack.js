@@ -16,14 +16,14 @@ export class  MapTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log('mapTrack',this.parent);
     const b = this.parent.bounds;
+    console.log('mapTrack',this.parent,b);
     let bioModel = this.parent.model;
     //const backboneWidth = b.width * 0.2;
     const backboneWidth =  60;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height * 0.1,
+      top: b.top,
       left: b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
       height: b.height * 0.9
@@ -48,9 +48,9 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.addChild(labelGroup);
     this.labelGroup = labelGroup;
     labelGroup.bounds = new Bounds({
-      top: this.backbone.bounds.top,
+      top: this.bounds.top,
       left: this.backbone.bounds.right + 1,
-      height: this.backbone.bounds.height,
+      height: this.bounds.height,
       width: 20
     });
 

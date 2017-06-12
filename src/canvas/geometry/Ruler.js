@@ -12,11 +12,11 @@ export class Ruler extends SceneGraphNodeBase {
     super({parent});
     this.mapCoordinates = bioMap.view;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
-    const b = this.mapCoordinates.backbone;
+    const b = this.parent.backbone.backbone.globalBounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.top,
-      left: b.left -20,
+      top: b.top-this.parent.bounds.top,
+      left: b.left - 40, //arbritray spacing to look good
       width: 10,
       height: b.height 
     });

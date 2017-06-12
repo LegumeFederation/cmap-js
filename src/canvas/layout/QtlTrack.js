@@ -11,15 +11,15 @@ export class  QtlTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log('mapTrack',this.parent.backbone.labelGroup.globalBounds.right);
+    console.log('mapTrack',this.parent.domBounds);
     const b = this.parent.bounds;
     const backboneWidth = b.width * 0.25;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height * 0.025,
-      left: 200,
-      width: backboneWidth*.75,
-      height: b.height * 0.95
+      top: b.top,
+      left: this.parent.ruler.globalBounds.left,
+      width: 200,
+      height: b.height
     });
     this.mapCoordinates = this.parent.mapCoordinates;
 
@@ -36,7 +36,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     this.qtlMarks = this.filteredFeatures.map( model => {
       let fm = new QTL ({
         featureModel: model,
-        parent: qtlGroup,
+        parent: this.qtlGroup,
         bioMap: this.parent.model
       });
       qtlGroup.addChild(fm);
