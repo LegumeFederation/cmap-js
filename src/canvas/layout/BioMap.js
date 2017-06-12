@@ -285,7 +285,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       left: 0,
       top: 30,
       width: this.domBounds.width,
-      height: this.domBounds.height*.85
+      bottom: Math.floor(this.domBounds.bottom-60) // set to reasonably re-size for smaller windows
     });
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
