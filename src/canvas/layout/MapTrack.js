@@ -26,7 +26,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
       top: b.top,
       left: b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
-      height: b.height * 0.9
+      height: b.height
     });
     this.mC = this.parent.mapCoordinates;
     console.log('loading backbone', this, bioModel);
@@ -43,12 +43,11 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
     this.addChild(markerGroup);
-    
     let labelGroup = new Group({parent:this});
     this.addChild(labelGroup);
     this.labelGroup = labelGroup;
     labelGroup.bounds = new Bounds({
-      top: this.bounds.top,
+      top: 0,
       left: this.backbone.bounds.right + 1,
       height: this.bounds.height,
       width: 20
@@ -136,6 +135,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
      }
     }
     vis = vis.concat(labels);
+    //vis = vis.concat([{data:this}]);
     return vis;
   }
 
@@ -143,13 +143,32 @@ export class  MapTrack extends SceneGraphNodeTrack {
     let bbGb = this.backbone.globalBounds;
     return this.markerGroup.children.map( child =>{
       return {
-        minY: child.globalBounds.bottom,
-        maxY: child.globalBounds.top,
+        minY: child.globalBounds.bottom+1,
+        maxY: child.globalBounds.top-1,
         minX: bbGb.left ,
         maxX: bbGb.right ,
         data: child
       };
     });
+  }
+
+  draw(ctx){
+    let gb = this.globalBounds || {};
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(
+      Math.floor(gb.left),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );   
+    ctx.fillStyle = 'green';
+    gb = this.labelGroup.globalBounds || {};
+    ctx.fillRect(
+      Math.floor(gb.left),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );   
   }
 
   loadLabelMap(){

@@ -34,9 +34,8 @@ export class FeatureMark extends SceneGraphNodeBase {
     ctx.stroke();
     // reset bounding box to fit the new stroke location/width
     // lineWidth adds equal percent of passed width above and below path
-    this.bounds.top = y - this.lineWidth/2;
-    this.bounds.bottom = y + this.lineWidth/2;
-     
+    this.bounds.top = Math.floor(y - this.lineWidth/2);
+    this.bounds.bottom = Math.floor( y + this.lineWidth/2);
   }
 
   _translateScale(point){

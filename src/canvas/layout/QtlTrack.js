@@ -16,9 +16,9 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     const backboneWidth = b.width * 0.25;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.top,
-      left: this.parent.ruler.globalBounds.left,
-      width: 200,
+      top: this.parent.bounds.top,
+      left: this.parent.backbone.bounds.right + 100,
+      width: 50,
       height: b.height
     });
     this.mapCoordinates = this.parent.mapCoordinates;
@@ -27,7 +27,12 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     this.addChild(qtlGroup);
     this.qtlGroup = qtlGroup;
 
-    qtlGroup.bounds = this.bounds;
+    qtlGroup.bounds = new Bounds({
+        top:0,
+        left:0,
+        width:20,
+        height: b.height
+    });
     this.filteredFeatures = this.parent.model.features.filter( model => {
       return model.length > 1;
     });
@@ -59,6 +64,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
+    //return {data:this};
     return this.locMap.all();
     //return this.locMap.search({
     //  minX: this.bounds.left,
@@ -66,6 +72,18 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     //  minY: this.mapCoordinates.visible.start,
     //  maxY: this.mapCoordinates.visible.stop
     //});
+  }
+  
+  draw(ctx){
+    console.log(this.parent.backbone.labelGroup.globalBounds);
+    let gb = this.globalBounds || {};
+    ctx.fillStyle = 'red';
+    ctx.fillRect(
+      Math.floor(this.parent.backbone.labelGroup.globalBounds.right),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );
   }
 
   get hitMap(){

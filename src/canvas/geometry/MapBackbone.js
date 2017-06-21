@@ -14,7 +14,7 @@ export class MapBackbone extends SceneGraphNodeBase {
     const backboneWidth = parent.bounds.width;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.top,
+      top: 0,
       left: b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
       height: b.height
@@ -24,6 +24,7 @@ export class MapBackbone extends SceneGraphNodeBase {
 
   draw(ctx) {
     let gb = this.globalBounds || {};
+    console.log('drawing', gb);
     ctx.fillStyle = '#fff6e8';
     ctx.fillRect(
       Math.floor(gb.left),

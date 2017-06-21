@@ -12,11 +12,11 @@ export class Ruler extends SceneGraphNodeBase {
     super({parent});
     this.mapCoordinates = bioMap.view;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
-    const b = this.parent.backbone.bounds;
+    const b = this.parent.backbone.backbone.globalBounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: this.parent.bounds.top,
-      left: b.left, //arbritray spacing to look goo
+      top: b.top-this.parent.bounds.top,
+      left: b.left - 40, //arbritray spacing to look good
       width: 10,
       height: b.height 
     });
@@ -34,14 +34,8 @@ export class Ruler extends SceneGraphNodeBase {
 		ctx.font = '12px Nunito';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'black';
-    ctx.fillText(text[0],gb.left - w - 5 - ctx.measureText(text[0]).width,(gb.top -5));
-    ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(gb.bottom +12 + 5));
-    // Draw zoom position labels
-		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];
-    ctx.fillStyle = 'black';
-    ctx.fillText(text[0],gb.right - w, (gb.top - 5));
-    ctx.fillText(text[1],gb.right - w,(gb.bottom + 12 + 5));
-    
+    ctx.fillText(text[0],gb.right - w + 5, (gb.top));
+    ctx.fillText(text[1],gb.right - w + 5,(gb.bottom + 12));
 
     //Draw baseline ruler
 		ctx.beginPath();
@@ -60,6 +54,12 @@ export class Ruler extends SceneGraphNodeBase {
       Math.floor(gb.width),
       Math.floor(height)
     );
+
+    // Draw zoom position labels
+		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];
+    ctx.fillStyle = 'black';
+    ctx.fillText(text[0],gb.left - w - 5 - ctx.measureText(text[0]).width,(start+gb.top));
+    ctx.fillText(text[1],gb.left - w - 5 - ctx.measureText(text[1]).width,(start+gb.top + height + 12));
 
     this.children.forEach( child => child.draw(ctx));
   }

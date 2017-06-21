@@ -283,9 +283,9 @@ export class BioMap extends SceneGraphNodeCanvas {
     });
     this.bounds = new Bounds({
       left: 0,
-      top: 30,
+      top: layoutBounds.top +30,
       width: this.domBounds.width,
-      bottom: Math.floor(this.domBounds.bottom-60) // set to reasonably re-size for smaller windows
+      height: Math.floor(this.domBounds.height - 100) // set to reasonably re-size for smaller windows
     });
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
@@ -295,7 +295,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.children.push(this.ruler);
     let qtl  = new QtlTrack({parent:this});
     this.children.push(qtl);
-    // load local rBush tree for hit detection
+    //load local rBush tree for hit detection
     this._loadHitMap();
     m.redraw();
   }
