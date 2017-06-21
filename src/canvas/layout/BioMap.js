@@ -144,10 +144,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.zoomP.pStart = true;
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
     let globalPos = this._pageToCanvas(evt);
-    let left = this.ruler.globalBounds.left - this.ruler.textWidth;
+    let left = this.ruler.globalBounds.left  - this.ruler.globalBounds.width;
     // scroll view vs box select
     if(left < (globalPos.x-evt.deltaX) && 
-      (globalPos.x-evt.deltaX) < (left+this.ruler.bounds.width)){
+      (globalPos.x-evt.deltaX) < (left+this.ruler.globalbounds.width)){
       this.zoomP.ruler = true;
       this.zoomP.delta = 0;
       this._moveRuler(evt);
@@ -283,9 +283,9 @@ export class BioMap extends SceneGraphNodeCanvas {
     });
     this.bounds = new Bounds({
       left: 0,
-      top: layoutBounds.top +30,
+      top: layoutBounds.top + 40,
       width: this.domBounds.width,
-      height: Math.floor(this.domBounds.height - 100) // set to reasonably re-size for smaller windows
+      height: Math.floor(this.domBounds.height - 130) // set to reasonably re-size for smaller windows
     });
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
