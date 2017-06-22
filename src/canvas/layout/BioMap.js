@@ -296,9 +296,9 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.ruler = new Ruler({parent:this, bioMap:this.model});
     this.children.push(this.ruler);
     let qtl  = new QtlTrack({parent:this});
-    console.log('QTL Loc', this.domBounds.width, qtl.maxLoc);
-    if(this.domBounds.width < qtl.maxLoc + qtl.bounds.width){
-      this.domBounds.width = qtl.maxLoc + qtl.bounds.width;
+    //console.log('QTL Loc', this.domBounds.width, qtl.globalBounds.right);
+    if(this.domBounds.width < qtl.globalBounds.right){
+      this.domBounds.width = qtl.globalBounds.right + 20;
     }
     this.children.push(qtl);
     //load local rBush tree for hit detection

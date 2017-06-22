@@ -56,8 +56,8 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       };
       qtlGroup.locMap.insert(loc);
       fmData.push(loc);
-      if(fm.globalBounds.right > this.maxLoc){
-        this.maxLoc = fm.globalBounds.right;
+      if(fm.globalBounds.right > this.globalBounds.right){
+        this.bounds.right = this.globalBounds.left + fm.bounds.right;
       }
       return fm;
     });
@@ -66,15 +66,8 @@ export class  QtlTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
-    //return {data:this};
-    //
     return this.locMap.all();
-    //return this.locMap.search({
-    //  minX: this.bounds.left,
-    //  maxX: this.bounds.right,
-    //  minY: this.mapCoordinates.visible.start,
-    //  maxY: this.mapCoordinates.visible.stop
-    //});
+    //return this.locMap.all().concat([{data:this}]);
   }
   
   draw(ctx){
