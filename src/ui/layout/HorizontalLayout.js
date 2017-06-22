@@ -160,8 +160,8 @@ export class HorizontalLayout
       let left = this.bioMapComponents[i];
       let right = this.bioMapComponents[i+1];
       let layoutBounds = new Bounds({
-        left: Math.floor(left.domBounds.right - left.domBounds.width * 0.5),
-        right: Math.floor(right.domBounds.left + right.domBounds.width * 0.5),
+        left: Math.floor(left.domBounds.left+left.backbone.globalBounds.right),
+        right: Math.floor(right.domBounds.left+right.backbone.globalBounds.left),
         top: 10,
         height: childHeight
       });
