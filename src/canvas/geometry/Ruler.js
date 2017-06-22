@@ -16,7 +16,7 @@ export class Ruler extends SceneGraphNodeBase {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: this.parent.bounds.top,
-      left: b.left -15, //arbritray spacing to look goo
+      left: b.left-15 , //arbritray spacing to look goo
       width: 10,
       height: b.height 
     });
@@ -47,19 +47,27 @@ export class Ruler extends SceneGraphNodeBase {
 		ctx.beginPath();
     ctx.lineWidth = 1.0;
 		ctx.strokeStyle = 'black';
-    ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
-    ctx.lineTo(Math.floor(gb.left), Math.floor(gb.bottom));
+    ctx.moveTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.top));
+    ctx.lineTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.bottom));
     ctx.stroke();
 
     // Draw "zoom box"
     ctx.fillStyle = 'aqua';
 		var height = stop - start > 1 ? stop-start : 1.0;
     ctx.fillRect(
-      Math.floor(gb.left -gb.width/2),
+      Math.floor(gb.left),
       Math.floor(start + gb.top),
       Math.floor(gb.width),
       Math.floor(height)
     );
+    ////debugging rectangle to test group bounds
+    //ctx.fillStyle = 'red';
+    //ctx.fillRect(
+    //  Math.floor(gb.left),
+    //  Math.floor(gb.top),
+    //  Math.floor(gb.width),
+    //  Math.floor(gb.height)
+    //);
 
     this.children.forEach( child => child.draw(ctx));
   }
