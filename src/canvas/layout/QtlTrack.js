@@ -38,6 +38,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     });
     console.log('filtered features', this.filteredFeatures);
     let fmData = [];
+    this.maxLoc = 0;
     this.qtlMarks = this.filteredFeatures.map( model => {
       let fm = new QTL ({
         featureModel: model,
@@ -54,17 +55,19 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         data:fm
       };
       qtlGroup.locMap.insert(loc);
-
       fmData.push(loc);
+      if(fm.globalBounds.right > this.maxLoc){
+        this.maxLoc = fm.globalBounds.right;
+      }
       return fm;
     });
-    console.log(qtlGroup.children.length);
     this.locMap.load(fmData);
     console.log('visible qtls',this.visible);
   }
 
   get visible(){
     //return {data:this};
+    //
     return this.locMap.all();
     //return this.locMap.search({
     //  minX: this.bounds.left,
