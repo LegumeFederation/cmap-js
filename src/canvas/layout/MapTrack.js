@@ -5,60 +5,67 @@
   */
 import knn from 'rbush-knn';
 
-import {SceneGraphNodeTrack} from './SceneGraphNodeTrack';
-import { Group } from './SceneGraphNodeGroup';
-import {Bounds} from '../model/Bounds';
-import {FeatureMark} from './FeatureMark';
-import {MapBackbone} from './MapBackbone';
-import {FeatureLabel} from './FeatureLabel';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
+import { Group } from '../node/SceneGraphNodeGroup';
+import {Bounds} from '../../model/Bounds';
+import {FeatureMark} from '../geometry/FeatureMark';
+import {MapBackbone} from '../geometry/MapBackbone';
+import {FeatureLabel} from '../geometry/FeatureLabel';
 
 export class  MapTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log('mapTrack',this.parent);
     const b = this.parent.bounds;
+    console.log('mapTrack',this.parent,b);
+    let bioModel = this.parent.model;
     //const backboneWidth = b.width * 0.2;
     const backboneWidth =  60;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height * 0.025,
+      top: b.top,
       left: b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
-      height: b.height * 0.95
+      height: b.height
     });
     this.mC = this.parent.mapCoordinates;
-    this.backbone = new MapBackbone({ parent: this});	
+    console.log('loading backbone', this, bioModel);
+    this.backbone = new MapBackbone({ parent: this, bioMap: bioModel});	
     this.addChild(this.backbone);
 
+    // calculate scale factor between backbone coordinates in pixels
+    bioModel.view.pixelScaleFactor = this.backbone.bounds.height/bioModel.length;
+    bioModel.view.backbone = this.globalBounds;
+
+    // Setup groups for markers and labels
     let markerGroup = new Group({parent:this});
     this.addChild(markerGroup);
-
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
     this.addChild(markerGroup);
-    
     let labelGroup = new Group({parent:this});
     this.addChild(labelGroup);
     this.labelGroup = labelGroup;
     labelGroup.bounds = new Bounds({
-      top: this.backbone.bounds.top,
+      top: 0,
       left: this.backbone.bounds.right + 1,
-      height: this.backbone.bounds.height,
+      height: this.bounds.height,
       width: 20
     });
 
-    this.filteredFeatures = this.parent.model.features.filter( model => {
+    // Filter features for drawing
+    this.filteredFeatures = bioModel.features.filter( model => {
       return model.length <= 0.00001;
     });
 
+    //Place features and their labels, prepare to add to rtree
     let fmData = [];
     let lmData = [];
     this.featureMarks = this.filteredFeatures.map( model => {
       let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
-        bioMap: this.parent.model
+        bioMap: bioModel
       });
 
       let lm = new FeatureLabel({
@@ -82,19 +89,20 @@ export class  MapTrack extends SceneGraphNodeTrack {
         maxX: lm.globalBounds.right,
         data: lm
       });
-
       return fm;
     });
 
+    // Load group rtrees for markers and labels
     markerGroup.locMap.load(fmData);
     labelGroup.locMap.load(lmData);
     console.log(fmData);
+    // load this rtree with markers (elements that need hit detection)
     this.locMap.load(fmData);
   }
 
   get visible(){
-    let coord = this.mapCoordinates.base;
-    let visc = this.mapCoordinates.visible;
+    let coord = this.parent.model.view.base;
+    let visc = this.parent.model.view.visible;
     let vis = [{
       minX: this.bounds.left,
       maxX: this.bounds.right,
@@ -127,6 +135,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
      }
     }
     vis = vis.concat(labels);
+    //vis = vis.concat([{data:this}]);
     return vis;
   }
 
@@ -134,13 +143,32 @@ export class  MapTrack extends SceneGraphNodeTrack {
     let bbGb = this.backbone.globalBounds;
     return this.markerGroup.children.map( child =>{
       return {
-        minY: child.globalBounds.bottom,
-        maxY: child.globalBounds.top,
+        minY: child.globalBounds.bottom+1,
+        maxY: child.globalBounds.top-1,
         minX: bbGb.left ,
         maxX: bbGb.right ,
         data: child
       };
     });
+  }
+
+  draw(ctx){
+    let gb = this.globalBounds || {};
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(
+      Math.floor(gb.left),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );   
+    ctx.fillStyle = 'green';
+    gb = this.labelGroup.globalBounds || {};
+    ctx.fillRect(
+      Math.floor(gb.left),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );   
   }
 
   loadLabelMap(){

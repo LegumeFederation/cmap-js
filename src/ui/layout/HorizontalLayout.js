@@ -9,8 +9,9 @@ import PubSub from 'pubsub-js';
 import {dataLoaded, mapAdded, mapRemoved, reset} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
-import {BioMap as BioMapComponent} from '../../canvas/BioMap';
-import {CorrespondenceMap as CorrMapComponent} from '../../canvas/CorrespondenceMap';
+import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
+import {CorrespondenceMap as CorrMapComponent} from '../../canvas/layout/CorrespondenceMap';
+import {Popover} from '../menus/Popover';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout
@@ -26,6 +27,8 @@ export class HorizontalLayout
     super.oninit(vnode);
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
+    this.popoverComponents=[];
+		this.swapComponents=[];
     const handler = () => this._onDataLoaded();
     this.subscriptions = [
       // all of these topics have effectively the same event handler for
@@ -49,7 +52,8 @@ export class HorizontalLayout
    */
   view() {
     return m('div.cmap-layout-horizontal',
-      [].concat(this.bioMapComponents, this.correspondenceMapComponents).map(m)
+        [this.swapComponents,this.bioMapComponents.map(m),this.correspondenceMapComponents.map(m),
+        this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
 
@@ -58,9 +62,54 @@ export class HorizontalLayout
    */
   _onDataLoaded() {
     this._layoutBioMaps();
+		this._layoutSwapComponents();
     this._layoutCorrespondenceMaps();
+    this._layoutPopovers();
     m.redraw();
   }
+
+	_layoutSwapComponents(){
+		this.swapComponents = [];
+    let n = this.bioMapComponents.length;
+		let maps = this;
+    for (var i = 0; i < n; i++) {
+			let bMap = this.bioMapComponents[i];
+      console.log('swap test',bMap);
+			const b = i;
+			let left ='',right='';
+			if(b>0){
+				left = m('div', {class:'swap-map-order', onclick: function() {
+						if(b > 0){
+							const tmp = maps.appState.bioMaps[b-1];
+							maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
+							maps.appState.bioMaps[b] = tmp;
+							maps._onDataLoaded();
+						}
+			    }},'<');
+			} else {
+				left = m('div', {class:'swap-map-order',style:'background:#ccc;'},'<');
+      }
+
+			if(b< n-1){
+					right = m('div', {class:'swap-map-order', onclick: function() {
+						if(b < n-1){
+							const tmp = maps.appState.bioMaps[b];
+							maps.appState.bioMaps[b] = maps.appState.bioMaps[b+1];
+							maps.appState.bioMaps[b+1] = tmp;
+							maps._onDataLoaded();
+			      }
+			    }},'>');
+			} else {
+				right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
+      }
+	
+			this.swapComponents.push( m('div', {
+			 class: 'swap-div', id: `swap-${i}`,
+			 style: `position:absolute; left: ${Math.floor(bMap.domBounds.right-bMap.domBounds.width*.75)}px; top: ${bMap.domBounds.top}px;`},
+				[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
+		}
+		
+	}
 
   /**
    * Horizonal (left to right) layout of BioMaps
@@ -76,7 +125,7 @@ export class HorizontalLayout
       let layoutBounds = new Bounds({
         left: cursor,
         top: 10,
-        width: 0, // will be calculated by bioMap
+        width: Math.floor(this.bounds.width), // will be calculated by bioMap
         height: childHeight
       });
       let component = new BioMapComponent({
@@ -89,8 +138,16 @@ export class HorizontalLayout
       return component;
     });
   }
+  _layoutPopovers(){
+    this.popoverComponents = this.bioMapComponents.map( model => {
+      let component = new Popover();
+      component.info = model.info;
+      component.domBounds = model.domBounds;
+      return component;
+    });
+  }
 
-  /**
+	/**
    * Horizontal layout of Correspondence Maps. In this layout, for N maps there
    * are N -1 correspondence maps.
    */
@@ -103,8 +160,8 @@ export class HorizontalLayout
       let left = this.bioMapComponents[i];
       let right = this.bioMapComponents[i+1];
       let layoutBounds = new Bounds({
-        left: Math.floor(left.domBounds.right - left.domBounds.width * 0.5),
-        right: Math.floor(right.domBounds.left + right.domBounds.width * 0.5),
+        left: Math.floor(left.domBounds.left+left.backbone.globalBounds.right),
+        right: Math.floor(right.domBounds.left+right.backbone.globalBounds.left),
         top: 10,
         height: childHeight
       });
@@ -125,10 +182,13 @@ export class HorizontalLayout
    */
   _onReset(){
     this.bioMapComponents.forEach(item => {
-      item.mapCoordinates.visible = item.mapCoordinates.base;
+      item.model.view.visible = item.model.view.base;
+      item.verticalScale = 1.0;
+      item.info.visible = 'hidden';
     });
-    [].forEach.call(this.el.children, el =>{
-      el.mithrilComponent.draw();
+    [].forEach.call(document.getElementsByClassName('cmap-canvas'), el =>{
+       el.mithrilComponent.draw();
     });
+    m.redraw();
   }
 }

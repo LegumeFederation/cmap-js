@@ -3,12 +3,21 @@ html, body {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  font-family: Nunito,HelveticaNeue,Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 
 #cmap-ui {
   width: calc(100% - 2rem);
   height: calc(100% - 2rem);
   margin: 2rem;
+  margin-top: 0rem;
+}
+#cmap-disclaimer {
+  font-size: 20px;
+  color: red;
+  border: solid 2px black;
+  border-radius: 8px;
+  padding: 10px;
 }
 
 .cmap-vbox {
@@ -117,4 +126,63 @@ span.cmap-map-name-chip {
   border-radius: 4px;
   padding: 0.2rem 1rem 0.2rem 1rem;
   margin-right: 0.5rem;
+}
+
+.biomap-info {
+  width: 15em;
+  height: 10em;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: white;
+  position: absolute;
+  display: inline-block;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.biomap-info-name {
+  margin: 5px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background:white;
+  text-align: center;
+}
+
+.biomap-info-name:hover {
+  background:#ccc;
+}
+
+.biomap-info-data {
+  margin: 5px 20px 5px 20px;
+}
+.swap-div{
+  opacity:50%;
+  z-index:100;
+  display:flex;
+}
+.swap-map-order{
+  margin: 5px 10px 5px 10px;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: white;
+  text-align:center;
+  opacity:0.5;
+}
+.swap-map-order:hover {
+  background:#ccc;
+}
+.map-title{
+  margin: 5px 10px 5px 10px;
+  padding: 5px 10px 5px 10px;
+  text-align: center;
+  background: white;
+}
+
+.cmap-biomap{
+  border: 1px dashed black;
+  border-radius: 4px;
+}
+.cmap-correspondence-map{
+  /*border:1px dashed aqua;*/
 }

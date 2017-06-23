@@ -3,30 +3,28 @@
   * A SceneGraphNode representing a backbone, simply a rectangle representing
   * the background.
   */
-import {SceneGraphNodeBase} from './SceneGraphNodeBase';
-import {Bounds} from '../model/Bounds';
+import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
+import {Bounds} from '../../model/Bounds';
 
 export class MapBackbone extends SceneGraphNodeBase {
 
-  constructor(params) {
-    super(params);
-    console.log('AddingBackbone');
-    const b = params.parent.bounds;
-    const backboneWidth = this.parent.bounds.width;
+  constructor({parent, bioMap}) {
+    super({parent});
+    const b = parent.bounds;
+    const backboneWidth = parent.bounds.width;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height * 0.025,
+      top: 0,
       left: b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
-      height: b.height * 0.95
+      height: b.height
     });
-    console.log(this);
+    bioMap.view.backbone = this.globalBounds;
   }
 
   draw(ctx) {
-    console.log('drawingBackbone');
     let gb = this.globalBounds || {};
-    console.log(gb);
+    console.log('drawing', gb);
     ctx.fillStyle = '#fff6e8';
     ctx.fillRect(
       Math.floor(gb.left),
