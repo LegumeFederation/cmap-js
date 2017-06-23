@@ -133,6 +133,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       }
 		});
     if(hits.length > 0){
+      hits.sort((a,b) => { return a.model.coordinates.start - b.model.coordinates.start;});
 			this.info.display = 'inline-block';
 			this.info.top = hits[0].globalBounds.top;
 			this.info.left = hits[0].globalBounds.right;
@@ -284,6 +285,7 @@ export class BioMap extends SceneGraphNodeCanvas {
           }
 		    });
         if(hits.length > 0){
+          hits.sort((a,b) => { return a.model.coordinates.start - b.model.coordinates.start;});
 		    	this.info.display = 'inline-block';
 		    	this.info.top = this.ruler.globalBounds.top;
 		    	this.info.left = 0;
