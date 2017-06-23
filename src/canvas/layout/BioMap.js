@@ -238,18 +238,84 @@ export class BioMap extends SceneGraphNodeCanvas {
       this._moveRuler(evt);
     } else {
       let globalPos = this._pageToCanvas(evt);
-      this.zoomP.stop = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top);
       
-      if(this.zoomP.stop > this.model.view.base.stop){
-        this.zoomP.stop = this.model.view.base.stop;
+      // test if any part of the box select is in the ruler zone
+      let rLeft = this.ruler.globalBounds.left;
+      let rRight = this.ruler.globalBounds.right;
+      let lCorner = this.zoomP.corner.left < globalPos.x ? this.zoomP.corner.left : globalPos.x;
+      let rCorner = lCorner == this.zoomP.corner.left ? globalPos.x : this.zoomP.corner.left;
+      // if zoom rectangle contains the ruler, zoom, else populate popover
+      if(((lCorner <= rLeft) && (rCorner >= rLeft)) || ((lCorner <= rRight && rCorner >= rRight))){
+        this.model.view.visible = this.model.view.base;
+
+        this.zoomP.start = this._pixelToCoordinate(this.zoomP.corner.top-this.ruler.globalBounds.top);
+        this.zoomP.stop = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top);
+        let swap = this.zoomP.start < this.zoomP.stop;
+        let zStart = swap ? this.zoomP.start: this.zoomP.stop;
+        let zStop = swap ? this.zoomP.stop: this.zoomP.start;
+
+        if(zStart < this.model.view.base.start){
+          zStart = this.model.view.base.start;
+        }
+        if(zStop > this.model.view.base.stop){
+          zStop = this.model.view.base.stop;
+        }
+
+        this._redrawViewport({start:zStart, stop:zStop});
+      } else {
+
+        this._loadHitMap();
+        let hits = [];
+        let swap = this.zoomP.corner.left < globalPos.x;
+        console.log('zoom',this.hitMap.search({
+          minX: swap ? this.zoomP.corner.left: globalPos.x,
+          maxX: swap ? globalPos.x : this.zoomP.corner.left,
+          minY: this.zoomP.corner.top,
+          maxY: globalPos.y
+        })); 
+        this.hitMap.search({
+          minX: swap ? this.zoomP.corner.left: globalPos.x,
+          maxX: swap ? globalPos.x : this.zoomP.corner.left,
+          minY: this.zoomP.corner.top,
+          maxY: globalPos.y
+        }).forEach(hit => { 
+          // temp fix, find why hit map stopped updating properly
+          if((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
+            (hit.data.model.coordinates.start <= this.model.view.visible.stop)){
+            hits.push(hit.data);
+          } else if((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
+            (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
+            hits.push(hit.data);
+          }
+		    });
+        if(hits.length > 0){
+		    	this.info.display = 'inline-block';
+		    	this.info.top = this.ruler.globalBounds.top;
+		    	this.info.left = 0;
+          this.info.data = hits;
+		    	let names = hits.map(hit => { return hit.model.name; });
+          this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
+		      m.redraw();
+        } else if(this.info.display !== 'none'){
+          this.info.display = 'none';
+		      m.redraw();
+        }
       }
-      
-      let zStart = this.zoomP.start <= this.zoomP.stop ? this.zoomP.start : this.zoomP.stop;
-      let zStop = this.zoomP.stop >= this.zoomP.start ? this.zoomP.stop : this.zoomP.start;
-      this._redrawViewport({start:zStart, stop:zStop});
     }
-    this.zoomP.ruler = false;
-    this.zoomP.pStart = false;
+    this.draw();
+    this.zoomP = {  
+      start:0,
+      end:0,
+      pStart: false,
+      ruler: false,
+      delta:0,
+      corner: {
+        top: 0,
+        left: 0
+      }
+    };
+//    this.zoomP.ruler = false;
+//    this.zoomP.pStart = false;
     return true; // do not stop propagation
 	}
     /**
@@ -351,7 +417,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       el.mithrilComponent.draw();
     });
     // move top of popover if currently visible
-    if(this.info.visible !== 'hidden'){
+    if(this.info.display !== 'none'){
       this.info.top = this.info.data[0].globalBounds.top;
     }
     m.redraw();
