@@ -10,6 +10,14 @@ html, body {
   width: calc(100% - 2rem);
   height: calc(100% - 2rem);
   margin: 2rem;
+  margin-top: 0rem;
+}
+#cmap-disclaimer {
+  font-size: 20px;
+  color: red;
+  border: solid 2px black;
+  border-radius: 8px;
+  padding: 10px;
 }
 
 .cmap-vbox {
