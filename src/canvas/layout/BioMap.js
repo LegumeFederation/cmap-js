@@ -267,17 +267,12 @@ export class BioMap extends SceneGraphNodeCanvas {
         this._loadHitMap();
         let hits = [];
         let swap = this.zoomP.corner.left < globalPos.x;
-        console.log('zoom',this.hitMap.search({
-          minX: swap ? this.zoomP.corner.left: globalPos.x,
-          maxX: swap ? globalPos.x : this.zoomP.corner.left,
-          minY: this.zoomP.corner.top,
-          maxY: globalPos.y
-        })); 
+        let swapV = this.zoomP.corner.top < globalPos.y
         this.hitMap.search({
           minX: swap ? this.zoomP.corner.left: globalPos.x,
           maxX: swap ? globalPos.x : this.zoomP.corner.left,
-          minY: this.zoomP.corner.top,
-          maxY: globalPos.y
+          minY: swapV ? this.zoomP.corner.top : globalPos.y,
+          maxY: swapV ? globalPos.y : this.zoomP.corner.top
         }).forEach(hit => { 
           // temp fix, find why hit map stopped updating properly
           if((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
