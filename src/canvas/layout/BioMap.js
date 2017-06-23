@@ -81,6 +81,8 @@ export class BioMap extends SceneGraphNodeCanvas {
    * the items on the canvas. 
    *
    */
+
+  // mousewheel event
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -108,7 +110,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._redrawViewport({start:zStart,stop:zStop});    
     return true; // stop event propagation
   }
-
+ 
+  // return hits in case of tap/click event
   _onTap(evt) {
     console.log('BioMap -> tap dat', evt, this);
     let globalPos = this._pageToCanvas(evt);
@@ -120,7 +123,14 @@ export class BioMap extends SceneGraphNodeCanvas {
       minY: globalPos.y-2,
       maxY: globalPos.y+2
     }).forEach(hit => { 
-      hits.push(hit.data);//.model.name,hit.data.model.coordinates.start]);
+      // temp fix, find why hit map stopped updating properly
+      if((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
+        (hit.data.model.coordinates.start <= this.model.view.visible.stop)){
+        hits.push(hit.data);
+      } else if((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
+        (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
+        hits.push(hit.data);
+      }
 		});
     if(hits.length > 0){
 			this.info.display = 'inline-block';
@@ -137,10 +147,19 @@ export class BioMap extends SceneGraphNodeCanvas {
 
     return true;
   }
+
+  // Setup selection context for pan event
 	_onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
-    this.zoomP = {};
+    this.zoomP = {  
+      start:0,
+      end:0,
+      pStart: true,
+      ruler: false,
+      delta:0,
+      corner: 0
+    };
     this.zoomP.pStart = true;
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
     let globalPos = this._pageToCanvas(evt);
@@ -149,9 +168,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // scroll view vs box select
     if(left < (globalPos.x-evt.deltaX) && 
       (globalPos.x-evt.deltaX) < (left+this.ruler.bounds.width)){
-      console.log("tap ruler");
       this.zoomP.ruler = true;
-      this.zoomP.delta = 0;
       this._moveRuler(evt);
     } else { 
       this.zoomP.ruler = false;
@@ -166,12 +183,14 @@ export class BioMap extends SceneGraphNodeCanvas {
       ctx.strokeRect(
         Math.floor(globalPos.x-evt.deltaX),
         Math.floor(globalPos.y-evt.deltaY),
-        Math.floor(globalPos.x),
-        Math.floor(globalPos.y)
+        Math.floor(evt.deltaX),
+        Math.floor(evt.deltaY)
       );
     }
     return true;
   }
+
+  // Moves ruler position on drag event
   _moveRuler(evt){
     console.log('delta',evt.deltaY - this.zoomP.delta);
     let delta = (evt.deltaY - this.zoomP.delta) / this.model.view.pixelScaleFactor;
@@ -287,7 +306,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       left: 0,
       top: layoutBounds.top + 40,
       width: this.domBounds.width,
-      height: Math.floor(this.domBounds.height - 120) // set to reasonably re-size for smaller windows
+      height: Math.floor(this.domBounds.height - 140) // set to reasonably re-size for smaller windows
     });
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
@@ -311,6 +330,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     let childrenHits = this.children.map(child => {
       return child.hitMap;
     });
+    console.log('hit map', childrenHits);
     childrenHits.forEach(child =>{
       hits = hits.concat(child);
     });
