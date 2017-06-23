@@ -181,7 +181,8 @@ span.cmap-map-name-chip {
 
 .cmap-biomap{
   border: 1px dashed black;
+  border-radius: 4px;
 }
 .cmap-correspondence-map{
-  border:1px dashed aqua;
+  /*border:1px dashed aqua;*/
 }
