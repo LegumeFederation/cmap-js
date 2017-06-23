@@ -23,7 +23,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
 		return m('div', {
        class: 'biomap-info',
        style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
-               visibility: ${info.visible};`,
+               display: ${info.display};`,
      },this._generateInner(info.data));
   }
 

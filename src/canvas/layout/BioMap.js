@@ -41,7 +41,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.info = {
       top:0,
       left:0,
-      visible:'hidden'
+      display:'none'
     };
 
     // create some regular expressions for faster dispatching of events
@@ -81,6 +81,8 @@ export class BioMap extends SceneGraphNodeCanvas {
    * the items on the canvas. 
    *
    */
+
+  // mousewheel event
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -108,48 +110,66 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._redrawViewport({start:zStart,stop:zStop});    
     return true; // stop event propagation
   }
-
+ 
+  // return hits in case of tap/click event
   _onTap(evt) {
     console.log('BioMap -> tap dat', evt, this);
     let globalPos = this._pageToCanvas(evt);
     this._loadHitMap();
     let hits = [];
-		this.info.visible = 'hidden';
-		this.info.top = globalPos.y;
-		this.info.left = globalPos.x;
     this.hitMap.search({
       minX: globalPos.x,
       maxX: globalPos.x,
       minY: globalPos.y-2,
       maxY: globalPos.y+2
     }).forEach(hit => { 
-      hits.push(hit.data);//.model.name,hit.data.model.coordinates.start]);
+      // temp fix, find why hit map stopped updating properly
+      if((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
+        (hit.data.model.coordinates.start <= this.model.view.visible.stop)){
+        hits.push(hit.data);
+      } else if((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
+        (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
+        hits.push(hit.data);
+      }
 		});
     if(hits.length > 0){
-			this.info.visible = 'true';
+      hits.sort((a,b) => { return a.model.coordinates.start - b.model.coordinates.start;});
+			this.info.display = 'inline-block';
 			this.info.top = hits[0].globalBounds.top;
 			this.info.left = hits[0].globalBounds.right;
       this.info.data = hits;
 			let names = hits.map(hit => { return hit.model.name; });
       this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
+		  m.redraw();
+    } else if(this.info.display !== 'none'){
+      this.info.display = 'none';
+		  m.redraw();
     }
-		m.redraw();
 
     return true;
   }
+
+  // Setup selection context for pan event
 	_onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
-    this.zoomP = {};
+    this.zoomP = {  
+      start:0,
+      end:0,
+      pStart: true,
+      ruler: false,
+      delta:0,
+      corner: 0
+    };
     this.zoomP.pStart = true;
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
     let globalPos = this._pageToCanvas(evt);
-    let left = this.ruler.globalBounds.left - this.ruler.textWidth;
+    let left = this.ruler.globalBounds.left;
+    console.log( "pan start", left, globalPos);
     // scroll view vs box select
     if(left < (globalPos.x-evt.deltaX) && 
       (globalPos.x-evt.deltaX) < (left+this.ruler.bounds.width)){
       this.zoomP.ruler = true;
-      this.zoomP.delta = 0;
       this._moveRuler(evt);
     } else { 
       this.zoomP.ruler = false;
@@ -164,12 +184,14 @@ export class BioMap extends SceneGraphNodeCanvas {
       ctx.strokeRect(
         Math.floor(globalPos.x-evt.deltaX),
         Math.floor(globalPos.y-evt.deltaY),
-        Math.floor(globalPos.x),
-        Math.floor(globalPos.y)
+        Math.floor(evt.deltaX),
+        Math.floor(evt.deltaY)
       );
     }
     return true;
   }
+
+  // Moves ruler position on drag event
   _moveRuler(evt){
     console.log('delta',evt.deltaY - this.zoomP.delta);
     let delta = (evt.deltaY - this.zoomP.delta) / this.model.view.pixelScaleFactor;
@@ -217,18 +239,80 @@ export class BioMap extends SceneGraphNodeCanvas {
       this._moveRuler(evt);
     } else {
       let globalPos = this._pageToCanvas(evt);
-      this.zoomP.stop = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top);
       
-      if(this.zoomP.stop > this.model.view.base.stop){
-        this.zoomP.stop = this.model.view.base.stop;
+      // test if any part of the box select is in the ruler zone
+      let rLeft = this.ruler.globalBounds.left;
+      let rRight = this.ruler.globalBounds.right;
+      let lCorner = this.zoomP.corner.left < globalPos.x ? this.zoomP.corner.left : globalPos.x;
+      let rCorner = lCorner == this.zoomP.corner.left ? globalPos.x : this.zoomP.corner.left;
+      // if zoom rectangle contains the ruler, zoom, else populate popover
+      if(((lCorner <= rLeft) && (rCorner >= rLeft)) || ((lCorner <= rRight && rCorner >= rRight))){
+        this.model.view.visible = this.model.view.base;
+
+        this.zoomP.start = this._pixelToCoordinate(this.zoomP.corner.top-this.ruler.globalBounds.top);
+        this.zoomP.stop = this._pixelToCoordinate(globalPos.y-this.ruler.globalBounds.top);
+        let swap = this.zoomP.start < this.zoomP.stop;
+        let zStart = swap ? this.zoomP.start: this.zoomP.stop;
+        let zStop = swap ? this.zoomP.stop: this.zoomP.start;
+
+        if(zStart < this.model.view.base.start){
+          zStart = this.model.view.base.start;
+        }
+        if(zStop > this.model.view.base.stop){
+          zStop = this.model.view.base.stop;
+        }
+
+        this._redrawViewport({start:zStart, stop:zStop});
+      } else {
+
+        this._loadHitMap();
+        let hits = [];
+        let swap = this.zoomP.corner.left < globalPos.x;
+        let swapV = this.zoomP.corner.top < globalPos.y
+        this.hitMap.search({
+          minX: swap ? this.zoomP.corner.left: globalPos.x,
+          maxX: swap ? globalPos.x : this.zoomP.corner.left,
+          minY: swapV ? this.zoomP.corner.top : globalPos.y,
+          maxY: swapV ? globalPos.y : this.zoomP.corner.top
+        }).forEach(hit => { 
+          // temp fix, find why hit map stopped updating properly
+          if((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
+            (hit.data.model.coordinates.start <= this.model.view.visible.stop)){
+            hits.push(hit.data);
+          } else if((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
+            (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
+            hits.push(hit.data);
+          }
+		    });
+        if(hits.length > 0){
+          hits.sort((a,b) => { return a.model.coordinates.start - b.model.coordinates.start;});
+		    	this.info.display = 'inline-block';
+		    	this.info.top = this.ruler.globalBounds.top;
+		    	this.info.left = 0;
+          this.info.data = hits;
+		    	let names = hits.map(hit => { return hit.model.name; });
+          this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
+		      m.redraw();
+        } else if(this.info.display !== 'none'){
+          this.info.display = 'none';
+		      m.redraw();
+        }
       }
-      
-      let zStart = this.zoomP.start <= this.zoomP.stop ? this.zoomP.start : this.zoomP.stop;
-      let zStop = this.zoomP.stop >= this.zoomP.start ? this.zoomP.stop : this.zoomP.start;
-      this._redrawViewport({start:zStart, stop:zStop});
     }
-    this.zoomP.ruler = false;
-    this.zoomP.pStart = false;
+    this.draw();
+    this.zoomP = {  
+      start:0,
+      end:0,
+      pStart: false,
+      ruler: false,
+      delta:0,
+      corner: {
+        top: 0,
+        left: 0
+      }
+    };
+//    this.zoomP.ruler = false;
+//    this.zoomP.pStart = false;
     return true; // do not stop propagation
 	}
     /**
@@ -273,19 +357,19 @@ export class BioMap extends SceneGraphNodeCanvas {
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
     console.log('BioMap -> layout');
-    const width = 500;
+    const width = Math.floor(layoutBounds.width/this.appState.bioMaps.length);
     this.children = [];
     this.domBounds = new Bounds({
       left: layoutBounds.left,
       top: layoutBounds.top,
-      width: width,
+      width: width > 300 ? width:300,
       height: layoutBounds.height
     });
     this.bounds = new Bounds({
       left: 0,
-      top: 0,
+      top: layoutBounds.top + 40,
       width: this.domBounds.width,
-      height: this.domBounds.height
+      height: Math.floor(this.domBounds.height - 140) // set to reasonably re-size for smaller windows
     });
     //Add children tracks
     this.backbone = new MapTrack({parent:this});
@@ -294,8 +378,12 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.ruler = new Ruler({parent:this, bioMap:this.model});
     this.children.push(this.ruler);
     let qtl  = new QtlTrack({parent:this});
+    //console.log('QTL Loc', this.domBounds.width, qtl.globalBounds.right);
+    if(this.domBounds.width < qtl.globalBounds.right){
+      this.domBounds.width = qtl.globalBounds.right + 20;
+    }
     this.children.push(qtl);
-    // load local rBush tree for hit detection
+    //load local rBush tree for hit detection
     this._loadHitMap();
     m.redraw();
   }
@@ -305,6 +393,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     let childrenHits = this.children.map(child => {
       return child.hitMap;
     });
+    console.log('hit map', childrenHits);
     childrenHits.forEach(child =>{
       hits = hits.concat(child);
     });
@@ -325,7 +414,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       el.mithrilComponent.draw();
     });
     // move top of popover if currently visible
-    if(this.info.visible !== 'hidden'){
+    if(this.info.display !== 'none'){
       this.info.top = this.info.data[0].globalBounds.top;
     }
     m.redraw();

@@ -76,7 +76,7 @@ export class QTL extends SceneGraphNodeBase {
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
-      Math.floor(gb.width),
+      Math.floor(10),
       Math.floor(gb.height)
     );
 

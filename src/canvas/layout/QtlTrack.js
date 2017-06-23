@@ -11,15 +11,15 @@ export class  QtlTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log('mapTrack',this.parent.backbone.labelGroup.globalBounds.right);
+    console.log('mapTrack',this.parent.domBounds);
     const b = this.parent.bounds;
     const backboneWidth = b.width * 0.25;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height * 0.025,
-      left: 200,
-      width: backboneWidth*.75,
-      height: b.height * 0.95
+      top: this.parent.bounds.top,
+      left: this.parent.backbone.bounds.right + 100,
+      width: 50,
+      height: b.height
     });
     this.mapCoordinates = this.parent.mapCoordinates;
 
@@ -27,16 +27,22 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     this.addChild(qtlGroup);
     this.qtlGroup = qtlGroup;
 
-    qtlGroup.bounds = this.bounds;
+    qtlGroup.bounds = new Bounds({
+        top:0,
+        left:0,
+        width:20,
+        height: b.height
+    });
     this.filteredFeatures = this.parent.model.features.filter( model => {
       return model.length > 1;
     });
     console.log('filtered features', this.filteredFeatures);
     let fmData = [];
+    this.maxLoc = 0;
     this.qtlMarks = this.filteredFeatures.map( model => {
       let fm = new QTL ({
         featureModel: model,
-        parent: qtlGroup,
+        parent: this.qtlGroup,
         bioMap: this.parent.model
       });
       qtlGroup.addChild(fm);
@@ -49,23 +55,31 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         data:fm
       };
       qtlGroup.locMap.insert(loc);
-
       fmData.push(loc);
+      if(fm.globalBounds.right > this.globalBounds.right){
+        this.bounds.right = this.globalBounds.left + fm.bounds.right;
+      }
       return fm;
     });
-    console.log(qtlGroup.children.length);
     this.locMap.load(fmData);
     console.log('visible qtls',this.visible);
   }
 
   get visible(){
     return this.locMap.all();
-    //return this.locMap.search({
-    //  minX: this.bounds.left,
-    //  maxX: this.bounds.right,
-    //  minY: this.mapCoordinates.visible.start,
-    //  maxY: this.mapCoordinates.visible.stop
-    //});
+    //return this.locMap.all().concat([{data:this}]);
+  }
+  
+  draw(ctx){
+    console.log(this.parent.backbone.labelGroup.globalBounds);
+    let gb = this.globalBounds || {};
+    ctx.fillStyle = 'red';
+    ctx.fillRect(
+      Math.floor(this.parent.backbone.labelGroup.globalBounds.right),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );
   }
 
   get hitMap(){

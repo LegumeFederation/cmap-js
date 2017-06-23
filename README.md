@@ -1,4 +1,10 @@
 # cmap-js
+```
+CMAP-JS IS SOFTWARE STILL IN DEVELOPMENT. FEATURES AND LAYOUT ARE SUBJECT
+TO CHANGE WITHOUT NOTICE. PLEASE LEAVE FEEDBACK WITH THE PROJECT IF YOU
+HAVE ANY REQUESTS FOR ADDED FEATURES OR INTERFACE CHANGES SO THAT THEY CAN
+BE CONSIDERED.
+```
 
 Display and compare biological maps (genetic, physical, cytogenetic, genomic;
 linkage groups, chromosomes, scaffolds).
@@ -44,3 +50,28 @@ from the root of the server. The format of `cmap.json` is specified in
 ```
 npm run validate-config  # run ajv to validate cmap-schema.json with cmap.json
 ```
+
+## Using CMAP-JS
+Clicking on a marker or a QTL region will bring up a popup with more 
+information about whatever is clicked on. This may have one-or-more features
+if density is high enough.
+
+Clicking on the aqua position bar and dragging will pan the current backbone
+position if you are zoomed in at all.
+
+If you click-and-drag, a box will appear. Ending the drag will have two
+different behaviors, depending on the selected area.
+
+If the position bar isn't included in the selected area, a popup will appear
+with all the elements that occur in selected region.
+
+If the position bar is included in the selected area, the view will zoom to
+the selected region.
+
+Zoom may also adjusted by using the mouse wheel, similar to Google Maps.
+
+Using the white boxes with arrows at the top of a map swaps map position with
+its neighbor. Maps may be added and removed from display using the as labeled
+buttons.
+
+

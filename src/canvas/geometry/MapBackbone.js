@@ -14,17 +14,17 @@ export class MapBackbone extends SceneGraphNodeBase {
     const backboneWidth = parent.bounds.width;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.height * 0.025,
+      top: 0,
       left: b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
-      height: b.height * 0.95
+      height: b.height
     });
-    console.log(bioMap);
     bioMap.view.backbone = this.globalBounds;
   }
 
   draw(ctx) {
     let gb = this.globalBounds || {};
+    console.log('drawing', gb);
     ctx.fillStyle = '#fff6e8';
     ctx.fillRect(
       Math.floor(gb.left),

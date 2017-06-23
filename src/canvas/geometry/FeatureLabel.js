@@ -27,15 +27,15 @@ export class FeatureLabel extends SceneGraphNodeBase {
   draw(ctx) {
     let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
     this.bounds.top = y;
-    this.bounds.bottom = this.bounds.top + 12;
+    this.bounds.bottom = y + 12;
     let gb = this.globalBounds || {};
     ctx.font = `${this.fontSize} ${this.fontFace}`;
     ctx.textAlign = 'left';
     ctx.fillStyle = this.fontColor;
-    ctx.fillText(this.model.name,gb.left,(gb.top + gb.height/3));
+    ctx.fillText(this.model.name,gb.left, gb.top);
     // reset bounding box to fit the new stroke location/width
-    this.bounds.right = ctx.measureText(this.model.name).width;
-    if(this.parent.bounds.right < this.bounds.right) this.parent.bounds.right = this.bounds.right;
+    this.bounds.right = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width)+1;
+    if(this.parent.bounds.width < this.bounds.width) this.parent.bounds.width = this.bounds.width;
   }
 
   _translateScale(point){
