@@ -26,6 +26,9 @@ here.
     ```
     npm install
     ```
+### Potential Issues
+There has been a report of node getting stuck during install on macOS. This is
+not a cmap-js issue, but should be fixable following the directions found [here](http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/).
 
 ## Build and Tests
 
