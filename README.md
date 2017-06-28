@@ -40,6 +40,9 @@ npm run coverage # mocha and istanbul coverage report
 npm run watch    # build, watch and livereload
 ```
 
+Watch script has only been tested on macOS systems, and may not work on other
+platforms.
+
 ## Configuration File
 
 The `cmap.json` file has configuration parameters such as data sources, page
