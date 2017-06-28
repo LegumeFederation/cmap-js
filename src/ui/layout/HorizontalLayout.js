@@ -79,13 +79,14 @@ export class HorizontalLayout
 			let left ='',right='';
 			if(b>0){
 				left = m('div', {class:'swap-map-order', onclick: function() {
-						if(b > 0){
-							const tmp = maps.appState.bioMaps[b-1];
-							maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
-							maps.appState.bioMaps[b] = tmp;
-							maps._onDataLoaded();
-						}
-			    }},'<');
+          if(b > 0){
+						const tmp = maps.appState.bioMaps[b-1];
+						maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
+						maps.appState.bioMaps[b] = tmp;
+						maps._onDataLoaded();
+					}
+        }
+        },'<');
 			} else {
 				left = m('div', {class:'swap-map-order',style:'background:#ccc;'},'<');
       }
@@ -97,15 +98,15 @@ export class HorizontalLayout
 							maps.appState.bioMaps[b] = maps.appState.bioMaps[b+1];
 							maps.appState.bioMaps[b+1] = tmp;
 							maps._onDataLoaded();
-			      }
-			    }},'>');
-			} else {
-				right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
+            }
+          }},'>');
+      } else {
+        right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
       }
 	
 			this.swapComponents.push( m('div', {
-			 class: 'swap-div', id: `swap-${i}`,
-			 style: `position:absolute; left: ${Math.floor(bMap.domBounds.right-bMap.domBounds.width*.75)}px; top: ${bMap.domBounds.top}px;`},
+        class: 'swap-div', id: `swap-${i}`,
+        style: `position:absolute; left: ${Math.floor(bMap.domBounds.right-bMap.domBounds.width*.75)}px; top: ${bMap.domBounds.top}px;`},
 				[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
 		}
 		

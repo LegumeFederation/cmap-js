@@ -28,10 +28,13 @@ describe('Ruler test', function() {
         pixelScaleFactor: 1
       }
     };
+    parent.bounds =  new Bounds({top:0,left:0,width:20,height:20});
+    parent.backbone = {};
+    parent.backbone.bounds = bounds;
     let ruler = new Ruler({parent,bioMap:model});
     let rulerBounds = new Bounds({
-      top: bounds.top,
-      left: bounds.left -20,
+      top: parent.bounds.top,
+      left: bounds.left -15,
       width: 10,
       height: bounds.height,
       allowSubpixel: false
@@ -65,10 +68,13 @@ describe('Ruler test', function() {
         pixelScaleFactor: 1
       }
     };
+    parent.bounds =  new Bounds({top:0,left:0,width:20,height:20});
+    parent.backbone = {};
+    parent.backbone.bounds = bounds;
     let ruler = new Ruler({parent,bioMap:model});
     let rulerBounds = new Bounds({
-      top: bounds.top,
-      left: bounds.left -20,
+      top: parent.bounds.top,
+      left: bounds.left -15,
       width: 10,
       height: bounds.height,
       allowSubpixel: false

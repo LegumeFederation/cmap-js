@@ -157,72 +157,72 @@ describe('BioMap test', function() {
 //	});
 //
   describe('private methods', function() {
-    describe('_onZoom(evt)', function() {
-      it('should increase zoom on negative deltaY', function() { 
-    	  let p1 = baseParams();
-				let testBioMap = BioMap;
-				testBioMap.prototype._layout = function(layoutBounds){return true;};
-				testBioMap.prototype._draw = function(layoutBounds){return true;};
-				let node = new testBioMap(p1);
-				let evt = {deltaY : -1};
-				node.backbone = {loadLabelMap : function(){return true;} };
-				document.getElementsByClassName = function(){return [];};
-				let zoom = node._onZoom(evt);
-				expect(zoom).to.equal(true);
-        expect(node.verticalScale).to.equal(0.5);
-				expect(node.model.view.visible.start).to.equal(1.5);
-				expect(node.model.view.visible.stop).to.equal(99.5);
-      });
-      it('should decrease zoom on positive deltaY', function() { 
-    	  let p1 = baseParams();
-				let testBioMap = BioMap;
-				testBioMap.prototype._layout = function(layoutBounds){return true;};
-				testBioMap.prototype._draw = function(layoutBounds){return true;};
-				let node = new testBioMap(p1);
-				node.model.view.visible = { start: 1.5, stop: 99.5};
-				let evt = {deltaY : 1};
-				node.backbone = {loadLabelMap : function(){return true;} };
-				document.getElementsByClassName = function(){return [];};
-				let zoom = node._onZoom(evt);
-				expect(zoom).to.equal(true);
-        expect(node.verticalScale).to.equal(0);
-				expect(node.model.view.visible.start).to.equal(1);
-				expect(node.model.view.visible.stop).to.equal(100);
-      });
-      it('should not increase past maximum zoom out', function() { 
-    	  let p1 = baseParams();
-				let testBioMap = BioMap;
-				testBioMap.prototype._layout = function(layoutBounds){return true;};
-				testBioMap.prototype._draw = function(layoutBounds){return true;};
-				let node = new testBioMap(p1);
-				let evt = {deltaY : 1};
-				node.backbone = {loadLabelMap : function(){return true;} };
-
-				document.getElementsByClassName = function(){return [];};
-				let zoom = node._onZoom(evt);
-				expect(zoom).to.equal(true);
-        expect(node.verticalScale).to.equal(0);
-				expect(node.model.view.visible.start).to.equal(1);
-				expect(node.model.view.visible.stop).to.equal(100);
-      });
-      it('should not set stop above start', function() { 
-    	  let p1 = baseParams();
-				let testBioMap = BioMap;
-				testBioMap.prototype._layout = function(layoutBounds){return true;};
-				testBioMap.prototype._draw = function(layoutBounds){return true;};
-				let node = new testBioMap(p1);
-				node.model.view.visible = { start: 1.5, stop: 1.5};
-				node.model.view.base = {start: 1.5, stop: 1.5};
-				let evt = {deltaY : -1};
-				node.backbone = {loadLabelMap : function(){return true;} };
-				document.getElementsByClassName = function(){return [];};
-				let zoom = node._onZoom(evt);
-				expect(zoom).to.equal(true);
-        expect(node.verticalScale).to.equal(0);
-				expect(node.model.view.visible.start).to.equal(1.5);
-				expect(node.model.view.visible.stop).to.equal(1.5);
-      });
-    });
+//    describe('_onZoom(evt)', function() {
+//      it('should increase zoom on negative deltaY', function() { 
+//    	  let p1 = baseParams();
+//				let testBioMap = BioMap;
+//				testBioMap.prototype._layout = function(layoutBounds){return true;};
+//				testBioMap.prototype._draw = function(layoutBounds){return true;};
+//				let node = new testBioMap(p1);
+//				let evt = {deltaY : -1};
+//				node.backbone = {loadLabelMap : function(){return true;} };
+//				document.getElementsByClassName = function(){return [];};
+//				let zoom = node._onZoom(evt);
+//				expect(zoom).to.equal(true);
+//        expect(node.verticalScale).to.equal(0.5);
+//				expect(node.model.view.visible.start).to.equal(1.5);
+//				expect(node.model.view.visible.stop).to.equal(99.5);
+//      });
+//      it('should decrease zoom on positive deltaY', function() { 
+//    	  let p1 = baseParams();
+//				let testBioMap = BioMap;
+//				testBioMap.prototype._layout = function(layoutBounds){return true;};
+//				testBioMap.prototype._draw = function(layoutBounds){return true;};
+//				let node = new testBioMap(p1);
+//				node.model.view.visible = { start: 1.5, stop: 99.5};
+//				let evt = {deltaY : 1};
+//				node.backbone = {loadLabelMap : function(){return true;} };
+//				document.getElementsByClassName = function(){return [];};
+//				let zoom = node._onZoom(evt);
+//				expect(zoom).to.equal(true);
+//        expect(node.verticalScale).to.equal(0);
+//				expect(node.model.view.visible.start).to.equal(1);
+//				expect(node.model.view.visible.stop).to.equal(100);
+//      });
+//      it('should not increase past maximum zoom out', function() { 
+//    	  let p1 = baseParams();
+//				let testBioMap = BioMap;
+//				testBioMap.prototype._layout = function(layoutBounds){return true;};
+//				testBioMap.prototype._draw = function(layoutBounds){return true;};
+//				let node = new testBioMap(p1);
+//				let evt = {deltaY : 1};
+//				node.backbone = {loadLabelMap : function(){return true;} };
+//
+//				document.getElementsByClassName = function(){return [];};
+//				let zoom = node._onZoom(evt);
+//				expect(zoom).to.equal(true);
+//        expect(node.verticalScale).to.equal(0);
+//				expect(node.model.view.visible.start).to.equal(1);
+//				expect(node.model.view.visible.stop).to.equal(100);
+//      });
+//      it('should not set stop above start', function() { 
+//    	  let p1 = baseParams();
+//				let testBioMap = BioMap;
+//				testBioMap.prototype._layout = function(layoutBounds){return true;};
+//				testBioMap.prototype._draw = function(layoutBounds){return true;};
+//				let node = new testBioMap(p1);
+//				node.model.view.visible = { start: 1.5, stop: 1.5};
+//				node.model.view.base = {start: 1.5, stop: 1.5};
+//				let evt = {deltaY : -1};
+//				node.backbone = {loadLabelMap : function(){return true;} };
+//				document.getElementsByClassName = function(){return [];};
+//				let zoom = node._onZoom(evt);
+//				expect(zoom).to.equal(true);
+//        expect(node.verticalScale).to.equal(0);
+//				expect(node.model.view.visible.start).to.equal(1.5);
+//				expect(node.model.view.visible.stop).to.equal(1.5);
+//      });
+//    });
 
 		describe('_onTap(evt)', function() {
       it('should be able to calculate a tap event', function() {

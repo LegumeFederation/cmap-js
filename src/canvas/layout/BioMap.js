@@ -140,10 +140,10 @@ export class BioMap extends SceneGraphNodeCanvas {
       this.info.data = hits;
 			let names = hits.map(hit => { return hit.model.name; });
       this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
-		  m.redraw();
+      m.redraw();
     } else if(this.info.display !== 'none'){
       this.info.display = 'none';
-		  m.redraw();
+      m.redraw();
     }
 
     return true;
@@ -165,7 +165,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
     let globalPos = this._pageToCanvas(evt);
     let left = this.ruler.globalBounds.left;
-    console.log( "pan start", left, globalPos);
     // scroll view vs box select
     if(left < (globalPos.x-evt.deltaX) && 
       (globalPos.x-evt.deltaX) < (left+this.ruler.bounds.width)){
@@ -193,7 +192,6 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   // Moves ruler position on drag event
   _moveRuler(evt){
-    console.log('delta',evt.deltaY - this.zoomP.delta);
     let delta = (evt.deltaY - this.zoomP.delta) / this.model.view.pixelScaleFactor;
     if(this.model.view.visible.start+delta < this.model.view.base.start){
       delta = this.model.view.base.start - this.model.view.visible.start;
@@ -209,8 +207,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     // block propegation if pan hasn't started
     if (!this.zoomP || !this.zoomP.pStart) return true;
     if(this.zoomP && this.zoomP.ruler){
-      let delta = evt.deltaY / this.model.view.pixelScaleFactor;
-      console.log('pan delta',delta);
       this._moveRuler(evt);
     } else {
       let globalPos = this._pageToCanvas(evt);
@@ -234,8 +230,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     // block propegation if pan hasn't started
     if (!this.zoomP || !this.zoomP.pStart) return true;
     if(this.zoomP && this.zoomP.ruler){
-      let delta = evt.deltaY / this.model.view.pixelScaleFactor;
-      console.log('pan delta',delta);
       this._moveRuler(evt);
     } else {
       let globalPos = this._pageToCanvas(evt);
@@ -268,7 +262,7 @@ export class BioMap extends SceneGraphNodeCanvas {
         this._loadHitMap();
         let hits = [];
         let swap = this.zoomP.corner.left < globalPos.x;
-        let swapV = this.zoomP.corner.top < globalPos.y
+        let swapV = this.zoomP.corner.top < globalPos.y;
         this.hitMap.search({
           minX: swap ? this.zoomP.corner.left: globalPos.x,
           maxX: swap ? globalPos.x : this.zoomP.corner.left,
@@ -283,19 +277,19 @@ export class BioMap extends SceneGraphNodeCanvas {
             (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
             hits.push(hit.data);
           }
-		    });
+        });
         if(hits.length > 0){
           hits.sort((a,b) => { return a.model.coordinates.start - b.model.coordinates.start;});
-		    	this.info.display = 'inline-block';
-		    	this.info.top = this.ruler.globalBounds.top;
-		    	this.info.left = 0;
+          this.info.display = 'inline-block';
+          this.info.top = this.ruler.globalBounds.top;
+          this.info.left = 0;
           this.info.data = hits;
-		    	let names = hits.map(hit => { return hit.model.name; });
+          let names = hits.map(hit => { return hit.model.name; });
           this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
-		      m.redraw();
+          m.redraw();
         } else if(this.info.display !== 'none'){
           this.info.display = 'none';
-		      m.redraw();
+          m.redraw();
         }
       }
     }
@@ -393,7 +387,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     let childrenHits = this.children.map(child => {
       return child.hitMap;
     });
-    console.log('hit map', childrenHits);
     childrenHits.forEach(child =>{
       hits = hits.concat(child);
     });
