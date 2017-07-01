@@ -50,18 +50,21 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
             list: [],
             fetch: function() {
                 var url;
-                if (feature.tags[0] === 'gene') {
-                  url = 'https://legumeinfo.org/gene_links/'+feature.name+'/json';
-                }
-                if (url !== undefined) {
-                    return m.request({
-                        method: 'GET',
-                        url: url,
-                    })
-                    .then(function(result) {
-                        Links.list = result;
-                    });
-                }
+                return feature.source.linkouts.map(function(linkout) {
+                    if (feature.tags[0] === linkout.featuretype) {
+                      url = linkout.url;
+                      url = url.replace(/\${item\.id}/, feature.name);
+                    }
+                    if (url !== undefined) {
+                        return m.request({
+                            method: 'GET',
+                            url: url,
+                        })
+                        .then(function(result) {
+                            Links.list = result;
+                        });
+                    }
+                });
             }
     };
 
@@ -74,7 +77,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
           target.style.display = target.style.display == 'none' ? 'block' : 'none';
           var p = Links.fetch();
           if (p !== undefined) {
-            p.then(function () {
+            p[0].then(function () {
               let node = document.getElementById(`links-div-${vnode.attrs.targetId}`);
               while (node.hasChildNodes()) {
                 node.removeChild(node.lastChild);
