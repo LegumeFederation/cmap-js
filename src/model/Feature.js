@@ -14,11 +14,13 @@ class Feature {
    * @returns {Object}
    */
   constructor({
+    source,
     coordinates = { start: 0, stop: 0},
     name,
     tags=[],
     aliases=[],
   }) {
+    this.source = source;
     this.coordinates = Object.freeze(coordinates); // object w/ start and end props
     this.name = name;
     this.tags = tags;

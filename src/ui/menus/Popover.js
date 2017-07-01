@@ -35,25 +35,73 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
       let stop = m('div', 'stop:  '+ item.model.coordinates.stop);
       let tags = item.model.tags.length > 0 && typeof item.model.tags[0] != 'undefined' ? m('div','tags:  ',item.model.tags.join('\n')) : [];
       let aliases = item.model.aliases.length > 0 && typeof item.model.aliases[0] != 'undefined'  ?  m('div','aliases:  ',item.model.aliases.join('\n')) : [];
-      return [m(this._buttonTest(),{targetId:item.model.name}),
-        m('div',{class:'biomap-info-data', id:`biomap-info-${item.model.name}`, style: 'display: none;'},[start,stop,tags, aliases])
+      let links = m('div', {id:`links-div-${item.model.name}`}, [m('img[src=images/ajax-loader.gif]')]);
+
+      return [m(this._buttonTest(item.model),{targetId:item.model.name}),
+        m('div',{class:'biomap-info-data', id:`biomap-info-${item.model.name}`, style: 'display: none;'},[start,stop,tags, aliases, links])
       ];
     });
     
     return m('div',{},popover);
   }
 
-  _buttonTest(){
+  _buttonTest(feature){
+    var Links = {
+            list: [],
+            fetch: function() {
+                var url;
+                if (feature.tags[0] === 'gene') {
+                  url = 'https://legumeinfo.org/gene_links/'+feature.name+'/json';
+                }
+                if (url !== undefined) {
+                    return m.request({
+                        method: 'GET',
+                        url: url,
+                    })
+                    .then(function(result) {
+                        Links.list = result;
+                    });
+                }
+            }
+    };
+
+
     return{
       view: function(vnode){
         let targetName = `biomap-info-${vnode.attrs.targetId}`;
         return  m('div', {class:'biomap-info-name', onclick: function() {
           let target = document.getElementById(targetName);
-          target.style.display = target.style.display == 'none' ? 'block' : 'none';}},
+          target.style.display = target.style.display == 'none' ? 'block' : 'none';
+          var p = Links.fetch();
+          if (p !== undefined) {
+            p.then(function () {
+              let node = document.getElementById(`links-div-${vnode.attrs.targetId}`);
+              while (node.hasChildNodes()) {
+                node.removeChild(node.lastChild);
+              }
+              Links.list.map(function(l) {
+                  let link =  document.createElement('a');
+                  link.setAttribute('href', l.href);
+                  link.append(document.createTextNode(l.text));
+                  target.append(link);
+                  target.append(document.createElement('br'));
+              });
+              });
+          }
+          else {
+              let node = document.getElementById(`links-div-${vnode.attrs.targetId}`);
+              while (node.hasChildNodes()) {
+                node.removeChild(node.lastChild);
+              }
+              node.append(document.createTextNode('no links defined'));
+          }
+          }},
           vnode.attrs.targetId);
       }
     };
   }
+
+
 
 
 	handleGesture(){

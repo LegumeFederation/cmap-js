@@ -19,12 +19,13 @@ export class DataSourceModel {
    * @param String url - HTTP URL (required)
    * @param Object data - query string parameters for the request (optional)
    */
-  constructor({id, method, data, url, filters}) {
+  constructor({id, method, data, url, filters, linkouts}) {
     this.id = id;
     this.method = method;
     this.data = data;
     this.url = url;
     this.filters = filters || [];
+    this.linkouts = linkouts || {};
     this.background = true; // mithril not to redraw upon completion
   }
 
@@ -117,6 +118,7 @@ export class DataSourceModel {
         }
         res[uniqueMapName].features.push(
           new Feature({
+            source : this,
             name: d.feature_name,
             tags: [d.feature_type !== '' ? d.feature_type : null],
             // TODO: if there is more than one alias, how is it encoded? comma separated?
