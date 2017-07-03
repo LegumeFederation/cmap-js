@@ -19,6 +19,7 @@
       "type" : "object",
       "properties" : {
         "featuretype" : { "type" : "string" },
+        "featuretypePattern" : { "type" : "string" },
         "url" : { "type" : "string" },
         "text" : { "type" : "string" },
         "isLinkingService" : { "type" : "boolean", "default" : false } 
