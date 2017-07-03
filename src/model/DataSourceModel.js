@@ -26,6 +26,7 @@ export class DataSourceModel {
     this.url = url;
     this.filters = filters || [];
     this.linkouts = linkouts || [];
+    this.linkouts.forEach(l => {l.featuretypePattern != undefined ? l.featuretypePattern = new RegExp(l.featuretypePattern) : undefined;});
     this.background = true; // mithril not to redraw upon completion
   }
 
