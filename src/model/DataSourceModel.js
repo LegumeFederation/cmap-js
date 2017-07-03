@@ -25,7 +25,7 @@ export class DataSourceModel {
     this.data = data;
     this.url = url;
     this.filters = filters || [];
-    this.linkouts = linkouts || {};
+    this.linkouts = linkouts || [];
     this.background = true; // mithril not to redraw upon completion
   }
 
@@ -99,6 +99,7 @@ export class DataSourceModel {
   get bioMaps() {
     const res = {};
     try {
+      let typeField = this.parseResult.meta.fields.includes('feature_type') ? 'feature_type' : 'feature_type_acc';
       this.parseResult.data.forEach( d => {
         if(! d.map_name) return;
         const uniqueMapName = `${this.id}/${d.map_name}`;
@@ -120,7 +121,7 @@ export class DataSourceModel {
           new Feature({
             source : this,
             name: d.feature_name,
-            tags: [d.feature_type !== '' ? d.feature_type : null],
+            tags: [d[typeField] !== '' ? d[typeField] : null],
             // TODO: if there is more than one alias, how is it encoded? comma separated?
             aliases: d.feature_aliases !== '' ? [ d.feature_aliases ] : [],
             coordinates: { start: d.feature_start, stop: d.feature_stop }
