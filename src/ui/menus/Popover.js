@@ -27,6 +27,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
      },this._generateInner(info.data));
   }
 
+
   _generateInner(data){
     if(!data) return;
 
@@ -37,10 +38,10 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
       let aliases = item.model.aliases.length > 0 && typeof item.model.aliases[0] != 'undefined'  ?  m('div','aliases:  ',item.model.aliases.join('\n')) : [];
       let links = item.model.source.linkouts.length > 0 ? 
         m('div', {id:`links-div-${item.model.name}`}, 
-            item.model.source.linkouts.filter(l => ! l.isLinkingService && item.model.tags.includes(l.featuretype)).map(
-                l => {return m('a', {'href' : l.url.replace(/\${item.id}/, item.model.name)}, l.text);}
+            item.model.source.linkouts.filter(l => (! l.isLinkingService) && item.model.typeLinkedBy(l) ).map(
+                l => {return m('div', {}, m('a', {'href' : l.url.replace(/\${item.id}/, item.model.name)}, l.text));}
             ).concat( 
-              item.model.source.linkouts.some(l => {return l.isLinkingService;}) ? 
+              item.model.source.linkouts.some(l => {return l.isLinkingService && item.model.typeHasLinkouts;}) ? 
                 (item.model.links == undefined ? m('img[src=images/ajax-loader.gif]') : item.model.links.map(l => {return m('div',{}, m('a', {href:l.url}, l.text));})) 
                 : [] 
             )
@@ -82,15 +83,15 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
               let target = document.getElementById(targetName);
               target.style.display = target.style.display == 'none' ? 'block' : 'none';
               if (feature.links == undefined) {
-                if (feature.source.linkouts.some(l => {return l.isLinkingService && feature.tags.includes(l.featuretype);})) {
+                if (feature.source.linkouts.some(l => {return l.isLinkingService && feature.typeHasLinkouts;})) {
                   let p = Links.fetch();
                   if (p != undefined) {
-                    p[0].then(vnode.redraw());
+                    p[0].then(vnode.redraw);
                   }
                 }
                 else {
                   feature.links = [];
-                  vnode.redraw();
+                  vnode.redraw;
                 }
               }
             }
