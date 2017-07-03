@@ -14,6 +14,16 @@
         "value" : { "type" : "string" }
       },
       "required" : ["column", "operator", "value"]
+    },
+    "linkout" : {
+      "type" : "object",
+      "properties" : {
+        "featuretype" : { "type" : "string" },
+        "url" : { "type" : "string" },
+        "text" : { "type" : "string" },
+        "isLinkingService" : { "type" : "boolean", "default" : false } 
+      },
+      "required" : ["featuretype", "url"]
     }
   },
   "properties" : {
@@ -52,11 +62,17 @@
             "items" : {
               "$ref" : "#/definitions/filter"
             }
+          },
+          "linkouts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/linkout"
+            }
           }
         },
         "required" : ["url", "method", "id"]
+        }
       }
-    }
   },
   "required": ["header", "attribution", "sources"]
 }
