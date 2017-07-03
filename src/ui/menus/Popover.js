@@ -19,8 +19,8 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
    */
   view(vnode) {
     let b = vnode.attrs.domBounds || {};
-		let info = vnode.attrs.info || {data:[]};
-		return m('div', {
+    let info = vnode.attrs.info || {data:[]};
+    return m('div', {
        class: 'biomap-info',
        style: `left: ${info.left+b.left}px; top: ${info.top+b.top}px;
                display: ${info.display};`,
@@ -35,7 +35,16 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
       let stop = m('div', 'stop:  '+ item.model.coordinates.stop);
       let tags = item.model.tags.length > 0 && typeof item.model.tags[0] != 'undefined' ? m('div','tags:  ',item.model.tags.join('\n')) : [];
       let aliases = item.model.aliases.length > 0 && typeof item.model.aliases[0] != 'undefined'  ?  m('div','aliases:  ',item.model.aliases.join('\n')) : [];
-      let links = m('div', {id:`links-div-${item.model.name}`}, [m('img[src=images/ajax-loader.gif]')]);
+      let links = item.model.source.linkouts.length > 0 ? 
+        m('div', {id:`links-div-${item.model.name}`}, 
+            item.model.source.linkouts.filter(l => ! l.isLinkingService && item.model.tags.includes(l.featuretype)).map(
+                l => {return m('a', {'href' : l.url.replace(/\${item.id}/, item.model.name)}, l.text);}
+            ).concat( 
+              item.model.source.linkouts.some(l => {return l.isLinkingService;}) ? 
+                (item.model.links == undefined ? m('img[src=images/ajax-loader.gif]') : item.model.links.map(l => {return m('div',{}, m('a', {href:l.url}, l.text));})) 
+                : [] 
+            )
+         ) : [];
 
       return [m(this._buttonTest(item.model),{targetId:item.model.name}),
         m('div',{class:'biomap-info-data', id:`biomap-info-${item.model.name}`, style: 'display: none;'},[start,stop,tags, aliases, links])
@@ -47,59 +56,45 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin){
 
   _buttonTest(feature){
     var Links = {
-            list: [],
             fetch: function() {
                 var url;
-                return feature.source.linkouts.map(function(linkout) {
-                    if (feature.tags[0] === linkout.featuretype) {
-                      url = linkout.url;
-                      url = url.replace(/\${item\.id}/, feature.name);
-                    }
-                    if (url !== undefined) {
-                        return m.request({
-                            method: 'GET',
-                            url: url,
-                        })
-                        .then(function(result) {
-                            Links.list = result;
-                        });
-                    }
+                return feature.source.linkouts.filter(l => l.isLinkingService && feature.tags.includes(l.featuretype)).map(l => {
+                  url = l.url;
+                  url = url.replace(/\${item\.id}/, feature.name);
+                  return m.request({
+                      method: 'GET',
+                      url: url,
+                  })
+                  .then(function(result) {
+                      feature.links = result;
+                  });
                 });
             }
-    };
+        };
 
 
     return{
       view: function(vnode){
         let targetName = `biomap-info-${vnode.attrs.targetId}`;
-        return  m('div', {class:'biomap-info-name', onclick: function() {
-          let target = document.getElementById(targetName);
-          target.style.display = target.style.display == 'none' ? 'block' : 'none';
-          var p = Links.fetch();
-          if (p !== undefined) {
-            p[0].then(function () {
-              let node = document.getElementById(`links-div-${vnode.attrs.targetId}`);
-              while (node.hasChildNodes()) {
-                node.removeChild(node.lastChild);
+        return  m('div', {
+            class:'biomap-info-name', 
+            onclick: function() {
+              let target = document.getElementById(targetName);
+              target.style.display = target.style.display == 'none' ? 'block' : 'none';
+              if (feature.links == undefined) {
+                if (feature.source.linkouts.some(l => {return l.isLinkingService && feature.tags.includes(l.featuretype);})) {
+                  let p = Links.fetch();
+                  if (p != undefined) {
+                    p[0].then(vnode.redraw());
+                  }
+                }
+                else {
+                  feature.links = [];
+                  vnode.redraw();
+                }
               }
-              Links.list.map(function(l) {
-                  let link =  document.createElement('a');
-                  link.setAttribute('href', l.href);
-                  link.append(document.createTextNode(l.text));
-                  target.append(link);
-                  target.append(document.createElement('br'));
-              });
-              });
-          }
-          else {
-              let node = document.getElementById(`links-div-${vnode.attrs.targetId}`);
-              while (node.hasChildNodes()) {
-                node.removeChild(node.lastChild);
-              }
-              node.append(document.createTextNode('no links defined'));
-          }
-          }},
-          vnode.attrs.targetId);
+            }
+          }, vnode.attrs.targetId);
       }
     };
   }
