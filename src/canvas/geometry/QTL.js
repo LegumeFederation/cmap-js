@@ -8,7 +8,7 @@ import {Bounds} from '../../model/Bounds';
 
 export class QTL extends SceneGraphNodeBase {
 
-  constructor({parent, bioMap, featureModel}) {
+  constructor({parent, bioMap, featureModel,fill}) {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
     this.featureMap = bioMap;
@@ -17,7 +17,7 @@ export class QTL extends SceneGraphNodeBase {
     //min and max location in pixels
     this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
     this.stopLoc = this._translateScale(this.featureMap.view.visible.stop) * this.pixelScaleFactor;
-
+    this.fill = fill || 'darkBlue'; 
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
@@ -72,7 +72,7 @@ export class QTL extends SceneGraphNodeBase {
       width: 10
     });
     let gb = this.globalBounds || {};
-    ctx.fillStyle = 'DarkBlue';
+    ctx.fillStyle = this.fill;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
