@@ -18,6 +18,8 @@ export class QTL extends SceneGraphNodeBase {
     this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
     this.stopLoc = this._translateScale(this.featureMap.view.visible.stop) * this.pixelScaleFactor;
     this.fill = fill || 'darkBlue'; 
+    this.width = 10;
+    this.offset = 15;
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
@@ -33,15 +35,17 @@ export class QTL extends SceneGraphNodeBase {
     }).forEach(overlap => {
       if(overlap.data){
         if(overlap.data.bounds.right > leftLoc){
-          leftLoc = overlap.data.bounds.right+1;
+          leftLoc = overlap.data.bounds.right+this.offset;
         }
         leftArr.push(overlap.data.bounds.left);
       }
     });
     leftArr = leftArr.sort((a,b)=>{return a-b;});
+    let stepOffset = this.width + this.offset;
+    console.log(leftArr);
     for( let i = 0; i < leftArr.length; ++i){
-      if( leftArr[i] !== i*11){
-        leftLoc = i*11;
+      if( leftArr[i] !== i*(stepOffset)){
+        leftLoc = i*(stepOffset);
         break;
       }
     }
@@ -50,7 +54,7 @@ export class QTL extends SceneGraphNodeBase {
       allowSubpixel: false,
       top: y1,
       left: leftLoc,
-      width: 10,
+      width: this.width,
       height: y2-y1
     });
   }
@@ -79,12 +83,21 @@ export class QTL extends SceneGraphNodeBase {
       Math.floor(10),
       Math.floor(gb.height)
     );
-    if(ctx.measureText(this.model.name).width/2 < gb.height){
+    let textWidth = ctx.measureText(this.model.name).width;
+    let overlap = this.parent.locMap.search({
+      minY: this.model.coordinates.stop-(textWidth/this.pixelScaleFactor),
+      maxY: this.model.coordinates.stop,
+      minX: gb.left,
+      maxX: gb.right
+    });
+    console.log('qtl',overlap);
+    if(overlap.length <=1 || textWidth <= gb.height){
       ctx.save();
       ctx.translate(gb.left,gb.top);
       ctx.fillStyle = 'black';
       ctx.rotate(-Math.PI /2);
-      ctx.fillText(this.model.name,-gb.height,10);
+      ctx.fillText(this.model.name,-gb.height,2*this.width);
+     
       ctx.restore();
     }
 
