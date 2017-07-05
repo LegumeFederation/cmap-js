@@ -35,7 +35,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
           width:20,
           height: b.height
         });
-        console.log(qtlConf);
+
         this.mapCoordinates = this.parent.mapCoordinates;
         this.filteredFeatures = this.parent.model.features.filter( model => {
           return model.tags[0].match(qtlConf.filter) !== null;
@@ -62,7 +62,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
           qtlGroup.locMap.insert(loc);
           fmData.push(loc);
           if(fm.globalBounds.right > this.globalBounds.right){
-            this.bounds.right = this.globalBounds.left + fm.bounds.right;
+            this.bounds.right = this.globalBounds.left + (fm.globalBounds.right - this.globalBounds.left);
           }
           return fm;
         });
@@ -80,13 +80,44 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         width:20,
         height: b.height
       });
+        this.mapCoordinates = this.parent.mapCoordinates;
+        this.filteredFeatures = this.parent.model.features.filter( model => {
+          return model.tags[0].match(/^QTL.+/) !== null;
+        });
+        console.log('QTL filter',this.filteredFeatures);
+        console.log('QTL filter', this.parent.model.source);
+        let fmData = [];
+        this.maxLoc = 0;
+        this.qtlMarks = this.filteredFeatures.map( model => {
+          let fm = new QTL ({
+            featureModel: model,
+            parent: this.qtlGroup,
+            bioMap: this.parent.model
+          });
+          qtlGroup.addChild(fm);
+          let loc = {
+            minY: model.coordinates.start,
+            maxY: model.coordinates.stop,
+            minX: fm.globalBounds.left,
+            maxX: fm.globalBounds.right,
+            data:fm
+          };
+          qtlGroup.locMap.insert(loc);
+          fmData.push(loc);
+          if(fm.globalBounds.right > this.globalBounds.right){
+            this.bounds.right = this.globalBounds.left + (fm.globalBounds.right - this.globalBounds.left);
+          }
+          return fm;
+        });
+        this.locMap.load(fmData);
+        console.log(this.locMap.all());
     }
   }
 
   get visible(){
     return this.locMap.all();
     //return this.locMap.all().concat([{data:this}]);
-  }
+  } 
   
   draw(ctx){
     let gb = this.globalBounds || {};
