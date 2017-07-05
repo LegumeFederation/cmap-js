@@ -79,6 +79,14 @@ export class QTL extends SceneGraphNodeBase {
       Math.floor(10),
       Math.floor(gb.height)
     );
+    if(ctx.measureText(this.model.name).width/2 < gb.height){
+      ctx.save();
+      ctx.translate(gb.left,gb.top);
+      ctx.fillStyle = 'black';
+      ctx.rotate(-Math.PI /2);
+      ctx.fillText(this.model.name,-gb.height,10);
+      ctx.restore();
+    }
 
     // Draw any children
     this.children.forEach( child => child.draw(ctx));
