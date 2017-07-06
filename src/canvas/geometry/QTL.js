@@ -83,9 +83,10 @@ export class QTL extends SceneGraphNodeBase {
       Math.floor(10),
       Math.floor(gb.height)
     );
-    let textWidth = ctx.measureText(this.model.name).width;
+    let textWidth = ctx.measureText(this.model.name).width + 24;
+    let textStop = this.model.coordinates.stop - this._translateScale(textWidth/this.pixelScaleFactor);
     let overlap = this.parent.locMap.search({
-      minY: this.model.coordinates.stop-(textWidth/this.pixelScaleFactor),
+      minY: textStop > this.featureMap.view.visible.start ? textStop : this.featureMap.view.visible.start,
       maxY: this.model.coordinates.stop,
       minX: gb.left,
       maxX: gb.right
