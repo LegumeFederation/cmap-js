@@ -19,12 +19,14 @@ export class DataSourceModel {
    * @param String url - HTTP URL (required)
    * @param Object data - query string parameters for the request (optional)
    */
-  constructor({id, method, data, url, filters}) {
+  constructor({id, method, data, url, filters, linkouts}) {
     this.id = id;
     this.method = method;
     this.data = data;
     this.url = url;
     this.filters = filters || [];
+    this.linkouts = linkouts || [];
+    this.linkouts.forEach(l => {l.featuretypePattern != undefined ? l.featuretypePattern = new RegExp(l.featuretypePattern) : undefined;});
     this.background = true; // mithril not to redraw upon completion
   }
 
@@ -98,6 +100,7 @@ export class DataSourceModel {
   get bioMaps() {
     const res = {};
     try {
+      let typeField = this.parseResult.meta.fields.includes('feature_type') ? 'feature_type' : 'feature_type_acc';
       this.parseResult.data.forEach( d => {
         if(! d.map_name) return;
         const uniqueMapName = `${this.id}/${d.map_name}`;
@@ -115,21 +118,11 @@ export class DataSourceModel {
                 res[uniqueMapName].coordinates.stop = d.map_stop;
             }
         }
-
-        let tagarr = [];
-        if(d.feature_type && d.feature_type != ''){
-          tagarr.push(d.feature_type);
-        }
-        if(d.feature_type_acc && d.feature_type_acc != ''){
-          tagarr.push(d.feature_type_acc);
-        }
-        if (tagarr.length === 0){ 
-          tagarr[0] = null;
-        }
         res[uniqueMapName].features.push(
           new Feature({
+            source : this,
             name: d.feature_name,
-            tags: tagarr,
+            tags: [d[typeField] !== '' ? d[typeField] : null],
             // TODO: if there is more than one alias, how is it encoded? comma separated?
             aliases: d.feature_aliases !== '' ? [ d.feature_aliases ] : [],
             coordinates: { start: d.feature_start, stop: d.feature_stop }
