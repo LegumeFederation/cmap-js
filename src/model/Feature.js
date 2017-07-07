@@ -14,11 +14,13 @@ class Feature {
    * @returns {Object}
    */
   constructor({
+    source,
     coordinates = { start: 0, stop: 0},
     name,
     tags=[],
     aliases=[],
   }) {
+    this.source = source;
     this.coordinates = Object.freeze(coordinates); // object w/ start and end props
     this.name = name;
     this.tags = tags;
@@ -27,6 +29,18 @@ class Feature {
 
   get length() {
     return this.coordinates.stop - this.coordinates.start;
+  }
+
+  get typeHasLinkouts() {
+    return this.source.linkouts.some(l => {
+          return this.typeLinkedBy(l);
+        });
+  }
+
+  typeLinkedBy(linkout) {
+    return linkout.featuretypePattern != undefined ? 
+    this.tags.some(t => {return linkout.featuretypePattern.test(t);}) 
+    : this.tags.includes(linkout.featuretype);
   }
 }
 
@@ -55,5 +69,6 @@ function featuresInCommon(features1, features2) {
     return [ dict1[key], dict2[key] ];
   });
 }
+
 
 export {Feature, featuresInCommon};

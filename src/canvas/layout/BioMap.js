@@ -88,7 +88,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
-		this.verticalScale = evt.deltaY < 0 ? -0.5 : 0.5;
+    this.verticalScale = evt.deltaY < 0 ? -0.5 : 0.5;
     let mcv = this.model.view.base;
     let zStart = (this.model.view.visible.start + this.verticalScale);
     let zStop = (this.model.view.visible.stop - this.verticalScale);
@@ -131,14 +131,15 @@ export class BioMap extends SceneGraphNodeCanvas {
         (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
         hits.push(hit.data);
       }
-		});
+    });
     if(hits.length > 0){
       hits.sort((a,b) => { return a.model.coordinates.start - b.model.coordinates.start;});
-			this.info.display = 'inline-block';
-			this.info.top = hits[0].globalBounds.top;
-			this.info.left = hits[0].globalBounds.right;
+      this.info.display = 'inline-block';
+      this.info.top = hits[0].globalBounds.top;
+      this.info.left = hits[0].globalBounds.right;
       this.info.data = hits;
-			let names = hits.map(hit => { return hit.model.name; });
+      let names = hits.map(hit => { return hit.model.name; });
+      //@awilkey: is this obsolete?
       this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
       m.redraw();
     } else if(this.info.display !== 'none'){
@@ -150,7 +151,7 @@ export class BioMap extends SceneGraphNodeCanvas {
   }
 
   // Setup selection context for pan event
-	_onPanStart(evt) {
+  _onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
     this.zoomP = {  
@@ -177,7 +178,7 @@ export class BioMap extends SceneGraphNodeCanvas {
         this.zoomP.start = this.model.view.base.start;
       }
       let ctx = this.context2d;
-      this.zoomP.corner = {top:globalPos.y-evt.deltaY,left:globalPos.x-evt.deltaX};	
+      this.zoomP.corner = {top:globalPos.y-evt.deltaY,left:globalPos.x-evt.deltaX};  
       ctx.lineWidth = 1.0;
       ctx.strokeStyle = 'black';
       ctx.strokeRect(
@@ -200,7 +201,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     }
     this.model.view.visible.start += delta;
     this.model.view.visible.stop += delta;
-		this._redrawViewport({start:this.model.view.visible.start, stop:this.model.view.visible.stop});
+    this._redrawViewport({start:this.model.view.visible.start, stop:this.model.view.visible.stop});
     this.zoomP.delta = evt.deltaY;
   }
   _onPan(evt){
@@ -210,7 +211,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       this._moveRuler(evt);
     } else {
       let globalPos = this._pageToCanvas(evt);
-			this.draw();
+      this.draw();
       let ctx = this.context2d;
       ctx.lineWidth = 1.0;
       ctx.strokeStyle = 'black';
@@ -223,7 +224,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     }
     return true;
   }
-	_onPanEnd(evt) {
+  _onPanEnd(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onPanEnd -- vertically; implement me', evt,this.model.view.base);
@@ -285,6 +286,7 @@ export class BioMap extends SceneGraphNodeCanvas {
           this.info.left = 0;
           this.info.data = hits;
           let names = hits.map(hit => { return hit.model.name; });
+          //@awilkey: is this obsolete?
           this.info.innerHTML= `<p> ${names.join('\n')} <\p>`;
           m.redraw();
         } else if(this.info.display !== 'none'){
@@ -308,11 +310,11 @@ export class BioMap extends SceneGraphNodeCanvas {
 //    this.zoomP.ruler = false;
 //    this.zoomP.pStart = false;
     return true; // do not stop propagation
-	}
+  }
     /**
      *  Converts a pixel position to the  canvas' backbone coordinate system.
      *
-     */	
+     */  
   _pixelToCoordinate(point){
     let coord = this.model.view.base;
     let visc = this.model.view.visible;
