@@ -3,23 +3,48 @@
   "header" : ": bean markers and consensus",
   "attribution" : "data attribution: Galeano, Fernandez 2011",
   "initialView" : [ {
-      "source" : "pv_markers_genes",
-      "map" : "Pv02"
+      "source" : "phavu_genes",
+      "map" : "phavu.Chr02"
+        
     }, {
      "source" : "pv_consensus",
-     "map" : "Pv02"
+     "map" : "Pv02",
+     "qtl" : [{
+        "filter":"QTL_seed",
+        "color": "orange"
+      },
+      {
+        "filter":"QTL_root",
+        "color" : "red"
+      }]
     }
   ],
   "sources" : [ {
-      "id" : "pv_markers_genes",
+      "id" : "phavu_genes",
       "#" : "note: the data property may supply http query params. see https://github.com/ncgr/cmap-js for more info.",
       "method": "GET",
       "data": {},
-      "url": "data/bean_markers+genes.cmap"
+      "url": "data/genes_for_phavu.cmap",
+      "filters" : [],
+      "linkouts" : [
+        {
+            "featuretype" : "gene",
+            "url" : "https://legumeinfo.org/gene_links/${item.id}/json",
+            "isLinkingService" : true
+        }
+      ]
     }, {
       "id" : "pv_consensus",
       "method": "GET",
-      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap"
+      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
+      "filters" : [],
+      "linkouts" : [
+        {
+            "featuretypePattern" : "^(SSR|SNP|AFLP|STS|RAPD)$",
+            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/genetic_marker/${item.id}",
+            "text" : "View marker at LIS"
+        }
+      ]
     }
   ]
 }
