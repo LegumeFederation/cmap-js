@@ -4,10 +4,28 @@
   "attribution" : "data attribution: Galeano, Fernandez 2011",
   "initialView" : [ {
       "source" : "pv_markers_genes",
-      "map" : "Pv02"
+      "map" : "Pv02",
+     "qtl" : [{
+        "filter":"QTL_seed",
+        "color": "green"
+      },
+      {
+        "filter":"QTL_root",
+        "color" : "red"
+      }]
+        
     }, {
      "source" : "pv_consensus",
-     "map" : "Pv02"
+     "map" : "Pv02",
+     "qtl" : [{
+        "filter":"QTL_seed",
+        "color": "orange"
+      },
+      {
+        "filter":"QTL_root",
+        "color" : "red"
+      }]
+        
     }
   ],
   "sources" : [ {

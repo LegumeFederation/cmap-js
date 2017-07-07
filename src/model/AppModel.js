@@ -42,6 +42,7 @@ export class AppModel {
     this.initialView = initialView || [];
     this.biomaps = [];
     let promises = sourceConfigs.map(config => {
+      console.log('config',config);
       let dsm = new DataSourceModel(config);
       this.sources.push(dsm);
       return dsm.load();
@@ -84,6 +85,9 @@ export class AppModel {
         console.error(msg);
         console.trace();
         alert(msg);
+      }
+      if(viewConf.qtl){
+        res[0].qtlGroups = viewConf.qtl;
       }
       return res;
     }).concatAll();
