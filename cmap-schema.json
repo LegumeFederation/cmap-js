@@ -24,7 +24,11 @@
         "text" : { "type" : "string" },
         "isLinkingService" : { "type" : "boolean", "default" : false } 
       },
-      "required" : ["featuretype", "url"]
+      "required" : ["url"],
+      "oneOf" : [
+        { "required" : ["featuretype"] },
+        { "required" : ["featuretypePattern"] }
+      ]
     }
   },
   "properties" : {
