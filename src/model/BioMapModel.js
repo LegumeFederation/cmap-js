@@ -15,11 +15,13 @@ export class BioMapModel {
     name,
     source,
     features,
+    tags,
     coordinates = { start: 0, stop: 0}
   }) {
     this.name = name;
     this.source = source;
     this.features = features;
+    this.tags = tags;
     this.coordinates = coordinates;
   }
 

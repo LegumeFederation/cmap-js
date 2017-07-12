@@ -109,6 +109,7 @@ export class DataSourceModel {
             source: this,
             name: d.map_name,
             features: [],
+            tags: [],
             coordinates: { start: d.map_start, stop: d.map_stop }
           });
           res[uniqueMapName] = model;
@@ -128,6 +129,12 @@ export class DataSourceModel {
             coordinates: { start: d.feature_start, stop: d.feature_stop }
           })
         );
+        if(d[typeField] !== '' && res[uniqueMapName].tags.indexOf(d[typeField]) === -1){
+          res[uniqueMapName].tags.push(d[typeField]);
+        }
+      });
+      Object.keys(res).forEach( key => {
+       console.log('tags', res[key].tags);
       });
     } catch(e) {
       console.trace();
