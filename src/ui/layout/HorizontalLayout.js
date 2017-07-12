@@ -11,7 +11,9 @@ import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/layout/CorrespondenceMap';
+import {QtlTrack} from '../../canvas/layout/QtlTrack';
 import {Popover} from '../menus/Popover';
+import {FeatureMenu} from '../menus/Feature';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout
@@ -29,6 +31,8 @@ export class HorizontalLayout
     this.correspondenceMapComponents = [];
     this.popoverComponents=[];
 		this.swapComponents=[];
+    this.featureControls=[];
+    this.modal=[];
     const handler = () => this._onDataLoaded();
     this.subscriptions = [
       // all of these topics have effectively the same event handler for
@@ -51,8 +55,9 @@ export class HorizontalLayout
    * mithril component render method
    */
   view() {
+    console.log('view!',this.modal);
     return m('div.cmap-layout-horizontal',
-        [this.swapComponents,this.bioMapComponents.map(m),this.correspondenceMapComponents.map(m),
+       [this.swapComponents,this.bioMapComponents.map(m),this.featureControls,this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
@@ -63,6 +68,7 @@ export class HorizontalLayout
   _onDataLoaded() {
     this._layoutBioMaps();
 		this._layoutSwapComponents();
+    this._layoutFeatureControls();
     this._layoutCorrespondenceMaps();
     this._layoutPopovers();
     m.redraw();
@@ -112,6 +118,40 @@ export class HorizontalLayout
 		
 	}
 
+	_layoutFeatureControls(){
+		this.featureControls = [];
+    let n = this.bioMapComponents.length;
+		let maps = this;
+    this.bioMapComponents.forEach( component => {
+      component.children.forEach( child => {
+        if( child instanceof QtlTrack){
+          for( let i = 0; i < child.children.length; i++){
+            if(child.children[i].bounds.width > 0){
+              let featureGroup = child.children[i];
+			        this.featureControls.push( 
+                m('div', {
+                  class: 'feature-title',
+                  id: `feature-${component.model.name}-${i}`,
+                    style: `position:absolute; left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
+                      top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
+                    onclick: function(){
+                      maps.modal = [];
+                      let component = new FeatureMenu();
+                      component.info = featureGroup;
+                      component.bounds = maps.bounds;
+                      component.order = i;
+                      maps.modal[0] = component;
+                      m.redraw();
+                    }
+                  },`track-${i}`)
+              ); 
+              console.log( "featureControls child children", child.children[i]);
+            }
+          }
+		    }
+      });
+    });
+	}
   /**
    * Horizonal (left to right) layout of BioMaps
    */
@@ -136,8 +176,10 @@ export class HorizontalLayout
       });
       model.component = component; // save a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
+      console.log('map children', component.children);
       return component;
     });
+
   }
   _layoutPopovers(){
     this.popoverComponents = this.bioMapComponents.map( model => {
