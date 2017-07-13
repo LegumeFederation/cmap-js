@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, mapAdded, mapRemoved, reset} from '../../topics';
+import {dataLoaded, mapAdded, mapRemoved, reset, featureUpdate} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
@@ -40,7 +40,8 @@ export class HorizontalLayout
       PubSub.subscribe(dataLoaded, handler),
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
-      PubSub.subscribe(reset,() => { this._onReset();})
+      PubSub.subscribe(reset,() => { this._onReset();}),
+      PubSub.subscribe(featureUpdate, () => { this._featureUpdate();})
     ];
   }
 
@@ -234,4 +235,11 @@ export class HorizontalLayout
     });
     m.redraw();
   }
+  
+  _featureUpdate(){
+    console.log('updated butts!');
+    this._layoutFeatureControls();
+    m.redraw();
+  }
+
 }

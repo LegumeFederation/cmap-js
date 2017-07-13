@@ -3,6 +3,8 @@
   * A mithril component for displaying feature information.
   */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+import {featureUpdate, reset} from '../../topics';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {Menu} from './Menus';
@@ -29,13 +31,8 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
        style: `position:absolute; left: 0px; top: 0px; width:${bounds.width}px;height:${bounds.height}px`,
        onclick: function(){console.log('what',this);}
      },[this._inner(info,order), m('button',{onclick: function(){ console.log('what what', info.selectedId);
-       console.log("what vnode",vnode);
-       [].forEach.call(document.getElementsByClassName('cmap-biomap'), el => {
-         el.mithrilComponent.draw();
-       });
-       m.redraw();
+       PubSub.publish(featureUpdate, null);
        vnode.dom.remove(vnode);}},'close modal')]);
-   
   }
 
 
