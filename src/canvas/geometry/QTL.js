@@ -76,12 +76,13 @@ export class QTL extends SceneGraphNodeBase {
       width: 10
     });
     let gb = this.globalBounds || {};
+    let qtlHeight = gb.height > 1 ? gb.height : 1;
     ctx.fillStyle = this.fill;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
       Math.floor(10),
-      Math.floor(gb.height)
+      Math.floor(qtlHeight)
     );
     let textWidth = ctx.measureText(this.model.name).width + 24;
     let textStop = this.model.coordinates.stop - this._translateScale(textWidth/this.pixelScaleFactor);
