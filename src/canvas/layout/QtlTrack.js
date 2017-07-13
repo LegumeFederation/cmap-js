@@ -87,8 +87,8 @@ export class  QtlTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
-  //  return this.locMap.all();
-    return this.locMap.all().concat([{data:this}]);
+    return this.locMap.all();
+    //return this.locMap.all().concat([{data:this}]);
   } 
   
   draw(ctx){
