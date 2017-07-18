@@ -1,25 +1,25 @@
 {
   "#": "cmap-js example configuration file (json format)",
-  "header" : ": bean markers and consensus",
-  "attribution" : "data attribution: Galeano, Fernandez 2011",
+  "header" : ": Soybean Consensus-Composite",
+  "attribution" : "data attribution: SoyBase",
   "initialView" : [ {
-      "source" : "pv_markers_genes",
-      "map" : "Pv02"
+      "source" : "glyma_Consensus40",
+      "map" : "A1"
     }, {
-     "source" : "pv_consensus",
-     "map" : "Pv02"
+      "source" : "glyma_Composite2003",
+      "map" : "A1"
     }
   ],
   "sources" : [ {
-      "id" : "pv_markers_genes",
+      "id" : "glyma_Composite2003",
       "#" : "note: the data property may supply http query params. see https://github.com/ncgr/cmap-js for more info.",
       "method": "GET",
       "data": {},
-      "url": "data/bean_markers+genes.cmap"
+      "url": "https://soybase.org/cmap/cgi-bin/cmap/download_data?format=tab&map_set_acc=Soybean-GmComposite2003&download=1"
     }, {
-      "id" : "pv_consensus",
+      "id" : "glyma_Consensus40",
       "method": "GET",
-      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap"
+      "url": "https://soybase.org/cmap/cgi-bin/cmap/download_data?format=tab&map_set_acc=Soybean-GmConsensus40&download=1"
     }
   ]
 }
