@@ -36,7 +36,7 @@
       "linkouts" : [
         {
             "featuretypePattern" : "QTL",
-            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/QTL/${item.id}",
+            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/QTL/phavu.${item.id}",
             "text" : "View QTL info at LIS"
         },
         {
