@@ -35,6 +35,11 @@
       "filters" : [],
       "linkouts" : [
         {
+            "featuretypePattern" : "QTL",
+            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/QTL/${item.id}",
+            "text" : "View QTL info at LIS"
+        },
+        {
             "featuretypePattern" : "^(SSR|SNP|AFLP|STS|RAPD)$",
             "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/genetic_marker/${item.id}",
             "text" : "View marker at LIS"
