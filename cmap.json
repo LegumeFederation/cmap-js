@@ -26,6 +26,11 @@
       "data": {},
       "url": "data/genes_for_phavu.cmap",
       "filters" : [],
+      "config": {
+        "url" : "config/phavu_genes.json",
+        "method":"GET",
+        "data":{}
+      },
       "linkouts" : [
         {
             "featuretype" : "gene",
@@ -38,6 +43,11 @@
       "method": "GET",
       "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
       "filters" : [],
+      "config": {
+        "url" : "config/phavu_genes.json",
+        "method":"GET",
+        "data":{}
+      },
       "linkouts" : [
         {
             "featuretypePattern" : "^(SSR|SNP|AFLP|STS|RAPD)$",

@@ -20,7 +20,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     console.log('mapTrack',this.parent,b);
     let bioModel = this.parent.model;
     //const backboneWidth = b.width * 0.2;
-    const backboneWidth =  60;
+    const backboneWidth =  10;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,

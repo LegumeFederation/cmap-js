@@ -13,6 +13,8 @@ export class Ruler extends SceneGraphNodeBase {
     this.mapCoordinates = bioMap.view;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
     const b = this.parent.backbone.bounds;
+    this.fillColor = this.parent.model.config.rulerColor;
+    console.log('testing stuff ruler fc',this.fillColor);
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: this.parent.bounds.top,
@@ -52,7 +54,7 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.stroke();
 
     // Draw "zoom box"
-    ctx.fillStyle = 'aqua';
+    ctx.fillStyle = this.fillColor;//'aqua';
 		var height = stop - start > 1 ? stop-start : 1.0;
     ctx.fillRect(
       Math.floor(gb.left),

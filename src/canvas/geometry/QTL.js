@@ -18,7 +18,7 @@ export class QTL extends SceneGraphNodeBase {
     this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
     this.stopLoc = this._translateScale(this.featureMap.view.visible.stop) * this.pixelScaleFactor;
     this.fill = fill || 'darkBlue'; 
-    this.width = 10;
+    this.width = 4;
     this.offset = 15;
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
@@ -73,7 +73,7 @@ export class QTL extends SceneGraphNodeBase {
       top: y1,
       height: y2-y1,
       left: this.bounds.left,
-      width: 10
+      width: this.width
     });
     let gb = this.globalBounds || {};
     let qtlHeight = gb.height > 1 ? gb.height : 1;
@@ -81,10 +81,10 @@ export class QTL extends SceneGraphNodeBase {
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
-      Math.floor(10),
+      Math.floor(this.width),
       Math.floor(qtlHeight)
     );
-    let textWidth = ctx.measureText(this.model.name).width + 24;
+    let textWidth = ctx.measureText(this.model.name).width + (ctx.measureText("M").width*6);
     let textStop = this.model.coordinates.stop - this._translateScale(textWidth/this.pixelScaleFactor);
     let overlap = this.parent.locMap.search({
       minY: textStop > this.featureMap.view.visible.start ? textStop : this.featureMap.view.visible.start,
@@ -95,10 +95,14 @@ export class QTL extends SceneGraphNodeBase {
     console.log('qtl',overlap);
     if(overlap.length <=1 || textWidth <= gb.height){
       ctx.save();
+      let fontSize = 10;
+      let fontStyle = 'Nunito'
+      ctx.font = `${fontSize}pt ${fontStyle}`;
       ctx.translate(gb.left,gb.top);
       ctx.fillStyle = 'black';
       ctx.rotate(-Math.PI /2);
-      ctx.fillText(this.model.name,-gb.height,2*this.width);
+      ctx.fillText(this.model.name,-gb.height,this.width+fontSize+1);
+
      
       ctx.restore();
     }
