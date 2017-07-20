@@ -6,7 +6,7 @@
  */
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, configLoaded, reset, mapAdded} from '../topics';
+import {dataLoaded, reset, mapAdded} from '../topics';
 import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
 import {DataSourceModel} from './DataSourceModel';
 

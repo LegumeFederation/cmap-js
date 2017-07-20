@@ -8,14 +8,14 @@ export class BioMapConfigModel {
   /**
    * create a BioMapConfigModel
    */
-  constructor( config ) {
-    console.log("testing stuff",config);
-    this.url = config.url;
-    this.method = config.method;
-    this.config = config;
+  constructor({url, method} ) {
+    this.url = url;
+    this.method = method;
   }
 
   load(){
     return m.request(this);
   }
 }
+
+export const defaultConfig = {"rulerColor":"aqua","testItem":"PleaseIgnore"};

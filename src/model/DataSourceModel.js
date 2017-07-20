@@ -6,7 +6,7 @@ import parser from 'papaparse';
 
 import {BioMapModel} from './BioMapModel';
 import {Feature} from './Feature';
-import {BioMapConfigModel} from './BioMapConfigModel';
+import {BioMapConfigModel,defaultConfig} from './BioMapConfigModel';
 
 // TODO: implement filtering at data loading time
 
@@ -25,21 +25,32 @@ export class DataSourceModel {
     this.method = method;
     this.data = data;
     this.url = url;
-    this.config = config || {"test":"ignore"};
-    (( )  => {
-      console.log('testing stuff', this.config);
+    this.config = config || {};
+    this.bioConfig = {};
+    // request bioconfig urlpage as a promise, if it is gettable, fill in all
+    // default values that aren't defined using the base config, otherwise
+    // set the default values to the base config (found in BioMapConfigModel).
+    (( )  => {  // promise generator
       let cfg = new BioMapConfigModel(this.config);
-      console.log('testing stuff',cfg)
       return cfg.load();
-    })().then((item)=>{
-      this.bioConfig = item;
-    });
+    })().then( // promise resolution
+      (item)=>{ // success
+        this.bioConfig = item;
+        for( const key of Object.keys(defaultConfig)){
+          if(this.bioConfig.default[key] === undefined){
+            this.bioConfig.default[key] = defaultConfig[key];
+          }
+        }
+      }, 
+      ()=>{ // failure
+        this.bioConfig.default = defaultConfig;
+      }
+    );
 
     this.filters = filters || [];
     this.linkouts = linkouts || [];
     this.linkouts.forEach(l => {l.featuretypePattern != undefined ? l.featuretypePattern = new RegExp(l.featuretypePattern) : undefined;});
     this.background = true; // mithril not to redraw upon completion
-    console.log("testing conf", this.config);
   }
 
   /**
@@ -110,7 +121,6 @@ export class DataSourceModel {
    * @return Object - key: prefix + map_name -> val: BioMapModel instance
    */
   get bioMaps() {
-    console.log('testing stuff bc',this.bioConfig);
     const res = {};
       try {
         let typeField = this.parseResult.meta.fields.includes('feature_type') ? 'feature_type' : 'feature_type_acc';
@@ -147,14 +157,10 @@ export class DataSourceModel {
             res[uniqueMapName].tags.push(d[typeField]);
           }
         });
-        Object.keys(res).forEach( key => {
-         console.log('tags', res[key].tags);
-        });
       } catch(e) {
         console.trace();
         console.error(e);
       }
-      console.log('testing stuff res',res);
       return res;
   }
 }
