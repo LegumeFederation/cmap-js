@@ -81,7 +81,8 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     // heirarchy.
     let gb1 = this.bioMapComponents[0].backbone.backbone.globalBounds;
     this.bounds = new Bounds({
-      left: 0,
+      allowSubpixel: false,
+      left: 1,
       top: 0,
       width: this.domBounds.width,
       height: this.domBounds.height
@@ -90,6 +91,7 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     let corrData = [];
     let coorGroup = new Group({parent:this});
     coorGroup.bounds = new Bounds({
+      allowSubpixel: false,
       top: gb1.top,
       left: 0,
       width: this.domBounds.width,

@@ -12,7 +12,6 @@ export class QTL extends SceneGraphNodeBase {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
     this.featureMap = bioMap;
-    this.lineWidth = 1.0;
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     //min and max location in pixels
     this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
