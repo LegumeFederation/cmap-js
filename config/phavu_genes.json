@@ -1,0 +1,12 @@
+{
+  "default":{
+    "rulerWidth":10,
+    "rulerColor":"aqua",
+    "backboneWidth":10
+  },
+  "Pv02":{
+    "rulerWidth":5,
+    "rulerColor":"red",
+    "backboneWidth":10
+  }
+}

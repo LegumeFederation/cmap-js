@@ -18,9 +18,9 @@ export class  MapTrack extends SceneGraphNodeTrack {
     super(params);
     const b = this.parent.bounds;
     console.log('mapTrack',this.parent,b);
-    let bioModel = this.parent.model;
+    this.model = this.parent.model;
     //const backboneWidth = b.width * 0.2;
-    const backboneWidth =  60;
+    const backboneWidth =  this.model.config.backboneWidth;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,
@@ -29,13 +29,13 @@ export class  MapTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     this.mC = this.parent.mapCoordinates;
-    console.log('loading backbone', this, bioModel);
-    this.backbone = new MapBackbone({ parent: this, bioMap: bioModel});	
+    console.log('loading backbone', this, this.model);
+    this.backbone = new MapBackbone({ parent: this, bioMap: this.model});	
     this.addChild(this.backbone);
 
     // calculate scale factor between backbone coordinates in pixels
-    bioModel.view.pixelScaleFactor = this.backbone.bounds.height/bioModel.length;
-    bioModel.view.backbone = this.globalBounds;
+    this.model.view.pixelScaleFactor = this.backbone.bounds.height/this.model.length;
+    this.model.view.backbone = this.globalBounds;
 
     // Setup groups for markers and labels
     let markerGroup = new Group({parent:this});
@@ -54,7 +54,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     });
 
     // Filter features for drawing
-    this.filteredFeatures = bioModel.features.filter( model => {
+    this.filteredFeatures = this.model.features.filter( model => {
       return model.length <= 0.00001;
     });
 
@@ -65,7 +65,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
       let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
-        bioMap: bioModel
+        bioMap: this.model
       });
 
       let lm = new FeatureLabel({

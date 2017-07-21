@@ -10,14 +10,21 @@ export class Ruler extends SceneGraphNodeBase {
 
   constructor({parent, bioMap}) {
     super({parent});
+    let config = bioMap.config;
     this.mapCoordinates = bioMap.view;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
+    this.fillColor = config.rulerColor;
+    this.textFace = config.rulerLabelFace;
+    this.textSize = config.rulerLabelSize;
+    this.textColor = config.rulerLabelColor;
+    this.rulerPrecision = config.rulerPrecision;
+
     const b = this.parent.backbone.bounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: this.parent.bounds.top,
-      left: b.left-15 , //arbritray spacing to look goo
-      width: 10,
+      left: b.left- config.rulerWidth - config.rulerSpacing , //arbritray spacing to look goo
+      width: config.rulerWidth,
       height: b.height 
     });
   }
@@ -25,22 +32,21 @@ export class Ruler extends SceneGraphNodeBase {
   draw(ctx) {
     let start = this.mapCoordinates.visible.start * this.pixelScaleFactor;
     let stop = this.mapCoordinates.visible.stop * this.pixelScaleFactor;
-		let text = [this.mapCoordinates.base.start.toFixed(4),this.mapCoordinates.base.stop.toFixed(4)];
+		let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision),this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
     this.textWidth = w; 
 
     let gb = this.globalBounds || {};
     // draw baseline labels
-		ctx.font = '12px Nunito';
+		ctx.font = `${this.textSize}px ${this.textFace}`;
     ctx.textAlign = 'left';
-    ctx.fillStyle = 'black';
-    ctx.fillText(text[0],gb.left - ctx.measureText(text[0]).width -5,Math.floor(gb.top - 10));
-    ctx.fillText(text[1],gb.left - ctx.measureText(text[1]).width -5,Math.floor(gb.bottom +12 + 5));
+    ctx.fillStyle = this.textColor;
+    ctx.fillText(text[0],gb.left - ctx.measureText(text[0]).width - (gb.width/2),Math.floor(gb.top - this.textSize/2));
+    ctx.fillText(text[1],gb.left - ctx.measureText(text[1]).width - (gb.width/2),Math.floor(gb.bottom+this.textSize));
     // Draw zoom position labels
-		text = [this.mapCoordinates.visible.start.toFixed(4),this.mapCoordinates.visible.stop.toFixed(4)];
-    ctx.fillStyle = 'black';
-    ctx.fillText(text[0],this.parent.backbone.bounds.left + (Math.abs(ctx.measureText(text[0]).width -this.parent.backbone.bounds.width)/2) , (gb.top - 10));
-    ctx.fillText(text[1],this.parent.backbone.bounds.left +(Math.abs(ctx.measureText(text[1]).width -this.parent.backbone.bounds.width)/2),(gb.bottom + 12 + 5));
+		text = [this.mapCoordinates.visible.start.toFixed(this.rulerPrecision),this.mapCoordinates.visible.stop.toFixed(this.rulerPrecision)];
+    ctx.fillText(text[0],this.parent.backbone.bounds.left  , Math.floor(gb.top - this.textSize/2));
+    ctx.fillText(text[1],this.parent.backbone.bounds.left ,(gb.bottom + this.textSize));
     
 
     //Draw baseline ruler
@@ -52,7 +58,7 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.stroke();
 
     // Draw "zoom box"
-    ctx.fillStyle = 'aqua';
+    ctx.fillStyle = this.fillColor;//'aqua';
 		var height = stop - start > 1 ? stop-start : 1.0;
     ctx.fillRect(
       Math.floor(gb.left),
