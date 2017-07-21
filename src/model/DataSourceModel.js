@@ -26,7 +26,7 @@ export class DataSourceModel {
     this.data = data;
     this.url = url;
     this.config = config || {};
-    this.bioConfig = {};
+    this.bioConfig = {"default":defaultConfig};
     // request bioconfig urlpage as a promise, if it is gettable, fill in all
     // default values that aren't defined using the base config, otherwise
     // set the default values to the base config (found in BioMapConfigModel).
@@ -36,9 +36,11 @@ export class DataSourceModel {
     })().then( // promise resolution
       (item)=>{ // success
         this.bioConfig = item;
-        for( const key of Object.keys(defaultConfig)){
-          if(this.bioConfig.default[key] === undefined){
-            this.bioConfig.default[key] = defaultConfig[key];
+        for(const configGroup of Object.keys(this.bioConfig)){
+          for( const key of Object.keys(defaultConfig)){
+            if(this.bioConfig[configGroup][key] === undefined){
+              this.bioConfig[configGroup][key] = defaultConfig[key];
+            }
           }
         }
       }, 
