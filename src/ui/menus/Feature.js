@@ -56,19 +56,12 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
   }
 
   _dropDown(modal){
-    console.log('what inner', modal);
+    console.log('what inner', modal, modal.rootNode);
     let selector = this;
     return m('select',{
-      config: function(selectElement, isinit){
-        if(isinit) { 
-          selector.selectElement = modal.selected.name;
-          selector.update(modal.tagList);
-          return;
-        }
-          selector.selectElement = selectElement;
-          selector.update(modal.tagList);
-      },
+      selectedIndex : selector.selected.index,
       onchange: function(e){
+        console.log("selected on drop",this,e);
         selector.selected.name = e.target.value;
         selector.selected.index = modal.tagList.indexOf(e.target.value);
        }},[modal.tagList.map(tag => {
