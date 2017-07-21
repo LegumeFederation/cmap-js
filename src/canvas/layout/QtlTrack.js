@@ -49,7 +49,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
             featureModel: model,
             parent: this.qtlGroup,
             bioMap: this.parent.model,
-            fill:this.parent.model.qtlGroups[i].color
+            initialConfig:this.parent.model.qtlGroups[i]
           });
           qtlGroup.addChild(fm);
           let loc = {
@@ -61,16 +61,14 @@ export class  QtlTrack extends SceneGraphNodeTrack {
           };
           qtlGroup.locMap.insert(loc);
           fmData.push(loc);
-          console.log("butts", fm.globalBounds.rigth, this.globalBounds.right);
           if(fm.globalBounds.right > this.globalBounds.right){
             this.maxLoc = this.globalBounds.right;
             this.bounds.right = this.globalBounds.left + (fm.globalBounds.right - this.globalBounds.left);
-            qtlGroup.bounds.right = qtlGroup.bounds.left + (fm.globalBounds.right - qtlGroup.globalBounds.left) + 12; //set to fm.textWidth
+            qtlGroup.bounds.right = qtlGroup.bounds.left + (fm.globalBounds.right - qtlGroup.globalBounds.left) + fm.offset; //set to fm.textWidth
           }
           return fm;
         });
         this.locMap.load(fmData);
-        console.log(this.locMap.all());
       }
     } else { // TODO: Rewrite so that this isn't required to be here
       let qtlGroup = new Group({parent:this});
@@ -88,13 +86,12 @@ export class  QtlTrack extends SceneGraphNodeTrack {
 
   get visible(){
     return this.locMap.all();
-    //return this.locMap.all().concat([{data:this}]);
+    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   } 
   
   draw(ctx){
-    ctx.save()
-     ctx.globalAlpha = .5;
-    let gb = this.globalBounds || {};
+    ctx.save();
+    ctx.globalAlpha = .5;
     ctx.fillStyle = '#ADD8E6';
     this.children.forEach( child => {
       let cb = child.globalBounds;
@@ -104,7 +101,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         Math.floor(cb.width),
         Math.floor(cb.height)
       );
-    })
+    });
     ctx.restore();
   }
 
@@ -120,7 +117,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
           maxX: qtlGroup.globalBounds.right ,
           data: qtlGroup
         };
-      })  
+      });
     });
     console.log(childPos);
     childPos.forEach( childArray =>{

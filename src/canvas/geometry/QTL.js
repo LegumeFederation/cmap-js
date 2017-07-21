@@ -8,17 +8,22 @@ import {Bounds} from '../../model/Bounds';
 
 export class QTL extends SceneGraphNodeBase {
 
-  constructor({parent, bioMap, featureModel,fill}) {
+  constructor({parent, bioMap, featureModel, initialConfig}) {
     super({parent, tags: [featureModel.name]});
+    let config = bioMap.config;
     this.model = featureModel;
     this.featureMap = bioMap;
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     //min and max location in pixels
     this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
     this.stopLoc = this._translateScale(this.featureMap.view.visible.stop) * this.pixelScaleFactor;
-    this.fill = fill || 'darkBlue'; 
-    this.width = 4;
-    this.offset = 15;
+    this.fill = initialConfig.trackColor || config.trackColor ; 
+    this.width = initialConfig.trackWidth || config.trackWidth;
+    this.trackSpacing = initialConfig.trackSpacing || config.trackSpacing;
+    this.labelColor = config.trackLabelColor;
+    this.labelSize = config.trackLabelSize;
+    this.labelFace = config.trackLabelFace;
+    this.offset = this.trackSpacing + this.labelSize;
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
@@ -76,6 +81,9 @@ export class QTL extends SceneGraphNodeBase {
     });
     let gb = this.globalBounds || {};
     let qtlHeight = gb.height > 1 ? gb.height : 1;
+    let fontSize = this.labelSize;
+    let fontStyle = this.labelFace;
+    ctx.font = `${fontSize}px ${fontStyle}`;
     ctx.fillStyle = this.fill;
     ctx.fillRect(
       Math.floor(gb.left),
@@ -83,7 +91,7 @@ export class QTL extends SceneGraphNodeBase {
       Math.floor(this.width),
       Math.floor(qtlHeight)
     );
-    let textWidth = ctx.measureText(this.model.name).width + (ctx.measureText("M").width*6);
+    let textWidth = ctx.measureText(this.model.name).width + (ctx.measureText('M').width*6);
     let textStop = this.model.coordinates.stop - this._translateScale(textWidth/this.pixelScaleFactor);
     let overlap = this.parent.locMap.search({
       minY: textStop > this.featureMap.view.visible.start ? textStop : this.featureMap.view.visible.start,
@@ -94,15 +102,10 @@ export class QTL extends SceneGraphNodeBase {
     console.log('qtl',overlap);
     if(overlap.length <=1 || textWidth <= gb.height){
       ctx.save();
-      let fontSize = 10;
-      let fontStyle = 'Nunito'
-      ctx.font = `${fontSize}pt ${fontStyle}`;
       ctx.translate(gb.left,gb.top);
-      ctx.fillStyle = 'black';
+      ctx.fillStyle = this.labelColor;
       ctx.rotate(-Math.PI /2);
       ctx.fillText(this.model.name,-gb.height,this.width+fontSize+1);
-
-     
       ctx.restore();
     }
 
