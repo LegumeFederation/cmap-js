@@ -50,6 +50,11 @@
       "method": "GET",
       "url": "data/phavu.collinearity+genes+markers.cmap",
       "filters" : [],
+      "config": {
+        "url" : "config/phavu_genes.json",
+        "method":"GET",
+        "data":{}
+      },
       "linkouts" : [
         {
             "featuretype" : "gene",
@@ -62,6 +67,11 @@
       "method": "GET",
       "url": "data/glyma.collinearity+genes+markers.cmap",
       "filters" : [],
+      "config": {
+        "url" : "config/phavu_genes.json",
+        "method":"GET",
+        "data":{}
+      },
       "linkouts" : [
         {
             "featuretype" : "gene",

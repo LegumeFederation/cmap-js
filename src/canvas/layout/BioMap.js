@@ -7,6 +7,9 @@
   *
   */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+
+import {featureUpdate,dataLoaded} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
@@ -32,6 +35,7 @@ export class BioMap extends SceneGraphNodeCanvas {
         stop: this.model.coordinates.stop
       }
     };
+    this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start)/this.model.config.rulerSteps;
     // set up coordinate bounds for view scaling
     this.appState = appState;
     this.verticalScale = 0;
@@ -52,6 +56,16 @@ export class BioMap extends SceneGraphNodeCanvas {
       wheel: new RegExp('^wheel')
     };
     this._layout(layoutBounds);
+
+  }
+
+  oncreate(vnode) {
+    super.oncreate(vnode);
+    PubSub.subscribe(featureUpdate, () => {
+      console.log('what BioMap');
+      this._layout(this.lb);
+      this._redrawViewport(this.model.view.visible);
+    });
   }
   /**
    * culls elements to draw down to only those visible within the view 
@@ -88,7 +102,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
-    this.verticalScale = evt.deltaY < 0 ? -0.5 : 0.5;
+    this.verticalScale = evt.deltaY < 0 ? -this.zoomDelta : this.zoomDelta;
     let mcv = this.model.view.base;
     let zStart = (this.model.view.visible.start + this.verticalScale);
     let zStop = (this.model.view.visible.stop - this.verticalScale);
@@ -352,6 +366,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // labels
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
+    this.lb = layoutBounds;
     console.log('BioMap -> layout');
     const width = Math.floor(layoutBounds.width/this.appState.bioMaps.length);
     this.children = [];

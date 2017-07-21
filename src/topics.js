@@ -11,3 +11,5 @@ export const dataLoaded = 'loaded'; // data finished loading, or was filtered/up
 // by user
 export const mapRemoved = 'mapRemoved';
 export const mapAdded = 'mapAdded';
+
+export const featureUpdate = 'featureUpdate'; // change to qtlConfig from modal

@@ -10,11 +10,11 @@ export class FeatureLabel extends SceneGraphNodeBase {
   constructor({parent, bioMap, featureModel}) {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
-    this.featureMap = bioMap;
-    this.fontSize = '12px';
-    this.fontFace = 'Nunito';
-    this.fontColor = 'black';
-    this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
+    this.view = bioMap.view;
+    this.fontSize = bioMap.config.markerLabelSize;
+    this.fontFace = bioMap.config.markerLabelFace;
+    this.fontColor = bioMap.config.markerLabelColor;
+    this.pixelScaleFactor = this.view.pixelScaleFactor;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
@@ -27,9 +27,9 @@ export class FeatureLabel extends SceneGraphNodeBase {
   draw(ctx) {
     let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
     this.bounds.top = y;
-    this.bounds.bottom = y + 12;
+    this.bounds.bottom = y + this.fontSize;
     let gb = this.globalBounds || {};
-    ctx.font = `${this.fontSize} ${this.fontFace}`;
+    ctx.font = `${this.fontSize}px ${this.fontFace}`;
     ctx.textAlign = 'left';
     ctx.fillStyle = this.fontColor;
     ctx.fillText(this.model.name,gb.left, gb.top);
@@ -39,8 +39,8 @@ export class FeatureLabel extends SceneGraphNodeBase {
   }
 
   _translateScale(point){
-    let coord = this.featureMap.view.base;
-    let vis = this.featureMap.view.visible;
+    let coord = this.view.base;
+    let vis = this.view.visible;
     return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
   }
 }

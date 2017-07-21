@@ -26,6 +26,9 @@ here.
     ```
     npm install
     ```
+### Potential Issues
+There has been a report of node getting stuck during install on macOS. This is
+not a cmap-js issue, but should be fixable following the directions found [here](http://osxdaily.com/2016/07/26/fix-stuck-pkg-verifying-installer-mac-os-x/).
 
 ## Build and Tests
 
@@ -39,6 +42,9 @@ npm run test     # mocha test runner
 npm run coverage # mocha and istanbul coverage report
 npm run watch    # build, watch and livereload
 ```
+
+Watch script has only been tested on macOS systems, and may not work on other
+platforms.
 
 ## Configuration File
 
