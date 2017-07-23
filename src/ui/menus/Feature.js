@@ -16,6 +16,7 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
     super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
     this.settings = vnode.attrs.info.parent.parent.model.qtlGroups[vnode.attrs.order];
+    this.groupTags = vnode.attrs.info.tags;
     this.selected = { name: this.settings.filter, index: this.tagList.indexOf(this.settings.filter)};
   }
    
@@ -41,6 +42,7 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
         onclick: function(){
           console.log('what what', modal.settings);
           modal.settings.filter = modal.selected.name;
+          modal.groupTags[0] = modal.selected.name;
           PubSub.publish(featureUpdate, null);
           modal.rootNode.dom.remove(modal.rootNode);
         }

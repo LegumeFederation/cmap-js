@@ -25,7 +25,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
-        let qtlGroup = new Group({parent:this});
+        let qtlGroup = new Group({parent:this, tags:[qtlConf.filter]});
         this.addChild(qtlGroup);
         let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
         this.qtlGroup = qtlGroup;

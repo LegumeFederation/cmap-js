@@ -144,7 +144,7 @@ export class HorizontalLayout
                       maps.modal[0] = component;
                       m.redraw();
                     }
-                  },`track-${i}`)
+                  }, featureGroup.tags[0])
               ); 
               console.log( "featureControls child children", child.children[i]);
             }
