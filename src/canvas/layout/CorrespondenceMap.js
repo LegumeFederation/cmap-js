@@ -6,7 +6,7 @@
 import m from 'mithril';
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
-import {Group} from '../node/SceneGraphNodeGroup';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {CorrespondenceMark} from '../geometry/CorrespondenceMark';
 import {featuresInCommon} from '../../model/Feature';
 
@@ -89,7 +89,7 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     });
     
     let corrData = [];
-    let coorGroup = new Group({parent:this});
+    let coorGroup = new SceneGraphNodeGroup({parent:this});
     coorGroup.bounds = new Bounds({
       allowSubpixel: false,
       top: gb1.top,

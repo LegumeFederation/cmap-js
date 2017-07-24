@@ -13,7 +13,7 @@ import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/layout/CorrespondenceMap';
 import {QtlTrack} from '../../canvas/layout/QtlTrack';
 import {Popover} from '../menus/Popover';
-import {FeatureMenu} from '../menus/Feature';
+import {FeatureMenu} from '../menus/FeatureMenu';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class HorizontalLayout

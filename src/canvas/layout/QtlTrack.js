@@ -3,7 +3,7 @@
   * A SceneGraphNode representing a collection of QTLs.
   */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import { Group } from '../node/SceneGraphNodeGroup';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
 
@@ -25,7 +25,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
-        let qtlGroup = new Group({parent:this});
+        let qtlGroup = new SceneGraphNodeGroup({parent:this});
         this.addChild(qtlGroup);
         let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
         this.qtlGroup = qtlGroup;
@@ -71,7 +71,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         this.locMap.load(fmData);
       }
     } else { // TODO: Rewrite so that this isn't required to be here
-      let qtlGroup = new Group({parent:this});
+      let qtlGroup = new SceneGraphNodeGroup({parent:this});
       this.addChild(qtlGroup);
       this.qtlGroup = qtlGroup;
       
