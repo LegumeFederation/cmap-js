@@ -13,6 +13,7 @@ import {featureUpdate,dataLoaded} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
+import {Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from './MapTrack';
 import {QtlTrack} from './QtlTrack';
 import {Ruler} from '../geometry/Ruler';
@@ -383,11 +384,20 @@ export class BioMap extends SceneGraphNodeCanvas {
       height: Math.floor(this.domBounds.height - 140) // set to reasonably re-size for smaller windows
     });
     //Add children tracks
+    this.bbGroup = new Group({parent:this});
+    this.bbGroup.bounds = new Bounds({
+        top:0,
+        left:0,
+        width:10
+        });
+    this.bbGroup.model = this.model;
     this.backbone = new MapTrack({parent:this});
-    this.children.push(this.backbone);
+    this.bbGroup.addChild(this.backbone);
+    this.children.push(this.bbGroup);
     this.model.view.backbone = this.backbone.backbone.globalBounds;
     this.ruler = new Ruler({parent:this, bioMap:this.model});
-    this.children.push(this.ruler);
+    this.bbGroup.addChild(this.ruler);
+    this.children.push(this.bbGroup);
     let qtl  = new QtlTrack({parent:this});
     //console.log('QTL Loc', this.domBounds.width, qtl.globalBounds.right);
     if(this.domBounds.width < qtl.globalBounds.right){

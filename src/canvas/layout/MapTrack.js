@@ -24,7 +24,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,
-      left: b.width * 0.5 - backboneWidth * 0.5,
+      left: this.model.config.rulerLabelSize * 10,//b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
       height: b.height
     });
