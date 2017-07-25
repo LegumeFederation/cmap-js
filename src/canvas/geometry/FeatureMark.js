@@ -24,7 +24,6 @@ export class FeatureMark extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    console.log('drawing');
     let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
     this.bounds.top = y;
     let gb = this.globalBounds || {};
