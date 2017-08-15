@@ -9,6 +9,7 @@ import {featureUpdate, reset} from '../../topics';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {Menu} from './Menus';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
+import {Dropdown} from './Dropdown';
 
 export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
 
@@ -16,7 +17,7 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
     super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
     this.settings = vnode.attrs.info.parent.parent.model.qtlGroups[vnode.attrs.order];
-    this.selected = { name: this.settings.filter, index: this.tagList.indexOf(this.settings.filter)};
+    this.selected = [{ name: this.settings.filter, index: this.tagList.indexOf(this.settings.filter)}];
   }
    
   /**
@@ -28,19 +29,37 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
     let order = vnode.attrs.order || 0;
     let modal = this;
     modal.rootNode = vnode;
-  
+
     return m('div', {
        class: 'feature-menu',
        style: `position:absolute; left: 0px; top: 0px; width:${bounds.width}px;height:${bounds.height}px`,
        onclick: function(){console.log('what',this);}
-     },[this._dropDown(modal), this._applyButton(modal), this._closeButton(modal)]);
+     },[this._dropdownDiv(modal), this._applyButton(modal), this._closeButton(modal)]);
+  }
+
+  _dropdownDiv(modal){
+    var dropdowns = [];
+    console.log('dd',modal.settings);
+    var settings = [{filter: modal.settings.filter,tags:modal.tagList},{filter:'QTL_root',tags:modal.tagList}];
+    console.log('dd', settings); 
+    console.log('dd set',modal.settings);
+    console.log('dd set arr',modal.settings);
+    console.log('dd set typeof', typeof [modal.settings] === 'array');
+    for(var i = 0; i < modal.selected.length; i++){
+      dropdowns[i] = this._dropDown(modal,settings[0],i);
+    };
+    console.log('bleep dropdowns', dropdowns);
+
+    return m('div',{class:'dropdown-container',
+        style: `height:90%`
+      },m('div',dropdowns));
   }
   
   _applyButton(modal){
      return  m('button',{
         onclick: function(){
-          console.log('what what', modal.settings);
-          modal.settings.filter = modal.selected.name;
+          console.log('dd what what', modal.settings, modal.selected);
+          modal.settings.filter = modal.selected[0].name;
           PubSub.publish(featureUpdate, null);
           modal.rootNode.dom.remove(modal.rootNode);
         }
@@ -55,19 +74,32 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
       },'Close');
   }
 
-  _dropDown(modal){
-    console.log('what inner', modal, modal.rootNode);
+  _dropDown(modal,settings,order){
     let selector = this;
-    return m('select',{
-      selectedIndex : selector.selected.index,
-      onchange: function(e){
-        console.log("selected on drop",this,e);
-        selector.selected.name = e.target.value;
-        selector.selected.index = modal.tagList.indexOf(e.target.value);
-       }},[modal.tagList.map(tag => {
-      return m('option', tag);
+    if(!selector.selected[order]){
+      selector.selected[order] = {index:0};
+    }
+    console.log('dd init',selector.selected[order]);
+    return m('div',m('select',{
+      id:`selector-${order}`,
+      selectedIndex : selector.selected[order].index,
+      onmouseout: (e)=>{
+        selector.selected[order].name = settings.tags[e.target.options.selectedIndex];
+        selector.selected[order].index = e.target.options.selectedIndex;
+       },
+      onclose: (e) => {
+        console.log('dd click out',e);
+      },
+      onmousedown: (e) => {
+        console.log('dd click down',e);
+      }
+    },[settings.tags.map(tag => {
+      return m('option',{onclose: (e) => {console.log('dd click onsel');}}, tag);
       })
-    ])
+    ]),m('button',{onclick : e =>{
+      selector.selected[selector.selected.length] = {index:0};
+    }},'+'),m('button',{onclick: e => {
+      selector.selected.splice(order,1);}},'-'))
   }
 
 	handleGesture(){
@@ -75,3 +107,4 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
 		return true;
 	}
 }
+
