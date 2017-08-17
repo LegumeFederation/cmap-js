@@ -26,6 +26,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
         if (typeof qtlConf.filter === 'string'){ qtlConf.filter = [qtlConf.filter];}
+        if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}
         let qtlGroup = new Group({parent:this});
         this.addChild(qtlGroup);
         let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
@@ -47,6 +48,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
             })
             this.filteredFeatures = this.filteredFeatures.concat(test);
         });
+        this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
         console.log('QTL filter',this.filteredFeatures);
         console.log('QTL filter', this.parent.model.source);
         let fmData = [];
