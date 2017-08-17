@@ -17,7 +17,12 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
     super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
     this.settings = vnode.attrs.info.parent.parent.model.qtlGroups[vnode.attrs.order];
-    this.selected = [{ name: this.settings.filter, index: this.tagList.indexOf(this.settings.filter)}];
+    console.log('dd mod set',this.settings);
+    this.selected = this.settings.filter.map( item => {
+      return {name: item, 
+              index: this.tagList.indexOf(item)}
+    });
+    console.log('dd mod set',this.selected);
   }
    
   /**
@@ -39,31 +44,31 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
 
   _dropdownDiv(modal){
     var dropdowns = [];
-    console.log('dd',modal.settings);
-    var settings = [{filter: modal.settings.filter,tags:modal.tagList},{filter:'QTL_root',tags:modal.tagList}];
-    console.log('dd', settings); 
-    console.log('dd set',modal.settings);
-    console.log('dd set arr',modal.settings);
-    console.log('dd set typeof', typeof [modal.settings] === 'array');
     for(var i = 0; i < modal.selected.length; i++){
-      dropdowns[i] = this._dropDown(modal,settings[0],i);
+      var settings = {
+        name: modal.settings.filter[i], 
+        trackColor: modal.settings.trackColor[i] || modal.settings.trackColor[0],
+        tags: modal.tagList
+      };
+      if(modal.selected[i].index === -1){
+        modal.selected[i].index = settings.tags.indexOf(settings.name);
+      }
+
+      dropdowns[i] = this._dropDown(modal,settings,i);
     };
-    console.log('bleep dropdowns', dropdowns);
 
     return m('div',{class:'dropdown-container',
         style: `height:90%`
-      },m('div',[dropdowns,m(new Dropdown())]));
+      },m('div',[dropdowns]));
   }
   
   _applyButton(modal){
      return  m('button',{
         onclick: function(){
-          console.log('dd what what', modal.settings, modal.selected);
           modal.settings.filter = modal.selected[0].name;
           modal.settings.filter = modal.selected.map( selected => {
             return selected.name;
           });
-          console.log('dd what settings',modal.settings);
           PubSub.publish(featureUpdate, null);
           modal.rootNode.dom.remove(modal.rootNode);
         }
@@ -80,25 +85,16 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
 
   _dropDown(modal,settings,order){
     let selector = this;
-    if(!selector.selected[order]){
-      selector.selected[order] = {index:0};
-    }
-    console.log('dd init',selector.selected[order]);
     return m('div',m('select',{
       id:`selector-${order}`,
       selectedIndex : selector.selected[order].index,
-      onmouseout: (e)=>{
-        selector.selected[order].name = settings.tags[e.target.options.selectedIndex];
-        selector.selected[order].index = e.target.options.selectedIndex;
-       },
-      onclose: (e) => {
-        console.log('dd click out',e);
-      },
-      onmousedown: (e) => {
-        console.log('dd click down',e);
-      }
+      oninput: (e)=>{
+        var selected = e.target.selectedIndex;
+        selector.selected[order].name = settings.tags[selected];
+        selector.selected[order].index = selected;
+       }
     },[settings.tags.map(tag => {
-      return m('option',{onclose: (e) => {console.log('dd click onsel');}}, tag);
+      return m('option', tag);
       })
     ]),m('button',{onclick : e =>{
       selector.selected[selector.selected.length] = {index:0};
