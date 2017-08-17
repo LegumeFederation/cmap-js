@@ -20,7 +20,6 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       width: 50,
       height: b.height
     });
-    console.log('QTL filter', this.parent.model);
     if(this.parent.model.qtlGroups){
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
@@ -39,18 +38,14 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         });
 
         this.mapCoordinates = this.parent.mapCoordinates;
-        console.log('QTL filter',this.parent.model.features.filter);
         this.filteredFeatures = [];
         qtlConf.filter.forEach( filter => {
-          console.log('QTL filter', qtlConf, filter);
             var test = this.parent.model.features.filter( model => {
               return model.tags[0].match(filter) !== null;
             })
             this.filteredFeatures = this.filteredFeatures.concat(test);
         });
         this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
-        console.log('QTL filter',this.filteredFeatures);
-        console.log('QTL filter', this.parent.model.source);
         let fmData = [];
         this.maxLoc = 0;
         this.qtlMarks = this.filteredFeatures.map( model => {
@@ -128,13 +123,9 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         };
       });
     });
-    console.log(childPos);
     childPos.forEach( childArray =>{
-      console.log(childArray);
       hits = hits.concat(childArray);
-      console.log(hits);
     });
-    console.log(hits);
    return hits;
     //  return {
     //    minY: child.globalBounds.top,
