@@ -8,6 +8,7 @@ import {featureUpdate, reset} from '../../topics';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {Menu} from './Menus';
+import {Dropdown} from './Dropdown';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
@@ -51,7 +52,7 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
 
     return m('div',{class:'dropdown-container',
         style: `height:90%`
-      },m('div',dropdowns));
+      },m('div',[dropdowns,m(new Dropdown())]));
   }
   
   _applyButton(modal){
@@ -59,6 +60,10 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
         onclick: function(){
           console.log('dd what what', modal.settings, modal.selected);
           modal.settings.filter = modal.selected[0].name;
+          modal.settings.filter = modal.selected.map( selected => {
+            return selected.name;
+          });
+          console.log('dd what settings',modal.settings);
           PubSub.publish(featureUpdate, null);
           modal.rootNode.dom.remove(modal.rootNode);
         }
@@ -101,9 +106,10 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
       selector.selected.splice(order,1);}},'-'))
   }
 
-	handleGesture(){
+	handleGesture(e){
 		// prevent interacting with div from propegating events
-		return true;
+    console.log('hammer time',e);
+    return true;
 	}
 }
 

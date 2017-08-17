@@ -25,6 +25,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
+        if (typeof qtlConf.filter === 'string'){ qtlConf.filter = [qtlConf.filter];}
         let qtlGroup = new Group({parent:this});
         this.addChild(qtlGroup);
         let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
@@ -37,8 +38,14 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         });
 
         this.mapCoordinates = this.parent.mapCoordinates;
-        this.filteredFeatures = this.parent.model.features.filter( model => {
-          return model.tags[0].match(qtlConf.filter) !== null;
+        console.log('QTL filter',this.parent.model.features.filter);
+        this.filteredFeatures = [];
+        qtlConf.filter.forEach( filter => {
+          console.log('QTL filter', qtlConf, filter);
+            var test = this.parent.model.features.filter( model => {
+              return model.tags[0].match(filter) !== null;
+            })
+            this.filteredFeatures = this.filteredFeatures.concat(test);
         });
         console.log('QTL filter',this.filteredFeatures);
         console.log('QTL filter', this.parent.model.source);
