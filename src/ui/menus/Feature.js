@@ -8,7 +8,6 @@ import {featureUpdate, reset} from '../../topics';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {Menu} from './Menus';
-import {Dropdown} from './Dropdown';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
