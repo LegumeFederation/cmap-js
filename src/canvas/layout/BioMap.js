@@ -60,15 +60,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._layout(layoutBounds);
 
   }
-  onupdate(vnode){
-    super.onupdate(vnode);
-    let b = new Bounds(this.el.getBoundingClientRect());
-    console.log('updated onup',vnode);
-  }
+  
   oncreate(vnode) {
     super.oncreate(vnode);
     PubSub.subscribe(featureUpdate, () => {
-      console.log('what BioMap');
       this._layout(this.lb);
       this._redrawViewport(this.model.view.visible);
     });
@@ -372,8 +367,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     // labels
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
-    console.log('updated layout pre', this.bounds, this.domBounds);
-    const originalWidth = this.domBounds ? this.domBounds.width : null;
     this.lb = layoutBounds;
     console.log('BioMap -> layout');
     const width = Math.floor(layoutBounds.width/this.appState.bioMaps.length);
@@ -407,7 +400,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.bbGroup.addChild(this.ruler);
     this.children.push(this.bbGroup);
     let qtl  = new QtlTrack({parent:this});
-    //console.log('QTL Loc', this.domBounds.width, qtl.globalBounds.right);
     if(this.domBounds.width < qtl.globalBounds.right){
       this.domBounds.width = qtl.globalBounds.right + 20;
     }
@@ -415,7 +407,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     //load local rBush tree for hit detection
     this._loadHitMap();
     //let layout know that width has changed on an element;
-    this.appState.bioMaps[this.bioMapIndex].component=this;
     m.redraw();
   }
 
