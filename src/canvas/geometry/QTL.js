@@ -17,7 +17,6 @@ export class QTL extends SceneGraphNodeBase {
     //min and max location in pixels
     this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
     this.stopLoc = this._translateScale(this.featureMap.view.visible.stop) * this.pixelScaleFactor;
-    console.log('QTL dbg la',config,featureModel,bioMap,initialConfig);
 
     this.fill = initialConfig.trackColor[initialConfig.filter.indexOf(this.model.tags[0])]||initialConfig.trackColor[0] || config.trackColor ; 
     this.width = initialConfig.trackWidth || config.trackWidth;
@@ -33,14 +32,6 @@ export class QTL extends SceneGraphNodeBase {
     let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
     let leftLoc = 0;
     let leftArr = [];
-    console.log(
-    this.parent.locMap.search({
-      minY: this.model.coordinates.start,
-      maxY: this.model.coordinates.stop,
-      minX: 0,
-      maxX:10000
-    })
-    );
     leftArr = this.parent.locMap.search({
       minY: this.model.coordinates.start,
       maxY: this.model.coordinates.stop,
@@ -102,7 +93,6 @@ export class QTL extends SceneGraphNodeBase {
       minX: gb.left,
       maxX: gb.right
     });
-    console.log('qtl',overlap);
     if(overlap.length <=1 || textWidth <= gb.height){
       ctx.save();
       ctx.translate(gb.left,gb.top);

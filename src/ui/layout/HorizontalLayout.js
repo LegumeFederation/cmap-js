@@ -56,7 +56,6 @@ export class HorizontalLayout
    * mithril component render method
    */
   view() {
-    console.log('view!',this.modal);
     return m('div.cmap-layout-horizontal',
        [this.swapComponents,this.bioMapComponents.map(m),this.featureControls,this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
@@ -81,7 +80,6 @@ export class HorizontalLayout
 		let maps = this;
     for (var i = 0; i < n; i++) {
 			let bMap = this.bioMapComponents[i];
-      console.log('swap test',bMap);
 			const b = i;
 			let left ='',right='';
 			if(b>0){
@@ -146,7 +144,6 @@ export class HorizontalLayout
                     }
                   },`track-${i}`)
               ); 
-              console.log( "featureControls child children", child.children[i]);
             }
           }
 		    }
@@ -177,9 +174,7 @@ export class HorizontalLayout
         bioMapIndex: mapIndex
       });
       model.component = component; // save a reference for mapping model -> component
-      console.log('updated width?', component.domBounds.width, model.component.domBounds.width, layoutBounds.width);
       cursor += component.domBounds.width + padding;
-      console.log('map children', component.children);
       return component;
     });
 
@@ -241,11 +236,9 @@ export class HorizontalLayout
   _onFeatureUpdate(msg,data){
     var rightShift = 0;
     this.appState.bioMaps.map( bmap => {
-      console.log('testing',bmap);
       bmap.component.lb.left = rightShift;
       bmap.component.domBounds.left = rightShift;
       rightShift += bmap.component.domBounds.width;
-      console.log('testing',bmap);
     })
     this._onDataLoaded();
   }
