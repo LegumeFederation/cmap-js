@@ -20,8 +20,9 @@ import {Ruler} from '../geometry/Ruler';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
-  constructor({bioMapModel, appState, layoutBounds}) {
+  constructor({bioMapModel, appState, layoutBounds, bioMapIndex}) {
     super({model:bioMapModel});
+    this.bioMapIndex = bioMapIndex;
     this.model.visible = {
       start: this.model.coordinates.start,
       stop: this.model.coordinates.stop
@@ -59,7 +60,11 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._layout(layoutBounds);
 
   }
-
+  onupdate(vnode){
+    super.onupdate(vnode);
+    let b = new Bounds(this.el.getBoundingClientRect());
+    console.log('updated onup',vnode);
+  }
   oncreate(vnode) {
     super.oncreate(vnode);
     PubSub.subscribe(featureUpdate, () => {
@@ -141,7 +146,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       // temp fix, find why hit map stopped updating properly
       if((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
         (hit.data.model.coordinates.start <= this.model.view.visible.stop)){
-        hits.push(hit.data);
+         hits.push(hit.data);
       } else if((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
         (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
         hits.push(hit.data);
@@ -367,16 +372,19 @@ export class BioMap extends SceneGraphNodeCanvas {
     // labels
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
+    console.log('updated layout pre', this.bounds, this.domBounds);
+    const originalWidth = this.domBounds ? this.domBounds.width : null;
     this.lb = layoutBounds;
     console.log('BioMap -> layout');
     const width = Math.floor(layoutBounds.width/this.appState.bioMaps.length);
     this.children = [];
     this.domBounds = new Bounds({
-      left: layoutBounds.left,
+      left:layoutBounds.left,
       top: layoutBounds.top,
       width: width > 300 ? width:300,
       height: layoutBounds.height
     });
+    
     this.bounds = new Bounds({
       left: 0,
       top: layoutBounds.top + 40,
@@ -406,6 +414,11 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.children.push(qtl);
     //load local rBush tree for hit detection
     this._loadHitMap();
+    console.log('updated layout post', originalWidth, this.domBounds.width);
+    //let layout know that width has changed on an element;
+       // PubSub.publish(featureUpdate,null);
+     
+    }
     m.redraw();
   }
 

@@ -8,29 +8,31 @@ import {featureUpdate, reset} from '../../topics';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {Menu} from './Menus';
-import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
-export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
+export class FeatureMenu extends Menu {
 
   oninit(vnode){
-    super.oninit(vnode);
+    //super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
     this.settings = vnode.attrs.info.parent.parent.model.qtlGroups[vnode.attrs.order];
-    console.log('dd mod set',this.settings);
     this.selected = this.settings.filter.map( item => {
       return {name: item, 
-              index: this.tagList.indexOf(item)}
+              index: this.tagList.indexOf(item)};
     });
     console.log('dd mod set',this.selected);
   }
-   
+  /**
+   * mithril component method
+   */
+	oncreate(vnode) {
+    // using super here attaches handleGesture() to the mithril component
+    super.oncreate(vnode);
+  }
   /**
    * mithril component render method
    */
   view(vnode) {
-    let info = vnode.attrs.info || {};
     let bounds = vnode.attrs.bounds || {};
-    let order = vnode.attrs.order || 0;
     let modal = this;
     modal.rootNode = vnode;
 
@@ -54,10 +56,10 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
       }
 
       dropdowns[i] = this._dropDown(modal,settings,i);
-    };
+    }
 
     return m('div',{class:'dropdown-container',
-        style: `height:90%`
+        style: 'height:90%'
       },m('div',[dropdowns]));
   }
   
@@ -69,6 +71,7 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
             return selected.name;
           });
           PubSub.publish(featureUpdate, null);
+          m.redraw();
           modal.rootNode.dom.remove(modal.rootNode);
         }
       },'Apply Selection');
@@ -95,15 +98,14 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin){
     },[settings.tags.map(tag => {
       return m('option', tag);
       })
-    ]),m('button',{onclick : e =>{
+    ]),m('button',{onclick : () =>{
       selector.selected[selector.selected.length] = {index:0};
-    }},'+'),m('button',{onclick: e => {
-      selector.selected.splice(order,1);}},'-'))
+    }},'+'),m('button',{onclick: () => {
+      selector.selected.splice(order,1);}},'-'));
   }
 
-	handleGesture(e){
+	handleGesture(){
 		// prevent interacting with div from propegating events
-    console.log('hammer time',e);
     return true;
 	}
 }

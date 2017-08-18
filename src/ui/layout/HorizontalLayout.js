@@ -41,7 +41,7 @@ export class HorizontalLayout
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
       PubSub.subscribe(reset,() => { this._onReset();}),
-      PubSub.subscribe(featureUpdate, () => { this._featureUpdate();})
+      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();})
     ];
   }
 
@@ -163,7 +163,7 @@ export class HorizontalLayout
     padding = 0; // TODO: decide whether to add padding between the biomaps
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let cursor = Math.floor(padding * 0.5);
-    this.bioMapComponents = this.appState.bioMaps.map( model => {
+    this.bioMapComponents = this.appState.bioMaps.map( (model,mapIndex) => {
       let layoutBounds = new Bounds({
         left: cursor,
         top: 10,
@@ -174,8 +174,10 @@ export class HorizontalLayout
         bioMapModel: model,
         layoutBounds: layoutBounds,
         appState: this.appState,
+        bioMapIndex: mapIndex
       });
       model.component = component; // save a reference for mapping model -> component
+      console.log('updated width?', component.domBounds.width, model.component.domBounds.width, layoutBounds.width);
       cursor += component.domBounds.width + padding;
       console.log('map children', component.children);
       return component;
@@ -236,10 +238,9 @@ export class HorizontalLayout
     m.redraw();
   }
   
-  _featureUpdate(){
-    console.log('updated butts!');
-    this._layoutFeatureControls();
-    m.redraw();
+  _onFeatureUpdate(msg,data){
+    this._onDataLoaded;
+    this._onDataLoaded;
   }
 
 }
