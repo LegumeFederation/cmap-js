@@ -239,7 +239,15 @@ export class HorizontalLayout
   }
   
   _onFeatureUpdate(msg,data){
-    this._onDataLoaded;
+    var rightShift = 0;
+    this.appState.bioMaps.map( bmap => {
+      console.log('testing',bmap);
+      bmap.component.lb.left = rightShift;
+      bmap.component.domBounds.left = rightShift;
+      rightShift += bmap.component.domBounds.width;
+      console.log('testing',bmap);
+    })
+    this._onDataLoaded();
   }
 
 }

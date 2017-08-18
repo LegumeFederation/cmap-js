@@ -414,19 +414,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.children.push(qtl);
     //load local rBush tree for hit detection
     this._loadHitMap();
-    console.log('updated layout post', originalWidth, this.domBounds.width);
     //let layout know that width has changed on an element;
-      console.log('updated onup lay',this);
-    if(originalWidth !== null && originalWidth !== this.domBounds.width){
-      console.log('updated this',this.appState);
-      let rightShift = this.domBounds.right;
-      for(var i = this.bioMapIndex+1; i< this.appState.bioMaps.length; i++){
-        this.appState.bioMaps[i].component.lb.left = rightShift;
-        rightShift += this.appState.bioMaps[i].component.bounds.width;
-      }
-        // lets mithril know that the width needs to be updated
-        //PubSub.publish(featureUpdate,null);
-      }
+    this.appState.bioMaps[this.bioMapIndex].component=this;
     m.redraw();
   }
 
