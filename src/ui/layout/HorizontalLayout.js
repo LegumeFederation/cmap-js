@@ -240,7 +240,6 @@ export class HorizontalLayout
   
   _onFeatureUpdate(msg,data){
     this._onDataLoaded;
-    this._onDataLoaded;
   }
 
 }
