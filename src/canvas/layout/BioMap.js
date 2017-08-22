@@ -128,17 +128,10 @@ export class BioMap extends SceneGraphNodeCanvas {
  
   // return hits in case of tap/click event
   _onTap(evt) {
-    console.log('BioMap -> tap dat', evt, this);
+    console.log('BioMap -> onTap', evt, this);
     let globalPos = this._pageToCanvas(evt);
     this._loadHitMap();
     let hits = [];
-    console.log('BioMap -> tap dat results', 
-    this.hitMap.search({
-      minX: globalPos.x,
-      maxX: globalPos.x,
-      minY: globalPos.y-2,
-      maxY: globalPos.y+2
-    }));
 
     this.hitMap.search({
       minX: globalPos.x,
@@ -412,9 +405,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     }
     this.children.push(qtl);
     //load local rBush tree for hit detection
-    this.children.map((child,index)=>{
-      console.log('testing hit maps', index,child);
-    });
     this._loadHitMap();
     //let layout know that width has changed on an element;
     m.redraw();
