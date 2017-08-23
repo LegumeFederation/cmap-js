@@ -15,23 +15,20 @@ export class FeatureMenu extends Menu {
     //super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
     console.log('feature menu test',vnode.attrs);
-    let order = vnode.attrs.order;
-    if(!vnode.attrs.info.parent.parent.model.qtlGroups){
-      vnode.attrs.info.parent.parent.model.qtlGroups = [];
-      order = 0;
+    this.order = vnode.attrs.order;
+    var model= vnode.attrs.info.parent.parent.model;
+    if(!model.qtlGroups){
+      model.qtlGroups = [];
+      this.order = 0;
     }
-    if(!vnode.attrs.info.parent.parent.model.qtlGroups[order]){
-      vnode.attrs.info.parent.parent.model.qtlGroups[order] =
-        {filter:[this.tagList[0]],trackColor:['red']}
+    if(!model.qtlGroups[this.order]){
+      model.qtlGroups[this.order] = {filter:[this.tagList[0]],trackColor:['red']}
     }
-    this.settings = vnode.attrs.info.parent.parent.model.qtlGroups[order];
-      
-    console.log('feature menu test', this.tagList, this.settings);
+    this.settings = model.qtlGroups[this.order];
     this.selected = this.settings.filter.map( item => {
       return {name: item, 
               index: this.tagList.indexOf(item)};
     });
-    console.log('dd mod set',this.selected);
   }
   /**
    * mithril component method
@@ -52,7 +49,7 @@ export class FeatureMenu extends Menu {
        class: 'feature-menu',
        style: `position:absolute; left: 0px; top: 0px; width:${bounds.width}px;height:${bounds.height}px`,
        onclick: function(){console.log('what',this);}
-     },[this._dropdownDiv(modal), this._applyButton(modal), this._closeButton(modal)]);
+     },[this._dropdownDiv(modal), this._applyButton(modal), this._closeButton(modal),this._removeButton(modal,vnode)]);
   }
 
   _dropdownDiv(modal){
@@ -97,6 +94,17 @@ export class FeatureMenu extends Menu {
       },'Close');
   }
 
+  _removeButton(modal,vnode){
+     return  m('button',{
+       style:'background-color:red;',
+        onclick: function(){
+          vnode.attrs.info.parent.parent.model.qtlGroups.splice(modal.order,1);
+          PubSub.publish(featureUpdate, null);
+          m.redraw();
+          modal.rootNode.dom.remove(modal.rootNode);
+        }
+      },'Remove Track');
+  }
   _dropDown(modal,settings,order){
     let selector = this;
     return m('div',m('select',{
