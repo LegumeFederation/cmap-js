@@ -14,7 +14,19 @@ export class FeatureMenu extends Menu {
   oninit(vnode){
     //super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
-    this.settings = vnode.attrs.info.parent.parent.model.qtlGroups[vnode.attrs.order];
+    console.log('feature menu test',vnode.attrs);
+    let order = vnode.attrs.order;
+    if(!vnode.attrs.info.parent.parent.model.qtlGroups){
+      vnode.attrs.info.parent.parent.model.qtlGroups = [];
+      order = 0;
+    }
+    if(!vnode.attrs.info.parent.parent.model.qtlGroups[order]){
+      vnode.attrs.info.parent.parent.model.qtlGroups[order] =
+        {filter:[this.tagList[0]],trackColor:['red']}
+    }
+    this.settings = vnode.attrs.info.parent.parent.model.qtlGroups[order];
+      
+    console.log('feature menu test', this.tagList, this.settings);
     this.selected = this.settings.filter.map( item => {
       return {name: item, 
               index: this.tagList.indexOf(item)};

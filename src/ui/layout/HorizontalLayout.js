@@ -109,9 +109,10 @@ export class HorizontalLayout
         right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
       }
 	
+      console.log('swap comp',bMap,bMap.p);
 			this.swapComponents.push( m('div', {
         class: 'swap-div', id: `swap-${i}`,
-        style: `position:absolute; left: ${Math.floor(bMap.domBounds.right-bMap.domBounds.width*.75)}px; top: ${bMap.domBounds.top}px;`},
+        style: `position:absolute; left: ${Math.floor(bMap.domBounds.left+bMap.ruler.globalBounds.left/2)}px; top: ${bMap.domBounds.top}px;`},
 				[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
 		}
 		
@@ -146,6 +147,24 @@ export class HorizontalLayout
               ); 
             }
           }
+          // push controller to add new track
+			    this.featureControls.push( 
+                m('div', {
+                  class: 'feature-title',
+                  id: `feature-${component.model.name}-new`,
+                    style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right)}px; 
+                      top: ${component.domBounds.top}px; width: 20px;`,
+                    onclick: function(){
+                      maps.modal = [];
+                      let component = new FeatureMenu();
+                      component.info = child.children[0];
+                      component.bounds = maps.bounds;
+                      component.order = child.children.length;
+                      maps.modal[0] = component;
+                      m.redraw();
+                    }
+                  },`+`)
+              );
 		    }
       });
     });
