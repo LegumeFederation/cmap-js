@@ -11,11 +11,11 @@
      "map" : "Pv02",
      "qtl" : [{
         "filter":"QTL_seed",
-        "color": "orange"
+        "trackColor": "orange"
       },
       {
         "filter":"QTL_root",
-        "color" : "red"
+        "trackColor" : "red"
       }]
     }
   ],
@@ -26,11 +26,6 @@
       "data": {},
       "url": "data/genes_for_phavu.cmap",
       "filters" : [],
-      "config": {
-        "url" : "config/phavu_genes.json",
-        "method":"GET",
-        "data":{}
-      },
       "linkouts" : [
         {
             "featuretype" : "gene",
@@ -44,9 +39,8 @@
       "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
       "filters" : [],
       "config": {
-        "url" : "config/phavu_genes.json",
-        "method":"GET",
-        "data":{}
+        "method" : "GET",
+        "url" : "config/phavu_genes.json"
       },
       "linkouts" : [
         {
