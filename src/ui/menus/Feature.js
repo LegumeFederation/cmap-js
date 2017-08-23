@@ -14,21 +14,27 @@ export class FeatureMenu extends Menu {
   oninit(vnode){
     //super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
-    console.log('feature menu test',vnode.attrs);
     this.order = vnode.attrs.order;
     var model= vnode.attrs.info.parent.parent.model;
-    if(!model.qtlGroups){
+    console.log('feature menu test',model);
+    this.allowRemove = true;
+    if(!model.qtlGroups || model.qtlGroups === []){
       model.qtlGroups = [];
       this.order = 0;
+      this.settings = model.qtlGroups[0] = {filter:[this.tagList[0]],trackColor:['red']}
+      this.allowRemove = false;
+    } else {
+     if(!model.qtlGroups[this.order]){
+       model.qtlGroups[this.order] = {filter:[this.tagList[0]],trackColor:['red']}
+       this.allowRemove = false;
+     } 
+     this.settings = model.qtlGroups[this.order];
     }
-    if(!model.qtlGroups[this.order]){
-      model.qtlGroups[this.order] = {filter:[this.tagList[0]],trackColor:['red']}
-    }
-    this.settings = model.qtlGroups[this.order];
-    this.selected = this.settings.filter.map( item => {
-      return {name: item, 
-              index: this.tagList.indexOf(item)};
-    });
+     this.selected = this.settings.filter.map( item => {
+       return {name: item, 
+               index: this.tagList.indexOf(item)};
+     });
+    console.log('feature menu test',model,this.allowRemove);
   }
   /**
    * mithril component method
@@ -43,13 +49,19 @@ export class FeatureMenu extends Menu {
   view(vnode) {
     let bounds = vnode.attrs.bounds || {};
     let modal = this;
+    console.log('mah vnode',vnode);
     modal.rootNode = vnode;
+    var controls = [this._applyButton(modal),this._closeButton(modal)];
+    if(modal.allowRemove){
+      console.log('my attrs',vnode.attrs);
+      controls.push(this._removeButton(modal,vnode));
+    }
 
     return m('div', {
        class: 'feature-menu',
        style: `position:absolute; left: 0px; top: 0px; width:${bounds.width}px;height:${bounds.height}px`,
        onclick: function(){console.log('what',this);}
-     },[this._dropdownDiv(modal), this._applyButton(modal), this._closeButton(modal),this._removeButton(modal,vnode)]);
+     },[this._dropdownDiv(modal), controls]);
   }
 
   _dropdownDiv(modal){
