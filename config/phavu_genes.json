@@ -5,8 +5,6 @@
     "backboneWidth":10
   },
   "Pv02":{
-    "rulerWidth":5,
-    "rulerColor":"red",
-    "backboneWidth":10
+    "backboneWidth":60
   }
 }
