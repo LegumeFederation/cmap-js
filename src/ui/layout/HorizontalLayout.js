@@ -152,7 +152,7 @@ export class HorizontalLayout
                 m('div', {
                   class: 'feature-title',
                   id: `feature-${component.model.name}-new`,
-                    style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right)}px; 
+                    style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
                       top: ${component.domBounds.top}px; width: 20px;`,
                     onclick: function(){
                       maps.modal = [];
