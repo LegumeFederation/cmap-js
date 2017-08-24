@@ -8,6 +8,7 @@ import {featureUpdate, reset} from '../../topics';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {Menu} from './Menus';
+import {ColorPicker} from './ColorPicker';
 
 export class FeatureMenu extends Menu {
 
@@ -136,7 +137,7 @@ export class FeatureMenu extends Menu {
     },[settings.tags.map(tag => {
       return m('option', tag);
       })
-    ]),controls);
+    ]),controls, m(new ColorPicker()));
   }
 
 	handleGesture(){
