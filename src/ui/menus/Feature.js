@@ -15,26 +15,26 @@ export class FeatureMenu extends Menu {
     //super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
     this.order = vnode.attrs.order;
-    var model= vnode.attrs.info.parent.parent.model;
-    console.log('feature menu test',model);
+    this.model= vnode.attrs.info.parent.parent.model;
+    this.trackGroups = [];
     this.allowRemove = true;
-    if(!model.qtlGroups || model.qtlGroups === []){
-      model.qtlGroups = [];
+    if(!this.model.qtlGroups || this.model.qtlGroups[0] === undefined){
       this.order = 0;
-      this.settings = model.qtlGroups[0] = {filter:[this.tagList[0]],trackColor:['red']}
+      this.settings = {filter:[this.tagList[0]],trackColor:['red']}
+      this.trackGroups[0]= this.settings;
       this.allowRemove = false;
     } else {
-     if(!model.qtlGroups[this.order]){
-       model.qtlGroups[this.order] = {filter:[this.tagList[0]],trackColor:['red']}
+     this.trackGroups = this.model.qtlGroups.splice(0);
+     if(!this.trackGroups[this.order]){
+       this.trackGroups[this.order] = {filter:[this.tagList[0]],trackColor:['red']}
        this.allowRemove = false;
      } 
-     this.settings = model.qtlGroups[this.order];
+     this.settings = this.trackGroups[this.order];
     }
      this.selected = this.settings.filter.map( item => {
        return {name: item, 
                index: this.tagList.indexOf(item)};
      });
-    console.log('feature menu test',model,this.allowRemove);
   }
   /**
    * mithril component method
@@ -49,18 +49,15 @@ export class FeatureMenu extends Menu {
   view(vnode) {
     let bounds = vnode.attrs.bounds || {};
     let modal = this;
-    console.log('mah vnode',vnode);
     modal.rootNode = vnode;
     var controls = [this._applyButton(modal),this._closeButton(modal)];
     if(modal.allowRemove){
-      console.log('my attrs',vnode.attrs);
       controls.push(this._removeButton(modal,vnode));
     }
 
     return m('div', {
        class: 'feature-menu',
-       style: `position:absolute; left: 0px; top: 0px; width:${bounds.width}px;height:${bounds.height}px`,
-       onclick: function(){console.log('what',this);}
+       style: `position:absolute; left: 0px; top: 0px; width:${bounds.width}px;height:${bounds.height}px`
      },[this._dropdownDiv(modal), controls]);
   }
 
@@ -87,10 +84,10 @@ export class FeatureMenu extends Menu {
   _applyButton(modal){
      return  m('button',{
         onclick: function(){
-          modal.settings.filter = modal.selected[0].name;
           modal.settings.filter = modal.selected.map( selected => {
             return selected.name;
           });
+          modal.model.qtlGroups = modal.trackGroups;
           PubSub.publish(featureUpdate, null);
           m.redraw();
           modal.rootNode.dom.remove(modal.rootNode);
@@ -110,7 +107,8 @@ export class FeatureMenu extends Menu {
      return  m('button',{
        style:'background-color:red;',
         onclick: function(){
-          vnode.attrs.info.parent.parent.model.qtlGroups.splice(modal.order,1);
+          modal.trackGroups.splice(modal.order,1);
+          modal.model.qtlGroups = modal.trackGroups;
           PubSub.publish(featureUpdate, null);
           m.redraw();
           modal.rootNode.dom.remove(modal.rootNode);
