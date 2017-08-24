@@ -117,6 +117,14 @@ export class FeatureMenu extends Menu {
   }
   _dropDown(modal,settings,order){
     let selector = this;
+    let controls = [
+      m('button',{onclick : () =>{
+      selector.selected[selector.selected.length] = {index:0};
+      }},'+')
+    ];
+    if(modal.selected.length > 1) { 
+      controls.push(m('button',{onclick: () => { selector.selected.splice(order,1);}},'-'));
+    }
     return m('div',m('select',{
       id:`selector-${order}`,
       selectedIndex : selector.selected[order].index,
@@ -128,10 +136,7 @@ export class FeatureMenu extends Menu {
     },[settings.tags.map(tag => {
       return m('option', tag);
       })
-    ]),m('button',{onclick : () =>{
-      selector.selected[selector.selected.length] = {index:0};
-    }},'+'),m('button',{onclick: () => {
-      selector.selected.splice(order,1);}},'-'));
+    ]),controls);
   }
 
 	handleGesture(){
