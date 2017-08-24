@@ -253,13 +253,17 @@ export class HorizontalLayout
   }
   
   _onFeatureUpdate(msg,data){
+    this._layoutBioMaps();
+		this._layoutSwapComponents();
+    this._layoutFeatureControls();
     var rightShift = 0;
     this.appState.bioMaps.map( bmap => {
       bmap.component.lb.left = rightShift;
       bmap.component.domBounds.left = rightShift;
       rightShift += bmap.component.domBounds.width;
     })
-    this._onDataLoaded();
+    this._layoutCorrespondenceMaps();
+    this._layoutPopovers();
   }
 
 }
