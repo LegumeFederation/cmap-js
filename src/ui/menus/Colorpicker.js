@@ -14,11 +14,21 @@ export class ColorPicker {
     this.baseColor = 'red';
     this.currentColor = '#FF0000';
     this.hueValueColor = [0,100,100];
+    var test = this;
     // store these bounds, for checking in drawLazily()
     let selectedClass = this.selected ? 'selected' : '';
-    return  m('div', [m(new BaseSelector(),{baseColor:this.baseColor,hueValueColor:this.hueValueColor}),
+    return  [m('button#color-toggle',{style:`color:${this.currentColor}`},'■'),
+    m('div#color-picker', [
+        m(new BaseSelector(),{baseColor:this.baseColor,hueValueColor:this.hueValueColor}),
         m(new SaturationSelector(),{hueValueColor:this.hueValueColor,currentColor:this.currentColor}),
-        m(new ColorPreview(),{currentColor:this.currentColor})]);
+        m(new ColorPreview(),{currentColor:this.currentColor,test:test}),
+        m('div#color-apply-controls',{style:'margin-left:10px; display:inline-block;'},
+          [m('button#approve-color',{style:'display:block'},'Apply'),
+          m('button#cancel-color',{style:'display:block'},'Close'),
+          m('button#cancel-color',{style:'display:block'},'Reset')]
+        )
+     ])
+    ]
   }
 }
 
@@ -263,6 +273,7 @@ export class ColorPreview {
   oncreate(vnode) {
     this.canvas = this.el = vnode.dom;
     vnode.dom.mithrilComponent = this;
+    this.test = vnode.attrs.test;
     this.context2d = this.canvas.getContext('2d');
     this.currentColor = vnode.attrs.currentColor;
     this.context2d.fillStyle = vnode.attrs.currentColor;
@@ -305,6 +316,7 @@ export class ColorPreview {
     let rgb = this.fillColor;
     ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},1)`;
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.test.currentColor = ctx.fillStyle;
 		ctx.strokeStyle='black';
 		ctx.lineWidth=1;
 		ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
