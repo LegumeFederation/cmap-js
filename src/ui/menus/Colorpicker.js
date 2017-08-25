@@ -4,6 +4,8 @@
  *
  */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
@@ -137,6 +139,7 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
       y:evt.srcEvent.layerY
     }
     this.hvColor = this._hsvFromPos(this.ptrPos);
+    PubSub.publish('hueValue',this.hvColor);
     console.log('gesture ptoh',this._hsvFromPos(this.ptrPos));
     this.draw();
    }
@@ -165,7 +168,7 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
     this.hueValueColor = vnode.attrs.hueValueColor;
     this.context2d = this.canvas.getContext('2d');
     this.ptrPos = 0;
-
+    PubSub.subscribe('hueValue', (msg,data)=>{this._hueUpdated(data);});
     this._gestureRegex = {
       pan: new RegExp('^pan'),
       tap: new RegExp('^tap')
@@ -198,11 +201,13 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
 	draw(){
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
-    
     var grad = ctx.createLinearGradient(0, 0, 0,this.canvas.height);
-    let rgbStart = hsvToRgb(this.hueValueColor);
-    let rgbStop = hsvToRgb([this.hueValueColor[0],0,this.hueValueColor[2]]);
+    let rgbStart = hsvToRgb([this.hueValueColor[0],100,this.hueValueColor[2]]).map(color => {
+      return Math.floor(color)
+    });
+    let rgbStop = hsvToRgb([this.hueValueColor[0],0,this.hueValueColor[2]]).map(color => {
+      return Math.floor(color)
+    });
     grad.addColorStop(0 , `rgba(${rgbStart[0]},${rgbStart[1]},${rgbStart[2]},1)`);
     grad.addColorStop(1 , `rgba(${rgbStop[0]},${rgbStop[1]},${rgbStop[2]},1)`);
 
@@ -234,15 +239,23 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
   _changeColor(evt){
     console.log('gesture!',evt);
     this.ptrPos = evt.srcEvent.layerY
-    this.draw();
+    this._hueUpdated(this.hueValueColor);
    }
+
+  _hueUpdated(hsv){
+    console.log('hue updated',hsv)
+    this.hueValueColor = [hsv[0],this._sFromPos(this.ptrPos),hsv[2]];
+    PubSub.publish('satUpdated',this.hueValueColor);
+    console.log('hue updated',hsv)
+    this.draw();
+  }
 
   _posFromHsv(hsv){
     return Math.round(1-(hsv[1]/100))*(this.canvas.height)
   }
 
   _sFromPos(pos){
-    return 100*(1-(pos.y/this.canvas.height))
+    return 100*(1-(pos/this.canvas.height))
   }
 }
 
@@ -252,6 +265,15 @@ export class ColorPreview {
     vnode.dom.mithrilComponent = this;
     this.context2d = this.canvas.getContext('2d');
     this.currentColor = vnode.attrs.currentColor;
+    this.context2d.fillStyle = vnode.attrs.currentColor;
+    this.fillColor = hexToRgb(this.context2d.fillStyle);
+    PubSub.subscribe('satUpdated',(msg,data) =>{
+      console.log('sat updated!');
+      this.fillColor = hsvToRgb(data).map(color => {
+        return Math.floor(color)
+      });
+      this.draw();
+    });
     this.draw();
   }
 
@@ -280,10 +302,8 @@ export class ColorPreview {
 	draw(){
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    //let rgb = hsvToRgb(this.fillColor);
-    //ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},1)`;
-    ctx.fillStyle = this.currentColor;
-    console.log(this.hsv);
+    let rgb = this.fillColor;
+    ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},1)`;
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		ctx.strokeStyle='black';
 		ctx.lineWidth=1;
