@@ -3,19 +3,37 @@
  * Mithril component for a colorselector tool.
  *
  */
-import m from 'mithril'
+import m from 'mithril';
+import {mix} from '../../../mixwith.js/src/mixwith';
+import {RegisterComponentMixin} from '../RegisterComponentMixin';
+
 export class ColorPicker {
   view() {
+    this.baseColor = 'red';
+    this.currentColor = '#FF0000';
+    this.hueValueColor = [0,100,100];
     // store these bounds, for checking in drawLazily()
     let selectedClass = this.selected ? 'selected' : '';
-    return  m('div', [m(new BaseSelector()),m(new SaturationSelector())]);
+    return  m('div', [m(new BaseSelector(),{baseColor:this.baseColor,hueValueColor:this.hueValueColor}),
+        m(new SaturationSelector(),{hueValueColor:this.hueValueColor,currentColor:this.currentColor}),
+        m(new ColorPreview(),{currentColor:this.currentColor})]);
   }
 }
 
-export class BaseSelector {
+export class BaseSelector extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
+    super.oncreate(vnode);
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
+    this.context2d.fillStyle = vnode.attrs.baseColor;
+    this.hsv = rgbToHsv(hexToRgb(this.context2d.fillStyle));
+    vnode.attrs.currentColor = this.context2d.fillStyle;
+    this.hvColor = vnode.attrs.hueValueColor
+    this.ptrPos = this._posFromHsv(this.hsv);
+    this._gestureRegex = {
+      pan: new RegExp('^pan'),
+      tap: new RegExp('^tap')
+    }
     this.draw();
   }
 
@@ -23,7 +41,6 @@ export class BaseSelector {
    * mithril lifecycle method
    */
   onupdate(vnode) {
-    // TODO: remove this development assistive method
 		this.draw();
   }
 
@@ -43,11 +60,8 @@ export class BaseSelector {
 	draw(){
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		ctx.fillStyle = 'maroon';
-		console.log('testing?',ctx.fillStyle,hexToRgb(ctx.fillStyle),
-			rgbToHsv(hexToRgb(ctx.fillStyle)),
-			hsvToRgb(rgbToHsv(hexToRgb(ctx.fillStyle)))
-		);
+
+    // RGB gradient
     var hGrad = ctx.createLinearGradient(0, 0, this.canvas.width, 0);
     hGrad.addColorStop(0 / 6, '#F00');
     hGrad.addColorStop(1 / 6, '#FF0');
@@ -60,22 +74,102 @@ export class BaseSelector {
     ctx.fillStyle = hGrad;
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+    //Fade to black gradient
     var vGrad = ctx.createLinearGradient(0, 0, 0, this.canvas.height);
     vGrad.addColorStop(0, 'rgba(0,0,0,0)');
     vGrad.addColorStop(1, 'rgba(0,0,0,1)');
     ctx.fillStyle = vGrad;
+
+    // Draw the selection pointer
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		ctx.strokeStyle='black';
     ctx.lineWidth=1;
     ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
+
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(this.ptrPos.x-10,this.ptrPos.y);
+    ctx.lineTo(this.ptrPos.x-3,this.ptrPos.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = 'white';
+    ctx.moveTo(this.ptrPos.x-3,this.ptrPos.y);
+    ctx.lineTo(this.ptrPos.x-1,this.ptrPos.y);
+    ctx.moveTo(this.ptrPos.x+1,this.ptrPos.y);
+    ctx.lineTo(this.ptrPos.x+3,this.ptrPos.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = 'black';
+    ctx.moveTo(this.ptrPos.x+3,this.ptrPos.y);
+    ctx.lineTo(this.ptrPos.x+10,this.ptrPos.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(this.ptrPos.x,this.ptrPos.y-10);
+    ctx.lineTo(this.ptrPos.x,this.ptrPos.y-3);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = 'white';
+    ctx.moveTo(this.ptrPos.x,this.ptrPos.y-3);
+    ctx.lineTo(this.ptrPos.x,this.ptrPos.y-1);
+    ctx.moveTo(this.ptrPos.x,this.ptrPos.y+1);
+    ctx.lineTo(this.ptrPos.x,this.ptrPos.y+3);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.strokeStyle = 'black';
+    ctx.moveTo(this.ptrPos.x,this.ptrPos.y+3);
+    ctx.lineTo(this.ptrPos.x,this.ptrPos.y+10);
+    ctx.stroke();
   }
-	
+
+  handleGesture(evt){
+    if(evt.type.match(this._gestureRegex.tap) || 
+        evt.type.match(this._gestureRegex.pan)){
+      this._changeColor(evt);
+    }
+    return true;
+  }
+
+  _changeColor(evt){
+    console.log('gesture!',evt);
+    
+    this.ptrPos = {
+      x:evt.srcEvent.layerX,
+      y:evt.srcEvent.layerY
+    }
+    this.hvColor = this._hsvFromPos(this.ptrPos);
+    console.log('gesture ptoh',this._hsvFromPos(this.ptrPos));
+    this.draw();
+   }
+
+  _posFromHsv(hsv){
+    return {
+      x: Math.round(hsv[0]/360)*(this.canvas.width),
+      y: Math.round(1-(hsv[2]/100))*(this.canvas.height)
+    }
+  }
+
+  _hsvFromPos(pos){
+    let h = (pos.x*360)/this.canvas.width;
+    let s = 100;
+    let l = 100*(1-(pos.y/this.canvas.height))
+    return [h,s,l];
+  }
 }
 
-export class SaturationSelector {
+export class SaturationSelector extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
+    super.oncreate(vnode);
     this.canvas = this.el = vnode.dom;
+    vnode.dom.mithrilComponent = this;
+    this.currentColor = vnode.attrs.currentColor;
+    this.hueValueColor = vnode.attrs.hueValueColor;
     this.context2d = this.canvas.getContext('2d');
+    this.ptrPos = 0;
+
+    this._gestureRegex = {
+      pan: new RegExp('^pan'),
+      tap: new RegExp('^tap')
+    }
     this.draw();
   }
 
@@ -84,6 +178,7 @@ export class SaturationSelector {
    */
   onupdate(vnode) {
     // TODO: remove this development assistive method
+    console.log('onup',vnode);
 		this.draw();
   }
 
@@ -103,18 +198,101 @@ export class SaturationSelector {
 	draw(){
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		ctx.fillStyle = 'rgb(0,0,0)';
-		console.log('testing?',ctx.fillStyle);
+    
+    
     var grad = ctx.createLinearGradient(0, 0, 0,this.canvas.height);
-    grad.addColorStop(0 , '#F00');
-		grad.addColorStop(1, 'rgba(255,255,255,1');
+    let rgbStart = hsvToRgb(this.hueValueColor);
+    let rgbStop = hsvToRgb([this.hueValueColor[0],0,this.hueValueColor[2]]);
+    grad.addColorStop(0 , `rgba(${rgbStart[0]},${rgbStart[1]},${rgbStart[2]},1)`);
+    grad.addColorStop(1 , `rgba(${rgbStop[0]},${rgbStop[1]},${rgbStop[2]},1)`);
 
     ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+		ctx.strokeStyle='black';
+		ctx.lineWidth=1;
+		ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
+   
+    ctx.fillStyle = 'black'; 
+    ctx.beginPath();
+    ctx.strokeStyle = 'black';
+    ctx.moveTo(this.canvas.width,this.ptrPos+5);
+    ctx.lineTo(this.canvas.width/2, this.ptrPos);
+    ctx.lineTo(this.canvas.width,this.ptrPos-5);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  handleGesture(evt){
+    if(evt.type.match(this._gestureRegex.tap) || 
+        evt.type.match(this._gestureRegex.pan)){
+      this._changeColor(evt);
+    }
+    return true;
+  }
+
+  _changeColor(evt){
+    console.log('gesture!',evt);
+    this.ptrPos = evt.srcEvent.layerY
+    this.draw();
+   }
+
+  _posFromHsv(hsv){
+    return Math.round(1-(hsv[1]/100))*(this.canvas.height)
+  }
+
+  _sFromPos(pos){
+    return 100*(1-(pos.y/this.canvas.height))
+  }
+}
+
+export class ColorPreview {
+  oncreate(vnode) {
+    this.canvas = this.el = vnode.dom;
+    vnode.dom.mithrilComponent = this;
+    this.context2d = this.canvas.getContext('2d');
+    this.currentColor = vnode.attrs.currentColor;
+    this.draw();
+  }
+
+  /**
+   * mithril lifecycle method
+   */
+  onupdate(vnode) {
+    // TODO: remove this development assistive method
+    console.log('gesture preview',vnode.attrs.currentColor);
+		this.draw();
+  }
+
+  /**
+   * mithril component render method
+   */
+  view() {
+    // store these bounds, for checking in drawLazily()
+    return  m('canvas', {
+       class: `color-canvas-preview`,
+       style: 'margin-left:10px; top:10; left:10; width: 20; height: 100;',
+			 width: 20,
+			 height: 100
+     });
+  }
+
+	draw(){
+    let ctx = this.context2d;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    //let rgb = hsvToRgb(this.fillColor);
+    //ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},1)`;
+    ctx.fillStyle = this.currentColor;
+    console.log(this.hsv);
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		ctx.strokeStyle='black';
 		ctx.lineWidth=1;
 		ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
     // store these bounds, for checking in drawLazily()
+  }
+
+  handleGesture(evt){
+    return true;
   }
 }
 
