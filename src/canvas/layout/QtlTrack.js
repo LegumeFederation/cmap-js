@@ -20,10 +20,11 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       width: 50,
       height: b.height
     });
-    if(this.parent.model.qtlGroups){
+    if(this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0){
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
+        console.log('rm qtlLay', qtlConf,i,qtlGroups.length);
         if (typeof qtlConf.filter === 'string'){ qtlConf.filter = [qtlConf.filter];}
         if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}
         let qtlGroup = new Group({parent:this});
