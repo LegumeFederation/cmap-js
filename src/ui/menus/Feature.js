@@ -78,7 +78,7 @@ export class FeatureMenu extends Menu {
     }
 
     return m('div',{class:'dropdown-container',
-        style: 'height:90%'
+        style: 'height:90%; overflow:auto'
       },m('div',[dropdowns]));
   }
   
@@ -137,7 +137,7 @@ export class FeatureMenu extends Menu {
     },[settings.tags.map(tag => {
       return m('option', tag);
       })
-    ]),controls, m(new ColorPicker()));
+    ]),controls, m(new ColorPicker(),{baseAttrs:modal,order:order}));
   }
 
 	handleGesture(){
