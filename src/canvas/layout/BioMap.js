@@ -319,7 +319,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     let coord = this.model.view.base;
     let visc = this.model.view.visible;
     let psf = this.model.view.pixelScaleFactor;
-    return (visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start));
+    return ((visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start)))-(coord.start*-1);
   }
 
     /**

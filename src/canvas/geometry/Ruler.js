@@ -11,6 +11,7 @@ export class Ruler extends SceneGraphNodeBase {
   constructor({parent, bioMap}) {
     super({parent});
     this.mapCoordinates = bioMap.view;
+    this.offset = this.mapCoordinates.base.start*-1;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
     const b = this.parent.backbone.bounds;
     this.bounds = new Bounds({
@@ -23,8 +24,8 @@ export class Ruler extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let start = this.mapCoordinates.visible.start * this.pixelScaleFactor;
-    let stop = this.mapCoordinates.visible.stop * this.pixelScaleFactor;
+    let start = (this.mapCoordinates.visible.start+this.offset) * this.pixelScaleFactor;
+    let stop = (this.mapCoordinates.visible.stop+this.offset) * this.pixelScaleFactor;
 		let text = [this.mapCoordinates.base.start.toFixed(4),this.mapCoordinates.base.stop.toFixed(4)];
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
     this.textWidth = w; 
