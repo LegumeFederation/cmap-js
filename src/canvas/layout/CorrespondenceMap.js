@@ -6,7 +6,7 @@
 import m from 'mithril';
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
-import {Group} from '../node/SceneGraphNodeGroup';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {CorrespondenceMark} from '../geometry/CorrespondenceMark';
 import {featuresInCommon} from '../../model/Feature';
 
@@ -48,10 +48,10 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
    */
   get commonFeatures() {
     // TODO: support more than 2 sets of features (e.g. for circos layout)
-    //let leftFeatures = this.bioMapComponents[0].model.features;
-    //let rightFeatures = this.bioMapComponents[1].model.features;
-    let leftFeatures = this.bioMapComponents[0].backbone.filteredFeatures;
-    let rightFeatures = this.bioMapComponents[1].backbone.filteredFeatures;
+    let leftFeatures = this.bioMapComponents[0].model.features;
+    let rightFeatures = this.bioMapComponents[1].model.features;
+    //let leftFeatures = this.bioMapComponents[0].backbone.filteredFeatures;
+    //let rightFeatures = this.bioMapComponents[1].backbone.filteredFeatures;
     let common = featuresInCommon(leftFeatures, rightFeatures);
     return common;
   }
@@ -89,7 +89,7 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     });
     
     let corrData = [];
-    let coorGroup = new Group({parent:this});
+    let coorGroup = new SceneGraphNodeGroup({parent:this});
     coorGroup.bounds = new Bounds({
       allowSubpixel: false,
       top: gb1.top,
@@ -115,7 +115,7 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
       corrData.push({
         minX:this.bounds.left,
         maxX:this.bounds.right ,
-        minY:feature[0].coordinates.start ,
+        minY:feature[0].coordinates.start,
         maxY: feature[1].coordinates.start,
         data: corrMark
       });

@@ -4,7 +4,7 @@
   */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class Group extends SceneGraphNodeBase {
+export class SceneGraphNodeGroup extends SceneGraphNodeBase {
 
   constructor(params) {
     super(params);

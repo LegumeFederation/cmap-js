@@ -29,7 +29,7 @@ const main = () => {
   const evtName = 'DOMContentLoaded';
   const loadedHandler = () => {
     let _cmap = new CMAP();
-    _cmap.load();
+    _cmap.load(new URLSearchParams(window.location.search).get('config'));
     document.removeEventListener(evtName, loadedHandler);
   };
   document.addEventListener(evtName, loadedHandler);

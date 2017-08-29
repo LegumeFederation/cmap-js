@@ -37,24 +37,64 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let leftY = (this._translateScale(
-        this.bioMap[0].model.view.base,
-        this.bioMap[0].model.view.visible,
-        this.model[0].coordinates.start)+(this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
-    let rightY = (this._translateScale(
-        this.bioMap[1].model.view.base,
-        this.bioMap[1].model.view.visible,
-        this.model[1].coordinates.start)+(this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
-    this.bounds.top = leftY;
-    this.bounds.bottom = rightY;
-    let gb = this.globalBounds || {};
+    if (this.model[0].coordinates.start === this.model[0].coordinates.stop
+            && this.model[1].coordinates.start === this.model[1].coordinates.stop) {
+        let leftY = (this._translateScale(
+            this.bioMap[0].model.view.base,
+            this.bioMap[0].model.view.visible,
+            this.model[0].coordinates.start) + (this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
+        let rightY = (this._translateScale(
+            this.bioMap[1].model.view.base,
+            this.bioMap[1].model.view.visible,
+            this.model[1].coordinates.start) + (this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
+        this.bounds.top = leftY;
+        this.bounds.bottom = rightY;
+        let gb = this.globalBounds || {};
+        ctx.beginPath();
+        ctx.lineWidth = this.lineWidth;
+        ctx.strokeStyle = '#CAA91E';
+        ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
+        ctx.lineTo(Math.floor(gb.right), Math.floor(gb.bottom));
+        ctx.stroke();
+    }
+    else {
+        let leftYStart = (this._translateScale(
+            this.bioMap[0].model.view.base,
+            this.bioMap[0].model.view.visible,
+            this.model[0].coordinates.start) + (this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
+        let leftYStop = (this._translateScale(
+            this.bioMap[0].model.view.base,
+            this.bioMap[0].model.view.visible,
+            this.model[0].coordinates.stop) + (this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
+        let rightYStart = (this._translateScale(
+            this.bioMap[1].model.view.base,
+            this.bioMap[1].model.view.visible,
+            this.model[1].coordinates.start) + (this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
+        let rightYStop = (this._translateScale(
+            this.bioMap[1].model.view.base,
+            this.bioMap[1].model.view.visible,
+            this.model[1].coordinates.stop) + (this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
+        this.bounds.top = leftYStart;
+        this.bounds.bottom = leftYStop;
+        let gbLeft = this.globalBounds || {};
+        let leftTop = gbLeft.top;
+        let leftBot = gbLeft.bottom;
+        this.bounds.top = rightYStart;
+        this.bounds.bottom = rightYStop;
+        let gbRight = this.globalBounds || {};
+        let rightTop = gbRight.top;
+        let rightBot = gbRight.bottom;
 
-    ctx.beginPath();
-    ctx.lineWidth = this.lineWidth;
-    ctx.strokeStyle = '#CAA91E';
-    ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
-    ctx.lineTo(Math.floor(gb.right), Math.floor(gb.bottom));
-    ctx.stroke();
+        ctx.beginPath();
+        ctx.lineWidth = this.lineWidth;
+        ctx.globalAlpha = 0.2;
+        ctx.fillStyle = '#CAA91E';
+        ctx.moveTo(Math.floor(gbLeft.left), Math.floor(gbLeft.top));
+        ctx.lineTo(Math.floor(gbLeft.left), Math.floor(gbLeft.bottom));
+        ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.bottom));
+        ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.top));
+        ctx.fill();
+    }
   }
 
   _translateScale(oCord,nCord,point){

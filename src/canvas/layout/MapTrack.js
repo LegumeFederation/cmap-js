@@ -6,7 +6,7 @@
 import knn from 'rbush-knn';
 
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import { Group } from '../node/SceneGraphNodeGroup';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 import {FeatureMark} from '../geometry/FeatureMark';
 import {MapBackbone} from '../geometry/MapBackbone';
@@ -38,12 +38,12 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.model.view.backbone = this.globalBounds;
 
     // Setup groups for markers and labels
-    let markerGroup = new Group({parent:this});
+    let markerGroup = new SceneGraphNodeGroup({parent:this});
     this.addChild(markerGroup);
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
     this.addChild(markerGroup);
-    let labelGroup = new Group({parent:this});
+    let labelGroup = new SceneGraphNodeGroup({parent:this});
     this.addChild(labelGroup);
     this.labelGroup = labelGroup;
     labelGroup.bounds = new Bounds({

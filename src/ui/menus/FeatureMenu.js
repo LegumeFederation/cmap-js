@@ -7,7 +7,7 @@ import PubSub from 'pubsub-js';
 import {featureUpdate, reset} from '../../topics';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
-import {Menu} from './Menus';
+import {Menu} from './Menu';
 import {ColorPicker} from './ColorPicker';
 
 export class FeatureMenu extends Menu {
