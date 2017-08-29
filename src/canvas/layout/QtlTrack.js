@@ -24,10 +24,9 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
-        console.log('rm qtlLay', qtlConf,i,qtlGroups.length);
         if (typeof qtlConf.filter === 'string'){ qtlConf.filter = [qtlConf.filter];}
-        if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}
-        let qtlGroup = new SceneGraphNodeGroup({parent:this});
+        if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}        
+        let qtlGroup = new SceneGraphNodeGroup({parent:this, tags:[qtlConf.filter]});
         this.addChild(qtlGroup);
         let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
         this.qtlGroup = qtlGroup;

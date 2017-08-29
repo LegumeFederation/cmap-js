@@ -143,7 +143,7 @@ export class HorizontalLayout
                       maps.modal[0] = component;
                       m.redraw();
                     }
-                  },`track-${i}`)
+                  }, featureGroup.tags[0])
               ); 
             }
           }
