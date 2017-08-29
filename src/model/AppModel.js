@@ -45,10 +45,12 @@ export class AppModel {
       console.log('config',config);
       let dsm = new DataSourceModel(config);
       this.sources.push(dsm);
+      console.log('push dsm',dsm);
       return dsm.load();
     });
     // wait for all data sources are loaded, then set this.bioMaps with
     // only the maps named in initialView
+    //
     Promise.all(promises).then( () => {
       this.allMaps = this.sources.map( src => Object.values(src.bioMaps) ).concatAll();
       if(! this.initialView.length) {

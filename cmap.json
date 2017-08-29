@@ -11,11 +11,11 @@
      "map" : "Pv02",
      "qtl" : [{
         "filter":"QTL_seed",
-        "color": "orange"
+        "trackColor": "orange"
       },
       {
         "filter":"QTL_root",
-        "color" : "red"
+        "trackColor" : "red"
       }]
     }
   ],
@@ -38,6 +38,10 @@
       "method": "GET",
       "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
       "filters" : [],
+      "config": {
+        "method" : "GET",
+        "url" : "config/phavu_genes.json"
+      },
       "linkouts" : [
         {
             "featuretypePattern" : "^(SSR|SNP|AFLP|STS|RAPD)$",

@@ -126,7 +126,10 @@ export class UI extends mix().with(RegisterComponentMixin) {
     });
     // dispatch event to all the mithril components, until one returns true;
     // effectively the same as 'stopPropagation' on a normal event bubbling.
-    filtered.some( el => el.mithrilComponent.handleGesture(evt));
+    filtered.some( el =>{
+      var state = el.mithrilComponent.handleGesture(evt);
+      return state;
+    });
   }
   /**
    * Gesture event recapture and force upon the LayoutContainer. This is to
