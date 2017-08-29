@@ -13,6 +13,7 @@ export class Ruler extends SceneGraphNodeBase {
     let config = bioMap.config;
     this.config = config;
     this.mapCoordinates = bioMap.view;
+    this.offset = this.mapCoordinates.base.start*-1;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
     this.fillColor = config.rulerColor;
     this.textFace = config.rulerLabelFace;
@@ -31,9 +32,11 @@ export class Ruler extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let start = this.mapCoordinates.visible.start * this.pixelScaleFactor;
-    let stop = this.mapCoordinates.visible.stop * this.pixelScaleFactor;
+
+    let start = (this.mapCoordinates.visible.start+this.offset) * this.pixelScaleFactor;
+    let stop = (this.mapCoordinates.visible.stop+this.offset) * this.pixelScaleFactor;
 		let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision),this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
+
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
     this.textWidth = w; 
 

@@ -13,11 +13,13 @@ export class QTL extends SceneGraphNodeBase {
     let config = bioMap.config;
     this.model = featureModel;
     this.featureMap = bioMap;
-    this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
-    //min and max location in pixels
-    this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
-    this.stopLoc = this._translateScale(this.featureMap.view.visible.stop) * this.pixelScaleFactor;
 
+    this.coordOffset = this.featureMap.view.base.start * -1;
+    this.lineWidth = 1.0;
+    //min and max location in pixels
+    this.startLoc = (this._translateScale(this.featureMap.view.visible.start)+this.coordOffset) * this.pixelScaleFactor;
+    this.stopLoc = (this._translateScale(this.featureMap.view.visible.stop)+this.coordOffset) * this.pixelScaleFactor;
+    this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.fill = initialConfig.trackColor[initialConfig.filter.indexOf(this.model.tags[0])]||initialConfig.trackColor[0] || config.trackColor ; 
     this.width = initialConfig.trackWidth || config.trackWidth;
     this.trackSpacing = initialConfig.trackSpacing || config.trackSpacing;
@@ -25,11 +27,12 @@ export class QTL extends SceneGraphNodeBase {
     this.labelSize = config.trackLabelSize;
     this.labelFace = config.trackLabelFace;
     this.offset =  this.trackSpacing + this.labelSize;
+
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
-    let y1 = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
-    let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
+    let y1 = (this._translateScale(this.model.coordinates.start)+this.coordOffset) * this.pixelScaleFactor;
+    let y2 = (this._translateScale(this.model.coordinates.stop)+this.coordOffset) * this.pixelScaleFactor;
     let leftLoc = 0;
     let leftArr = [];
     leftArr = this.parent.locMap.search({
@@ -61,8 +64,8 @@ export class QTL extends SceneGraphNodeBase {
     // Get start and stop of QTL on current region, if it isn't located in
     // current view, don't draw, else cutoff when it gets to end of currently
     // visible region.
-    let y1 = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
-    let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
+    let y1 = (this._translateScale(this.model.coordinates.start)+this.coordOffset) * this.pixelScaleFactor;
+    let y2 = (this._translateScale(this.model.coordinates.stop)+this.coordOffset) * this.pixelScaleFactor;
     if (y2 < this.startLoc || y1 > this.stopLoc) return;
     if (y1 < this.startLoc) y1 = this.startLoc;
     if (y2 > this.stopLoc) y2 = this.stopLoc;

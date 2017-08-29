@@ -18,14 +18,14 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       bioMap[0].model.view.pixelScaleFactor, 
       bioMap[1].model.view.pixelScaleFactor, 
     ];
-    let leftY = this._translateScale(
+    let leftY = (this._translateScale(
         bioMap[0].model.view.base,
         bioMap[0].model.view.visible,
-        this.model[0].coordinates.start) * this.pixelScaleFactor[0];
-    let rightY = this._translateScale(
+        this.model[0].coordinates.start)+(this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
+    let rightY = (this._translateScale(
         bioMap[1].model.view.base,
         bioMap[1].model.view.visible,
-        this.model[1].coordinates.start) * this.pixelScaleFactor[1];
+        this.model[1].coordinates.start)+(this.bioMap[1].model.view.base.start*-1)) * this.pixelScaleFactor[1];
 
     this.bounds = new Bounds({
       allowSubpixel: false,
@@ -37,14 +37,14 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let leftY = this._translateScale(
+    let leftY = (this._translateScale(
         this.bioMap[0].model.view.base,
         this.bioMap[0].model.view.visible,
-        this.model[0].coordinates.start) * this.pixelScaleFactor[0];
-    let rightY = this._translateScale(
+        this.model[0].coordinates.start)+(this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
+    let rightY = (this._translateScale(
         this.bioMap[1].model.view.base,
         this.bioMap[1].model.view.visible,
-        this.model[1].coordinates.start) *  this.pixelScaleFactor[1];
+        this.model[1].coordinates.start)+(this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
     this.bounds.top = leftY;
     this.bounds.bottom = rightY;
     let gb = this.globalBounds || {};
