@@ -26,11 +26,11 @@ export class ColorPicker {
     var baseDiv = this;
     // store these bounds, for checking in drawLazily()
     let selectedClass = this.selected ? 'selected' : '';
-    return  [ m(`div.color-picker#color-picker-${this.order}`, [
+    return  [ m('div.color-picker', [
         m(new BaseSelector(),{info:baseDiv}),
         m(new SaturationSelector(),{info:baseDiv}),
         m(new ColorPreview(),{info:baseDiv}),
-        m('div#color-apply-controls',{style:'margin-left:10px; display:inline-block;'},
+        m('div#color-apply-controls',{style:'text-align:center; margin-left:10px; display:inline-block; padding:auto'},
           [m(new ColorApplyButton(),{info:baseDiv,settings:vnode.attrs.baseAttrs.settings}),
           m(new ColorResetButton(),{info:baseDiv})]
         )
@@ -42,18 +42,20 @@ export class ColorPicker {
 export class BaseSelector extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
     super.oncreate(vnode);
+    this.order = vnode.attrs.info.order;
+    this.colors = vnode.attrs.info.colors;
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    this.colors = vnode.attrs.info.colors;
     this.context2d.fillStyle = this.colors.baseColor;
-    this.hsv = rgbToHsv(hexToRgb(this.context2d.fillStyle));
-    this.order = vnode.attrs.info.order;
+    //use the context to convert the original color into a hex string
+    //avoiding needing to parse html color words
     vnode.attrs.info.colors.baseColor = this.context2d.fillStyle;
     vnode.attrs.info.colors.currentColor = this.context2d.fillStyle;
-    vnode.attrs.info.colors.hueValueColor = [this.hsv[0],100,this.hsv[2]]
-    PubSub.publish('hueValue',{color:this.colors, order:this.order});
-    this.hvColor = vnode.attrs.hueValueColor
-    this.ptrPos = this._posFromHsv(this.hsv);
+    vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(this.context2d.fillStyle));
+    //PubSub.publish('hueValue',{color:this.colors, order:this.order});
+     
+    this.ptrPos = this._posFromHsv(this.colors.hueValueColor);
+    console.log('test ptr',this.ptrPos);
     this._gestureRegex = {
       pan: new RegExp('^pan'),
       tap: new RegExp('^tap')
@@ -71,7 +73,7 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
   /**
    * mithril component render method
    */
-  view() {
+  view(vnode) {
     // store these bounds, for checking in drawLazily()
     return  m('canvas', {
        class: `color-canvas-main`,
@@ -148,28 +150,34 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
   handleGesture(evt){
     if(evt.type.match(this._gestureRegex.tap) || 
         evt.type.match(this._gestureRegex.pan)){
-      this._changeColor(evt);
+      this._locationChange(evt);
     }
     return true;
   }
 
-  _changeColor(evt){
-    console.log('gesture!',evt);
-    
+  _locationChange(evt){
     this.ptrPos = {
       x:evt.srcEvent.layerX,
       y:evt.srcEvent.layerY
     }
+
     this.colors.hueValueColor = this._hsvFromPos(this.ptrPos);
+    this._changeColor();
+  }
+
+  _changeColor(){
+    //PubSub to alert the Saturation slider that the position has changed
+    //order is passed to not update *every* color selector
+    console.log('test color change', this.colors);
     PubSub.publish('hueValue',{color:this.colors, order:this.order});
-    console.log('gesture ptoh',this._hsvFromPos(this.ptrPos));
     this.draw();
    }
 
   _posFromHsv(hsv){
+    // Math.round to avoid annoying sub-pixel rendering
     return {
-      x: Math.round(hsv[0]/360)*(this.canvas.width),
-      y: Math.round(1-(hsv[2]/100))*(this.canvas.height)
+      x: Math.round(hsv[0]/360*(this.canvas.width)),
+      y: Math.round((1-(hsv[2]/100))*(this.canvas.height))
     }
   }
 
@@ -186,11 +194,8 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
     super.oncreate(vnode);
     this.canvas = this.el = vnode.dom;
     this.order = vnode.attrs.info.order;
-    vnode.dom.mithrilComponent = this;
-    this.currentColor = vnode.attrs.info.colors.currentColor;
-    this.hueValueColor = vnode.attrs.info.colors.hueValueColor;
+    this.colors = vnode.attrs.info.colors;
     this.context2d = this.canvas.getContext('2d');
-    console.log('testing ripple', vnode.attrs.info.colors);
     this.ptrPos = 0;
     PubSub.subscribe('hueValue', (msg,data)=>{if(data.order === this.order) this._hueUpdated(data.color);});
     this._gestureRegex = {
@@ -204,15 +209,13 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
    * mithril lifecycle method
    */
   onupdate(vnode) {
-    // TODO: remove this development assistive method
-    console.log('onup',vnode);
 		this.draw();
   }
 
   /**
    * mithril component render method
    */
-  view() {
+  view(vnode) {
     // store these bounds, for checking in drawLazily()
     return  m('canvas', {
        class: `color-canvas-sat`,
@@ -226,12 +229,11 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     var grad = ctx.createLinearGradient(0, 0, 0,this.canvas.height);
-    console.log('testing ripple',this);
-    console.log('testing stuff',this.hueValueColor, hsvToRgb([this.hueValueColor[0],100,this.hueValueColor[2]]));
-    let rgbStart = hsvToRgb([this.hueValueColor[0],100,this.hueValueColor[2]]).map(color => {
+    let hueValueColor = this.colors.hueValueColor;
+    let rgbStart = hsvToRgb([hueValueColor[0],100,hueValueColor[2]]).map(color => {
       return Math.floor(color)
     });
-    let rgbStop = hsvToRgb([this.hueValueColor[0],0,this.hueValueColor[2]]).map(color => {
+    let rgbStop = hsvToRgb([hueValueColor[0],0,hueValueColor[2]]).map(color => {
       return Math.floor(color)
     });
     grad.addColorStop(0 , `rgba(${rgbStart[0]},${rgbStart[1]},${rgbStart[2]},1)`);
@@ -265,6 +267,7 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
   _changeColor(evt){
     console.log('gesture!',evt);
     this.ptrPos = evt.srcEvent.layerY
+    console.log('gest col',this.colors);
     this._hueUpdated(this.colors);
    }
 
@@ -290,18 +293,16 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
 export class ColorPreview extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
     super.oncreate(vnode);
-    this.canvas = this.el = vnode.dom;
     this.order = vnode.attrs.info.order;
-    vnode.dom.mithrilComponent = this;
+    this.colors = vnode.attrs.info.colors;
+    this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
-    this.context2d.fillStyle = vnode.attrs.info.colors.currentColor;
-    this.fillColor = hexToRgb(this.context2d.fillStyle);
     PubSub.subscribe('satUpdated',(msg,data) =>{
       if(this.order === data.order){
-        this.fillColor = hsvToRgb(data.currentColors.hueValueColor).map(color => {
+        let fillColor = hsvToRgb(data.currentColors.hueValueColor).map(color => {
           return Math.floor(color)
         });
-        vnode.attrs.info.colors.currentColor = this.context2d.fillStyle = `rgba(${this.fillColor[0]},${this.fillColor[1]},${this.fillColor[2]},1)`;
+        this.colors.currentColor = `rgba(${fillColor[0]},${fillColor[1]},${fillColor[2]},1)`;
         this.draw();
       }
     });
@@ -312,18 +313,15 @@ export class ColorPreview extends mix().with(RegisterComponentMixin) {
    * mithril lifecycle method
    */
   onupdate(vnode) {
-    // TODO: remove this development assistive method
-    console.log('gesture preview',vnode.attrs.currentColor);
 		this.draw();
   }
 
   /**
    * mithril component render method
    */
-  view() {
+  view(vnode) {
     // store these bounds, for checking in drawLazily()
-    return  m('canvas', {
-       class: `color-canvas-preview`,
+    return  m('canvas#color-canvas-preview', {
        style: 'margin-left:10px; width: 20; height: 100;',
 			 width: 20,
 			 height: 100
@@ -333,13 +331,11 @@ export class ColorPreview extends mix().with(RegisterComponentMixin) {
 	draw(){
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    let rgb = this.fillColor;
-    ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},1)`;
+    ctx.fillStyle = this.colors.currentColor;
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		ctx.strokeStyle='black';
 		ctx.lineWidth=1;
 		ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
-    // store these bounds, for checking in drawLazily()
   }
 
   handleGesture(evt){
@@ -347,6 +343,7 @@ export class ColorPreview extends mix().with(RegisterComponentMixin) {
   }
 }
 
+// Use currently selected color
 export class ColorApplyButton extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
     super.oncreate(vnode);
@@ -365,12 +362,12 @@ export class ColorApplyButton extends mix().with(RegisterComponentMixin) {
    */
   view(vnode) {
     // store these bounds, for checking in drawLazily()
-    return  m('button#approve-button', {
-       style: 'display:block',
-       onclick:()=>{
+    return  m('button.approve-button', {
+      style: 'display:block; width:100%;',
+      onclick:()=>{
         vnode.attrs.settings.trackColor[this.order] = vnode.attrs.info.colors.currentColor;
-       }
-     },'Apply');
+      }
+    },'Apply');
   }
 
   handleGesture(evt){
@@ -378,6 +375,7 @@ export class ColorApplyButton extends mix().with(RegisterComponentMixin) {
   }
 }
 
+// Reset color to prior
 export class ColorResetButton extends mix().with(RegisterComponentMixin) {
   oncreate(vnode) {
     super.oncreate(vnode);
@@ -396,12 +394,10 @@ export class ColorResetButton extends mix().with(RegisterComponentMixin) {
    */
   view(vnode) {
     // store these bounds, for checking in drawLazily()
-    return  m('button#reset-button', {
-       style: 'display:block',
+    return  m('button.reset-button', {
+      style: 'display:block; width:100%',
        onclick:()=>{
-        console.log('apply attrs',vnode.attrs);
         vnode.attrs.info.colors.currentColor = vnode.attrs.info.colors.baseColor;
-        console.log('apply attrs post',vnode.attrs);
        }
      },'Reset');
   }
@@ -420,14 +416,11 @@ export function	hexToRgb(hex){
 export function	rgbToHsv(rgb){
 	//make sure RGB values are within 0-255 range
 	//and convert to decimal
-  console.log('testing initial rgb',rgb);
 	rgb = rgb.map(component =>{
-    console.log('testing initial rgb-c',component);
-    console.log('testing initial rgb-c', Math.max(0,Math.min(255,component)/255))
 		return Math.max(0,Math.min(255,component))/255;
 	});
-  console.log('testing initial rgb',rgb);
 
+  // Conversion from RGB -> HSV colorspace
 	let cmin = Math.min(Math.min(rgb[0],rgb[1]),rgb[2]);
 	let cmax = Math.max(Math.max(rgb[0],rgb[1]),rgb[2]);
 	let delta = cmax-cmin;
@@ -436,15 +429,11 @@ export function	rgbToHsv(rgb){
     hue = 0;
   } else if( cmax === rgb[0]){
 		hue = 60*(((rgb[1]-rgb[2])/delta));
-    console.log('testing rgb-hsv R',hue, ((rgb[2]-rgb[1])/delta));
 	} else if( cmax === rgb[1]){
 		hue = 60*(((rgb[2]-rgb[0])/delta)+2);
-    console.log('testing rgb-hsv G',hue);
 	} else if( cmax === rgb[2]){
 		hue = 60*(((rgb[0]-rgb[1])/delta)+4);
-    console.log('testing rgb-hsv B',hue);
 	}
-  console.log('testing rgb-hsv',rgb,hue);
 
 	let sat = cmax === 0 ? 0 : (delta/cmax)*100;
 	let value = cmax*100;
