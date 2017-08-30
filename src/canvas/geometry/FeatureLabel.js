@@ -4,6 +4,7 @@
   */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
+import {translateScale} from '../../util/CanvasUtil';
 
 export class FeatureLabel extends SceneGraphNodeBase {
 
@@ -25,7 +26,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let y = (this._translateScale(this.model.coordinates.start)+(this.view.base.start*-1)) * this.pixelScaleFactor;
+    let y = translateScale(this.model.coordinates.start,this.view.base,this.view.visible) * this.pixelScaleFactor;
     this.bounds.top = y;
     this.bounds.bottom = y + this.fontSize;
     let gb = this.globalBounds || {};
@@ -36,11 +37,5 @@ export class FeatureLabel extends SceneGraphNodeBase {
     // reset bounding box to fit the new stroke location/width
     this.bounds.right = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width)+1;
     if(this.parent.bounds.width < this.bounds.width) this.parent.bounds.width = this.bounds.width;
-  }
-
-  _translateScale(point){
-    let coord = this.view.base;
-    let vis = this.view.visible;
-    return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
   }
 }
