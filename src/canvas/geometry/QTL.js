@@ -13,43 +13,40 @@ export class QTL extends SceneGraphNodeBase {
     let config = bioMap.config;
     this.model = featureModel;
     this.featureMap = bioMap;
-    this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
+
+    this.coordOffset = this.featureMap.view.base.start * -1;
+    this.lineWidth = 1.0;
     //min and max location in pixels
-    this.startLoc = this._translateScale(this.featureMap.view.visible.start) * this.pixelScaleFactor;
-    this.stopLoc = this._translateScale(this.featureMap.view.visible.stop) * this.pixelScaleFactor;
-    this.fill = initialConfig.trackColor || config.trackColor ; 
+    this.startLoc = (this._translateScale(this.featureMap.view.visible.start)+this.coordOffset) * this.pixelScaleFactor;
+    this.stopLoc = (this._translateScale(this.featureMap.view.visible.stop)+this.coordOffset) * this.pixelScaleFactor;
+    this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
+    this.fill = initialConfig.trackColor[initialConfig.filter.indexOf(this.model.tags[0])]||initialConfig.trackColor[0] || config.trackColor ; 
     this.width = initialConfig.trackWidth || config.trackWidth;
     this.trackSpacing = initialConfig.trackSpacing || config.trackSpacing;
     this.labelColor = config.trackLabelColor;
     this.labelSize = config.trackLabelSize;
     this.labelFace = config.trackLabelFace;
-    this.offset = this.trackSpacing + this.labelSize;
+    this.offset =  this.trackSpacing + this.labelSize;
+
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
-    let y1 = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
-    let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
+    let y1 = (this._translateScale(this.model.coordinates.start)+this.coordOffset) * this.pixelScaleFactor;
+    let y2 = (this._translateScale(this.model.coordinates.stop)+this.coordOffset) * this.pixelScaleFactor;
     let leftLoc = 0;
     let leftArr = [];
-    this.parent.locMap.search({
+    leftArr = this.parent.locMap.search({
       minY: this.model.coordinates.start,
       maxY: this.model.coordinates.stop,
       minX: 0,
-      maxX:1000
-    }).forEach(overlap => {
-      if(overlap.data){
-        if(overlap.data.bounds.right > leftLoc){
-          leftLoc = overlap.data.bounds.right+this.offset;
-        }
-        leftArr.push(overlap.data.bounds.left);
-      }
+      maxX:10000
     });
-    leftArr = leftArr.sort((a,b)=>{return a-b;});
+    leftArr = leftArr.sort((a,b)=>{return a.data.bounds.right-b.data.bounds.right;});
     let stepOffset = this.width + this.offset;
-    console.log(leftArr);
-    for( let i = 0; i < leftArr.length; ++i){
-      if( leftArr[i] !== i*(stepOffset)){
+    let stackEnd = leftArr.length;
+    for( let i = 0; i <= stackEnd; ++i){
         leftLoc = i*(stepOffset);
+      if( leftArr[i] && leftArr[i].data.bounds.left !== leftLoc){
         break;
       }
     }
@@ -67,8 +64,8 @@ export class QTL extends SceneGraphNodeBase {
     // Get start and stop of QTL on current region, if it isn't located in
     // current view, don't draw, else cutoff when it gets to end of currently
     // visible region.
-    let y1 = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
-    let y2 = this._translateScale(this.model.coordinates.stop) * this.pixelScaleFactor;
+    let y1 = (this._translateScale(this.model.coordinates.start)+this.coordOffset) * this.pixelScaleFactor;
+    let y2 = (this._translateScale(this.model.coordinates.stop)+this.coordOffset) * this.pixelScaleFactor;
     if (y2 < this.startLoc || y1 > this.stopLoc) return;
     if (y1 < this.startLoc) y1 = this.startLoc;
     if (y2 > this.stopLoc) y2 = this.stopLoc;
@@ -99,7 +96,6 @@ export class QTL extends SceneGraphNodeBase {
       minX: gb.left,
       maxX: gb.right
     });
-    console.log('qtl',overlap);
     if(overlap.length <=1 || textWidth <= gb.height){
       ctx.save();
       ctx.translate(gb.left,gb.top);

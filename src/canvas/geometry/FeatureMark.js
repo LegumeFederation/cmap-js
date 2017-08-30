@@ -11,8 +11,11 @@ export class FeatureMark extends SceneGraphNodeBase {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
     this.featureMap = bioMap;
+
+    this.offset = this.featureMap.view.base.start*-1;
     this.lineWidth = bioMap.config.markerWeight;
     this.strokeStyle = bioMap.config.markerColor;
+
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.bounds = new Bounds({
       allowSubpixel: false,
@@ -25,7 +28,8 @@ export class FeatureMark extends SceneGraphNodeBase {
 
   draw(ctx) {
     console.log('drawing');
-    let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
+    let y = (this._translateScale(this.model.coordinates.start)+(this.offset)) * this.pixelScaleFactor;
+
     this.bounds.top = y;
     let gb = this.globalBounds || {};
     ctx.beginPath();

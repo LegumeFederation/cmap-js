@@ -24,7 +24,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,
-      left: b.width * 0.5 - backboneWidth * 0.5,
+      left: this.model.config.rulerLabelSize * 10,//b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
       height: b.height
     });
@@ -116,15 +116,17 @@ export class  MapTrack extends SceneGraphNodeTrack {
       minY: visc.start,
       maxY: visc.stop
     }));
+    console.log('label check',vis);
     let labels = [];
     let start = visc.start;
     let stop = visc.stop;
 		let psf = this.labelGroup.children[0].pixelScaleFactor;
-    let step =(visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start;
+    let step =((visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start) - (coord.start*-1);
 		console.log(step);
     for(let i = start; i < stop; i+=step){
      
      let item =  knn( this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left,i,1)[0];
+     console.log('label item',item);
      if(labels.length === 0){
        labels.push(item);
        continue;

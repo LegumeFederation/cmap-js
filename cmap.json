@@ -7,7 +7,7 @@
      "map" : "Pv02",
      "qtl" : [{
         "filter":"QTL_seed",
-        "color": "orange"
+        "trackColor": "orange"
       }
       ]
     }, {
@@ -23,7 +23,7 @@
      "map" : "D1a",
      "qtl" : [{
         "filter":"QTL_other-seed",
-        "color": "orange"
+        "trackColor": "orange"
       }
       ]
     }
@@ -68,9 +68,8 @@
       "url": "data/glyma.collinearity+genes+markers.cmap",
       "filters" : [],
       "config": {
-        "url" : "config/phavu_genes.json",
-        "method":"GET",
-        "data":{}
+        "method" : "GET",
+        "url" : "config/phavu_genes.json"
       },
       "linkouts" : [
         {

@@ -41,7 +41,7 @@ export class HorizontalLayout
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
       PubSub.subscribe(reset,() => { this._onReset();}),
-      PubSub.subscribe(featureUpdate, () => { this._featureUpdate();})
+      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();})
     ];
   }
 
@@ -56,7 +56,6 @@ export class HorizontalLayout
    * mithril component render method
    */
   view() {
-    console.log('view!',this.modal);
     return m('div.cmap-layout-horizontal',
        [this.swapComponents,this.bioMapComponents.map(m),this.featureControls,this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
@@ -81,7 +80,6 @@ export class HorizontalLayout
 		let maps = this;
     for (var i = 0; i < n; i++) {
 			let bMap = this.bioMapComponents[i];
-      console.log('swap test',bMap);
 			const b = i;
 			let left ='',right='';
 			if(b>0){
@@ -111,9 +109,10 @@ export class HorizontalLayout
         right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
       }
 	
+      console.log('swap comp',bMap,bMap.p);
 			this.swapComponents.push( m('div', {
         class: 'swap-div', id: `swap-${i}`,
-        style: `position:absolute; left: ${Math.floor(bMap.domBounds.right-bMap.domBounds.width*.75)}px; top: ${bMap.domBounds.top}px;`},
+        style: `position:absolute; left: ${Math.floor(bMap.domBounds.left+bMap.ruler.globalBounds.left/2)}px; top: ${bMap.domBounds.top}px;`},
 				[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
 		}
 		
@@ -144,11 +143,28 @@ export class HorizontalLayout
                       maps.modal[0] = component;
                       m.redraw();
                     }
-                  },`track-${i}`)
+                  }, featureGroup.tags[0])
               ); 
-              console.log( "featureControls child children", child.children[i]);
             }
           }
+          // push controller to add new track
+			    this.featureControls.push( 
+                m('div', {
+                  class: 'feature-title',
+                  id: `feature-${component.model.name}-new`,
+                    style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
+                      top: ${component.domBounds.top}px; width: 20px;`,
+                    onclick: function(){
+                      maps.modal = [];
+                      let component = new FeatureMenu();
+                      component.info = child.children[0];
+                      component.bounds = maps.bounds;
+                      component.order = child.children.length;
+                      maps.modal[0] = component;
+                      m.redraw();
+                    }
+                  },`+`)
+              );
 		    }
       });
     });
@@ -163,7 +179,7 @@ export class HorizontalLayout
     padding = 0; // TODO: decide whether to add padding between the biomaps
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let cursor = Math.floor(padding * 0.5);
-    this.bioMapComponents = this.appState.bioMaps.map( model => {
+    this.bioMapComponents = this.appState.bioMaps.map( (model,mapIndex) => {
       let layoutBounds = new Bounds({
         left: cursor,
         top: 10,
@@ -174,10 +190,10 @@ export class HorizontalLayout
         bioMapModel: model,
         layoutBounds: layoutBounds,
         appState: this.appState,
+        bioMapIndex: mapIndex
       });
       model.component = component; // save a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
-      console.log('map children', component.children);
       return component;
     });
 
@@ -236,10 +252,18 @@ export class HorizontalLayout
     m.redraw();
   }
   
-  _featureUpdate(){
-    console.log('updated butts!');
+  _onFeatureUpdate(msg,data){
+    this._layoutBioMaps();
+		this._layoutSwapComponents();
     this._layoutFeatureControls();
-    m.redraw();
+    var rightShift = 0;
+    this.appState.bioMaps.map( bmap => {
+      bmap.component.lb.left = rightShift;
+      bmap.component.domBounds.left = rightShift;
+      rightShift += bmap.component.domBounds.width;
+    })
+    this._layoutCorrespondenceMaps();
+    this._layoutPopovers();
   }
 
 }

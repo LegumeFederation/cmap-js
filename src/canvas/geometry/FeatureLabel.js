@@ -25,7 +25,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
+    let y = (this._translateScale(this.model.coordinates.start)+(this.view.base.start*-1)) * this.pixelScaleFactor;
     this.bounds.top = y;
     this.bounds.bottom = y + this.fontSize;
     let gb = this.globalBounds || {};
