@@ -8,6 +8,7 @@ import PubSub from 'pubsub-js';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
+import {pageToCanvas} from '../../util/CanvasUtil';
 
 export class ColorPicker {
   oncreate(vnode){
@@ -463,21 +464,4 @@ export function	hsvToRgb(hsv){
     case 4: return [n,m,u];
     case 5: return [u,m,n];
 	}
-}
-export function pageToCanvas( evt,canvas ){
-  function getOffset( el ) {
-    var _x = 0;
-    var _y = 0;
-    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-      _x += el.offsetLeft - el.scrollLeft;
-      _y += el.offsetTop - el.scrollTop;
-      el = el.offsetParent;
-    }
-    return { top: _y, left: _x };
-  }
-  let pageOffset = getOffset(canvas);
-  return {
-    'x': evt.srcEvent.pageX - pageOffset.left,
-    'y': evt.srcEvent.pageY - pageOffset.top
-  };
 }

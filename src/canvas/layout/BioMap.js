@@ -17,6 +17,7 @@ import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from './MapTrack';
 import {QtlTrack} from './QtlTrack';
 import {Ruler} from '../geometry/Ruler';
+import {pageToCanvas} from '../../util/CanvasUtil';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -129,7 +130,7 @@ export class BioMap extends SceneGraphNodeCanvas {
   // return hits in case of tap/click event
   _onTap(evt) {
     console.log('BioMap -> onTap', evt, this);
-    let globalPos = this._pageToCanvas(evt);
+    let globalPos = pageToCanvas(evt,this.canvas);
     this._loadHitMap();
     let hits = [];
 
@@ -180,7 +181,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     };
     this.zoomP.pStart = true;
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
-    let globalPos = this._pageToCanvas(evt);
+    let globalPos = pageToCanvas(evt, this.canvas);
     let left = this.ruler.globalBounds.left;
     // scroll view vs box select
     if(left < (globalPos.x-evt.deltaX) && 
@@ -226,7 +227,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     if(this.zoomP && this.zoomP.ruler){
       this._moveRuler(evt);
     } else {
-      let globalPos = this._pageToCanvas(evt);
+      let globalPos = pageToCanvas(evt,this.canvas);
       this.draw();
       let ctx = this.context2d;
       ctx.lineWidth = 1.0;
@@ -249,7 +250,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     if(this.zoomP && this.zoomP.ruler){
       this._moveRuler(evt);
     } else {
-      let globalPos = this._pageToCanvas(evt);
+      let globalPos = pageToCanvas(evt,this.canvas);
       
       // test if any part of the box select is in the ruler zone
       let rLeft = this.ruler.globalBounds.left;
@@ -338,27 +339,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     return ((visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start)))-(coord.start*-1);
   }
 
-    /**
-     * Convert point from page coordinates to canvas coordinates
-     *
-     */
-  _pageToCanvas( evt ){
-    function getOffset( el ) {
-      var _x = 0;
-      var _y = 0;
-      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-        _x += el.offsetLeft - el.scrollLeft;
-        _y += el.offsetTop - el.scrollTop;
-        el = el.offsetParent;
-      }
-      return { top: _y, left: _x };
-    }
-    let pageOffset = getOffset(this.canvas);
-    return {
-      'x': evt.srcEvent.pageX - pageOffset.left,
-      'y': evt.srcEvent.pageY - pageOffset.top
-    };
-  }
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
