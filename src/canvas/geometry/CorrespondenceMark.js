@@ -4,6 +4,7 @@
   */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
+import {translateScale} from '../../util/CanvasUtil';
 
 export class CorrespondenceMark extends SceneGraphNodeBase {
 
@@ -18,14 +19,14 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       bioMap[0].model.view.pixelScaleFactor, 
       bioMap[1].model.view.pixelScaleFactor, 
     ];
-    let leftY = (this._translateScale(
+    let leftY = translateScale(
+        this.model[0].coordinates.start,
         bioMap[0].model.view.base,
-        bioMap[0].model.view.visible,
-        this.model[0].coordinates.start)+(this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
-    let rightY = (this._translateScale(
+        bioMap[0].model.view.visible) * this.pixelScaleFactor[0];
+    let rightY = translateScale(
+        this.model[1].coordinates.start,
         bioMap[1].model.view.base,
-        bioMap[1].model.view.visible,
-        this.model[1].coordinates.start)+(this.bioMap[1].model.view.base.start*-1)) * this.pixelScaleFactor[1];
+        bioMap[1].model.view.visible) * this.pixelScaleFactor[1];
 
     this.bounds = new Bounds({
       allowSubpixel: false,
@@ -37,69 +38,61 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
+    var bioMap = this.bioMap;
+    let leftYStart = translateScale(
+      this.model[0].coordinates.start,
+      bioMap[0].model.view.base,
+      bioMap[0].model.view.visible) * this.pixelScaleFactor[0];
+    let rightYStart = translateScale(
+      this.model[1].coordinates.start,
+      bioMap[1].model.view.base,
+      bioMap[1].model.view.visible) * this.pixelScaleFactor[1];
+
     if (this.model[0].coordinates.start === this.model[0].coordinates.stop
             && this.model[1].coordinates.start === this.model[1].coordinates.stop) {
-        let leftY = (this._translateScale(
-            this.bioMap[0].model.view.base,
-            this.bioMap[0].model.view.visible,
-            this.model[0].coordinates.start) + (this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
-        let rightY = (this._translateScale(
-            this.bioMap[1].model.view.base,
-            this.bioMap[1].model.view.visible,
-            this.model[1].coordinates.start) + (this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
-        this.bounds.top = leftY;
-        this.bounds.bottom = rightY;
-        let gb = this.globalBounds || {};
-        ctx.beginPath();
-        ctx.lineWidth = this.lineWidth;
-        ctx.strokeStyle = '#CAA91E';
-        ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
-        ctx.lineTo(Math.floor(gb.right), Math.floor(gb.bottom));
-        ctx.stroke();
+      // correspondence line
+      this.bounds.top = leftYStart;
+      this.bounds.bottom = rightYStart;
+      let gb = this.globalBounds || {};
+      ctx.beginPath();
+      ctx.lineWidth = this.lineWidth;
+      ctx.strokeStyle = '#CAA91E';
+      ctx.globalAlpha = 0.7;
+      ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
+      ctx.lineTo(Math.floor(gb.right), Math.floor(gb.bottom));
+      ctx.stroke();
     }
     else {
-        let leftYStart = (this._translateScale(
-            this.bioMap[0].model.view.base,
-            this.bioMap[0].model.view.visible,
-            this.model[0].coordinates.start) + (this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
-        let leftYStop = (this._translateScale(
-            this.bioMap[0].model.view.base,
-            this.bioMap[0].model.view.visible,
-            this.model[0].coordinates.stop) + (this.bioMap[0].model.view.base.start*-1)) * this.pixelScaleFactor[0];
-        let rightYStart = (this._translateScale(
-            this.bioMap[1].model.view.base,
-            this.bioMap[1].model.view.visible,
-            this.model[1].coordinates.start) + (this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
-        let rightYStop = (this._translateScale(
-            this.bioMap[1].model.view.base,
-            this.bioMap[1].model.view.visible,
-            this.model[1].coordinates.stop) + (this.bioMap[1].model.view.base.start*-1)) *  this.pixelScaleFactor[1];
-        this.bounds.top = leftYStart;
-        this.bounds.bottom = leftYStop;
-        let gbLeft = this.globalBounds || {};
-        let leftTop = gbLeft.top;
-        let leftBot = gbLeft.bottom;
-        this.bounds.top = rightYStart;
-        this.bounds.bottom = rightYStop;
-        let gbRight = this.globalBounds || {};
-        let rightTop = gbRight.top;
-        let rightBot = gbRight.bottom;
+      // correspondence region 
+      let leftYStop = translateScale(
+        this.model[0].coordinates.stop,
+        bioMap[0].model.view.base,
+        bioMap[0].model.view.visible) * this.pixelScaleFactor[0];
+      let rightYStop = translateScale(
+        this.model[1].coordinates.stop,
+        bioMap[1].model.view.base,
+        bioMap[1].model.view.visible) * this.pixelScaleFactor[1];
 
-        ctx.beginPath();
-        ctx.lineWidth = this.lineWidth;
-        ctx.globalAlpha = 0.2;
-        ctx.fillStyle = '#CAA91E';
-        ctx.moveTo(Math.floor(gbLeft.left), Math.floor(gbLeft.top));
-        ctx.lineTo(Math.floor(gbLeft.left), Math.floor(gbLeft.bottom));
-        ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.bottom));
-        ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.top));
-        ctx.fill();
+      this.bounds.top = leftYStart;
+      this.bounds.bottom = leftYStop;
+      let gbLeft = this.globalBounds || {};
+      //let leftTop = gbLeft.top;
+      //let leftBot = gbLeft.bottom;
+      this.bounds.top = rightYStart;
+      this.bounds.bottom = rightYStop;
+      let gbRight = this.globalBounds || {};
+      //let rightTop = gbRight.top;
+      //let rightBot = gbRight.bottom;
+
+      ctx.beginPath();
+      ctx.lineWidth = this.lineWidth;
+      ctx.globalAlpha = 0.2;
+      ctx.fillStyle = '#7C6400';//'#A4870C';
+      ctx.moveTo(Math.floor(gbLeft.left), Math.floor(gbLeft.top));
+      ctx.lineTo(Math.floor(gbLeft.left), Math.floor(gbLeft.bottom));
+      ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.bottom));
+      ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.top));
+      ctx.fill();
     }
-  }
-
-  _translateScale(oCord,nCord,point){
-    let coord = oCord;
-    let vis = nCord;
-    return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
   }
 }

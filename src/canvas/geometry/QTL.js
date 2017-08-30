@@ -5,6 +5,7 @@
   */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
+import {translateScale} from '../../util/CanvasUtil';
 
 export class QTL extends SceneGraphNodeBase {
 
@@ -13,12 +14,9 @@ export class QTL extends SceneGraphNodeBase {
     let config = bioMap.config;
     this.model = featureModel;
     this.featureMap = bioMap;
-
-    this.coordOffset = this.featureMap.view.base.start * -1;
+    this.view = this.featureMap.view;
     this.lineWidth = 1.0;
     //min and max location in pixels
-    this.startLoc = (this._translateScale(this.featureMap.view.visible.start)+this.coordOffset) * this.pixelScaleFactor;
-    this.stopLoc = (this._translateScale(this.featureMap.view.visible.stop)+this.coordOffset) * this.pixelScaleFactor;
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.fill = initialConfig.trackColor[initialConfig.filter.indexOf(this.model.tags[0])]||initialConfig.trackColor[0] || config.trackColor ; 
     this.width = initialConfig.trackWidth || config.trackWidth;
@@ -31,8 +29,8 @@ export class QTL extends SceneGraphNodeBase {
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
-    let y1 = (this._translateScale(this.model.coordinates.start)+this.coordOffset) * this.pixelScaleFactor;
-    let y2 = (this._translateScale(this.model.coordinates.stop)+this.coordOffset) * this.pixelScaleFactor;
+    let y1 = translateScale(this.model.coordinates.start,this.view.base, this.view.visible) * this.pixelScaleFactor;
+    let y2 = translateScale(this.model.coordinates.stop, this.view.base, this.view.visible) * this.pixelScaleFactor;
     let leftLoc = 0;
     let leftArr = [];
     leftArr = this.parent.locMap.search({
@@ -64,11 +62,13 @@ export class QTL extends SceneGraphNodeBase {
     // Get start and stop of QTL on current region, if it isn't located in
     // current view, don't draw, else cutoff when it gets to end of currently
     // visible region.
-    let y1 = (this._translateScale(this.model.coordinates.start)+this.coordOffset) * this.pixelScaleFactor;
-    let y2 = (this._translateScale(this.model.coordinates.stop)+this.coordOffset) * this.pixelScaleFactor;
-    if (y2 < this.startLoc || y1 > this.stopLoc) return;
-    if (y1 < this.startLoc) y1 = this.startLoc;
-    if (y2 > this.stopLoc) y2 = this.stopLoc;
+    if( this.model.coordinates.stop < this.view.visible.start || 
+        this.model.coordinates.start > this.view.visible.stop) return;
+    var y1pos = this.model.coordinates.start > this.view.visible.start ? this.model.coordinates.start : this.view.visible.start;
+    var y2pos = this.model.coordinates.stop < this.view.visible.stop ? this.model.coordinates.stop : this.view.visible.stop;
+    let y1 = translateScale(y1pos,this.view.base,this.view.visible) * this.pixelScaleFactor;
+    let y2 = translateScale(y2pos,this.view.base,this.view.visible) * this.pixelScaleFactor;
+
     //setup bounds and draw
     this.bounds = new Bounds({
       top: y1,
@@ -89,9 +89,9 @@ export class QTL extends SceneGraphNodeBase {
       Math.floor(qtlHeight)
     );
     let textWidth = ctx.measureText(this.model.name).width + (ctx.measureText('M').width*6);
-    let textStop = this.model.coordinates.stop - this._translateScale(textWidth/this.pixelScaleFactor);
+    let textStop = this.model.coordinates.stop - (translateScale(textWidth/this.pixelScaleFactor,this.view.base,this.view.visible)+this.view.base.start);
     let overlap = this.parent.locMap.search({
-      minY: textStop > this.featureMap.view.visible.start ? textStop : this.featureMap.view.visible.start,
+      minY: textStop > this.view.visible.start ? textStop : this.view.visible.start,
       maxY: this.model.coordinates.stop,
       minX: gb.left,
       maxX: gb.right
@@ -107,11 +107,5 @@ export class QTL extends SceneGraphNodeBase {
 
     // Draw any children
     this.children.forEach( child => child.draw(ctx));
-  }
-
-  _translateScale(point){
-    let coord = this.featureMap.view.base;
-    let vis = this.featureMap.view.visible;
-    return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
   }
 }
