@@ -150,15 +150,16 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
   handleGesture(evt){
     if(evt.type.match(this._gestureRegex.tap) || 
         evt.type.match(this._gestureRegex.pan)){
-      this._locationChange(evt);
+      let point = pageToCanvas(evt, this.canvas);
+      this._locationChange(point);
     }
     return true;
   }
 
   _locationChange(evt){
     this.ptrPos = {
-      x:evt.srcEvent.layerX,
-      y:evt.srcEvent.layerY
+      x:evt.x,
+      y:evt.y
     }
 
     this.colors.hueValueColor = this._hsvFromPos(this.ptrPos);
@@ -259,14 +260,15 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
   handleGesture(evt){
     if(evt.type.match(this._gestureRegex.tap) || 
         evt.type.match(this._gestureRegex.pan)){
-      this._changeColor(evt);
+      var point = pageToCanvas(evt, this.canvas);
+      this._changeColor(point);
     }
     return true;
   }
 
   _changeColor(evt){
     console.log('gesture!',evt);
-    this.ptrPos = evt.srcEvent.layerY
+    this.ptrPos = evt.y
     console.log('gest col',this.colors);
     this._hueUpdated(this.colors);
    }
@@ -461,4 +463,21 @@ export function	hsvToRgb(hsv){
     case 4: return [n,m,u];
     case 5: return [u,m,n];
 	}
+}
+export function pageToCanvas( evt,canvas ){
+  function getOffset( el ) {
+    var _x = 0;
+    var _y = 0;
+    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+      _x += el.offsetLeft - el.scrollLeft;
+      _y += el.offsetTop - el.scrollTop;
+      el = el.offsetParent;
+    }
+    return { top: _y, left: _x };
+  }
+  let pageOffset = getOffset(canvas);
+  return {
+    'x': evt.srcEvent.pageX - pageOffset.left,
+    'y': evt.srcEvent.pageY - pageOffset.top
+  };
 }
