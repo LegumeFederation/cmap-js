@@ -1,148 +1,184 @@
 /**
-  * Feature
-  * A mithril component for displaying feature information.
-  */
+ * FeatureMenu
+ * Mithril component for a modal dialog to edit track/subtrack settings
+ **/
 import m from 'mithril';
-import PubSub from 'pubsub-js';
-import {featureUpdate, reset} from '../../topics';
+//import PubSub from 'pubsub-js';
+//import {featureUpdate, reset} from '../../topics';
 
-import {mix} from '../../../mixwith.js/src/mixwith';
-import {Menu} from './Menu';
+//import {Menu} from './Menu';
 import {ColorPicker} from './ColorPicker';
 
-export class FeatureMenu extends Menu {
 
-  oninit(vnode){
-    //super.oninit(vnode);
-    this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
-    this.order = vnode.attrs.order;
-    this.model= vnode.attrs.info.parent.parent.model;
-    this.trackGroups = [];
-    this.allowRemove = true;
-    if(!this.model.qtlGroups || this.model.qtlGroups[0] === undefined){
-      this.order = 0;
-      this.settings = {filter:[this.tagList[0]],trackColor:['red']}
-      this.trackGroups[0]= this.settings;
-      this.allowRemove = false;
+export class FeatureMenu {
+  constructor(data,order){
+    // Setup modal position based on current placement of the actual map
+    // layout viewport. keeps things self-contained when embedding.
+    let viewport = document.getElementById('cmap-menu-viewport');
+    let layoutBounds = document.getElementById('cmap-layout-viewport').getBoundingClientRect();
+    document.getElementById('cmap-layout-viewport').style.visibility = 'hidden';
+    viewport.style.display = 'block';
+    viewport.style.position = 'absolute';
+    viewport.style.top = `${layoutBounds.top}px`;
+    viewport.style.left = `${layoutBounds.left}px`;
+    viewport.style.width = '95%';
+    viewport.style.height = `${layoutBounds.height}px`;
+
+    // Setup track and subtrack data
+
+    let model = data.parent.parent.model;
+		let tagList = model.tags.sort();
+		let settings = {};
+		let trackGroups = [];
+		let allowRemove = true;
+
+    console.log("ddloop pre model",data);
+
+ 	  if(!model.qtlGroups || model.qtlGroups[0] === undefined){
+    	order = 0;
+    	settings = {filter:[tagList[0]],trackColor:['red']}
+     	trackGroups[0]= settings;
+    	allowRemove = false;
     } else {
-     this.trackGroups = this.model.qtlGroups.splice(0);
-     if(!this.trackGroups[this.order]){
-       this.trackGroups[this.order] = {filter:[this.tagList[0]],trackColor:['red']}
-       this.allowRemove = false;
-     } 
-     this.settings = this.trackGroups[this.order];
+    	trackGroups = model.qtlGroups.splice(0);
+      console.log('tg',trackGroups);
+    	if(!trackGroups[order]){
+    		trackGroups[order] = {filter:[tagList[0]],trackColor:['red']}
+    		allowRemove = false;
+    	}
+    	settings = trackGroups[order];
     }
-     this.selected = this.settings.filter.map( item => {
-       return {name: item, 
-               index: this.tagList.indexOf(item)};
-     });
-  }
-  /**
-   * mithril component method
-   */
-	oncreate(vnode) {
-    // using super here attaches handleGesture() to the mithril component
-    super.oncreate(vnode);
-  }
-  /**
-   * mithril component render method
-   */
-  view(vnode) {
-    let bounds = vnode.attrs.bounds || {};
-    let modal = this;
-    modal.rootNode = vnode;
-    var controls = [this._applyButton(modal),this._closeButton(modal)];
-    if(modal.allowRemove){
-      controls.push(this._removeButton(modal,vnode));
-    }
+    
+		let selected = settings.filters.map( item => {
+			return {
+				name: item,
+				index: tagList.indexOf(item)
+			};
+    });
 
-    return m('div', {
-       class: 'feature-menu',
-       style: `position:absolute; left: 0px; top: 0px; width:${bounds.width}px;height:${bounds.height}px`
-     },[this._dropdownDiv(modal), controls]);
-  }
+    let trackConfig = {
+      model: model,
+      tagList: tagList,
+			settings: settings,
+			selected: selected,
+			trackGroups:trackGroups
+		};
+		console.log('modal post', trackConfig);
 
-  _dropdownDiv(modal){
-    var dropdowns = [];
-    for(var i = 0; i < modal.selected.length; i++){
-      var settings = {
-        name: modal.settings.filter[i], 
-        trackColor: modal.settings.trackColor[i] || modal.settings.trackColor[0],
-        tags: modal.tagList
-      };
-      if(modal.selected[i].index === -1){
-        modal.selected[i].index = settings.tags.indexOf(settings.name);
+    //Attach components to viewport, in general these are the close button (x in top
+    //right), the acutal modal contents, and the apply/close/delete button bar
+    
+    m.mount(document.getElementById('cmap-menu-viewport'), {
+      view:function(vnode){
+        return [
+          m(CloseButton),
+          m(TrackMenu,{info:trackConfig,count:0})
+        ]
+      }  
+    })
+
+  }
+}
+
+/*
+ * Div with simple close X
+ */
+export let  CloseButton = {
+  view: function(vnode){
+    return m('div',
+    { style:'text-align:right;',
+      onclick: 
+        ()=>{closeModal()}
+    },'X');
+  }
+}
+
+/*
+ * Mithril component
+ * Div that contains the dropdowns and components for selecting track options
+ */
+export let TrackMenu = {
+  oninit: function (vnode){
+    vnode.state = vnode.attrs;
+  },
+  onupdate: function (vnode){
+    console.log('test update');
+  },
+  view: function(vnode){
+		let selected = vnode.state.info.selected;
+		let settings = vnode.state.info.settings;
+		this.count = 0;
+		let dropdows = selected.map( (item,order)=>{
+			let dropSettings = {
+				selected: selected,
+				name: settings.filters[order],
+				trackColor: settings.trackColor[order] || settings.trackColor[0],
+				tags: vnode.state.info.tagList
+			}
+			if(selected[order].index === -1){
+				selected[order].index = dropSettings.tags.indexOf(dropSettings.name);
+			}
+			console.log('modal ddLoop', order,dropSettings,selected,settings);
+      let controls = [
+        m('button',{onclick : () =>{
+          selected[selected.length] = {index:0};
+        }},'+')
+      ];
+      if(selected.length > 1){
+        controls.push(m('button',{onclick: () => { selected.splice(order,1);}},'-'));
       }
 
-      dropdowns[i] = this._dropDown(modal,settings,i);
+			return [m(Dropdown,{settings:dropSettings,order:order,parentDiv:this}),controls];	
+		});
+    return m('div',{onclick: ()=>{console.log(vnode.state.count);vnode.state.count++;},style:'overflow:auto;width:100%;height:80%;background:aliceblue;'},[m('button',{onclick:()=>{console.log("current count", this.count);}},"count disp"),dropdows]);
+  }
+}
+
+/*
+ * Mithril component
+ * Actual dropdown selector
+ */
+export let Dropdown = {
+  oninit: function(vnode){
+    vnode.state = vnode.attrs;
+  },
+  onbeforeupdate: function(vnode){
+    if(vnode.state.count > vnode.attrs.parentDiv.count){
+      vnode.attrs.parentDiv.count = vnode.state.count;
+    } else {
+      vnode.state.count = vnode.attrs.parentDiv.count;
     }
-
-    return m('div',{class:'dropdown-container',
-        style: 'height:90%; overflow:auto'
-      },m('div',[dropdowns]));
-  }
-  
-  _applyButton(modal){
-     return  m('button',{
-        onclick: function(){
-          modal.settings.filter = modal.selected.map( selected => {
-            return selected.name;
-          });
-          modal.model.qtlGroups = modal.trackGroups;
-          PubSub.publish(featureUpdate, null);
-          m.redraw();
-          modal.rootNode.dom.remove(modal.rootNode);
-        }
-      },'Apply Selection');
-  }
-
-  _closeButton(modal){
-     return  m('button',{
-        onclick: function(){
-          modal.rootNode.dom.remove(modal.rootNode);
-        }
-      },'Close');
-  }
-
-  _removeButton(modal,vnode){
-     return  m('button',{
-       style:'background-color:red;',
-        onclick: function(){
-          modal.trackGroups.splice(modal.order,1);
-          modal.model.qtlGroups = modal.trackGroups;
-          PubSub.publish(featureUpdate, null);
-          m.redraw();
-          modal.rootNode.dom.remove(modal.rootNode);
-        }
-      },'Remove Track');
-  }
-  _dropDown(modal,settings,order){
-    let selector = this;
-    let controls = [
-      m('button',{onclick : () =>{
-      selector.selected[selector.selected.length] = {index:0};
-      }},'+')
-    ];
-    if(modal.selected.length > 1) { 
-      controls.push(m('button',{onclick: () => { selector.selected.splice(order,1);}},'-'));
-    }
+    console.log('modal dd attrs',vnode.attrs.parentDiv.count, vnode.state.count);
+  },
+	view: function(vnode){
+    let order = vnode.state.order;
+		let settings = vnode.state.settings;
     return m('div',m('select',{
       id:`selector-${order}`,
-      selectedIndex : selector.selected[order].index,
+      selectedIndex : settings.selected[order].index,
       oninput: (e)=>{
         var selected = e.target.selectedIndex;
-        selector.selected[order].name = settings.tags[selected];
-        selector.selected[order].index = selected;
+        settings.selected[order].name = settings.tags[selected];
+        settings.selected[order].index = selected;
        }
     },[settings.tags.map(tag => {
       return m('option', tag);
       })
-    ]),controls, m(new ColorPicker(),{baseAttrs:modal,order:order}));
-  }
-
-	handleGesture(){
-		// prevent interacting with div from propegating events
-    return true;
+  	]), m(new ColorPicker(),{baseAttrs:{settings:vnode.attrs.settings},order:order}));
 	}
+}
+		
+		
+
+/*
+ * Function to close the menu-viewport and reshow the
+ * layout viewport
+ */
+export function closeModal (){
+  //reset cmap-menu-viewport vdom tree to empty state
+  m.mount(document.getElementById('cmap-menu-viewport'),null);
+  //explicity set visibility to avoid weird page interaction issues
+  document.getElementById('cmap-layout-viewport').style.visibility = 'visible';
+  document.getElementById('cmap-menu-viewport').style.display = 'none';
 }
 

@@ -15,7 +15,7 @@ export class ColorPicker {
     this.order = vnode.attrs.order;
     let settings = vnode.attrs.baseAttrs.settings;
     this.colors = {
-      baseColor : settings.trackColor[this.order] || settings.trackColor[0] || 'red',
+      baseColor : settings.trackColor || 'red',
       currentColor : '',
       hueValueColor : ''
     };
@@ -29,7 +29,8 @@ export class ColorPicker {
         m(new SaturationSelector(),{info:baseDiv}),
         m(new ColorPreview(),{info:baseDiv}),
         m('div#color-apply-controls',{style:'text-align:center; margin-left:10px; display:inline-block; padding:auto'},
-          [m(new ColorApplyButton(),{info:baseDiv,settings:vnode.attrs.baseAttrs.settings}),
+          [m(new ColorBox(),{info:baseDiv,settings:vnode.attrs.baseAttrs.settings}),
+          m(new ColorApplyButton(),{info:baseDiv,settings:vnode.attrs.baseAttrs.settings}),
           m(new ColorResetButton(),{info:baseDiv})]
         )
      ])
@@ -298,7 +299,8 @@ export class ColorPreview extends mix().with(RegisterComponentMixin) {
         let fillColor = hsvToRgb(data.currentColors.hueValueColor).map(color => {
           return Math.floor(color);
         });
-        this.colors.currentColor = `rgba(${fillColor[0]},${fillColor[1]},${fillColor[2]},1)`;
+        this.context2d.fillStyle  = `rgba(${fillColor[0]},${fillColor[1]},${fillColor[2]},1)`;
+				this.colors.currentColor = this.context2d.fillStyle;
         this.draw();
       }
     });
@@ -346,6 +348,10 @@ export class ColorApplyButton extends mix().with(RegisterComponentMixin) {
     this.order = vnode.attrs.info.order;
   }
 
+  onUpdate(vnode){
+    vnode.dom.style.color = vnode.attrs.info.colors.currentColor;
+  }
+
   /**
    * mithril component render method
    */
@@ -389,10 +395,49 @@ export class ColorResetButton extends mix().with(RegisterComponentMixin) {
     return true;
   }
 }
+// Text Box to find color
+export class ColorBox extends mix().with(RegisterComponentMixin) {
+  oncreate(vnode) {
+    super.oncreate(vnode);
+    this.canvas = this.el = vnode.dom;
+    this.order = vnode.attrs.info.order;
+    vnode.dom.value = vnode.attrs.info.colors.currentColor;
+    PubSub.subscribe('satUpdated',(msg,data) =>{
+      if(this.order === data.order){
+        let fillColor = hsvToRgb(data.currentColors.hueValueColor).map(color => {
+          return Math.floor(color);
+        });
+        vnode.dom.value = vnode.attrs.info.colors.currentColor;
+      }
+    })
+  }
+
+  /**
+   * mithril component render method
+   */
+  view(vnode) {
+    // store these bounds, for checking in drawLazily()
+    return  m('input[type=text].color-input', {
+      style: 'display:block; width:100%;'
+      });
+  }
+
+  handleGesture(){
+    return true;
+  }
+}
 // #FFFFFF ->[0-255,0-255,0-255]	
 export function	hexToRgb(hex){
 	var result = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
   return [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[3], 16)];
+}
+
+export function rgbToHex(rgb){
+	return (
+  	(0x100 | Math.round(rgb[0])).toString(16).substr(1) +
+    (0x100 | Math.round(rgb[1])).toString(16).substr(1) +
+    (0x100 | Math.round(rgb[2])).toString(16).substr(1)
+	);
 }
 
 // [0-255,0-255,0-255] -> [0-360,0-100,0-100]
