@@ -10,37 +10,36 @@ import {mix} from '../../../mixwith.js/src/mixwith';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 import {pageToCanvas} from '../../util/CanvasUtil';
 
-export class ColorPicker {
-  oncreate(vnode){
-    this.order = vnode.attrs.order;
-    let settings = vnode.attrs.baseAttrs.settings;
-    this.colors = {
-      baseColor : settings.trackColor || 'red',
+export let ColorPicker = {
+  oninit: function(vnode){
+    vnode.state = vnode.attrs;
+    vnode.state.colors = {
+      baseColor : vnode.attrs.settings.trackColor || 'red',
       currentColor : '',
       hueValueColor : ''
     };
+  },
 
-  }
-  view(vnode) {
+  view: function(vnode) {
     var baseDiv = this;
     // store these bounds, for checking in drawLazily()
     return  [ m('div.color-picker', [
-        m(new BaseSelector(),{info:baseDiv}),
-        m(new SaturationSelector(),{info:baseDiv}),
-        m(new ColorPreview(),{info:baseDiv}),
+        m(BaseSelector,{info:vnode.state}),
+        m(SaturationSelector,{info:vnode.state}),
+        m(new ColorPreview(),{info:vnode.state}),
         m('div#color-apply-controls',{style:'text-align:center; margin-left:10px; display:inline-block; padding:auto'},
-          [m(new ColorBox(),{info:baseDiv,settings:vnode.attrs.baseAttrs.settings}),
-          m(new ColorApplyButton(),{info:baseDiv,settings:vnode.attrs.baseAttrs.settings}),
-          m(new ColorResetButton(),{info:baseDiv})]
+          [m(ColorBox,{info:vnode.state,settings:vnode.attrs.settings}),
+          m(new ColorApplyButton(),{info:vnode.state,settings:vnode.state.settings}),
+          m(new ColorResetButton(),{info:vnode.state})]
         )
      ])
     ];
   }
 }
 
-export class BaseSelector extends mix().with(RegisterComponentMixin) {
-  oncreate(vnode) {
-    super.oncreate(vnode);
+export let BaseSelector = {
+  oncreate:function(vnode) {
+    vnode.dom.mithrilComponent = this;
     this.order = vnode.attrs.info.order;
     this.colors = vnode.attrs.info.colors;
     this.canvas = this.el = vnode.dom;
@@ -60,19 +59,21 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
       tap: new RegExp('^tap')
     };
     this.draw();
-  }
+  },
 
   /**
    * mithril lifecycle method
    */
-  onupdate() {
+  onupdate: function(vnode) {
+    vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.currentColor));
+    this.ptrPos = this._posFromHsv(this.colors.hueValueColor);
 		this.draw();
-  }
+  },
 
   /**
    * mithril component render method
    */
-  view() {
+  view: function() {
     // store these bounds, for checking in drawLazily()
     return  m('canvas', {
       class: 'color-canvas-main',
@@ -80,9 +81,10 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
       width: 200,
       height: 100
     });
-  }
+  },
 
-	draw(){
+  draw: function(){
+    console.log('color base',this.colors);
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -144,18 +146,18 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
     ctx.moveTo(this.ptrPos.x,this.ptrPos.y+3);
     ctx.lineTo(this.ptrPos.x,this.ptrPos.y+10);
     ctx.stroke();
-  }
+  },
 
-  handleGesture(evt){
+  handleGesture: function(evt){
     if(evt.type.match(this._gestureRegex.tap) || 
         evt.type.match(this._gestureRegex.pan)){
       let point = pageToCanvas(evt, this.canvas);
       this._locationChange(point);
     }
     return true;
-  }
+  },
 
-  _locationChange(evt){
+  _locationChange: function(evt){
     this.ptrPos = {
       x:evt.x,
       y:evt.y
@@ -163,24 +165,24 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
 
     this.colors.hueValueColor = this._hsvFromPos(this.ptrPos);
     this._changeColor();
-  }
+  },
 
-  _changeColor(){
+  _changeColor: function(){
     //PubSub to alert the Saturation slider that the position has changed
     //order is passed to not update *every* color selector
     PubSub.publish('hueValue',{color:this.colors, order:this.order});
     this.draw();
-   }
+   },
 
-  _posFromHsv(hsv){
+  _posFromHsv: function(hsv){
     // Math.round to avoid annoying sub-pixel rendering
     return {
       x: Math.round(hsv[0]/360*(this.canvas.width)),
       y: Math.round((1-(hsv[2]/100))*(this.canvas.height))
     };
-  }
+  },
 
-  _hsvFromPos(pos){
+  _hsvFromPos: function(pos){
     let h = (pos.x*360)/this.canvas.width;
     let s = 100;
     let l = 100*(1-(pos.y/this.canvas.height));
@@ -188,9 +190,9 @@ export class BaseSelector extends mix().with(RegisterComponentMixin) {
   }
 }
 
-export class SaturationSelector extends mix().with(RegisterComponentMixin) {
-  oncreate(vnode) {
-    super.oncreate(vnode);
+export let SaturationSelector = {
+  oncreate: function(vnode) {
+    vnode.dom.mithrilComponent = this;
     this.canvas = this.el = vnode.dom;
     this.order = vnode.attrs.info.order;
     this.colors = vnode.attrs.info.colors;
@@ -202,19 +204,20 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
       tap: new RegExp('^tap')
     };
     this.draw();
-  }
+  },
 
   /**
    * mithril lifecycle method
    */
-  onupdate() {
+  onupdate: function(vnode) {
+    this.ptrPos = this._posFromHsv(vnode.attrs.info.colors.hueValueColor);
 		this.draw();
-  }
+  },
 
   /**
    * mithril component render method
    */
-  view() {
+  view: function() {
     // store these bounds, for checking in drawLazily()
     return  m('canvas', {
       class: 'color-canvas-sat',
@@ -222,9 +225,9 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
       width: 20,
       height: 100
     });
-  }
+  },
 
-	draw(){
+  draw: function(){
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     var grad = ctx.createLinearGradient(0, 0, 0,this.canvas.height);
@@ -253,36 +256,36 @@ export class SaturationSelector extends mix().with(RegisterComponentMixin) {
     ctx.lineTo(this.canvas.width,this.ptrPos-5);
     ctx.closePath();
     ctx.fill();
-  }
+  },
 
-  handleGesture(evt){
+  handleGesture: function(evt){
     if(evt.type.match(this._gestureRegex.tap) || 
         evt.type.match(this._gestureRegex.pan)){
       var point = pageToCanvas(evt, this.canvas);
       this._changeColor(point);
     }
     return true;
-  }
+  },
 
-  _changeColor(evt){
+  _changeColor: function(evt){
     this.ptrPos = evt.y;
     this._hueUpdated(this.colors);
-   }
+   },
 
-  _hueUpdated(updatedColors){
+  _hueUpdated: function(updatedColors){
     this.colors = updatedColors;
     let hsv = updatedColors.hueValueColor;
     this.hueValueColor = [hsv[0],this._sFromPos(this.ptrPos),hsv[2]];
     this.colors.hueValueColor = this.hueValueColor;
     PubSub.publish('satUpdated',{order:this.order,currentColors:this.colors});
     this.draw();
-  }
+  },
 
-  _posFromHsv(hsv){
-    return Math.round(1-(hsv[1]/100))*(this.canvas.height);
-  }
+  _posFromHsv: function(hsv){
+    return Math.round((1-(hsv[1]/100))*this.canvas.height);
+  },
 
-  _sFromPos(pos){
+  _sFromPos: function(pos){
     return 100*(1-(pos/this.canvas.height));
   }
 }
@@ -360,7 +363,9 @@ export class ColorApplyButton extends mix().with(RegisterComponentMixin) {
     return  m('button.approve-button', {
       style: 'display:block; width:100%;',
       onclick:()=>{
+        console.log(vnode.attrs.settings.trackColor[this.order]);
         vnode.attrs.settings.trackColor[this.order] = vnode.attrs.info.colors.currentColor;
+        console.log(vnode.attrs.settings.trackColor[this.order]);
       }
     },'Apply');
   }
@@ -396,12 +401,11 @@ export class ColorResetButton extends mix().with(RegisterComponentMixin) {
   }
 }
 // Text Box to find color
-export class ColorBox extends mix().with(RegisterComponentMixin) {
-  oncreate(vnode) {
-    super.oncreate(vnode);
+export let ColorBox = {
+  oninit: function(vnode) {
     this.canvas = this.el = vnode.dom;
     this.order = vnode.attrs.info.order;
-    vnode.dom.value = vnode.attrs.info.colors.currentColor;
+    vnode.state.value = vnode.attrs.info.colors.currentColor;
     PubSub.subscribe('satUpdated',(msg,data) =>{
       if(this.order === data.order){
         let fillColor = hsvToRgb(data.currentColors.hueValueColor).map(color => {
@@ -410,19 +414,26 @@ export class ColorBox extends mix().with(RegisterComponentMixin) {
         vnode.dom.value = vnode.attrs.info.colors.currentColor;
       }
     })
-  }
+  },
+  onupdate: function(vnode){
+    vnode.dom.value = vnode.attrs.info.colors.currentColor;
+  },
 
   /**
    * mithril component render method
    */
-  view(vnode) {
+  view: function(vnode) {
     // store these bounds, for checking in drawLazily()
     return  m('input[type=text].color-input', {
-      style: 'display:block; width:100%;'
+        style: 'display:block; width:100%;',
+        oninput: m.withAttr("value", function(value) {
+          vnode.attrs.info.colors.currentColor = value;
+          vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(value));
+        })
       });
-  }
+  },
 
-  handleGesture(){
+  handleGesture: function(){
     return true;
   }
 }

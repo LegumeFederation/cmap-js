@@ -25,7 +25,6 @@ export class FeatureMenu {
     viewport.style.height = `${layoutBounds.height}px`;
 
     // Setup track and subtrack data
-
     let model = data.parent.parent.model;
 		let tagList = model.tags.sort();
 		let settings = {};
@@ -36,19 +35,20 @@ export class FeatureMenu {
 
  	  if(!model.qtlGroups || model.qtlGroups[0] === undefined){
     	order = 0;
-    	settings = {filter:[tagList[0]],trackColor:['red']}
+    	settings = {filters:[tagList[0]],trackColor:['red']}
      	trackGroups[0]= settings;
     	allowRemove = false;
     } else {
-    	trackGroups = model.qtlGroups.splice(0);
+    	trackGroups = model.qtlGroups.slice(0);
       console.log('tg',trackGroups);
     	if(!trackGroups[order]){
-    		trackGroups[order] = {filter:[tagList[0]],trackColor:['red']}
+    		trackGroups[order] = {filters:[tagList[0]],trackColor:['red']}
     		allowRemove = false;
     	}
     	settings = trackGroups[order];
     }
-    
+        
+      console.log('setting detective',settings);
 		let selected = settings.filters.map( item => {
 			return {
 				name: item,
@@ -118,7 +118,6 @@ export let TrackMenu = {
 			if(selected[order].index === -1){
 				selected[order].index = dropSettings.tags.indexOf(dropSettings.name);
 			}
-			console.log('modal ddLoop', order,dropSettings,selected,settings);
       let controls = [
         m('button',{onclick : () =>{
           selected[selected.length] = {index:0};
@@ -130,7 +129,10 @@ export let TrackMenu = {
 
 			return [m(Dropdown,{settings:dropSettings,order:order,parentDiv:this}),controls];	
 		});
-    return m('div',{onclick: ()=>{console.log(vnode.state.count);vnode.state.count++;},style:'overflow:auto;width:100%;height:80%;background:aliceblue;'},[m('button',{onclick:()=>{console.log("current count", this.count);}},"count disp"),dropdows]);
+    return m('div',{
+      onclick: ()=>{console.log(vnode.state.count);vnode.state.count++;},
+      style:'overflow:auto;width:100%;height:80%;background:aliceblue;'
+    },dropdows);
   }
 }
 
@@ -164,7 +166,7 @@ export let Dropdown = {
     },[settings.tags.map(tag => {
       return m('option', tag);
       })
-  	]), m(new ColorPicker(),{baseAttrs:{settings:vnode.attrs.settings},order:order}));
+  	]), m(ColorPicker,{settings:vnode.state.settings,order:order}));
 	}
 }
 		

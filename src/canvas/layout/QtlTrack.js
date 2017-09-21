@@ -22,7 +22,6 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     });
     if(this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0){
       let qtlGroups = this.parent.model.qtlGroups;
-      console.log('qtl stuff', qtlGroups);
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
         if (typeof qtlConf.filters === 'string'){ qtlConf.filters = [qtlConf.filters];}
@@ -41,11 +40,9 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         this.mapCoordinates = this.parent.mapCoordinates;
         this.filteredFeatures = [];
         qtlConf.filters.forEach( filter => {
-            console.log('testing qtl stuff',this.parent.model,filter,typeof( filter),filter.dom);
             var test = this.parent.model.features.filter( model => {
               return model.tags[0].match(filter) !== null;
             })
-            console.log('testing qtl stuff II', test);
             this.filteredFeatures = this.filteredFeatures.concat(test);
         });
         this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
