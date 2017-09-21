@@ -465,7 +465,6 @@ export function	rgbToHsv(rgb){
 	} else if( cmax === rgb[2]){
 		hue = 60*(((rgb[0]-rgb[1])/delta)+4);
 	}
-  if(hue < 0) hue = 0;
 	let sat = cmax === 0 ? 0 : (delta/cmax)*100;
 	let value = cmax*100;
 
