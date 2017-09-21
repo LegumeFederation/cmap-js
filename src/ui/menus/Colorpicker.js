@@ -18,6 +18,10 @@ export let ColorPicker = {
       currentColor : '',
       hueValueColor : ''
     };
+    this.colors = vnode.state.colors;
+  },
+  onupdate: function(vnode){
+    vnode.attrs.settings.trackColor = vnode.state.colors.baseColor;
   },
 
   view: function(vnode) {
@@ -26,11 +30,11 @@ export let ColorPicker = {
     return  [ m('div.color-picker', [
         m(BaseSelector,{info:vnode.state}),
         m(SaturationSelector,{info:vnode.state}),
-        m(new ColorPreview(),{info:vnode.state}),
+        m(ColorPreview,{info:vnode.state}),
         m('div#color-apply-controls',{style:'text-align:center; margin-left:10px; display:inline-block; padding:auto'},
-          [m(ColorBox,{info:vnode.state,settings:vnode.attrs.settings}),
-          m(new ColorApplyButton(),{info:vnode.state,settings:vnode.state.settings}),
-          m(new ColorResetButton(),{info:vnode.state})]
+          [m(ColorBox,{info:vnode.state}),//,settings:vnode.attrs.settings}),
+          m(ColorApplyButton ,{info:vnode.state,settings:vnode.state.settings}),
+          m(ColorResetButton,{info:vnode.state})]
         )
      ])
     ];
@@ -290,9 +294,8 @@ export let SaturationSelector = {
   }
 }
 
-export class ColorPreview extends mix().with(RegisterComponentMixin) {
-  oncreate(vnode) {
-    super.oncreate(vnode);
+export  let ColorPreview = {
+  oncreate: function(vnode) {
     this.order = vnode.attrs.info.order;
     this.colors = vnode.attrs.info.colors;
     this.canvas = this.el = vnode.dom;
@@ -308,27 +311,27 @@ export class ColorPreview extends mix().with(RegisterComponentMixin) {
       }
     });
     this.draw();
-  }
+  },
 
   /**
    * mithril lifecycle method
    */
-  onupdate() {
+  onupdate: function() {
 		this.draw();
-  }
+  },
 
   /**
    * mithril component render method
    */
-  view() {
+  view: function() {
     return  m('canvas#color-canvas-preview', {
       style: 'margin-left:10px; width: 20; height: 100;',
       width: 20,
       height: 100
      });
-  }
+  },
 
-	draw(){
+  draw: function(){
     let ctx = this.context2d;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.fillStyle = this.colors.currentColor;
@@ -337,56 +340,37 @@ export class ColorPreview extends mix().with(RegisterComponentMixin) {
 		ctx.lineWidth=1;
 		ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
   }
-
-  handleGesture(){
-    return true;
-  }
 }
 
 // Use currently selected color
-export class ColorApplyButton extends mix().with(RegisterComponentMixin) {
-  oncreate(vnode) {
-    super.oncreate(vnode);
-    this.canvas = this.el = vnode.dom;
-    this.order = vnode.attrs.info.order;
-  }
-
-  onUpdate(vnode){
-    vnode.dom.style.color = vnode.attrs.info.colors.currentColor;
-  }
-
+export let ColorApplyButton = {
   /**
    * mithril component render method
    */
-  view(vnode) {
+  view: function(vnode) {
     // store these bounds, for checking in drawLazily()
     return  m('button.approve-button', {
       style: 'display:block; width:100%;',
       onclick:()=>{
-        console.log(vnode.attrs.settings.trackColor[this.order]);
-        vnode.attrs.settings.trackColor[this.order] = vnode.attrs.info.colors.currentColor;
-        console.log(vnode.attrs.settings.trackColor[this.order]);
+        console.log("pre post",vnode.attrs.settings.trackColor);
+        vnode.attrs.info.colors.baseColor = vnode.attrs.info.colors.currentColor;
+        console.log("post post",vnode.attrs.settings.trackColor);
       }
     },'Apply');
-  }
-
-  handleGesture(){
-    return true;
   }
 }
 
 // Reset color to prior
-export class ColorResetButton extends mix().with(RegisterComponentMixin) {
-  oncreate(vnode) {
-    super.oncreate(vnode);
+export let ColorResetButton = {
+  oncreate: function(vnode) {
     this.canvas = this.el = vnode.dom;
     this.order = vnode.attrs.info.order;
-  }
+  },
 
   /**
    * mithril component render method
    */
-  view(vnode) {
+  view: function(vnode) {
     // store these bounds, for checking in drawLazily()
     return  m('button.reset-button', {
       style: 'display:block; width:100%',
@@ -395,11 +379,8 @@ export class ColorResetButton extends mix().with(RegisterComponentMixin) {
        }
      },'Reset');
   }
-
-  handleGesture(){
-    return true;
-  }
 }
+
 // Text Box to find color
 export let ColorBox = {
   oninit: function(vnode) {
@@ -414,6 +395,11 @@ export let ColorBox = {
         vnode.dom.value = vnode.attrs.info.colors.currentColor;
       }
     })
+  },
+  onbeforeupdate: function(vnode){
+    if(vnode.dom != undefined){
+      vnode.dom.value = vnode.attrs.info.colors.currentColor;
+    }
   },
   onupdate: function(vnode){
     vnode.dom.value = vnode.attrs.info.colors.currentColor;
@@ -437,12 +423,14 @@ export let ColorBox = {
     return true;
   }
 }
+
 // #FFFFFF ->[0-255,0-255,0-255]	
 export function	hexToRgb(hex){
 	var result = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
   return [parseInt(result[1], 16),parseInt(result[2], 16),parseInt(result[3], 16)];
 }
 
+// [0-255,0-255,0-255] -> #FFFFFF 	
 export function rgbToHex(rgb){
 	return (
   	(0x100 | Math.round(rgb[0])).toString(16).substr(1) +

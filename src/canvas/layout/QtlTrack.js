@@ -21,6 +21,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     if(this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0){
+      console.log('qtlGroups', this.parent.model.qtlGroups);
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
