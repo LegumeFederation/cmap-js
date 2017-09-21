@@ -40,11 +40,16 @@ export class  QtlTrack extends SceneGraphNodeTrack {
 
         this.mapCoordinates = this.parent.mapCoordinates;
         this.filteredFeatures = [];
-        qtlConf.filters.forEach( filter => {
+        qtlConf.filters.forEach( (filter,order) => {
             var test = this.parent.model.features.filter( model => {
               return model.tags[0].match(filter) !== null;
             })
-            this.filteredFeatures = this.filteredFeatures.concat(test);
+            if(test.length === 0){
+              // get rid of any tags that don't actually get used
+              qtlConf.filters.splice(order,1);
+            } else {
+              this.filteredFeatures = this.filteredFeatures.concat(test);
+            }
         });
         this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
         let fmData = [];
