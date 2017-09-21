@@ -214,6 +214,9 @@ export let SaturationSelector = {
    * mithril lifecycle method
    */
   onupdate: function(vnode) {
+    if(vnode.attrs.info.colors.hueValueColor === undefined){
+      vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.currentColor));
+    };
     this.ptrPos = this._posFromHsv(vnode.attrs.info.colors.hueValueColor);
 		this.draw();
   },
