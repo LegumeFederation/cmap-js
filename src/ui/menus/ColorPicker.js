@@ -215,7 +215,8 @@ export let SaturationSelector = {
    */
   onupdate: function(vnode) {
     if(vnode.attrs.info.colors.hueValueColor === undefined){
-      vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.currentColor));
+      let color = vnode.attrs.info.colors.currentColor || vnode.attrs.info.colors.colors.baseColor;
+      vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(color));
     };
     this.ptrPos = this._posFromHsv(vnode.attrs.info.colors.hueValueColor);
 		this.draw();
@@ -464,7 +465,7 @@ export function	rgbToHsv(rgb){
 	} else if( cmax === rgb[2]){
 		hue = 60*(((rgb[0]-rgb[1])/delta)+4);
 	}
-
+  if(hue < 0) hue = 0;
 	let sat = cmax === 0 ? 0 : (delta/cmax)*100;
 	let value = cmax*100;
 
