@@ -6,58 +6,54 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
-import {mix} from '../../../mixwith.js/src/mixwith';
-import {RegisterComponentMixin} from '../RegisterComponentMixin';
 import {pageToCanvas} from '../../util/CanvasUtil';
 
 export let ColorPicker = {
   oninit: function(vnode){
     vnode.state = vnode.attrs;
     vnode.state.colors = {
-      baseColor : vnode.attrs.settings.trackColor || 'red',
-      currentColor : '',
-      hueValueColor : ''
+      baseColor : vnode.attrs.settings.trackColor[vnode.attrs.order] || 'red',
+      currentColor : null,
+      hueValueColor : null
     };
-    this.colors = vnode.state.colors;
   },
   onupdate: function(vnode){
-    vnode.attrs.settings.trackColor = vnode.state.colors.baseColor;
+    vnode.attrs.settings.trackColor[vnode.attrs.order] = vnode.state.colors.baseColor;
   },
 
   view: function(vnode) {
-    var baseDiv = this;
     // store these bounds, for checking in drawLazily()
-    return  [ m('div.color-picker', [
+    return  [ m('div.color-picker',{style:`display:${vnode.state.hidden[vnode.state.order]}`}, [
         m(BaseSelector,{info:vnode.state}),
         m(SaturationSelector,{info:vnode.state}),
         m(ColorPreview,{info:vnode.state}),
         m('div#color-apply-controls',{style:'text-align:center; margin-left:10px; display:inline-block; padding:auto'},
           [m(ColorBox,{info:vnode.state}),//,settings:vnode.attrs.settings}),
           m(ColorApplyButton ,{info:vnode.state,settings:vnode.state.settings}),
-          m(ColorResetButton,{info:vnode.state})]
+          m(ColorResetButton,{info:vnode.state})
+          ]
         )
      ])
     ];
   }
-}
+};
 
 export let BaseSelector = {
   oncreate:function(vnode) {
     vnode.dom.mithrilComponent = this;
-    this.order = vnode.attrs.info.order;
-    this.colors = vnode.attrs.info.colors;
-    this.canvas = this.el = vnode.dom;
-    this.context2d = this.canvas.getContext('2d');
-    this.context2d.fillStyle = this.colors.baseColor;
+    this.vnode = vnode;
+    vnode.state = vnode.attrs;
+    vnode.state.canvas = this.el = vnode.dom;
+    vnode.state.context2d = vnode.dom.getContext('2d');
+    if(!vnode.state.info.currentColor || !vnode.state.info.hueValueColor){
+      vnode.state.context2d.fillStyle = vnode.state.info.colors.baseColor;
     //use the context to convert the original color into a hex string
     //avoiding needing to parse html color words
-    vnode.attrs.info.colors.baseColor = this.context2d.fillStyle;
-    vnode.attrs.info.colors.currentColor = this.context2d.fillStyle;
-    vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(this.context2d.fillStyle));
-    //PubSub.publish('hueValue',{color:this.colors, order:this.order});
-     
-    this.ptrPos = this._posFromHsv(this.colors.hueValueColor);
-    console.log('test ptr',this.ptrPos);
+      vnode.state.info.colors.baseColor = vnode.state.context2d.fillStyle;
+      vnode.state.info.colors.currentColor = vnode.state.context2d.fillStyle;
+      vnode.state.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.state.context2d.fillStyle));
+    }
+    vnode.state.ptrPos = this._posFromHsv(vnode.state.info.colors.hueValueColor);
     this._gestureRegex = {
       pan: new RegExp('^pan'),
       tap: new RegExp('^tap')
@@ -69,9 +65,8 @@ export let BaseSelector = {
    * mithril lifecycle method
    */
   onupdate: function(vnode) {
-    vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.currentColor));
-    this.ptrPos = this._posFromHsv(this.colors.hueValueColor);
-		this.draw();
+    vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.info.colors.hueValueColor);
+		vnode.dom.mithrilComponent.draw();
   },
 
   /**
@@ -88,12 +83,13 @@ export let BaseSelector = {
   },
 
   draw: function(){
-    console.log('color base',this.colors);
-    let ctx = this.context2d;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    let canvas = this.vnode.state.canvas;
+    let ctx = this.vnode.state.context2d;
+    let ptrPos = this.vnode.state.ptrPos;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // RGB gradient
-    var hGrad = ctx.createLinearGradient(0, 0, this.canvas.width, 0);
+    let hGrad = ctx.createLinearGradient(0, 0, canvas.width, 0);
     hGrad.addColorStop(0 / 6, '#F00');
     hGrad.addColorStop(1 / 6, '#FF0');
     hGrad.addColorStop(2 / 6, '#0F0');
@@ -101,108 +97,123 @@ export let BaseSelector = {
     hGrad.addColorStop(4 / 6, '#00F');
     hGrad.addColorStop(5 / 6, '#F0F');
     hGrad.addColorStop(6 / 6, '#F00');
-
     ctx.fillStyle = hGrad;
-    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     //Fade to black gradient
-    var vGrad = ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+    let vGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
     vGrad.addColorStop(0, 'rgba(0,0,0,0)');
     vGrad.addColorStop(1, 'rgba(0,0,0,1)');
     ctx.fillStyle = vGrad;
 
     // Draw the selection pointer
-    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.strokeStyle='black';
     ctx.lineWidth=1;
-    ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
-
+    ctx.strokeRect(0,0,canvas.width, canvas.height);
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(this.ptrPos.x-10,this.ptrPos.y);
-    ctx.lineTo(this.ptrPos.x-3,this.ptrPos.y);
+    ctx.moveTo(ptrPos.x-10,ptrPos.y);
+    ctx.lineTo(ptrPos.x-3,ptrPos.y);
     ctx.stroke();
     ctx.beginPath();
     ctx.strokeStyle = 'white';
-    ctx.moveTo(this.ptrPos.x-3,this.ptrPos.y);
-    ctx.lineTo(this.ptrPos.x-1,this.ptrPos.y);
-    ctx.moveTo(this.ptrPos.x+1,this.ptrPos.y);
-    ctx.lineTo(this.ptrPos.x+3,this.ptrPos.y);
+    ctx.moveTo(ptrPos.x-3,ptrPos.y);
+    ctx.lineTo(ptrPos.x-1,ptrPos.y);
+    ctx.moveTo(ptrPos.x+1,ptrPos.y);
+    ctx.lineTo(ptrPos.x+3,ptrPos.y);
     ctx.stroke();
     ctx.beginPath();
     ctx.strokeStyle = 'black';
-    ctx.moveTo(this.ptrPos.x+3,this.ptrPos.y);
-    ctx.lineTo(this.ptrPos.x+10,this.ptrPos.y);
+    ctx.moveTo(ptrPos.x+3,ptrPos.y);
+    ctx.lineTo(ptrPos.x+10,ptrPos.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(this.ptrPos.x,this.ptrPos.y-10);
-    ctx.lineTo(this.ptrPos.x,this.ptrPos.y-3);
+    ctx.moveTo(ptrPos.x,ptrPos.y-10);
+    ctx.lineTo(ptrPos.x,ptrPos.y-3);
     ctx.stroke();
     ctx.beginPath();
     ctx.strokeStyle = 'white';
-    ctx.moveTo(this.ptrPos.x,this.ptrPos.y-3);
-    ctx.lineTo(this.ptrPos.x,this.ptrPos.y-1);
-    ctx.moveTo(this.ptrPos.x,this.ptrPos.y+1);
-    ctx.lineTo(this.ptrPos.x,this.ptrPos.y+3);
+    ctx.moveTo(ptrPos.x,ptrPos.y-3);
+    ctx.lineTo(ptrPos.x,ptrPos.y-1);
+    ctx.moveTo(ptrPos.x,ptrPos.y+1);
+    ctx.lineTo(ptrPos.x,ptrPos.y+3);
     ctx.stroke();
     ctx.beginPath();
     ctx.strokeStyle = 'black';
-    ctx.moveTo(this.ptrPos.x,this.ptrPos.y+3);
-    ctx.lineTo(this.ptrPos.x,this.ptrPos.y+10);
+    ctx.moveTo(ptrPos.x,ptrPos.y+3);
+    ctx.lineTo(ptrPos.x,ptrPos.y+10);
     ctx.stroke();
   },
 
   handleGesture: function(evt){
     if(evt.type.match(this._gestureRegex.tap) || 
         evt.type.match(this._gestureRegex.pan)){
-      let point = pageToCanvas(evt, this.canvas);
+      let point = pageToCanvas(evt, this.vnode.state.canvas);
       this._locationChange(point);
     }
     return true;
   },
 
   _locationChange: function(evt){
-    this.ptrPos = {
+    let hueValue = this.vnode.state.info.colors.hueValueColor;
+    this.vnode.state.ptrPos = {
       x:evt.x,
       y:evt.y
     };
-
-    this.colors.hueValueColor = this._hsvFromPos(this.ptrPos);
+    let hsv = this._hsvFromPos(this.vnode.state.ptrPos);
+    hueValue[0] = hsv[0];
+    hueValue[2] = hsv[2];
+    if(!hueValue[1]){
+      hueValue[1] = 100;
+    }
     this._changeColor();
   },
-
   _changeColor: function(){
     //PubSub to alert the Saturation slider that the position has changed
     //order is passed to not update *every* color selector
-    PubSub.publish('hueValue',{color:this.colors, order:this.order});
+    //Can be removed, but using PubSub means dynamic response from other forms
+    PubSub.publish('hueValue',{color:this.vnode.state.colors, order:this.vnode.state.info.order});
     this.draw();
    },
 
   _posFromHsv: function(hsv){
     // Math.round to avoid annoying sub-pixel rendering
+     hsv[0] = Math.max(0,Math.min(360,hsv[0]));
+     hsv[2] = Math.max(0,Math.min(100,hsv[2]));
     return {
-      x: Math.round(hsv[0]/360*(this.canvas.width)),
-      y: Math.round((1-(hsv[2]/100))*(this.canvas.height))
+      x: parseFloat(hsv[0]/360)*(this.vnode.state.canvas.width),
+      y: (1-(hsv[2]/100))*(this.vnode.state.canvas.height)
     };
   },
 
   _hsvFromPos: function(pos){
-    let h = (pos.x*360)/this.canvas.width;
+    let h = Math.max(0,(pos.x*360)/this.vnode.state.canvas.width);
     let s = 100;
-    let l = 100*(1-(pos.y/this.canvas.height));
+    let l = 100*(1-(pos.y/this.vnode.state.canvas.height));
     return [h,s,l];
   }
-}
+};
 
 export let SaturationSelector = {
   oncreate: function(vnode) {
     vnode.dom.mithrilComponent = this;
-    this.canvas = this.el = vnode.dom;
-    this.order = vnode.attrs.info.order;
-    this.colors = vnode.attrs.info.colors;
-    this.context2d = this.canvas.getContext('2d');
-    this.ptrPos = 0;
-    PubSub.subscribe('hueValue', (msg,data)=>{if(data.order === this.order) this._hueUpdated(data.color);});
+    this.vnode = vnode;
+    vnode.state = vnode.attrs;
+    vnode.state.canvas = this.el = vnode.dom;
+    vnode.state.context2d = vnode.dom.getContext('2d');
+    if(!vnode.state.info.colors.hueValueColor[1]){
+      vnode.context2d.fillStyle = vnode.state.info.colors.baseColor;
+    //use the context to convert the original color into a hex string
+    //avoiding needing to parse html color words
+      vnode.state.info.colors.hueValueColor[1] = rgbToHsv(hexToRgb(vnode.state.context2d.fillStyle))[1];
+    }
+    vnode.state.ptrPos = this._posFromHsv(vnode.state.info.colors.hueValueColor);
+    this._gestureRegex = {
+      pan: new RegExp('^pan'),
+      tap: new RegExp('^tap')
+    };
+    PubSub.subscribe('hueValue', (msg,data)=>{if(data.order === vnode.state.info.order) this._hueUpdated(data.color);});
     this._gestureRegex = {
       pan: new RegExp('^pan'),
       tap: new RegExp('^tap')
@@ -210,16 +221,10 @@ export let SaturationSelector = {
     this.draw();
   },
 
-  /**
-   * mithril lifecycle method
-   */
   onupdate: function(vnode) {
-    if(vnode.attrs.info.colors.hueValueColor === undefined){
-      let color = vnode.attrs.info.colors.currentColor || vnode.attrs.info.colors.colors.baseColor;
-      vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(color));
-    };
-    this.ptrPos = this._posFromHsv(vnode.attrs.info.colors.hueValueColor);
-		this.draw();
+    vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.info.colors.hueValueColor);
+    PubSub.publish('satUpdated',{order:vnode.state.info.order,currentColors:vnode.state.info.colors}); // keeps hex value in sync
+		vnode.dom.mithrilComponent.draw();
   },
 
   /**
@@ -236,10 +241,13 @@ export let SaturationSelector = {
   },
 
   draw: function(){
-    let ctx = this.context2d;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    var grad = ctx.createLinearGradient(0, 0, 0,this.canvas.height);
-    let hueValueColor = this.colors.hueValueColor;
+    let canvas = this.vnode.state.canvas;
+    let ctx = this.vnode.state.context2d;
+    let ptrPos = this.vnode.state.ptrPos;
+    // clear and redraw gradient slider for current picked HueValue color;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var grad = ctx.createLinearGradient(0, 0, 0,canvas.height);
+    let hueValueColor = this.vnode.state.info.colors.hueValueColor;
     let rgbStart = hsvToRgb([hueValueColor[0],100,hueValueColor[2]]).map(color => {
       return Math.floor(color);
     });
@@ -248,55 +256,52 @@ export let SaturationSelector = {
     });
     grad.addColorStop(0 , `rgba(${rgbStart[0]},${rgbStart[1]},${rgbStart[2]},1)`);
     grad.addColorStop(1 , `rgba(${rgbStop[0]},${rgbStop[1]},${rgbStop[2]},1)`);
-
     ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // draw slider pointer
 		ctx.strokeStyle='black';
 		ctx.lineWidth=1;
-		ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
-   
+		ctx.strokeRect(0,0,canvas.width, canvas.height);
     ctx.fillStyle = 'black'; 
     ctx.beginPath();
-    ctx.strokeStyle = 'black';
-    ctx.moveTo(this.canvas.width,this.ptrPos+5);
-    ctx.lineTo(this.canvas.width/2, this.ptrPos);
-    ctx.lineTo(this.canvas.width,this.ptrPos-5);
+    ctx.strokeStyle = 'white';
+    ctx.moveTo(canvas.width,ptrPos+5);
+    ctx.lineTo(canvas.width/2, ptrPos);
+    ctx.lineTo(canvas.width,ptrPos-5);
     ctx.closePath();
     ctx.fill();
+    ctx.stroke();
   },
 
   handleGesture: function(evt){
     if(evt.type.match(this._gestureRegex.tap) || 
         evt.type.match(this._gestureRegex.pan)){
-      var point = pageToCanvas(evt, this.canvas);
+      var point = pageToCanvas(evt, this.vnode.state.canvas);
       this._changeColor(point);
     }
     return true;
   },
 
   _changeColor: function(evt){
-    this.ptrPos = evt.y;
-    this._hueUpdated(this.colors);
+    this.vnode.state.ptrPos = evt.y;
+    this.vnode.state.info.colors.hueValueColor[1] = this._sFromPos(this.vnode.state.ptrPos);
+    this._hueUpdated(this.vnode.state.info.colors);
    },
 
-  _hueUpdated: function(updatedColors){
-    this.colors = updatedColors;
-    let hsv = updatedColors.hueValueColor;
-    this.hueValueColor = [hsv[0],this._sFromPos(this.ptrPos),hsv[2]];
-    this.colors.hueValueColor = this.hueValueColor;
-    PubSub.publish('satUpdated',{order:this.order,currentColors:this.colors});
+  _hueUpdated: function(){
+    PubSub.publish('satUpdated',{order:this.vnode.state.info.order,currentColors:this.vnode.state.info.colors});
     this.draw();
   },
 
   _posFromHsv: function(hsv){
-    return Math.round((1-(hsv[1]/100))*this.canvas.height);
+    return Math.round((1-(hsv[1]/100))*this.vnode.state.canvas.height);
   },
 
   _sFromPos: function(pos){
-    return 100*(1-(pos/this.canvas.height));
+    return 100*(1-(pos/this.vnode.state.canvas.height));
   }
-}
+};
 
 export  let ColorPreview = {
   oncreate: function(vnode) {
@@ -344,7 +349,7 @@ export  let ColorPreview = {
 		ctx.lineWidth=1;
 		ctx.strokeRect(0,0,this.canvas.width, this.canvas.height);
   }
-}
+};
 
 // Use currently selected color
 export let ColorApplyButton = {
@@ -356,21 +361,17 @@ export let ColorApplyButton = {
     return  m('button.approve-button', {
       style: 'display:block; width:100%;',
       onclick:()=>{
-        console.log("pre post",vnode.attrs.settings.trackColor);
         vnode.attrs.info.colors.baseColor = vnode.attrs.info.colors.currentColor;
-        console.log("post post",vnode.attrs.settings.trackColor);
+        vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.baseColor));
+        vnode.attrs.settings.nodeColor[vnode.attrs.info.order] = vnode.attrs.info.colors.baseColor;
+        PubSub.publish('satUpdated',{order:vnode.attrs.info.order,currentColors:vnode.attrs.info.colors});
       }
     },'Apply');
   }
-}
+};
 
 // Reset color to prior
 export let ColorResetButton = {
-  oncreate: function(vnode) {
-    this.canvas = this.el = vnode.dom;
-    this.order = vnode.attrs.info.order;
-  },
-
   /**
    * mithril component render method
    */
@@ -380,10 +381,12 @@ export let ColorResetButton = {
       style: 'display:block; width:100%',
        onclick:()=>{
         vnode.attrs.info.colors.currentColor = vnode.attrs.info.colors.baseColor;
+        vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.baseColor));
+        PubSub.publish('satUpdated',{order:vnode.attrs.info.order,currentColors:vnode.attrs.info.colors});
        }
      },'Reset');
   }
-}
+};
 
 // Text Box to find color
 export let ColorBox = {
@@ -393,22 +396,10 @@ export let ColorBox = {
     vnode.state.value = vnode.attrs.info.colors.currentColor;
     PubSub.subscribe('satUpdated',(msg,data) =>{
       if(this.order === data.order){
-        let fillColor = hsvToRgb(data.currentColors.hueValueColor).map(color => {
-          return Math.floor(color);
-        });
         vnode.dom.value = vnode.attrs.info.colors.currentColor;
       }
-    })
+    });
   },
-  onbeforeupdate: function(vnode){
-    if(vnode.dom != undefined){
-      vnode.dom.value = vnode.attrs.info.colors.currentColor;
-    }
-  },
-  onupdate: function(vnode){
-    vnode.dom.value = vnode.attrs.info.colors.currentColor;
-  },
-
   /**
    * mithril component render method
    */
@@ -416,9 +407,21 @@ export let ColorBox = {
     // store these bounds, for checking in drawLazily()
     return  m('input[type=text].color-input', {
         style: 'display:block; width:100%;',
-        oninput: m.withAttr("value", function(value) {
-          vnode.attrs.info.colors.currentColor = value;
-          vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(value));
+        oninput: m.withAttr('value', function(value) {
+          try {
+            let code = value.match(/^#?([a-f\d]*)$/i);
+            if(code[1].length === 3){
+              let str = code[1];
+              value = `#${str[0]}${str[0]}${str[1]}${str[1]}${str[2]}${str[2]}`;
+            } else if (code[1].length === 6){
+              value = '#'+code[1];
+            }
+            vnode.attrs.info.colors.currentColor = value;
+            vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(value));
+          } catch(e) {
+            // expect this to fail silently, as most typing will not actually give
+            // a proper hex triplet/sextet
+          }
         })
       });
   },
@@ -426,7 +429,7 @@ export let ColorBox = {
   handleGesture: function(){
     return true;
   }
-}
+};
 
 // #FFFFFF ->[0-255,0-255,0-255]	
 export function	hexToRgb(hex){
@@ -437,7 +440,7 @@ export function	hexToRgb(hex){
 // [0-255,0-255,0-255] -> #FFFFFF 	
 export function rgbToHex(rgb){
 	return (
-  	(0x100 | Math.round(rgb[0])).toString(16).substr(1) +
+    (0x100 | Math.round(rgb[0])).toString(16).substr(1) +
     (0x100 | Math.round(rgb[1])).toString(16).substr(1) +
     (0x100 | Math.round(rgb[2])).toString(16).substr(1)
 	);
@@ -454,7 +457,7 @@ export function	rgbToHsv(rgb){
   // Conversion from RGB -> HSV colorspace
 	let cmin = Math.min(Math.min(rgb[0],rgb[1]),rgb[2]);
 	let cmax = Math.max(Math.max(rgb[0],rgb[1]),rgb[2]);
-	let delta = cmax-cmin;
+	let delta = parseFloat(cmax - cmin);
 	let hue = 0;
   if(delta === 0){
     hue = 0;
@@ -465,6 +468,7 @@ export function	rgbToHsv(rgb){
 	} else if( cmax === rgb[2]){
 		hue = 60*(((rgb[0]-rgb[1])/delta)+4);
 	}
+  if (hue < 0) hue +=360;
 	let sat = cmax === 0 ? 0 : (delta/cmax)*100;
 	let value = cmax*100;
 
@@ -479,6 +483,7 @@ export function	hsvToRgb(hsv){
   let s = hsv[1]/100;
 
   let i = Math.floor(h);
+  if(i < 0) i = 0;
   let f = i%2 ? h-i : 1-(h-i);
   let m = u * (1 - s);
   let n = u * (1 - s * f);

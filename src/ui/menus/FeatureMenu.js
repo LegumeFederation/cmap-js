@@ -4,9 +4,8 @@
  **/
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import {featureUpdate} from '../../topics';
 
-//import {Menu} from './Menu';
+import {featureUpdate} from '../../topics';
 import {ColorPicker} from './ColorPicker';
 
 
@@ -29,30 +28,24 @@ export class FeatureMenu {
 		let tagList = model.tags.sort();
 		let settings = {};
 		let trackGroups = [];
-		let allowRemove = true;
     let defaultSettings = model.qtlGroups && model.qtlGroups[order] != undefined ? {filters:model.qtlGroups[order].filters.slice(0),trackColor:model.qtlGroups[order].trackColor.slice(0)} : undefined;
-    console.log("ddloop pre model",data);
 		if(order == undefined){
-			order = model.qtlGroups.length
+			order = model.qtlGroups.length;
 		}
 
- 	  if(!model.qtlGroups || model.qtlGroups[0] === undefined){
-    	order = 0;
-    	settings = {filters:[tagList[0]],trackColor:['red']}
-     	trackGroups[0]= settings;
-    	allowRemove = false;
+    if(!model.qtlGroups || model.qtlGroups[0] === undefined){
+      order = 0;
+      settings = {filters:[tagList[0]],trackColor:['red']};
+      trackGroups[0]= settings;
     } else {
-    	trackGroups = model.qtlGroups.slice(0);
-      console.log('tg',trackGroups);
-    	if(!trackGroups[order]){
-    		trackGroups[order] = {filters:[tagList[0]],trackColor:['red']}
-    		allowRemove = false;
-    	}
-    	settings = trackGroups[order];
+      trackGroups = model.qtlGroups.slice(0);
+      if(!trackGroups[order]){
+        trackGroups[order] = {filters:[tagList[0]],trackColor:['red']};
+      }
+      settings = trackGroups[order];
     }
         
-      console.log('setting detective',settings,defaultSettings);
-		let selected = settings.filters.map( (item,order) => {
+		let selected = settings.filters.map( (item) => {
 			return {
 				name: item,
 				index: tagList.indexOf(item)
@@ -66,30 +59,27 @@ export class FeatureMenu {
 			selected: selected,
 			trackGroups:trackGroups
 		};
-		console.log('modal post', trackConfig);
 
     //Attach components to viewport, in general these are the close button (x in top
     //right), the acutal modal contents, and the apply/close/delete button bar
-   	let controls =  [
-			m(_applyButton,{qtl:model.qtlGroups,track:trackGroups,order:order,reset:defaultSettings,newData:selected}),
+    let controls = [
+      m(_applyButton,{qtl:model.qtlGroups,track:trackGroups,order:order,reset:defaultSettings,newData:selected}),
       m(_cancelButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected})
-		]
-
+		];
+    
     if(model.qtlGroups[order] != undefined){
       controls.push(m(_removeButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected}));
     }
-		
-
+    
     m.mount(document.getElementById('cmap-menu-viewport'), {
-      view:function(vnode){
+      view:function(){
         return [
           m(CloseButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected}),
           m(TrackMenu,{info:trackConfig,count:0}),
 					m('div',{style:'text-align:center'},controls)
-        ]
+        ];
       }  
-    })
-
+    });
   }
 }
 
@@ -106,7 +96,7 @@ export let _removeButton = {
       style:'background:red'
       },'Remove Track');
   }
-}
+};
 
 export let _cancelButton = {
 	view: function(vnode){
@@ -115,24 +105,22 @@ export let _cancelButton = {
         ()=>{
           if(vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] != undefined){
             vnode.attrs.qtl[vnode.attrs.order] = vnode.attrs.reset;
-          };
+          }
           closeModal();
         }
       },'Close');
   }
-}
+};
 
 export let _applyButton = {
 	view: function(vnode){
      return  m('button',{
         onclick: function(){
 					let order = vnode.attrs.order;
-					console.log('close',vnode.attrs.track,vnode.attrs.qtl);
           let filters = vnode.attrs.newData.map( selected => {
             return selected.name;
-       	  });
+         });
 					let colors = vnode.attrs.track[order].trackColor;
-					console.log('close crap', {filters:filters.slice(0),trackColor:colors.slice(0)});
 					vnode.attrs.qtl[order] = {filters: filters.slice(0), trackColor:colors.slice(0)};
 					PubSub.publish(featureUpdate,null);
 					m.redraw();
@@ -140,7 +128,7 @@ export let _applyButton = {
         }
       },'Apply Selection');
   }
-}
+};
 
 /*
  * Div with simple close X
@@ -151,15 +139,14 @@ export let  CloseButton = {
     { style:'text-align:right;',
       onclick: 
         ()=>{
-          console.log('closeData',vnode.attrs.newData);
           if(vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] != undefined){
             vnode.attrs.qtl[vnode.attrs.order] = vnode.attrs.reset;
-          };
+          }
           closeModal();
         }
     },'X');
   }
-}
+};
 
 /*
  * Mithril component
@@ -168,24 +155,31 @@ export let  CloseButton = {
 export let TrackMenu = {
   oninit: function (vnode){
     vnode.state = vnode.attrs;
-  },
-  onupdate: function (vnode){
-    console.log('test update');
+		vnode.state.hidden = [];
+		vnode.state.picker = [];
   },
   view: function(vnode){
 		let selected = vnode.state.info.selected;
 		let settings = vnode.state.info.settings;
 		this.count = 0;
+
 		let dropdows = selected.map( (item,order)=>{
       if(settings.trackColor[order] == undefined){
         settings.trackColor[order] = settings.trackColor.slice(0,1);
       }
+			if(!vnode.state.hidden[order]){
+				vnode.state.hidden[order] = 'none';
+			}
+			if(!vnode.state.picker[order]){
+				vnode.state.picker[order] = 'orange';
+			}
 			let dropSettings = {
 				selected: selected,
 				name: settings.filters[order],
-				trackColor: settings.trackColor[order],
-				tags: vnode.state.info.tagList
-			}
+				trackColor: settings.trackColor,
+				tags: vnode.state.info.tagList,
+				nodeColor: vnode.state.picker
+			};
 			if(selected[order].index === -1){
 				selected[order].index = dropSettings.tags.indexOf(dropSettings.name);
 			}
@@ -197,15 +191,21 @@ export let TrackMenu = {
       if(selected.length > 1){
         controls.push(m('button',{onclick: () => { selected.splice(order,1);}},'-'));
       }
-
-			return [m(Dropdown,{settings:dropSettings,order:order,parentDiv:this,onupdate:function(){settings.trackColor[order] = this.settings.trackColor}}),controls];	
+      controls.push(m('button',{
+					onclick: () => {
+						vnode.state.hidden[order] = vnode.state.hidden[order]==='none'? 'block':'none';
+					}
+				},m('div',
+					{style:`color:${vnode.state.picker[order]}`}
+				,'■')
+			));
+			return [m(Dropdown,{settings:dropSettings,order:order,parentDiv:this,hidden:vnode.state.hidden}),controls];	
 		});
-    return m('div',{
-      onclick: ()=>{console.log(vnode.state.count);vnode.state.count++;},
-      style:'overflow:auto;width:100%;height:80%;background:aliceblue;'
+    return m('div#track-select-div',{
+      style:'overflow:auto;width:100%;height:80%;'
     },dropdows);
   }
-}
+};
 
 /*
  * Mithril component
@@ -221,7 +221,6 @@ export let Dropdown = {
     } else {
       vnode.state.count = vnode.attrs.parentDiv.count;
     }
-    console.log('modal dd attrs',vnode.attrs.parentDiv.count, vnode.state.count);
   },
 	view: function(vnode){
     let order = vnode.state.order;
@@ -237,11 +236,9 @@ export let Dropdown = {
     },[settings.tags.map(tag => {
       return m('option', tag);
       })
-  	]), m(ColorPicker,{settings:vnode.state.settings,order:order}));
+    ]), m(ColorPicker,{settings:vnode.state.settings,order:order,hidden:vnode.state.hidden}));
 	}
-}
-		
-		
+};
 
 /*
  * Function to close the menu-viewport and reshow the
