@@ -30,7 +30,7 @@ export class FeatureMenu {
 		let trackGroups = [];
     let defaultSettings = model.qtlGroups && model.qtlGroups[order] != undefined ? {filters:model.qtlGroups[order].filters.slice(0),trackColor:model.qtlGroups[order].trackColor.slice(0)} : undefined;
 		if(order == undefined){
-			order = model.qltGroups ? model.qtlGroups.length : 0;
+			order = model.qtlGroups ? model.qtlGroups.length : 0;
 		}
 
     if(!model.qtlGroups || model.qtlGroups[0] === undefined){
