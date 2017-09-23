@@ -72,15 +72,24 @@ export class FeatureMenu {
       controls.push(m(_removeButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected}));
     }
     
-    m.mount(document.getElementById('cmap-menu-viewport'), {
-      view:function(){
-        return [
+    // Buld menu mithril component, then mount    
+    let modalDiv = {
+      oncreate: function (vnode){
+        vnode.dom.mithrilComponent = this; // Without this and handleGesture, clicks in modal will pass through to the underlying view
+      },
+      view: function(vnode){
+        return m('div',{style:'height:100%; width:100%'},[
           m(CloseButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected}),
           m(TrackMenu,{info:trackConfig,count:0}),
-					m('div',{style:'text-align:center'},controls)
-        ];
-      }  
-    });
+    			m('div',{style:'text-align:center'},controls)
+            ]
+         )
+      },
+      handleGesture: function(){
+        return true;
+      }
+    }
+    m.mount(document.getElementById('cmap-menu-viewport'), modalDiv);
   }
 }
 
