@@ -181,7 +181,7 @@ export let TrackMenu = {
 				vnode.state.hidden[order] = 'none';
 			}
 			if(!vnode.state.picker[order]){
-				vnode.state.picker[order] = 'orange';
+				vnode.state.picker[order] = settings.trackColor[order] || 'orange';
 			}
 			let dropSettings = {
 				selected: selected,
