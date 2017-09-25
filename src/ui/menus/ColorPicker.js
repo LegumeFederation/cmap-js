@@ -410,14 +410,12 @@ export let ColorBox = {
         oninput: m.withAttr('value', function(value) {
           try {
             let code = value.match(/^#?([a-f\d]*)$/i);
+            let str = code[1];
             if(code[1].length === 3){
-              let str = code[1];
-              value = `#${str[0]}${str[0]}${str[1]}${str[1]}${str[2]}${str[2]}`;
-            } else if (code[1].length === 6){
-              value = '#'+code[1];
-            }
-            vnode.attrs.info.colors.currentColor = value;
-            vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(value));
+              str =  `#${str[0]}${str[0]}${str[1]}${str[1]}${str[2]}${str[2]}`;
+            } 
+              vnode.attrs.info.colors.currentColor = value;
+              vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(str));
           } catch(e) {
             // expect this to fail silently, as most typing will not actually give
             // a proper hex triplet/sextet
