@@ -57,7 +57,9 @@ export class HorizontalLayout
    */
   view() {
     return m('div.cmap-layout-horizontal',
-       [this.swapComponents,this.bioMapComponents.map(m),this.featureControls,this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),this.correspondenceMapComponents.map(m),
+       [this.swapComponents,this.bioMapComponents.map(m),this.featureControls,
+       //this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),
+       this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
     );
   }
@@ -135,13 +137,9 @@ export class HorizontalLayout
                     style: `position:absolute; left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
                       top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
                     onclick: function(){
-                      maps.modal = [];
-                      let component = new FeatureMenu();
-                      component.info = featureGroup;
-                      component.bounds = maps.bounds;
-                      component.order = i;
-                      maps.modal[0] = component;
-                      m.redraw();
+                        let info = child.children[0];
+                        let order = i;
+                        new FeatureMenu(info,order);
                     }
                   }, featureGroup.tags[0])
               ); 
@@ -155,13 +153,9 @@ export class HorizontalLayout
                     style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
                       top: ${component.domBounds.top}px; width: 20px;`,
                     onclick: function(){
-                      maps.modal = [];
-                      let component = new FeatureMenu();
-                      component.info = child.children[0];
-                      component.bounds = maps.bounds;
-                      component.order = child.children.length;
-                      maps.modal[0] = component;
-                      m.redraw();
+                      let info = child.children[0];
+                      let order = child.children.lenght;
+                      new FeatureMenu(info,order);
                     }
                   },`+`)
               );

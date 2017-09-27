@@ -21,12 +21,13 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     if(this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0){
+      console.log('qtlGroups', this.parent.model.qtlGroups);
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
-        if (typeof qtlConf.filter === 'string'){ qtlConf.filter = [qtlConf.filter];}
+        if (typeof qtlConf.filters === 'string'){ qtlConf.filters = [qtlConf.filters];}
         if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}        
-        let qtlGroup = new SceneGraphNodeGroup({parent:this, tags:[qtlConf.filter]});
+        let qtlGroup = new SceneGraphNodeGroup({parent:this, tags:qtlConf.filters.slice(0)});
         this.addChild(qtlGroup);
         let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
         this.qtlGroup = qtlGroup;
@@ -39,11 +40,16 @@ export class  QtlTrack extends SceneGraphNodeTrack {
 
         this.mapCoordinates = this.parent.mapCoordinates;
         this.filteredFeatures = [];
-        qtlConf.filter.forEach( filter => {
+        qtlConf.filters.forEach( (filter,order) => {
             var test = this.parent.model.features.filter( model => {
               return model.tags[0].match(filter) !== null;
             })
-            this.filteredFeatures = this.filteredFeatures.concat(test);
+            if(test.length === 0){
+              // get rid of any tags that don't actually get used
+              qtlConf.filters.splice(order,1);
+            } else {
+              this.filteredFeatures = this.filteredFeatures.concat(test);
+            }
         });
         this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
         let fmData = [];

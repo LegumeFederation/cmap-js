@@ -6,7 +6,7 @@
      "source" : "pv_consensus",
      "map" : "Pv02",
      "qtl" : [{
-        "filter":"QTL_seed",
+        "filters":["QTL_seed","QTL_other-seed"],
         "trackColor": "orange"
       }
       ]
@@ -22,7 +22,7 @@
      "source" : "gm_composite",
      "map" : "D1a",
      "qtl" : [{
-        "filter":"QTL_other-seed",
+        "filters":"QTL_other-seed",
         "trackColor": "orange"
       }
       ]
@@ -33,6 +33,11 @@
       "method": "GET",
       "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
       "filters" : [],
+      "config": {
+        "url" : "config/phavu_genes.json",
+        "method":"GET",
+        "data":{}
+      },
       "linkouts" : [
         {
             "featuretypePattern" : "QTL",

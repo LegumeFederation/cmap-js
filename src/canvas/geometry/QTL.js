@@ -18,7 +18,7 @@ export class QTL extends SceneGraphNodeBase {
     this.lineWidth = 1.0;
     //min and max location in pixels
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
-    this.fill = initialConfig.trackColor[initialConfig.filter.indexOf(this.model.tags[0])]||initialConfig.trackColor[0] || config.trackColor ; 
+    this.fill = initialConfig.trackColor[initialConfig.filters.indexOf(this.model.tags[0])]||initialConfig.trackColor[0] || config.trackColor ; 
     this.width = initialConfig.trackWidth || config.trackWidth;
     this.trackSpacing = initialConfig.trackSpacing || config.trackSpacing;
     this.labelColor = config.trackLabelColor;

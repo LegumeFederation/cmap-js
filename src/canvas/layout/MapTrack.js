@@ -1,5 +1,5 @@
 /**
-  * MapBackbone
+  * MapTrack
   * A SceneGraphNode representing a backbone, simply a rectangle representing
   * the background.
   */
@@ -15,9 +15,9 @@ import {FeatureLabel} from '../geometry/FeatureLabel';
 export class  MapTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
+    console.log("MapTrack-> Constructing Map");
     super(params);
     const b = this.parent.bounds;
-    console.log('mapTrack',this.parent,b);
     this.model = this.parent.model;
     //const backboneWidth = b.width * 0.2;
     const backboneWidth =  this.model.config.backboneWidth;
@@ -29,7 +29,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     this.mC = this.parent.mapCoordinates;
-    console.log('loading backbone', this, this.model);
     this.backbone = new MapBackbone({ parent: this, bioMap: this.model});	
     this.addChild(this.backbone);
 
@@ -95,7 +94,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
     // Load group rtrees for markers and labels
     markerGroup.locMap.load(fmData);
     labelGroup.locMap.load(lmData);
-    console.log(fmData);
     // load this rtree with markers (elements that need hit detection)
     this.locMap.load(fmData);
   }
@@ -116,17 +114,14 @@ export class  MapTrack extends SceneGraphNodeTrack {
       minY: visc.start,
       maxY: visc.stop
     }));
-    console.log('label check',vis);
     let labels = [];
     let start = visc.start;
     let stop = visc.stop;
 		let psf = this.labelGroup.children[0].pixelScaleFactor;
     let step =((visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start) - (coord.start*-1);
-		console.log(step);
     for(let i = start; i < stop; i+=step){
      
      let item =  knn( this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left,i,1)[0];
-     console.log('label item',item);
      if(labels.length === 0){
        labels.push(item);
        continue;

@@ -26,7 +26,6 @@ export class MapBackbone extends SceneGraphNodeBase {
 
   draw(ctx) {
     let gb = this.globalBounds || {};
-    console.log('drawing', gb);
     ctx.fillStyle = this.fillStyle;
     ctx.fillRect(
       Math.floor(gb.left),
