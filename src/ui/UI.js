@@ -46,12 +46,13 @@ export class UI extends mix().with(RegisterComponentMixin) {
     return m('div.cmap-layout.cmap-vbox', [
       m(Header, childAttrs),
       m(Tools, childAttrs),
-      m('div.cmap-layout-viewport.cmap-hbox', {  id: 'cmap-layout-viewport' },
-        m(LayoutContainer, {
-          appState: this.appState,
-          registerComponentCallback: (comp) => this._layoutContainer = comp
-        })
-      ),
+      [ m('div.cmap-menu-viewport#cmap-menu-viewport',{style:'display:none'}),
+        m('div.cmap-layout-viewport.cmap-hbox', {  id: 'cmap-layout-viewport',style:'position:relative;' },
+          m(LayoutContainer, {
+            appState: this.appState,
+            registerComponentCallback: (comp) => this._layoutContainer = comp
+          })
+        )],
       m(StatusBar, childAttrs)
     ]);
   }
@@ -126,7 +127,10 @@ export class UI extends mix().with(RegisterComponentMixin) {
     });
     // dispatch event to all the mithril components, until one returns true;
     // effectively the same as 'stopPropagation' on a normal event bubbling.
-    filtered.some( el => el.mithrilComponent.handleGesture(evt));
+    filtered.some( el =>{
+      var state = el.mithrilComponent.handleGesture(evt);
+      return state;
+    });
   }
   /**
    * Gesture event recapture and force upon the LayoutContainer. This is to

@@ -1,31 +1,65 @@
 {
   "#": "cmap-js example configuration file (json format)",
-  "header" : ": bean markers and consensus",
-  "attribution" : "data attribution: Galeano, Fernandez 2011",
+  "header" : ": soybean and common bean genomes and genetic maps",
+  "attribution" : "data attribution: soybase, LIS",
   "initialView" : [ {
-      "source" : "phavu_genes",
-      "map" : "phavu.Chr02"
-        
-    }, {
      "source" : "pv_consensus",
      "map" : "Pv02",
      "qtl" : [{
-        "filter":"QTL_seed",
-        "color": "orange"
-      },
-      {
-        "filter":"QTL_root",
-        "color" : "red"
-      }]
+        "filters":["QTL_seed","QTL_other-seed"],
+        "trackColor": "orange"
+      }
+      ]
+    }, {
+      "source" : "pv_genome",
+      "map" : "phavu.Chr02"
+        
+    }, {
+      "source" : "gm_genome",
+      "map" : "glyma.Chr01"
+        
+    }, {
+     "source" : "gm_composite",
+     "map" : "D1a",
+     "qtl" : [{
+        "filters":"QTL_other-seed",
+        "trackColor": "orange"
+      }
+      ]
     }
   ],
   "sources" : [ {
-      "id" : "phavu_genes",
-      "#" : "note: the data property may supply http query params. see https://github.com/ncgr/cmap-js for more info.",
+      "id" : "pv_consensus",
       "method": "GET",
-      "data": {},
-      "url": "data/genes_for_phavu.cmap",
+      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
       "filters" : [],
+      "config": {
+        "url" : "config/phavu_genes.json",
+        "method":"GET",
+        "data":{}
+      },
+      "linkouts" : [
+        {
+            "featuretypePattern" : "QTL",
+            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/QTL/phavu.${item.id}",
+            "text" : "View QTL info at LIS"
+        },
+        {
+            "featuretypePattern" : "^(SSR|SNP|AFLP|STS|RAPD)$",
+            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/genetic_marker/${item.id}",
+            "text" : "View marker at LIS"
+        }
+      ]
+    }, {
+      "id" : "pv_genome",
+      "method": "GET",
+      "url": "data/phavu.collinearity+genes+markers.cmap",
+      "filters" : [],
+      "config": {
+        "url" : "config/phavu_genes.json",
+        "method":"GET",
+        "data":{}
+      },
       "linkouts" : [
         {
             "featuretype" : "gene",
@@ -34,15 +68,41 @@
         }
       ]
     }, {
-      "id" : "pv_consensus",
+      "id" : "gm_genome",
       "method": "GET",
-      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
+      "url": "data/glyma.collinearity+genes+markers.cmap",
+      "filters" : [],
+      "config": {
+        "method" : "GET",
+        "url" : "config/phavu_genes.json"
+      },
+      "linkouts" : [
+        {
+            "featuretype" : "gene",
+            "url" : "https://legumeinfo.org/gene_links/${item.id}/json",
+            "isLinkingService" : true
+        }
+      ]
+    }, {
+      "id" : "gm_composite",
+      "method": "GET",
+      "url" : "data/Soybean-GmComposite2003.cmap",
       "filters" : [],
       "linkouts" : [
         {
-            "featuretypePattern" : "^(SSR|SNP|AFLP|STS|RAPD)$",
-            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/genetic_marker/${item.id}",
-            "text" : "View marker at LIS"
+            "featuretypePattern" : "QTL",
+            "url" : "https://soybase.org/sbt/search/search_results.php?category=QTLName&search_term=${item.id}",
+            "text" : "View QTL info at SoyBase"
+        },
+        {
+            "featuretype" : "SNP",
+            "url" : "https://soybase.org/sbt/search/search_results.php?category=SNP&search_term=${item.id}",
+            "text" : "View SNP info at SoyBase"
+        },
+        {
+            "featuretypePattern" : "^(SSR|[AR]FLP|Gene|PCR)$",
+            "url" : "https://soybase.org/sbt/search/search_results.php?category=LocusName&search_term=${item.id}",
+            "text" : "View Marker info at SoyBase"
         }
       ]
     }

@@ -3,7 +3,7 @@
   * A SceneGraphNode representing a collection of QTLs.
   */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import { Group } from '../node/SceneGraphNodeGroup';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
 
@@ -20,28 +20,38 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       width: 50,
       height: b.height
     });
-    console.log('QTL filter', this.parent.model);
-    if(this.parent.model.qtlGroups){
+    if(this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0){
+      console.log('qtlGroups', this.parent.model.qtlGroups);
       let qtlGroups = this.parent.model.qtlGroups;
-      for( let i = 0 ; i < 2; i++){
+      for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
-        let qtlGroup = new Group({parent:this});
+        if (typeof qtlConf.filters === 'string'){ qtlConf.filters = [qtlConf.filters];}
+        if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}        
+        let qtlGroup = new SceneGraphNodeGroup({parent:this, tags:qtlConf.filters.slice(0)});
         this.addChild(qtlGroup);
+        let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
         this.qtlGroup = qtlGroup;
-       
         qtlGroup.bounds = new Bounds({
           top:0,
-          left:0 + (100*i),
+          left: offset,
           width:20,
           height: b.height
         });
 
         this.mapCoordinates = this.parent.mapCoordinates;
-        this.filteredFeatures = this.parent.model.features.filter( model => {
-          return model.tags[0].match(qtlConf.filter) !== null;
+        this.filteredFeatures = [];
+        qtlConf.filters.forEach( (filter,order) => {
+            var test = this.parent.model.features.filter( model => {
+              return model.tags[0].match(filter) !== null;
+            })
+            if(test.length === 0){
+              // get rid of any tags that don't actually get used
+              qtlConf.filters.splice(order,1);
+            } else {
+              this.filteredFeatures = this.filteredFeatures.concat(test);
+            }
         });
-        console.log('QTL filter',this.filteredFeatures);
-        console.log('QTL filter', this.parent.model.source);
+        this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
         let fmData = [];
         this.maxLoc = 0;
         this.qtlMarks = this.filteredFeatures.map( model => {
@@ -49,7 +59,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
             featureModel: model,
             parent: this.qtlGroup,
             bioMap: this.parent.model,
-            fill:this.parent.model.qtlGroups[i].color
+            initialConfig:this.parent.model.qtlGroups[i]
           });
           qtlGroup.addChild(fm);
           let loc = {
@@ -62,72 +72,47 @@ export class  QtlTrack extends SceneGraphNodeTrack {
           qtlGroup.locMap.insert(loc);
           fmData.push(loc);
           if(fm.globalBounds.right > this.globalBounds.right){
+            this.maxLoc = this.globalBounds.right;
             this.bounds.right = this.globalBounds.left + (fm.globalBounds.right - this.globalBounds.left);
+            qtlGroup.bounds.right = qtlGroup.bounds.left + (fm.globalBounds.right - qtlGroup.globalBounds.left) + fm.offset; //set to fm.textWidth
           }
           return fm;
         });
         this.locMap.load(fmData);
-        console.log(this.locMap.all());
       }
-    } else {
-      let qtlGroup = new Group({parent:this});
+    } else { // TODO: Rewrite so that this isn't required to be here
+      let qtlGroup = new SceneGraphNodeGroup({parent:this});
       this.addChild(qtlGroup);
       this.qtlGroup = qtlGroup;
       
       qtlGroup.bounds = new Bounds({
         top:0,
         left:0,
-        width:20,
+        width:0,
         height: b.height
       });
-        this.mapCoordinates = this.parent.mapCoordinates;
-        this.filteredFeatures = this.parent.model.features.filter( model => {
-          return model.tags[0].match(/^QTL.+/) !== null;
-        });
-        console.log('QTL filter',this.filteredFeatures);
-        console.log('QTL filter', this.parent.model.source);
-        let fmData = [];
-        this.maxLoc = 0;
-        this.qtlMarks = this.filteredFeatures.map( model => {
-          let fm = new QTL ({
-            featureModel: model,
-            parent: this.qtlGroup,
-            bioMap: this.parent.model
-          });
-          qtlGroup.addChild(fm);
-          let loc = {
-            minY: model.coordinates.start,
-            maxY: model.coordinates.stop,
-            minX: fm.globalBounds.left,
-            maxX: fm.globalBounds.right,
-            data:fm
-          };
-          qtlGroup.locMap.insert(loc);
-          fmData.push(loc);
-          if(fm.globalBounds.right > this.globalBounds.right){
-            this.bounds.right = this.globalBounds.left + (fm.globalBounds.right - this.globalBounds.left);
-          }
-          return fm;
-        });
-        this.locMap.load(fmData);
-        console.log(this.locMap.all());
     }
   }
 
   get visible(){
     return this.locMap.all();
-    //return this.locMap.all().concat([{data:this}]);
+    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   } 
   
   draw(ctx){
-    let gb = this.globalBounds || {};
-    ctx.fillStyle = 'red';
-    ctx.fillRect(
-      Math.floor(this.parent.backbone.labelGroup.globalBounds.right),
-      Math.floor(gb.top),
-      Math.floor(gb.width),
-      Math.floor(gb.height)
-    );
+    ctx.save();
+    ctx.globalAlpha = .5;
+    ctx.fillStyle = '#ADD8E6';
+    this.children.forEach( child => {
+      let cb = child.globalBounds;
+      ctx.fillRect(
+        Math.floor(cb.left),
+        Math.floor(cb.top),
+        Math.floor(cb.width),
+        Math.floor(cb.height)
+      );
+    });
+    ctx.restore();
   }
 
   get hitMap(){
@@ -142,15 +127,11 @@ export class  QtlTrack extends SceneGraphNodeTrack {
           maxX: qtlGroup.globalBounds.right ,
           data: qtlGroup
         };
-      })  
+      });
     });
-    console.log(childPos);
     childPos.forEach( childArray =>{
-      console.log(childArray);
       hits = hits.concat(childArray);
-      console.log(hits);
     });
-    console.log(hits);
    return hits;
     //  return {
     //    minY: child.globalBounds.top,

@@ -4,10 +4,19 @@
   */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class Group extends SceneGraphNodeBase {
+export class SceneGraphNodeGroup extends SceneGraphNodeBase {
 
   constructor(params) {
     super(params);
   }
-
+  get visible(){
+    let vis = [];
+    let cVis = this.children.map(child => {
+      return child.visible;
+    });
+    cVis.forEach(item => {
+      vis = vis.concat(item);
+    });
+    return vis;
+  }
 }

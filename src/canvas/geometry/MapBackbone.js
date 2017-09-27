@@ -11,7 +11,9 @@ export class MapBackbone extends SceneGraphNodeBase {
   constructor({parent, bioMap}) {
     super({parent});
     const b = parent.bounds;
-    const backboneWidth = parent.bounds.width;
+    const config = bioMap.config;
+    const backboneWidth = config.backboneWidth;
+    this.fillStyle = config.backboneColor;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
@@ -24,8 +26,7 @@ export class MapBackbone extends SceneGraphNodeBase {
 
   draw(ctx) {
     let gb = this.globalBounds || {};
-    console.log('drawing', gb);
-    ctx.fillStyle = '#fff6e8';
+    ctx.fillStyle = this.fillStyle;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),

@@ -179,6 +179,37 @@ span.cmap-map-name-chip {
   background: white;
 }
 
+.feature-title{
+  z-index:1000;
+  background:white;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 5px 0px 5px 0px;
+  margin: 5px 0px 5px 0px;
+  text-align: center;
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.feature-menu{
+  z-index: 10000;
+  background:white;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 5px 0px 5px 0px;
+  margin: 5px 0px 5px 0px;
+  text-align: center;
+}
+
+#cmap-menu-viewport{
+  margin: 5px 5px 5px 5px;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: white;
+}
+
 .cmap-biomap{
   border: 1px dashed black;
   border-radius: 4px;

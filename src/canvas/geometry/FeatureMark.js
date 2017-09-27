@@ -4,6 +4,7 @@
   */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
+import {translateScale} from '../../util/CanvasUtil';
 
 export class FeatureMark extends SceneGraphNodeBase {
 
@@ -11,7 +12,11 @@ export class FeatureMark extends SceneGraphNodeBase {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
     this.featureMap = bioMap;
-    this.lineWidth = 1.0;
+
+    this.offset = this.featureMap.view.base.start*-1;
+    this.lineWidth = bioMap.config.markerWeight;
+    this.strokeStyle = bioMap.config.markerColor;
+
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.bounds = new Bounds({
       allowSubpixel: false,
@@ -23,11 +28,11 @@ export class FeatureMark extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    console.log('drawing');
-    let y = this._translateScale(this.model.coordinates.start) * this.pixelScaleFactor;
+    let y = translateScale(this.model.coordinates.start, this.featureMap.view.base, this.featureMap.view.visible) * this.pixelScaleFactor;
     this.bounds.top = y;
     let gb = this.globalBounds || {};
     ctx.beginPath();
+    ctx.strokeStyle = this.strokeStyle;
     ctx.lineWidth = this.lineWidth;
     ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
     ctx.lineTo(Math.floor(gb.right), Math.floor(gb.top));
@@ -36,11 +41,5 @@ export class FeatureMark extends SceneGraphNodeBase {
     // lineWidth adds equal percent of passed width above and below path
     this.bounds.top = Math.floor(y - this.lineWidth/2);
     this.bounds.bottom = Math.floor( y + this.lineWidth/2);
-  }
-
-  _translateScale(point){
-    let coord = this.featureMap.view.base;
-    let vis = this.featureMap.view.visible;
-    return (coord.stop - coord.start)*(point-vis.start)/(vis.stop-vis.start)+coord.start;
   }
 }

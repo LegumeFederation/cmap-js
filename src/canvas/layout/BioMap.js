@@ -7,17 +7,23 @@
   *
   */
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+
+import {featureUpdate,dataLoaded} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
+import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from './MapTrack';
 import {QtlTrack} from './QtlTrack';
 import {Ruler} from '../geometry/Ruler';
+import {pageToCanvas} from '../../util/CanvasUtil';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
-  constructor({bioMapModel, appState, layoutBounds}) {
+  constructor({bioMapModel, appState, layoutBounds, bioMapIndex}) {
     super({model:bioMapModel});
+    this.bioMapIndex = bioMapIndex;
     this.model.visible = {
       start: this.model.coordinates.start,
       stop: this.model.coordinates.stop
@@ -32,6 +38,7 @@ export class BioMap extends SceneGraphNodeCanvas {
         stop: this.model.coordinates.stop
       }
     };
+    this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start)/this.model.config.rulerSteps;
     // set up coordinate bounds for view scaling
     this.appState = appState;
     this.verticalScale = 0;
@@ -52,6 +59,15 @@ export class BioMap extends SceneGraphNodeCanvas {
       wheel: new RegExp('^wheel')
     };
     this._layout(layoutBounds);
+
+  }
+  
+  oncreate(vnode) {
+    super.oncreate(vnode);
+    PubSub.subscribe(featureUpdate, () => {
+      this._layout(this.lb);
+      this._redrawViewport(this.model.view.visible);
+    });
   }
   /**
    * culls elements to draw down to only those visible within the view 
@@ -88,7 +104,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
-    this.verticalScale = evt.deltaY < 0 ? -0.5 : 0.5;
+    this.verticalScale = evt.deltaY < 0 ? -this.zoomDelta : this.zoomDelta;
     let mcv = this.model.view.base;
     let zStart = (this.model.view.visible.start + this.verticalScale);
     let zStop = (this.model.view.visible.stop - this.verticalScale);
@@ -113,10 +129,11 @@ export class BioMap extends SceneGraphNodeCanvas {
  
   // return hits in case of tap/click event
   _onTap(evt) {
-    console.log('BioMap -> tap dat', evt, this);
-    let globalPos = this._pageToCanvas(evt);
+    console.log('BioMap -> onTap', evt, this);
+    let globalPos = pageToCanvas(evt,this.canvas);
     this._loadHitMap();
     let hits = [];
+
     this.hitMap.search({
       minX: globalPos.x,
       maxX: globalPos.x,
@@ -126,7 +143,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       // temp fix, find why hit map stopped updating properly
       if((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
         (hit.data.model.coordinates.start <= this.model.view.visible.stop)){
-        hits.push(hit.data);
+         hits.push(hit.data);
       } else if((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
         (hit.data.model.coordinates.stop <= this.model.view.visible.stop)){
         hits.push(hit.data);
@@ -164,7 +181,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     };
     this.zoomP.pStart = true;
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
-    let globalPos = this._pageToCanvas(evt);
+    let globalPos = pageToCanvas(evt, this.canvas);
     let left = this.ruler.globalBounds.left;
     // scroll view vs box select
     if(left < (globalPos.x-evt.deltaX) && 
@@ -210,7 +227,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     if(this.zoomP && this.zoomP.ruler){
       this._moveRuler(evt);
     } else {
-      let globalPos = this._pageToCanvas(evt);
+      let globalPos = pageToCanvas(evt,this.canvas);
       this.draw();
       let ctx = this.context2d;
       ctx.lineWidth = 1.0;
@@ -233,7 +250,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     if(this.zoomP && this.zoomP.ruler){
       this._moveRuler(evt);
     } else {
-      let globalPos = this._pageToCanvas(evt);
+      let globalPos = pageToCanvas(evt,this.canvas);
       
       // test if any part of the box select is in the ruler zone
       let rLeft = this.ruler.globalBounds.left;
@@ -319,30 +336,9 @@ export class BioMap extends SceneGraphNodeCanvas {
     let coord = this.model.view.base;
     let visc = this.model.view.visible;
     let psf = this.model.view.pixelScaleFactor;
-    return (visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start));
+    return ((visc.start*(coord.stop*psf - point) + visc.stop*(point - coord.start* psf))/(psf*(coord.stop - coord.start)))-(coord.start*-1);
   }
 
-    /**
-     * Convert point from page coordinates to canvas coordinates
-     *
-     */
-  _pageToCanvas( evt ){
-    function getOffset( el ) {
-      var _x = 0;
-      var _y = 0;
-      while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-        _x += el.offsetLeft - el.scrollLeft;
-        _y += el.offsetTop - el.scrollTop;
-        el = el.offsetParent;
-      }
-      return { top: _y, left: _x };
-    }
-    let pageOffset = getOffset(this.canvas);
-    return {
-      'x': evt.srcEvent.pageX - pageOffset.left,
-      'y': evt.srcEvent.pageY - pageOffset.top
-    };
-  }
   /**
    * perform layout of backbone, feature markers, and feature labels.
    */
@@ -352,15 +348,17 @@ export class BioMap extends SceneGraphNodeCanvas {
     // labels
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
+    this.lb = layoutBounds;
     console.log('BioMap -> layout');
     const width = Math.floor(layoutBounds.width/this.appState.bioMaps.length);
     this.children = [];
     this.domBounds = new Bounds({
-      left: layoutBounds.left,
+      left:layoutBounds.left,
       top: layoutBounds.top,
       width: width > 300 ? width:300,
       height: layoutBounds.height
     });
+    
     this.bounds = new Bounds({
       left: 0,
       top: layoutBounds.top + 40,
@@ -368,19 +366,27 @@ export class BioMap extends SceneGraphNodeCanvas {
       height: Math.floor(this.domBounds.height - 140) // set to reasonably re-size for smaller windows
     });
     //Add children tracks
+    this.bbGroup = new Group({parent:this});
+    this.bbGroup.bounds = new Bounds({
+        top:0,
+        left:0,
+        width:10
+        });
+    this.bbGroup.model = this.model;
     this.backbone = new MapTrack({parent:this});
-    this.children.push(this.backbone);
+    this.bbGroup.addChild(this.backbone);
     this.model.view.backbone = this.backbone.backbone.globalBounds;
     this.ruler = new Ruler({parent:this, bioMap:this.model});
-    this.children.push(this.ruler);
+    this.bbGroup.addChild(this.ruler);
+    this.children.push(this.bbGroup);
     let qtl  = new QtlTrack({parent:this});
-    //console.log('QTL Loc', this.domBounds.width, qtl.globalBounds.right);
-    if(this.domBounds.width < qtl.globalBounds.right){
-      this.domBounds.width = qtl.globalBounds.right + 20;
+    if(this.domBounds.width < qtl.globalBounds.right+30){
+      this.domBounds.width = qtl.globalBounds.right + 50;
     }
     this.children.push(qtl);
     //load local rBush tree for hit detection
     this._loadHitMap();
+    //let layout know that width has changed on an element;
     m.redraw();
   }
 

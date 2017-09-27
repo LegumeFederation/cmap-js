@@ -25,10 +25,7 @@
         "isLinkingService" : { "type" : "boolean", "default" : false } 
       },
       "required" : ["url"],
-      "oneOf" : [
-        { "required" : ["featuretype"] },
-        { "required" : ["featuretypePattern"] }
-      ]
+      "oneOf": [{"required" : ["featuretype"]}, {"required" : ["featuretypePattern"]}]
     }
   },
   "properties" : {

@@ -1,12 +1,12 @@
 /**
-  * MapBackbone
+  * MapTrack
   * A SceneGraphNode representing a backbone, simply a rectangle representing
   * the background.
   */
 import knn from 'rbush-knn';
 
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import { Group } from '../node/SceneGraphNodeGroup';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 import {FeatureMark} from '../geometry/FeatureMark';
 import {MapBackbone} from '../geometry/MapBackbone';
@@ -15,35 +15,34 @@ import {FeatureLabel} from '../geometry/FeatureLabel';
 export class  MapTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
+    console.log("MapTrack-> Constructing Map");
     super(params);
     const b = this.parent.bounds;
-    console.log('mapTrack',this.parent,b);
-    let bioModel = this.parent.model;
+    this.model = this.parent.model;
     //const backboneWidth = b.width * 0.2;
-    const backboneWidth =  60;
+    const backboneWidth =  this.model.config.backboneWidth;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,
-      left: b.width * 0.5 - backboneWidth * 0.5,
+      left: this.model.config.rulerLabelSize * 10,//b.width * 0.5 - backboneWidth * 0.5,
       width: backboneWidth,
       height: b.height
     });
     this.mC = this.parent.mapCoordinates;
-    console.log('loading backbone', this, bioModel);
-    this.backbone = new MapBackbone({ parent: this, bioMap: bioModel});	
+    this.backbone = new MapBackbone({ parent: this, bioMap: this.model});	
     this.addChild(this.backbone);
 
     // calculate scale factor between backbone coordinates in pixels
-    bioModel.view.pixelScaleFactor = this.backbone.bounds.height/bioModel.length;
-    bioModel.view.backbone = this.globalBounds;
+    this.model.view.pixelScaleFactor = this.backbone.bounds.height/this.model.length;
+    this.model.view.backbone = this.globalBounds;
 
     // Setup groups for markers and labels
-    let markerGroup = new Group({parent:this});
+    let markerGroup = new SceneGraphNodeGroup({parent:this});
     this.addChild(markerGroup);
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
     this.addChild(markerGroup);
-    let labelGroup = new Group({parent:this});
+    let labelGroup = new SceneGraphNodeGroup({parent:this});
     this.addChild(labelGroup);
     this.labelGroup = labelGroup;
     labelGroup.bounds = new Bounds({
@@ -54,7 +53,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     });
 
     // Filter features for drawing
-    this.filteredFeatures = bioModel.features.filter( model => {
+    this.filteredFeatures = this.model.features.filter( model => {
       return model.length <= 0.00001;
     });
 
@@ -65,7 +64,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
       let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
-        bioMap: bioModel
+        bioMap: this.model
       });
 
       let lm = new FeatureLabel({
@@ -95,7 +94,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
     // Load group rtrees for markers and labels
     markerGroup.locMap.load(fmData);
     labelGroup.locMap.load(lmData);
-    console.log(fmData);
     // load this rtree with markers (elements that need hit detection)
     this.locMap.load(fmData);
   }
@@ -120,8 +118,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     let start = visc.start;
     let stop = visc.stop;
 		let psf = this.labelGroup.children[0].pixelScaleFactor;
-    let step =(visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start;
-		console.log(step);
+    let step =((visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start) - (coord.start*-1);
     for(let i = start; i < stop; i+=step){
      
      let item =  knn( this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left,i,1)[0];
