@@ -15,6 +15,7 @@ import {QtlTrack} from '../../canvas/layout/QtlTrack';
 import {Popover} from '../menus/Popover';
 import {FeatureMenu} from '../menus/FeatureMenu';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
+import {TitleComponent} from './components/titleComponent';
 
 export class HorizontalLayout
        extends mix(LayoutBase)
@@ -134,6 +135,7 @@ export class HorizontalLayout
         vnode.state = vnode.attrs;
         vnode.state.left = 0;
         vnode.state.viewport = document.getElementById('cmap-layout-container');
+        vnode.state.bMap = vnode.state.bioMaps[vnode.state.order];
       },
       onbeforeupdate: function(vnode){
         if(vnode.state.contentBounds){
@@ -142,7 +144,7 @@ export class HorizontalLayout
       },
       view:function(vnode){
         if(!vnode.attrs || !vnode.state.contentBounds) return;
-        let bMap = vnode.state.bioMaps[vnode.state.order];
+        let bMap = vnode.state.bMap;
         let left = vnode.state.left-1;
 		    return  m('div', {
           class: 'swap-div', id: `swap-${vnode.state.order}`,
@@ -153,7 +155,7 @@ export class HorizontalLayout
     //let sc = this.swapComponents;
     let bmaps = this.bioMapComponents;
     m.mount(document.getElementById('cmap-layout-titles'),{view: function(){ 
-      return bmaps.map((bmap,order)=>{return m(swapComponent,{bioMaps:bmaps,order:order,contentBounds:cb})})
+      return bmaps.map((bmap,order)=>{return m(TitleComponent,{bioMaps:bmaps,order:order,contentBounds:cb})})
     }});
 		
 	}
