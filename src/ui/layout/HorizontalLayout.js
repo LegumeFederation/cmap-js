@@ -27,12 +27,15 @@ export class HorizontalLayout
    */
   oninit(vnode) {
     super.oninit(vnode);
+    this.contentBounds = vnode.attrs.contentBounds;
+    this.vnode = vnode;
     this.bioMapComponents = [];
     this.correspondenceMapComponents = [];
     this.popoverComponents=[];
 		this.swapComponents=[];
     this.featureControls=[];
     this.modal=[];
+    this.test = 0;
     const handler = () => this._onDataLoaded();
     this.subscriptions = [
       // all of these topics have effectively the same event handler for
@@ -45,6 +48,11 @@ export class HorizontalLayout
     ];
   }
 
+  onupdate(vnode){
+    this.contentBounds = vnode.attrs.contentBounds;
+  }
+    
+
   /**
    * mithril lifecycle method
    */
@@ -55,9 +63,11 @@ export class HorizontalLayout
   /**
    * mithril component render method
    */
-  view() {
+  view(vnode) {
+    //m.mount(document.getElementById('cmap-layout-titles'),null);
     return m('div.cmap-layout-horizontal',
-       [this.swapComponents,this.bioMapComponents.map(m),this.featureControls,
+       [//this.swapComponents,
+       this.bioMapComponents.map(m),this.featureControls,
        //this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),
        this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
@@ -69,7 +79,7 @@ export class HorizontalLayout
    */
   _onDataLoaded() {
     this._layoutBioMaps();
-		this._layoutSwapComponents();
+    this._layoutSwapComponents();
     this._layoutFeatureControls();
     this._layoutCorrespondenceMaps();
     this._layoutPopovers();
@@ -80,43 +90,71 @@ export class HorizontalLayout
 		this.swapComponents = [];
     let n = this.bioMapComponents.length;
 		let maps = this;
-    for (var i = 0; i < n; i++) {
-			let bMap = this.bioMapComponents[i];
-			const b = i;
-			let left ='',right='';
-			if(b>0){
-				left = m('div', {class:'swap-map-order', onclick: function() {
-          if(b > 0){
-						const tmp = maps.appState.bioMaps[b-1];
-						maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
-						maps.appState.bioMaps[b] = tmp;
-						maps._onDataLoaded();
-					}
-        }
-        },'<');
-			} else {
-				left = m('div', {class:'swap-map-order',style:'background:#ccc;'},'<');
-      }
+    //for (var i = 0; i < n; i++) {
+		//	let bMap = this.bioMapComponents[i];
+		//	const b = i;
+		//	let left ='',right='';
+		//	if(b>0){
+		//		left = m('div', {class:'swap-map-order', onclick: function() {
+    //      if(b > 0){
+		//				const tmp = maps.appState.bioMaps[b-1];
+		//				maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
+		//				maps.appState.bioMaps[b] = tmp;
+		//				maps._onDataLoaded();
+		//			}
+    //    }
+    //    },'<');
+		//	} else {
+		//		left = m('div', {class:'swap-map-order',style:'background:#ccc;'},'<');
+    //  }
 
-			if(b< n-1){
-					right = m('div', {class:'swap-map-order', onclick: function() {
-						if(b < n-1){
-							const tmp = maps.appState.bioMaps[b];
-							maps.appState.bioMaps[b] = maps.appState.bioMaps[b+1];
-							maps.appState.bioMaps[b+1] = tmp;
-							maps._onDataLoaded();
-            }
-          }},'>');
-      } else {
-        right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
-      }
+		//	if(b< n-1){
+		//			right = m('div', {class:'swap-map-order', onclick: function() {
+		//				if(b < n-1){
+		//					const tmp = maps.appState.bioMaps[b];
+		//					maps.appState.bioMaps[b] = maps.appState.bioMaps[b+1];
+		//					maps.appState.bioMaps[b+1] = tmp;
+		//					maps._onDataLoaded();
+    //        }
+    //      }},'>');
+    //  } else {
+    //    right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
+    //  }
 	
-      console.log('swap comp',bMap,bMap.p);
-			this.swapComponents.push( m('div', {
-        class: 'swap-div', id: `swap-${i}`,
-        style: `position:absolute; left: ${Math.floor(bMap.domBounds.left+bMap.ruler.globalBounds.left/2)}px; top: ${bMap.domBounds.top}px;`},
-				[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
-		}
+    //  console.log('swap comp',bMap,bMap.p);
+		//	this.swapComponents.push( m('div', {
+    //    class: 'swap-div', id: `swap-${i}`,
+    //    style: `display:grid; position:relative; width:${bMap.domBounds.width}px; left: ${Math.floor(bMap.domBounds.left)}px;`},
+		//		[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
+		//}
+    let cb = this.contentBounds;
+    let swapComponent = {
+      oninit: function(vnode){
+        console.log(vnode);
+        vnode.state = vnode.attrs;
+        vnode.state.left = 0;
+        vnode.state.viewport = document.getElementById('cmap-layout-container');
+      },
+      onbeforeupdate: function(vnode){
+        if(vnode.state.contentBounds){
+          vnode.state.left = vnode.state.contentBounds.left;
+        }
+      },
+      view:function(vnode){
+        if(!vnode.attrs || !vnode.state.contentBounds) return;
+        let bMap = vnode.state.bioMaps[vnode.state.order];
+        let left = vnode.state.left-1;
+		    return  m('div', {
+          class: 'swap-div', id: `swap-${vnode.state.order}`,
+          style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px;`},
+		  		[m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id])]);
+      }
+    }
+    //let sc = this.swapComponents;
+    let bmaps = this.bioMapComponents;
+    m.mount(document.getElementById('cmap-layout-titles'),{view: function(){ 
+      return bmaps.map((bmap,order)=>{return m(swapComponent,{bioMaps:bmaps,order:order,contentBounds:cb})})
+    }});
 		
 	}
 

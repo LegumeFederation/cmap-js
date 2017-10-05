@@ -26,7 +26,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   oninit(vnode) {
     super.oninit(vnode);
     this.appState = vnode.attrs.appState;
-
+    this.vnode = vnode;
     PubSub.subscribe(reset, () => this._onReset());
 
     // create some regular expressions for faster dispatching of events
@@ -45,8 +45,8 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     super.oncreate(vnode);
     this.el = vnode.dom; // this is the outer m('div') from view()
     //this._setupEventHandlers(this.el);
-    this.bounds = new Bounds(this.el.getBoundingClientRect());
-    this.contentBounds = new Bounds({
+    vnode.state.bounds = this.bounds = new Bounds(this.el.getBoundingClientRect());
+    vnode.state.contentBounds = this.contentBounds = new Bounds({
       left: 0,
       top: 0,
       width: this.bounds.width,
@@ -66,7 +66,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   /**
    * mithril component render method
    */
-  view() {
+  view(vnode) {
     let b = this.contentBounds || {}; // relative bounds of the layout-container
     let scale = this.appState.tools.zoomFactor;
     return m('div.cmap-layout-container', {
@@ -76,7 +76,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     }, [
       this.appState.tools.layout === HorizontalLayout
       ?
-      m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds })
+      m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds, contentBounds: vnode.state.contentBounds })
       :
       m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
     ]);
@@ -126,7 +126,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
       delta.y = evt.deltaY;
     }
     this.contentBounds.left += delta.x;
-    this.contentBounds.top += delta.y;
+    //this.contentBounds.top += delta.y;
     m.redraw();
     this.lastPanEvent = evt;
     return true; // stop event propagation

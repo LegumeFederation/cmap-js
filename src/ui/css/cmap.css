@@ -39,7 +39,8 @@ html, body {
 }
 
 .cmap-layout-viewport {
-  overflow: auto; /* overflow the content using scrollbars */
+  overflow-y: auto; /* overflow the content using scrollbars */
+  overflow-x: hidden;
   flex: auto; /* expand to fill the vertical space allowed by flexbox */
   position: relative;
 }
@@ -158,7 +159,8 @@ span.cmap-map-name-chip {
 .swap-div{
   opacity:50%;
   z-index:100;
-  display:flex;
+  border: 1px solid #bbb;
+  border-radius: 4px;
 }
 .swap-map-order{
   margin: 5px 10px 5px 10px;
@@ -211,8 +213,8 @@ span.cmap-map-name-chip {
 }
 
 .cmap-biomap{
-  border: 1px dashed black;
-  border-radius: 4px;
+ /* border: 1px dashed black;
+  border-radius: 4px; */
 }
 .cmap-correspondence-map{
   /*border:1px dashed aqua;*/
