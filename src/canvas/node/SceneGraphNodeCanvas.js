@@ -99,6 +99,7 @@ export class SceneGraphNodeCanvas
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
+    this.dirty = false;
   }
  /**
    * custom gesture event dispatch listener; see LayoutContainer

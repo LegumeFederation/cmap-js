@@ -59,6 +59,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       wheel: new RegExp('^wheel')
     };
     this._layout(layoutBounds);
+    this.dirty = true;
 
   }
   
@@ -388,6 +389,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._loadHitMap();
     //let layout know that width has changed on an element;
     //m.redraw();
+    this.dirty = true;
   }
 
   _loadHitMap(){

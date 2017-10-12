@@ -13,16 +13,17 @@ import {Bounds} from '../../../model/Bounds';
 export class BioMapComponent {
   constructor(vnode){
     console.log('setting up BMC',vnode,vnode.attrs,vnode.state);
-    vnode.state = vnode.attrs;
   }
   oninit(){
   }
   oncreate(vnode){
-		console.log("creating stuff!",vnode.attrs);
     vnode.state = vnode.attrs;
+    vnode.state.test = this;
+		console.log("creating stuff!",vnode.attrs,vnode.state.test);
     vnode.state.canvas = vnode.state.bioMap.canvas = this.el = vnode.dom;
     vnode.state.domBounds = vnode.state.bioMap.domBounds;
     vnode.state.context2d = vnode.state.bioMap.canvas = this.context2d = vnode.state.canvas.getContext('2d');
+    vnode.state.context2d.imageSmoothingEnabled = false;
 		vnode.state.draw = this.draw;
     vnode.state.bioMap.context2d = vnode.state.context2d;
   }
@@ -30,8 +31,10 @@ export class BioMapComponent {
     console.log(this);
   }
   onupdate(vnode){
-    //vnode.state.draw(vnode);
+    vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
     vnode.state.bioMap.draw();
+   // m.redraw();
+    //vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
   }
 
   view(vnode) {

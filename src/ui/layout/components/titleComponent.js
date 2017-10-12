@@ -62,10 +62,8 @@ export let TitleComponent = {
     let delta = {};
     if(this.lastPanEvent) {
       delta.x = -1 * (this.lastPanEvent.deltaX - evt.deltaX);
-      delta.y = -1 * (this.lastPanEvent.deltaY - evt.deltaY);
     } else {
-       delta.x = evt.deltaX;
-       delta.y = evt.deltaY;
+       delta.x = Math.round(evt.deltaX);
     }
     this.left += delta.x;
     this.bioMaps[this.order].domBounds.left += delta.x;
