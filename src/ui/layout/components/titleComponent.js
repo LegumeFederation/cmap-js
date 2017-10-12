@@ -39,7 +39,6 @@ export let TitleComponent = {
     let bMap = vnode.state.bioMaps[vnode.state.order];
     console.log('title Component view',bMap);
     let left = vnode.state.left-1;
-    bMap.lb.left +=vnode.state.left;
     return  m('div', {
       class: 'swap-div', id: `swap-${vnode.state.order}`,
       style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px;`},
@@ -69,6 +68,9 @@ export let TitleComponent = {
        delta.y = evt.deltaY;
     }
     this.left += delta.x;
+    this.bioMaps[this.order].domBounds.left += delta.x;
+    this.bioMaps[this.order].domBounds.right += delta.x;
+
     this.lastPanEvent = evt;
     m.redraw();
     return true;

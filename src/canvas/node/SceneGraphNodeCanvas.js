@@ -62,7 +62,7 @@ export class SceneGraphNodeCanvas
     // TODO: remove this development assistive method
     console.assert(this.el === vnode.dom);
     let b = new Bounds(this.el.getBoundingClientRect());
-    console.log('BioMap.onupdate', b.width, b.height, this.el);
+    console.log('BioMap.onupdate',this.el.mithrilComponent);
   }
 
   /**

@@ -387,7 +387,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     //load local rBush tree for hit detection
     this._loadHitMap();
     //let layout know that width has changed on an element;
-    m.redraw();
+    //m.redraw();
   }
 
   _loadHitMap(){

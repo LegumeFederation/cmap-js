@@ -16,6 +16,8 @@ import {Popover} from '../menus/Popover';
 import {FeatureMenu} from '../menus/FeatureMenu';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 import {TitleComponent} from './components/titleComponent';
+import {BioMapComponent as BioMapVnode} from './components/BioMapComponent';
+
 
 export class HorizontalLayout
        extends mix(LayoutBase)
@@ -68,7 +70,7 @@ export class HorizontalLayout
     //m.mount(document.getElementById('cmap-layout-titles'),null);
     return m('div.cmap-layout-horizontal',
        [//this.swapComponents,
-       this.bioMapComponents.map(m),this.featureControls,
+       this.bioMapComponents.map(function(bioMap){return m(BioMapVnode,{bioMap:bioMap})}),this.featureControls,
        //this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),
        this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
@@ -129,29 +131,6 @@ export class HorizontalLayout
 		//		[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
 		//}
     let cb = this.contentBounds;
-    let swapComponent = {
-      oninit: function(vnode){
-        console.log(vnode);
-        vnode.state = vnode.attrs;
-        vnode.state.left = 0;
-        vnode.state.viewport = document.getElementById('cmap-layout-container');
-        vnode.state.bMap = vnode.state.bioMaps[vnode.state.order];
-      },
-      onbeforeupdate: function(vnode){
-        if(vnode.state.contentBounds){
-          vnode.state.left = vnode.state.contentBounds.left;
-        }
-      },
-      view:function(vnode){
-        if(!vnode.attrs || !vnode.state.contentBounds) return;
-        let bMap = vnode.state.bMap;
-        let left = vnode.state.left-1;
-		    return  m('div', {
-          class: 'swap-div', id: `swap-${vnode.state.order}`,
-          style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px;`},
-		  		[m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id])]);
-      }
-    }
     //let sc = this.swapComponents;
     let bmaps = this.bioMapComponents;
     m.mount(document.getElementById('cmap-layout-titles'),{view: function(){ 
