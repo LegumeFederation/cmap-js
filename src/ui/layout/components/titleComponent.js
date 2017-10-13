@@ -27,6 +27,8 @@ export let TitleComponent = {
     vnode.state._onPan = vnode.tag._onPan;
     vnode.state.bmap = vnode.state.bioMaps[vnode.state.order];
     vnode.state.lastPanEvent = null;
+    vnode.state.zIndex = 0;
+    this.vnode = vnode;
   },
   onbeforeupdate: function(vnode){
     console.log('title component obu',vnode.state);
@@ -41,7 +43,7 @@ export let TitleComponent = {
     let left = vnode.state.left-1;
     return  m('div', {
       class: 'swap-div', id: `swap-${vnode.state.order}`,
-      style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px;`},
+      style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.zIndex};`},
       [m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id])
       ]
     );
@@ -54,8 +56,11 @@ export let TitleComponent = {
     return true;
   },
   _onPan: function(evt){
-    console.log('title component hg pan');
+    if(evt.type === 'panstart'){
+      this.vnode.state.zIndex = 1000; 
+    }
     if(evt.type === 'panend') {
+      this.vnode.zIndex =  0; 
       this.lastPanEvent = null;
       return;
     }
