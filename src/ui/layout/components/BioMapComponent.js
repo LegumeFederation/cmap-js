@@ -12,29 +12,31 @@ import {Bounds} from '../../../model/Bounds';
 
 export class BioMapComponent {
   constructor(vnode){
-    console.log('setting up BMC',vnode,vnode.attrs,vnode.state);
   }
-  oninit(){
-  }
+
   oncreate(vnode){
+    //have state be tied to passed attributes
     vnode.state = vnode.attrs;
-    vnode.state.test = this;
-		console.log("creating stuff!",vnode.attrs,vnode.state.test);
-    vnode.state.canvas = vnode.state.bioMap.canvas = this.el = vnode.dom;
+    
+    //dom components and state
+    vnode.state.canvas = vnode.state.bioMap.canvas  = vnode.dom;
     vnode.state.domBounds = vnode.state.bioMap.domBounds;
-    vnode.state.context2d = vnode.state.bioMap.canvas = this.context2d = vnode.state.canvas.getContext('2d');
+    vnode.state.context2d = vnode.state.bioMap.context2d = vnode.state.canvas.getContext('2d');
     vnode.state.context2d.imageSmoothingEnabled = false;
-		vnode.state.draw = this.draw;
-    vnode.state.bioMap.context2d = vnode.state.context2d;
+    
+    //setup vnode.dom for ui gesture handling
+    vnode.dom.mithrilComponent = this;
+
+    //store vnode to be able to access state for non mithril lifecycle commands
+    this.vnode = vnode;
   }
-  onbeforeupdate(vnode){
-    console.log(this);
-  }
+
   onupdate(vnode){
-    vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
-    vnode.state.bioMap.draw();
-   // m.redraw();
-    //vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
+    //redraw biomap if dirty (drawing has changed, instead of just changing position)
+    if(vnode.state.bioMap.dirty === true){
+      vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
+      vnode.state.bioMap.draw();
+    }
   }
 
   view(vnode) {
@@ -56,22 +58,13 @@ export class BioMapComponent {
      });
   }
 
-  draw(vnode){
-		console.log('draw me!',this,vnode);
-		if(! vnode) return;
-    let ctx = vnode.state.context2d;
-		console.log(ctx);
-    if(! ctx) return;
-    console.log('draw bounds', vnode.state.bioMap);
-    ctx.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
-    ctx.save();
-		ctx.fillStyle = "green";
-    ctx.fillRect(0, 0, 20, 20);
-    //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    //this.visible.map(child => child && child.data.draw(ctx));
-    ctx.restore();
-    // store these bounds, for checking in drawLazily()
-    //this.lastDrawnCanvasBounds = this.bounds;
+  handleGesture(evt){
+    let state = this.vnode.state;
+    if(state.bioMap.handleGesture(evt)){
+      state.bioMap.dirty = true;
+      return true;
+    }
+    return false;
   }
 }
 
