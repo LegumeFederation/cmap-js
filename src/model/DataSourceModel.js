@@ -150,8 +150,7 @@ export class DataSourceModel {
               source : this,
               name: d.feature_name,
               tags: [d[typeField] !== '' ? d[typeField] : null],
-              // TODO: if there is more than one alias, how is it encoded? comma separated?
-              aliases: d.feature_aliases !== '' ? [ d.feature_aliases ] : [],
+              aliases: d.feature_aliases !== '' ?  d.feature_aliases.split(',') : [],
               coordinates: { start: d.feature_start, stop: d.feature_stop }
             })
           );
