@@ -15,7 +15,7 @@ import {QtlTrack} from '../../canvas/layout/QtlTrack';
 import {Popover} from '../menus/Popover';
 import {FeatureMenu} from '../menus/FeatureMenu';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
-import {TitleComponent} from './components/titleComponent';
+import {TitleComponent} from './components/TitleComponent';
 import {BioMapComponent as BioMapVnode} from './components/BioMapComponent';
 
 
@@ -91,50 +91,15 @@ export class HorizontalLayout
 
 	_layoutSwapComponents(){
 		this.swapComponents = [];
-    let n = this.bioMapComponents.length;
+    let sc = Array(this.bioMapComponents.length).fill().map((e,i)=>i);
+    console.log('test oi',sc);
 		let maps = this;
-    //for (var i = 0; i < n; i++) {
-		//	let bMap = this.bioMapComponents[i];
-		//	const b = i;
-		//	let left ='',right='';
-		//	if(b>0){
-		//		left = m('div', {class:'swap-map-order', onclick: function() {
-    //      if(b > 0){
-		//				const tmp = maps.appState.bioMaps[b-1];
-		//				maps.appState.bioMaps[b-1] = maps.appState.bioMaps[b];
-		//				maps.appState.bioMaps[b] = tmp;
-		//				maps._onDataLoaded();
-		//			}
-    //    }
-    //    },'<');
-		//	} else {
-		//		left = m('div', {class:'swap-map-order',style:'background:#ccc;'},'<');
-    //  }
-
-		//	if(b< n-1){
-		//			right = m('div', {class:'swap-map-order', onclick: function() {
-		//				if(b < n-1){
-		//					const tmp = maps.appState.bioMaps[b];
-		//					maps.appState.bioMaps[b] = maps.appState.bioMaps[b+1];
-		//					maps.appState.bioMaps[b+1] = tmp;
-		//					maps._onDataLoaded();
-    //        }
-    //      }},'>');
-    //  } else {
-    //    right = m('div', {class:'swap-map-order',style:'background:#ccc;'},'>');
-    //  }
-	
-    //  console.log('swap comp',bMap,bMap.p);
-		//	this.swapComponents.push( m('div', {
-    //    class: 'swap-div', id: `swap-${i}`,
-    //    style: `display:grid; position:relative; width:${bMap.domBounds.width}px; left: ${Math.floor(bMap.domBounds.left)}px;`},
-		//		[left,m('div',{class:'map-title',style:'display:inline-block;'}, [bMap.model.name,m('br'),bMap.model.source.id]), right]));
-		//}
     let cb = this.contentBounds;
     //let sc = this.swapComponents;
     let bmaps = this.bioMapComponents;
-    m.mount(document.getElementById('cmap-layout-titles'),{view: function(){ 
-      return bmaps.map((bmap,order)=>{return m(TitleComponent,{bioMaps:bmaps,order:order,contentBounds:cb})})
+    m.mount(document.getElementById('cmap-layout-titles'),{onupdate:function(){ 
+      console.log("update container",bmaps)},view: function(){ 
+      return bmaps.map((bmap,order)=>{return m(TitleComponent,{bioMaps:bmaps,order:order,titleOrder:sc,contentBounds:cb})})
     }});
 		
 	}
