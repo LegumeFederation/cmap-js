@@ -93,9 +93,9 @@ export let TitleComponent = {
       this.vnode.zIndex =  0; 
       this.dirty = true;
       this.left = 0;
-      const tmp = this.bioMaps[0]
-      this.bioMaps[0] = this.bioMaps[1];
-      this.bioMaps[1] = tmp;
+      //const tmp = this.bioMaps[0]
+      //this.bioMaps[0] = this.bioMaps[1];
+      //this.bioMaps[1] = tmp;
       m.redraw();
       return;
     }
