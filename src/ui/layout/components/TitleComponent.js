@@ -51,11 +51,14 @@ export let TitleComponent = {
    //  vnode.state.order = vnode.state.titleOrder[vnode.state.order];
    //}
    if (vnode.state.left != dispOffset){
+          console.log("onupdate title: o, do, l,lb, rb, dbl, cbl, dbr, cb", this.order,this.domOrder, this.left, this.leftBound, this.rightBound, vnode.state.bioMaps[vnode.state.order].domBounds.left,vnode.state.contentBounds.left, vnode.state.bioMaps[vnode.state.order].domBounds.right, dispOffset);
       vnode.state.bioMaps[vnode.state.order].domBounds.left += vnode.state.left - dispOffset;
       vnode.state.bioMaps[vnode.state.order].domBounds.right += vnode.state.left - dispOffset;
+      this.left = this.leftBound;
       this.rightBound = this.leftBound + vnode.state.bioMaps[vnode.state.order].domBounds.width;
     //console.log("onupdate title offset post: o, do, lb, rb", this.order,this.domOrder, this.leftBound, this.rightBound,dispOffset);
       this.dirty=true;
+          console.log("onupdate  post title: o, do, l,lb, rb, dbl, dbr, cb", this.order,this.domOrder, this.left, this.leftBound, this.rightBound, vnode.state.bioMaps[vnode.state.order].domBounds.left,vnode.state.contentBounds.left, vnode.state.bioMaps[vnode.state.order].domBounds.right, dispOffset);
     }
     if(this.dirty){
       this.dirty=false;
@@ -93,6 +96,7 @@ export let TitleComponent = {
       this.vnode.zIndex =  0; 
       this.dirty = true;
       this.left = 0;
+      this.lastPanEvent = null;
       //const tmp = this.bioMaps[0]
       //this.bioMaps[0] = this.bioMaps[1];
       //this.bioMaps[1] = tmp;
