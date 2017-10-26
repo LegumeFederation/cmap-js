@@ -31,7 +31,7 @@ export class UploadDialog {
     let sources = [];
     let uploadedMaps = [];
 
-    this.selection.url = UploadData.loc;
+    this.selection.url = UploadData.file !== '' ? UploadData.file : UploadData.loc;
     let cfg = [this.selection];
     
     let promises = cfg.map( cfg => {
@@ -46,7 +46,7 @@ export class UploadDialog {
       sources.map( src => Object.values(this.selection.bioMaps)).concatAll().forEach( map => {
         uploadedMaps.forEach( upMap => {
           if(upMap.name === map.name){
-            upMap.features.forEach( feature => feature.tags = ["Uploaded"])
+            upMap.features.forEach( feature => feature.tags = ["Uploaded"].concat(feature.tags))
             map.features = map.features.concat(upMap.features);
             map.tags.push("Uploaded");
           }
@@ -83,14 +83,16 @@ export class UploadDialog {
     const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
       m('h5', 'Add Map'),
+      m('p', 'Currently only one file may be added at a time. If both a URL and a local file are provided, preference will be given to the local file.'),
       m('form', [
         m('table.u-full-width', [
-          m('thead',
-            m('tr', [ m('th', 'Data Source'), m('th',m("input[type=text]", {oninput: m.withAttr("value", UploadData.setLoc), value: UploadData.loc, style:'width:60%;'})) ])
+          m('thead',[
+            m('tr', [ m('th', 'URL'), m('th',m("input[type=text]", {oninput: m.withAttr("value", UploadData.setLoc), value: UploadData.loc, style:'width:60%;'}))])
+             ,m('tr',[m('th','Local File'),m('th',m("input[type=file]", {onchange: m.withAttr("files", UploadData.setFile), file: UploadData.files}))])] 
           ),
           m('tbody',
               m('tr', [
-                m('td', "Available Maps"),
+                m('td', "Target Map Set"),
                 m('td', this.model.sources.map( map => {
                     return m('label', [
                       m('input[type="radio"]', {
@@ -126,8 +128,19 @@ export class UploadDialog {
 
 let UploadData = {
   loc: "",
+  file: "",
   setLoc: function(value){
     UploadData.loc = value;
+  },
+  setFile: function(files){
+    console.log("onDataAdd",files);
+      var reader = new FileReader();
+      reader.onload = function(e){
+        UploadData.file = e.target.result;
+      };
+      reader.readAsDataURL(files[0]);
+      console.log("onDataAdd test");
+
   }
 }
 
