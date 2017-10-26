@@ -20,7 +20,6 @@ export let TitleComponent = {
     vnode.state.rightBound = vnode.state.bioMaps[vnode.state.order].domBounds.right;
     vnode.state.leftStart = vnode.state.bioMaps[vnode.state.order].domBounds.left;
     vnode.state.panEnd = false;
-    vnode.state.pan = vnode.state.bioMaps[vnode.state.order].pan = false;
     vnode.state._gestureRegex = {
       pan: new RegExp('^pan')
     };
@@ -107,6 +106,7 @@ export let TitleComponent = {
       this.left = 0;
       this.lastPanEvent = null;
       this.panEnd = true;
+      this.pan[0] = true;
       m.redraw();
       return;
     }

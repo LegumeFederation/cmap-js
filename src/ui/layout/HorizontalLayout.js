@@ -47,7 +47,7 @@ export class HorizontalLayout
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
       PubSub.subscribe(reset,() => { this._onReset();}),
-      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();})
+//      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();})
     ];
   }
 
@@ -83,9 +83,9 @@ export class HorizontalLayout
   _onDataLoaded() {
     this._layoutBioMaps();
     this._layoutSwapComponents();
-    this._layoutFeatureControls();
+    //this._layoutFeatureControls();
     this._layoutCorrespondenceMaps();
-    this._layoutPopovers();
+   // this._layoutPopovers();
     m.redraw();
   }
 
@@ -97,9 +97,25 @@ export class HorizontalLayout
     let cb = this.contentBounds;
     //let sc = this.swapComponents;
     let bmaps = this.bioMapComponents;
+    let pan = [];
+    pan[0] = false;
     m.mount(document.getElementById('cmap-layout-titles'),{onupdate:function(){ 
-      console.log("update container",bmaps)},view: function(){ 
-      return bmaps.map((bmap,order)=>{return m(TitleComponent,{bioMaps:bmaps,order:order,titleOrder:sc,contentBounds:cb})})
+        console.log("titleUpdate", bmaps,sc,pan[0]);
+        if(pan[0]){
+          console.log("appState bio pre", maps.appState.bioMaps, maps.bioMapComponents);
+          let target = maps.appState.bioMaps.slice();
+          for(let i=0; i< sc.length; i++){
+            maps.appState.bioMaps[i] = target[sc[i]];
+          }
+          console.log("appState bio post", maps.appState.bioMaps, maps.bioMapComponents);
+          pan[0] = false;
+          m.redraw();
+          maps._layoutBioMaps();
+          maps._layoutCorrespondenceMaps();
+          console.log("update test bmaps",bmaps);
+        }
+      },view: function(){ 
+      return bmaps.map((bmap,order)=>{return m(TitleComponent,{bioMaps:bmaps,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
     }});
 		
 	}
@@ -151,6 +167,7 @@ export class HorizontalLayout
    * Horizonal (left to right) layout of BioMaps
    */
   _layoutBioMaps() {
+    console.log('appState',this.appState.bioMaps);
     if(! this.bounds) return []; // early out if the layout bounds is unknown
     let n = this.appState.bioMaps.length;
     let padding = Math.floor(this.bounds.width * 0.1 / n);
