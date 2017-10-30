@@ -117,19 +117,21 @@ export class  MapTrack extends SceneGraphNodeTrack {
     let labels = [];
     let start = visc.start;
     let stop = visc.stop;
-		let psf = this.labelGroup.children[0].pixelScaleFactor;
+    let psf = this.model.view.pixelScaleFactor;
     let step =((visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start) - (coord.start*-1);
-    for(let i = start; i < stop; i+=step){
-     
-     let item =  knn( this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left,i,1)[0];
-     if(labels.length === 0){
-       labels.push(item);
-       continue;
-     }
-     let last = labels[labels.length-1];
-     if(item != last && (item.minY > (last.maxY + step))){
-       labels.push(item);
-     }
+    if(this.labelGroup.children.length > 0){
+      for(let i = start; i < stop; i+=step){
+       
+       let item =  knn( this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left,i,1)[0];
+       if(labels.length === 0){
+         labels.push(item);
+         continue;
+       }
+       let last = labels[labels.length-1];
+       if(item != last && (item.minY > (last.maxY + step))){
+         labels.push(item);
+       }
+      }
     }
     vis = vis.concat(labels);
     //vis = vis.concat([{data:this}]);
