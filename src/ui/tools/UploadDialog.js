@@ -34,9 +34,15 @@ export class UploadDialog {
     let uploadedMaps = [];
     let match = [];
     if(!this.selection){
-      this.selection = JSON.parse(JSON.stringify(this.model.sources[0]));
-      this.selection.parseResult.data = [];
-      this.selection.id = UploadData.newName;
+      this.selection = {
+        id: UploadData.newName,
+        filters:[],
+        linkouts:[],
+        method:'GET',
+        url: UploadData.file !== '' ? UploadData.file: UploadData.loc,
+        config:{},
+        parseResult: {data:[]}
+      }
     }
 
     const oURL = this.selection.url;
