@@ -15,6 +15,7 @@ export class UploadDialog {
     this.onDismiss = vnode.attrs.onDismiss;
     UploadData.new = false;
     UploadData.setName('');
+    UploadData.file = '';
     this.selection = null;
   }
 
@@ -138,8 +139,9 @@ export class UploadDialog {
         ])
       ]),
       m('button', {
-          disabled: this.selection || UploadData.new ? false : true,
-          class: this.selection ? 'button-primary' : 'button',
+        //disabled unless a selection is made, or a new set is selected *and* there is a location or file state)
+        disabled: (this.selection || UploadData.new) && (UploadData.loc !=='' || UploadData.file !=='') ? false : true,
+          class: this.selection || UploadData.new ? 'button-primary' : 'button',
           onclick: evt => this._onAddData(evt)
         }, [
           m('i.material-icons', 'input'),
