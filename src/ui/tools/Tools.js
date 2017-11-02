@@ -6,10 +6,11 @@ import m from 'mithril';
 import {ResetButton} from './ResetButton';
 import {RemoveMapButton} from './RemoveMapButton';
 import {AddMapButton} from './AddMapButton';
+import {UploadButton} from './UploadButton';
 //import {FilterButton} from './FilterButton';
 import {MapRemovalDialog} from './MapRemovalDialog';
 import {MapAdditionDialog} from './MapAdditionDialog';
-
+import {UploadDialog} from './UploadDialog';
 
 export class Tools  {
 
@@ -36,6 +37,9 @@ export class Tools  {
         }),
         m(RemoveMapButton, {
           onclick: () => this.currentDialog = MapRemovalDialog
+        }),
+        m(UploadButton, {
+          onclick: () => this.currentDialog = UploadDialog
         })
       ]),
       this.currentDialog && m(this.currentDialog, {
