@@ -38,6 +38,7 @@ export class HorizontalLayout
 		this.swapComponents=[];
     this.featureControls=[];
     this.modal=[];
+    this.bioMapOrder = [];
     this.test = 0;
     const handler = () => this._onDataLoaded();
     this.subscriptions = [
@@ -47,7 +48,7 @@ export class HorizontalLayout
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
       PubSub.subscribe(reset,() => { this._onReset();}),
-//      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();})
+      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();})
     ];
   }
 
@@ -68,9 +69,11 @@ export class HorizontalLayout
    */
   view(vnode) {
     //m.mount(document.getElementById('cmap-layout-titles'),null);
+    let mo = this.bioMapOrder.map(i => {return this.bioMapComponents[i]});
+    console.log("testing butts", mo);
     return m('div.cmap-layout-horizontal',
        [//this.swapComponents,
-       this.bioMapComponents.map(function(bioMap){return m(BioMapVnode,{bioMap:bioMap})}),this.featureControls,
+       this.bioMapOrder.map((i)=>{return m(BioMapVnode,{bioMap:this.bioMapComponents[i]})}),this.featureControls,
        //this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),
        this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
@@ -83,15 +86,15 @@ export class HorizontalLayout
   _onDataLoaded() {
     this._layoutBioMaps();
     this._layoutSwapComponents();
-    //this._layoutFeatureControls();
+    this._layoutFeatureControls();
     this._layoutCorrespondenceMaps();
-   // this._layoutPopovers();
+    this._layoutPopovers();
     m.redraw();
   }
 
 	_layoutSwapComponents(){
 		this.swapComponents = [];
-    let sc = Array(this.bioMapComponents.length).fill().map((e,i)=>i);
+    let sc = this.bioMapOrder;// Array(this.bioMapComponents.length).fill().map((e,i)=>i);
     console.log('test oi',sc);
 		let maps = this;
     let cb = this.contentBounds;
@@ -102,17 +105,11 @@ export class HorizontalLayout
     m.mount(document.getElementById('cmap-layout-titles'),{onupdate:function(){ 
         console.log("titleUpdate", bmaps,sc,pan[0]);
         if(pan[0]){
-          console.log("appState bio pre", maps.appState.bioMaps, maps.bioMapComponents);
-          let target = maps.appState.bioMaps.slice();
-          for(let i=0; i< sc.length; i++){
-            maps.appState.bioMaps[i] = target[sc[i]];
-          }
-          console.log("appState bio post", maps.appState.bioMaps, maps.bioMapComponents);
+          bmaps.forEach(comp => {comp.dirty = true})
           pan[0] = false;
           m.redraw();
-          maps._layoutBioMaps();
           maps._layoutCorrespondenceMaps();
-          console.log("update test bmaps",bmaps);
+          maps._layoutFeatureControls();
         }
       },view: function(){ 
       return bmaps.map((bmap,order)=>{return m(TitleComponent,{bioMaps:bmaps,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
@@ -175,6 +172,7 @@ export class HorizontalLayout
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let cursor = Math.floor(padding * 0.5);
     this.bioMapComponents = this.appState.bioMaps.map( (model,mapIndex) => {
+      this.bioMapOrder.push(mapIndex);
       let layoutBounds = new Bounds({
         left: cursor,
         top: 10,
@@ -248,17 +246,19 @@ export class HorizontalLayout
   }
   
   _onFeatureUpdate(msg,data){
-    this._layoutBioMaps();
-		this._layoutSwapComponents();
+    //this._layoutBioMaps();
+		//this._layoutSwapComponents();
     this._layoutFeatureControls();
     var rightShift = 0;
     this.appState.bioMaps.map( bmap => {
       bmap.component.lb.left = rightShift;
       bmap.component.domBounds.left = rightShift;
       rightShift += bmap.component.domBounds.width;
+      bmap.component.draw();
+      bmap.component.dirty = true;
     })
-    this._layoutCorrespondenceMaps();
-    this._layoutPopovers();
+   // this._layoutCorrespondenceMaps();
+   // this._layoutPopovers();
   }
 
 }

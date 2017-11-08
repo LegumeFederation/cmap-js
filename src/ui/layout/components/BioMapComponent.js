@@ -5,9 +5,6 @@
  */
 
 import m from 'mithril';
-
-import {mix} from '../../../../mixwith.js/src/mixwith';
-import {DrawLazilyMixin} from '../../../canvas/DrawLazilyMixin';
 import {Bounds} from '../../../model/Bounds';
 
 export class BioMapComponent {
@@ -33,8 +30,9 @@ export class BioMapComponent {
 
   onupdate(vnode){
     //redraw biomap if dirty (drawing has changed, instead of just changing position)
-    if(vnode.state.bioMap.dirty === true){
-      vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
+    //console.log("test",vnode.state,vnode.state.bioMap);
+    if(vnode.state.bioMap.dirty == true){
+     // vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
       vnode.state.bioMap.draw();
     }
   }
