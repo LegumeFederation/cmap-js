@@ -30,6 +30,7 @@ export let TitleComponent = {
     vnode.dom.mithrilComponent.handleGesture = vnode.tag.handleGesture;
     vnode.state._onPan = vnode.tag._onPan;
     vnode.state.bmap = vnode.state.bioMaps[vnode.state.domOrder];
+    console.log("pre testGubbins", vnode.state.order, vnode.state.bmap.domBounds.left,this.bmap.domBounds.width,this.bmap.domBounds.right);
     vnode.state.lastPanEvent = null;
     vnode.state.zIndex = 0;
     this.vnode = vnode;
@@ -49,23 +50,7 @@ export let TitleComponent = {
   },
   onupdate: function(vnode){
     let dispOffset = vnode.state.bioMaps[vnode.state.order].domBounds.left - vnode.state.leftStart;
-    if(this.order === 1) console.log("panTest dispOffset o dbl lb l do ", this.order,vnode.state.bioMaps[vnode.state.order].domBounds.left,vnode.state.leftBound,vnode.state.left,dispOffset);
     if (vnode.state.left != dispOffset){
-      //if(this.panEnd){ // snap maps to bounds after pan event has moved
-      //  const shift = vnode.state.left - dispOffset;
-      //  vnode.state.bioMaps[vnode.state.domOrder].domBounds.left += shift;
-      //  vnode.state.bioMaps[vnode.state.domOrder].domBounds.right += shift;
-      //  if( this.order < this.bioMaps.length-1){
-      //    const width = this.bioMaps[this.domOrder + 1].domBounds.width;
-      //    this.bioMaps[this.domOrder + 1].domBounds.left = this.bioMaps[this.domOrder].domBounds.right;
-      //    this.bioMaps[this.domOrder + 1].domBounds.right = this.bioMaps[this.domOrder].domBounds.right+width;
-      //  }
-      //  if( this.order > 0){
-      //    const width = this.bioMaps[this.domOrder - 1].domBounds.width;
-      //    this.bioMaps[this.domOrder - 1].domBounds.right = this.bioMaps[this.domOrder].domBounds.left;
-      //    this.bioMaps[this.domOrder - 1].domBounds.left = this.bioMaps[this.domOrder].domBounds.left - width;
-      //  }
-      //OA} else { // shift title after map moves
       this.left = dispOffset;
       this.dirty=true;
     }
@@ -148,8 +133,9 @@ export let TitleComponent = {
       console.log("panTest shift", this.domOrder, this.bioMaps.length,this.leftBound,shiftScale);
       this.bioMaps[this.order].domBounds.left += delta.x;
       this.bioMaps[this.order].domBounds.right += delta.x;
-      this.bioMaps[movedMap].domBounds.left -= delta.x*shiftScale;
-      this.bioMaps[movedMap].domBounds.right -= delta.x*shiftScale;
+      const mw = this.bioMaps[movedMap].domBounds.width;
+      this.bioMaps[movedMap].domBounds.left -= Math.round(delta.x*shiftScale);
+      this.bioMaps[movedMap].domBounds.right = this.bioMaps[movedMap].domBounds.left + mw;
     } else {
       this.left -= delta.x;
     }

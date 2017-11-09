@@ -30,9 +30,8 @@ export class BioMapComponent {
 
   onupdate(vnode){
     //redraw biomap if dirty (drawing has changed, instead of just changing position)
-    //console.log("test",vnode.state,vnode.state.bioMap);
     if(vnode.state.bioMap.dirty == true){
-     // vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
+      vnode.state.context2d.clearRect(0,0,vnode.state.canvas.width,vnode.state.canvas.height);
       vnode.state.bioMap.draw();
     }
   }

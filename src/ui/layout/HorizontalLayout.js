@@ -109,13 +109,16 @@ export class HorizontalLayout
           bmaps.forEach(comp => {comp.dirty = true})
           for(let i=0; i < bmaps.length-1; i++){
             let map = bmaps[sc.indexOf(i)];
+            const mapC = bmaps[sc.indexOf(i)].domBounds;
+            console.log("testinGubbins", i, mapC.left, mapC.width, mapC.right);
             const mw = map.domBounds.width;
             map.domBounds.left = left;
-            map.domBounds.width =  mw;
-            left += mw;
+            map.domBounds.right = left+ mw;
+            left = map.domBounds.right;
+            console.log("testinGubbins post", i, mapC.left, mapC.width, mapC.right);
+            map.dirty = true;
           }
           pan[0] = false;
-          m.redraw();
           maps._layoutCorrespondenceMaps();
           maps._layoutFeatureControls();
         }
