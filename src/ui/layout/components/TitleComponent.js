@@ -67,9 +67,6 @@ export let TitleComponent = {
       //  }
       //OA} else { // shift title after map moves
       this.left = dispOffset;
-      //}
-      m.redraw();
-
       this.dirty=true;
     }
     if(this.dirty){ // trigger redraw on changed canvas that has possibly edited bounds in process of view layout
@@ -114,6 +111,8 @@ export let TitleComponent = {
     let swapPosition = this.left + this.leftStart;
     const leftMap = this.titleOrder.indexOf(this.domOrder-1);
     const rightMap = this.titleOrder.indexOf(this.domOrder +1);
+    let leftWidth = leftMap > -1 ? this.bioMaps[leftMap].domBounds.width : 0;
+    let rightWidth = rightMap > -1 ? this.bioMaps[rightMap].domBounds.width : 0;
     console.log("pantest base",this.order,this.domOrder,leftMap,rightMap,this.left,this.leftBound,this.rightBound,swapPosition,this.titleOrder);
     let delta = {};
     if(this.lastPanEvent) {
@@ -128,13 +127,13 @@ export let TitleComponent = {
         leftEdge -= this.bioMaps[leftMap].domBounds.width;
       }
 
-    if( this.domOrder < this.bioMaps.length-1 && swapPosition > this.rightBound){ // && this.left >= this.bioMaps[this.order].domBounds.width){
+    if( this.domOrder < this.bioMaps.length-1 && swapPosition > this.leftBound+rightWidth){ // && this.left >= this.bioMaps[this.order].domBounds.width){
     
       console.log("pantest swapping pre R", this.domOrder, rightMap);
       this.titleOrder[this.order] ++;
       this.titleOrder[rightMap] --;
     
-    } else if( this.domOrder > 0 && swapPosition < this.leftBound - leftEdge){
+    } else if( this.domOrder > 0 && swapPosition < this.leftBound - leftWidth){
     
       this.titleOrder[this.order] --;
       this.titleOrder[leftMap] ++;
@@ -152,8 +151,7 @@ export let TitleComponent = {
       this.bioMaps[movedMap].domBounds.left -= delta.x*shiftScale;
       this.bioMaps[movedMap].domBounds.right -= delta.x*shiftScale;
     } else {
-        this.left -= delta.x;
-      console.log("pantest other",this.domOrder, this.left, this.leftBound, this.rightBound);      
+      this.left -= delta.x;
     }
 
     this.lastPanEvent = evt;

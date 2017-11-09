@@ -105,7 +105,15 @@ export class HorizontalLayout
     m.mount(document.getElementById('cmap-layout-titles'),{onupdate:function(){ 
         console.log("titleUpdate", bmaps,sc,pan[0]);
         if(pan[0]){
+          let left = 0;
           bmaps.forEach(comp => {comp.dirty = true})
+          for(let i=0; i < bmaps.length-1; i++){
+            let map = bmaps[sc.indexOf(i)];
+            const mw = map.domBounds.width;
+            map.domBounds.left = left;
+            map.domBounds.width =  mw;
+            left += mw;
+          }
           pan[0] = false;
           m.redraw();
           maps._layoutCorrespondenceMaps();
