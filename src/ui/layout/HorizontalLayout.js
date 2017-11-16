@@ -6,7 +6,7 @@ import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, mapAdded, mapRemoved, reset, featureUpdate} from '../../topics';
+import {dataLoaded, mapAdded, mapRemoved, mapReorder, reset, featureUpdate} from '../../topics';
 import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/layout/BioMap';
@@ -48,7 +48,8 @@ export class HorizontalLayout
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
       PubSub.subscribe(reset,() => { this._onReset();}),
-      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();})
+      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();}),
+      PubSub.subscribe(mapReorder, ()=>{this._onReorder()})
     ];
   }
 
@@ -73,7 +74,9 @@ export class HorizontalLayout
     console.log("testing butts", mo);
     return m('div.cmap-layout-horizontal',
        [//this.swapComponents,
-       this.bioMapOrder.map((i)=>{return m(BioMapVnode,{bioMap:this.bioMapComponents[i]})}),this.featureControls,
+       this.bioMapOrder.map((i)=>{
+         console.log("onLayout bmaps", i, this.bioMapComponents[i]);
+         return m(BioMapVnode,{bioMap:this.bioMapComponents[i]})}),this.featureControls,
        //this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),
        this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover =>{ return m(popover,{info:popover.info, domBounds:popover.domBounds});})]
@@ -91,39 +94,39 @@ export class HorizontalLayout
     this._layoutPopovers();
     m.redraw();
   }
+  _onReorder(){
+    console.log("onLayout Reorder",this.bioMapOrder);
+    let left = 0;
+    let bmaps = this.bioMapComponents
+    let sc = this.bioMapOrder;
+    bmaps.forEach(comp => {comp.dirty = true})
+    for(let i=0; i < bmaps.length; i++){
+      let map = bmaps[sc[i]];
+      const mapC = bmaps[sc[i]].domBounds;
+      const mw = map.domBounds.width;
+      map.domBounds.left = left;
+      map.domBounds.right = left+ mw;
+      left = map.domBounds.right;
+    }
+    this._layoutCorrespondenceMaps();
+    this._layoutFeatureControls();
+    m.mount(document.getElementById('cmap-layout-titles'),null);
+    m.redraw();
+    this._layoutSwapComponents();
+  }
 
 	_layoutSwapComponents(){
+    console.log("onLayout",this.bioMapOrder);
 		this.swapComponents = [];
-    let sc = this.bioMapOrder;// Array(this.bioMapComponents.length).fill().map((e,i)=>i);
-    console.log('test oi',sc);
+    let sc = this.bioMapOrder;
 		let maps = this;
     let cb = this.contentBounds;
-    //let sc = this.swapComponents;
     let bmaps = this.bioMapComponents;
     let pan = [];
     pan[0] = false;
-    m.mount(document.getElementById('cmap-layout-titles'),{onupdate:function(){ 
-        console.log("titleUpdate", bmaps,sc,pan[0]);
-        if(pan[0]){
-          let left = 0;
-          bmaps.forEach(comp => {comp.dirty = true})
-          for(let i=0; i < bmaps.length-1; i++){
-            let map = bmaps[sc.indexOf(i)];
-            const mapC = bmaps[sc.indexOf(i)].domBounds;
-            console.log("testinGubbins", i, mapC.left, mapC.width, mapC.right);
-            const mw = map.domBounds.width;
-            map.domBounds.left = left;
-            map.domBounds.right = left+ mw;
-            left = map.domBounds.right;
-            console.log("testinGubbins post", i, mapC.left, mapC.width, mapC.right);
-            map.dirty = true;
-          }
-          pan[0] = false;
-          maps._layoutCorrespondenceMaps();
-          maps._layoutFeatureControls();
-        }
-      },view: function(){ 
-      return bmaps.map((bmap,order)=>{return m(TitleComponent,{bioMaps:bmaps,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
+    m.mount(document.getElementById('cmap-layout-titles'),{ 
+      view: function(){ 
+      return sc.map((order)=>{console.log("onLayout comp", order, bmaps[order].model.name); return m(TitleComponent,{bioMaps:bmaps,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
     }});
 		
 	}

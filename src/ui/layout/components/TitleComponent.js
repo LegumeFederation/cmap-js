@@ -5,21 +5,24 @@
  */
 
 import m from 'mithril';
+import PubSub from 'pubsub-js';
+import {mapReorder} from '../../../topics.js';
 
-import {mix} from '../../../../mixwith.js/src/mixwith';
-import {DrawLazilyMixin} from '../../../canvas/DrawLazilyMixin';
-import {Bounds} from '../../../model/Bounds';
+//import {mix} from '../../../../mixwith.js/src/mixwith';
+//import {DrawLazilyMixin} from '../../../canvas/DrawLazilyMixin';
+//import {Bounds} from '../../../model/Bounds';
 
 export let TitleComponent = {
   oninit: function(vnode){
     vnode.state = vnode.attrs;
     vnode.state.left = 0;
     vnode.state.dirty = false;
-    vnode.state.domOrder = vnode.state.titleOrder[vnode.state.order];
+    vnode.state.domOrder = vnode.state.titleOrder.indexOf(vnode.state.order);
     vnode.state.leftBound = vnode.state.bioMaps[vnode.state.order].domBounds.left;
     vnode.state.rightBound = vnode.state.bioMaps[vnode.state.order].domBounds.right;
     vnode.state.leftStart = vnode.state.bioMaps[vnode.state.order].domBounds.left;
     vnode.state.panEnd = false;
+    vnode.state.swap = true;
     vnode.state._gestureRegex = {
       pan: new RegExp('^pan')
     };
@@ -36,6 +39,7 @@ export let TitleComponent = {
     this.vnode = vnode;
   },
   onbeforeupdate: function(vnode){
+    if(this.order != this.domOrder){console.log("order eater",this.order, this.domOrder)};
     if(this.titleOrder[this.order] != this.domOrder){
       if(this.titleOrder[this.order] > this.domOrder){
         console.log("swapTest Right",this.order,this.domOrder,this.leftBound, this.bioMaps[this.titleOrder.indexOf(this.domOrder+1)].domBounds.width);
@@ -50,10 +54,17 @@ export let TitleComponent = {
   },
   onupdate: function(vnode){
     let dispOffset = vnode.state.bioMaps[vnode.state.order].domBounds.left - vnode.state.leftStart;
-    if (vnode.state.left != dispOffset){
+    if (vnode.state.left != dispOffset && !vnode.state.swap){
       this.left = dispOffset;
       this.dirty=true;
     }
+    if( vnode.state.swap){
+     this.left = 0;
+      this.swap = false;
+      this.dirty = true;
+      this.left = 0;
+    }
+    if(vnode.state.order === 0 || vnode.state.order === 1){console.log('zero test', this.left);}
     if(this.dirty){ // trigger redraw on changed canvas that has possibly edited bounds in process of view layout
       this.dirty=false;
       m.redraw();
@@ -89,13 +100,14 @@ export let TitleComponent = {
       this.lastPanEvent = null;
       this.panEnd = true;
       this.pan[0] = true;
+      PubSub.publish("mapReorder");
       m.redraw();
       return;
     }
     
     let swapPosition = this.left + this.leftStart;
-    const leftMap = this.titleOrder.indexOf(this.domOrder-1);
-    const rightMap = this.titleOrder.indexOf(this.domOrder +1);
+    const leftMap = this.titleOrder[this.domOrder-1];
+    const rightMap = this.titleOrder[this.domOrder +1];
     let leftWidth = leftMap > -1 ? this.bioMaps[leftMap].domBounds.width : 0;
     let rightWidth = rightMap > -1 ? this.bioMaps[rightMap].domBounds.width : 0;
     console.log("pantest base",this.order,this.domOrder,leftMap,rightMap,this.left,this.leftBound,this.rightBound,swapPosition,this.titleOrder);
@@ -115,13 +127,17 @@ export let TitleComponent = {
     if( this.domOrder < this.bioMaps.length-1 && swapPosition > this.leftBound+rightWidth){ // && this.left >= this.bioMaps[this.order].domBounds.width){
     
       console.log("pantest swapping pre R", this.domOrder, rightMap);
-      this.titleOrder[this.order] ++;
-      this.titleOrder[rightMap] --;
-    
+      const swap = this.titleOrder[this.domOrder];
+      this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder+1];
+      this.titleOrder[this.domOrder+1] = swap;
+
     } else if( this.domOrder > 0 && swapPosition < this.leftBound - leftWidth){
+      const swap = this.titleOrder[this.domOrder];
+      this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder-1];
+      this.titleOrder[this.domOrder-1] = swap;
     
-      this.titleOrder[this.order] --;
-      this.titleOrder[leftMap] ++;
+      //this.titleOrder[this.order] --;
+      //this.titleOrder[leftMap] ++;
     
     } else if(!(this.domOrder === 0 && this.left < this.leftBound)&&!(this.domOrder === this.bioMaps.length-1 && this.left+this.leftStart > this.leftBound)){
 //      console.log("panTest shift", this.domOrder, this.bioMaps.length, this.left+this.startLeft, this.leftBound);
