@@ -34,9 +34,8 @@ export let TitleComponent = {
 
   onbeforeupdate: function(vnode){
     vnode.state.bioMaps = vnode.attrs.bioMaps;
-    if(this.titleOrder[this.order] != this.domOrder){console.log("order eater",this.order, this.domOrder)};
     if(this.titleOrder[this.domOrder] != this.order){
-      this.domOrder = this.titleOrder[this.domOrder];
+      this.domOrder = this.titleOrder.indexOf(this.order);
     }
   },
 
@@ -52,7 +51,6 @@ export let TitleComponent = {
       this.dirty = true;
       this.left = 0;
     }
-    if(vnode.state.order === 0 || vnode.state.order === 1){console.log('zero test', this.left);}
     if(this.dirty){ // trigger redraw on changed canvas that has possibly edited bounds in process of view layout
       this.dirty=false;
       m.redraw();
@@ -81,7 +79,6 @@ export let TitleComponent = {
 
   _onPan: function(evt){
     //Start pan move zIndex up to prevent interrupting pan early
-    console.log('swap pan');
     if(evt.type === 'panstart'){
       this.vnode.state.zIndex = 1000; 
       this.lastPanEvent = null;
@@ -89,6 +86,7 @@ export let TitleComponent = {
     }
     //End pan to set rerrangement
     if(evt.type === 'panend') {
+      this.vnode.state.zIndex = 0; 
       PubSub.publish(mapReorder,null);
       return;
     }
@@ -106,29 +104,28 @@ export let TitleComponent = {
     //Setup maps and swap points
     let selLeftEdge = this.left + this.leftStart;
     let selRightEdge = selLeftEdge + this.bioMaps[this.order].domBounds.width;
-    const leftMap = this.domOrder > 0 ? this.titleOrder[this.domOrder-1] : -1;
-    const rightMap = this.titleOrder[this.domOrder+1] ? this.titleOrder[this.domOrder+1]: -1;
-    const leftSwapBound = leftMap !== -1 ? this.leftBound - this.bioMaps[leftMap].domBounds.width : null;
-    const rightSwapBound = rightMap !== -1 ? this.leftBound + this.bioMaps[rightMap].domBounds.width : null;
+    const leftMap = this.domOrder > 0 ? this.titleOrder[this.domOrder-1] : null;
+    const rightMap = this.titleOrder[this.domOrder+1] > -1 ? this.titleOrder[this.domOrder+1]: null;
+    const leftSwapBound = leftMap ? this.leftBound - this.bioMaps[leftMap].domBounds.width : null;
+    const rightSwapBound = rightMap ? this.leftBound + this.bioMaps[rightMap].domBounds.width : null;
  
-    if(leftMap !== -1 && selLeftEdge < leftSwapBound){ // Swap Left
+    if(leftMap  && selLeftEdge < leftSwapBound){ // Swap Left
       this.leftBound -= this.bioMaps[leftMap].domBounds.width;
       this.rightBound -= this.bioMaps[leftMap].domBounds.width;
       
       this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder-1];//= this.titleOrder[rightMap];
       this.titleOrder[this.domOrder -1] = this.order;
-      //const swap = this.titleOrder[this.domOrder];
-      //this.titleOrder[this.domOrder] = this.titleOrder[leftMap];
-      //this.titleOrder[leftMap] = swap;
+      this.domOrder = this.titleOrder[this.domOrder];
 
-    } else if(rightMap !== -1 && selLeftEdge > rightSwapBound){ // Swap Right
+    } else if(rightMap  && selLeftEdge > rightSwapBound){ // Swap Right
       this.leftBound += this.bioMaps[rightMap].domBounds.width;
       this.rightBound += this.bioMaps[rightMap].domBounds.width;
       
       this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder+1];//= this.titleOrder[rightMap];
       this.titleOrder[this.domOrder +1] =this.order;
+      this.domOrder = this.titleOrder[this.domOrder];
     
-    } else if (!(leftMap === -1 && selLeftEdge <= 0) && !(rightMap === -1 && selLeftEdge > this.leftBound) ) { //Move current map and its left/right partner
+    } else if (!(!leftMap && selLeftEdge <= 0) && !(!rightMap && selLeftEdge > this.leftBound) ) { //Move current map and its left/right partner
     
       var movedMap = rightMap;
       
@@ -144,9 +141,7 @@ export let TitleComponent = {
       this.bioMaps[movedMap].domBounds.right = this.bioMaps[movedMap].domBounds.left + mw;
     
     } else { // edge case don't move map
-    
       this.left -= delta.x;
-    
     }
 
     this.lastPanEvent = evt;

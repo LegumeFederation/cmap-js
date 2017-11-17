@@ -71,11 +71,9 @@ export class HorizontalLayout
   view(vnode) {
     //m.mount(document.getElementById('cmap-layout-titles'),null);
     let mo = this.bioMapOrder.map(i => {return this.bioMapComponents[i]});
-    console.log("testing butts", mo);
     return m('div.cmap-layout-horizontal',
        [//this.swapComponents,
        this.bioMapOrder.map((i)=>{
-         console.log("onLayout bmaps", i, this.bioMapComponents[i]);
          return m(BioMapVnode,{bioMap:this.bioMapComponents[i]})}),this.featureControls,
        //this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),
        this.correspondenceMapComponents.map(m),
@@ -95,7 +93,6 @@ export class HorizontalLayout
     m.redraw();
   }
   _onReorder(){
-    console.log("onLayout Reorder",this.bioMapOrder);
     let left = 0;
     let bmaps = this.bioMapComponents
     let sc = this.bioMapOrder;
@@ -116,7 +113,6 @@ export class HorizontalLayout
   }
 
 	_layoutSwapComponents(){
-    console.log("onLayout",this.bioMapOrder);
 		this.swapComponents = [];
     let sc = this.bioMapOrder;
 		let maps = this;
@@ -126,7 +122,7 @@ export class HorizontalLayout
     pan[0] = false;
     m.mount(document.getElementById('cmap-layout-titles'),{ 
       view: function(){ 
-      return sc.map((order)=>{console.log("onLayout comp", order, bmaps[order].model.name); return m(TitleComponent,{bioMaps:maps.bioMapComponents,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
+      return sc.map((order)=>{return m(TitleComponent,{bioMaps:maps.bioMapComponents,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
     }});
 		
 	}
@@ -178,7 +174,6 @@ export class HorizontalLayout
    * Horizonal (left to right) layout of BioMaps
    */
   _layoutBioMaps() {
-    console.log('appState',this.appState.bioMaps);
     if(! this.bounds) return []; // early out if the layout bounds is unknown
     let n = this.appState.bioMaps.length;
     let padding = Math.floor(this.bounds.width * 0.1 / n);
