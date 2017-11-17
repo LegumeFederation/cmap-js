@@ -7,6 +7,8 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
+import {mapReorder} from '../../../topics';
+
 export let TitleComponent = {
   oninit: function(vnode){
     vnode.state = vnode.attrs;
@@ -33,15 +35,8 @@ export let TitleComponent = {
   onbeforeupdate: function(vnode){
     vnode.state.bioMaps = vnode.attrs.bioMaps;
     if(this.titleOrder[this.order] != this.domOrder){console.log("order eater",this.order, this.domOrder)};
-    if(this.titleOrder[this.order] != this.domOrder){
-      if(this.titleOrder[this.order] > this.domOrder){
-        this.leftBound += this.bioMaps[this.titleOrder.indexOf(this.domOrder+1)].domBounds.width;
-        this.rightBound += this.bioMaps[this.titleOrder.indexOf(this.domOrder+1)].domBounds.width;
-      } else {
-        this.leftBound -= this.bioMaps[this.titleOrder.indexOf(this.domOrder-1)].domBounds.width;
-        this.rightBound -= this.bioMaps[this.titleOrder.indexOf(this.domOrder-1)].domBounds.width;
-      }
-      this.domOrder = this.titleOrder[this.order];
+    if(this.titleOrder[this.domOrder] != this.order){
+      this.domOrder = this.titleOrder[this.domOrder];
     }
   },
 
@@ -85,28 +80,21 @@ export let TitleComponent = {
   },
 
   _onPan: function(evt){
+    //Start pan move zIndex up to prevent interrupting pan early
+    console.log('swap pan');
     if(evt.type === 'panstart'){
       this.vnode.state.zIndex = 1000; 
+      this.lastPanEvent = null;
       this.left = 0;
     }
+    //End pan to set rerrangement
     if(evt.type === 'panend') {
-      this.vnode.zIndex =  0; 
-      this.dirty = true;
-      this.left = 0;
-      this.lastPanEvent = null;
-      this.panEnd = true;
-      this.pan[0] = true;
-      PubSub.publish("mapReorder");
-      m.redraw();
+      PubSub.publish(mapReorder,null);
       return;
     }
-    
-    let swapPosition = this.left + this.leftStart;
-    const leftMap = this.titleOrder.indexOf(this.domOrder-1);
-    const rightMap = this.titleOrder.indexOf(this.domOrder+1);
-    let leftWidth = leftMap > -1 ? this.bioMaps[leftMap].domBounds.width : 0;
-    let rightWidth = rightMap > -1 ? this.bioMaps[rightMap].domBounds.width : 0;
-    console.log("pantest base",this.order,this.domOrder,leftMap,rightMap,this.left,this.leftBound,this.rightBound,swapPosition,this.titleOrder);
+
+    //Pan the title
+    //Calculate map movement
     let delta = {};
     if(this.lastPanEvent) {
       delta.x = -1 * (this.lastPanEvent.deltaX - evt.deltaX);
@@ -114,42 +102,51 @@ export let TitleComponent = {
        delta.x = Math.round(evt.deltaX);
     }
     this.left += delta.x
-      console.log("pantest other",this.domOrder, this.left, this.leftBound, this.rightBound);      
-      let leftEdge = this.leftBound;
-      if(this.domOrder > 0){
-        leftEdge -= this.bioMaps[leftMap].domBounds.width;
+    
+    //Setup maps and swap points
+    let selLeftEdge = this.left + this.leftStart;
+    let selRightEdge = selLeftEdge + this.bioMaps[this.order].domBounds.width;
+    const leftMap = this.domOrder > 0 ? this.titleOrder[this.domOrder-1] : -1;
+    const rightMap = this.titleOrder[this.domOrder+1] ? this.titleOrder[this.domOrder+1]: -1;
+    const leftSwapBound = leftMap !== -1 ? this.leftBound - this.bioMaps[leftMap].domBounds.width : null;
+    const rightSwapBound = rightMap !== -1 ? this.leftBound + this.bioMaps[rightMap].domBounds.width : null;
+ 
+    if(leftMap !== -1 && selLeftEdge < leftSwapBound){ // Swap Left
+      this.leftBound -= this.bioMaps[leftMap].domBounds.width;
+      this.rightBound -= this.bioMaps[leftMap].domBounds.width;
+      
+      this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder-1];//= this.titleOrder[rightMap];
+      this.titleOrder[this.domOrder -1] = this.order;
+      //const swap = this.titleOrder[this.domOrder];
+      //this.titleOrder[this.domOrder] = this.titleOrder[leftMap];
+      //this.titleOrder[leftMap] = swap;
+
+    } else if(rightMap !== -1 && selLeftEdge > rightSwapBound){ // Swap Right
+      this.leftBound += this.bioMaps[rightMap].domBounds.width;
+      this.rightBound += this.bioMaps[rightMap].domBounds.width;
+      
+      this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder+1];//= this.titleOrder[rightMap];
+      this.titleOrder[this.domOrder +1] =this.order;
+    
+    } else if (!(leftMap === -1 && selLeftEdge <= 0) && !(rightMap === -1 && selLeftEdge > this.leftBound) ) { //Move current map and its left/right partner
+    
+      var movedMap = rightMap;
+      
+      if(selLeftEdge < this.leftBound || (selLeftEdge == this.leftBound && delta.x < 0)){
+         movedMap = leftMap;
       }
 
-    if( this.domOrder < this.bioMaps.length-1 && swapPosition > this.leftBound+rightWidth){ // && this.left >= this.bioMaps[this.order].domBounds.width){
-    
-      console.log("pantest swapping pre R", this.domOrder, rightMap);
-      const swap = this.titleOrder[this.domOrder];
-      this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder+1];
-      this.titleOrder[this.domOrder+1] = swap;
-
-    } else if( this.domOrder > 0 && swapPosition < this.leftBound - leftWidth){
-      const swap = this.titleOrder[this.domOrder];
-      this.titleOrder[this.domOrder] = this.titleOrder[this.domOrder-1];
-      this.titleOrder[this.domOrder-1] = swap;
-    
-      //this.titleOrder[this.order] --;
-      //this.titleOrder[leftMap] ++;
-    
-    } else if(!(this.domOrder === 0 && this.left < this.leftBound)&&!(this.domOrder === this.bioMaps.length-1 && this.left+this.leftStart > this.leftBound)){
-//      console.log("panTest shift", this.domOrder, this.bioMaps.length, this.left+this.startLeft, this.leftBound);
-      let movedMap = rightMap;
-      if(this.left + delta.x < 0){
-        movedMap = leftMap
-      }; 
       let shiftScale = this.bioMaps[this.order].domBounds.width/this.bioMaps[movedMap].domBounds.width;
-      console.log("panTest shift", this.domOrder, this.bioMaps.length,this.leftBound,shiftScale);
       this.bioMaps[this.order].domBounds.left += delta.x;
       this.bioMaps[this.order].domBounds.right += delta.x;
       const mw = this.bioMaps[movedMap].domBounds.width;
-      this.bioMaps[movedMap].domBounds.left -= Math.round(delta.x*shiftScale);
+      this.bioMaps[movedMap].domBounds.left -= delta.x*shiftScale;
       this.bioMaps[movedMap].domBounds.right = this.bioMaps[movedMap].domBounds.left + mw;
-    } else {
+    
+    } else { // edge case don't move map
+    
       this.left -= delta.x;
+    
     }
 
     this.lastPanEvent = evt;
