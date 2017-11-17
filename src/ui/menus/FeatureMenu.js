@@ -64,7 +64,7 @@ export class FeatureMenu {
     //Attach components to viewport, in general these are the close button (x in top
     //right), the acutal modal contents, and the apply/close/delete button bar
     let controls = [
-      m(_applyButton,{qtl:model.qtlGroups,track:trackGroups,order:order,reset:defaultSettings,newData:selected}),
+      m(_applyButton,{qtl:model.qtlGroups,track:trackGroups,order:order,reset:defaultSettings,newData:selected,mapIndex:model.component.bioMapIndex}),
       m(_cancelButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected})
 		];
     
@@ -99,7 +99,6 @@ export let _removeButton = {
 			onclick: 
         ()=>{
           vnode.attrs.qtl.splice(vnode.attrs.order,1);
-					PubSub.publish(featureUpdate,null);
 					m.redraw();
           closeModal();
         },
@@ -132,7 +131,8 @@ export let _applyButton = {
          });
 					let colors = vnode.attrs.track[order].trackColor;
 					vnode.attrs.qtl[order] = {filters: filters.slice(0), trackColor:colors.slice(0)};
-					PubSub.publish(featureUpdate,null);
+          //Let UI layout know which map to update
+					PubSub.publish(featureUpdate,{mapIndex:vnode.attrs.mapIndex});
 					m.redraw();
 					closeModal();
         }

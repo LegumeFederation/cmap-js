@@ -48,7 +48,7 @@ export class HorizontalLayout
       PubSub.subscribe(mapRemoved, handler),
       PubSub.subscribe(mapAdded, handler),
       PubSub.subscribe(reset,() => { this._onReset();}),
-      PubSub.subscribe(featureUpdate, ()=>{this._onFeatureUpdate();}),
+      PubSub.subscribe(featureUpdate, (msg,data)=>{this._onFeatureUpdate(data);}),
       PubSub.subscribe(mapReorder, ()=>{this._onReorder()})
     ];
   }
@@ -126,7 +126,7 @@ export class HorizontalLayout
     pan[0] = false;
     m.mount(document.getElementById('cmap-layout-titles'),{ 
       view: function(){ 
-      return sc.map((order)=>{console.log("onLayout comp", order, bmaps[order].model.name); return m(TitleComponent,{bioMaps:bmaps,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
+      return sc.map((order)=>{console.log("onLayout comp", order, bmaps[order].model.name); return m(TitleComponent,{bioMaps:maps.bioMapComponents,order:order,titleOrder:sc,contentBounds:cb,pan:pan})})
     }});
 		
 	}
@@ -259,20 +259,10 @@ export class HorizontalLayout
     m.redraw();
   }
   
-  _onFeatureUpdate(msg,data){
-    //this._layoutBioMaps();
-		//this._layoutSwapComponents();
-    this._layoutFeatureControls();
-    var rightShift = 0;
-    this.appState.bioMaps.map( bmap => {
-      bmap.component.lb.left = rightShift;
-      bmap.component.domBounds.left = rightShift;
-      rightShift += bmap.component.domBounds.width;
-      bmap.component.draw();
-      bmap.component.dirty = true;
-    })
-   // this._layoutCorrespondenceMaps();
-   // this._layoutPopovers();
+  _onFeatureUpdate(data){
+    this.bioMapComponents[data.mapIndex]._layout();
+    m.redraw();
+    this._onReorder();
   }
 
 }

@@ -6,43 +6,35 @@
 
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import {mapReorder} from '../../../topics.js';
-
-//import {mix} from '../../../../mixwith.js/src/mixwith';
-//import {DrawLazilyMixin} from '../../../canvas/DrawLazilyMixin';
-//import {Bounds} from '../../../model/Bounds';
 
 export let TitleComponent = {
   oninit: function(vnode){
     vnode.state = vnode.attrs;
     vnode.state.left = 0;
-    vnode.state.dirty = false;
     vnode.state.domOrder = vnode.state.titleOrder.indexOf(vnode.state.order);
     vnode.state.leftBound = vnode.state.bioMaps[vnode.state.order].domBounds.left;
     vnode.state.rightBound = vnode.state.bioMaps[vnode.state.order].domBounds.right;
     vnode.state.leftStart = vnode.state.bioMaps[vnode.state.order].domBounds.left;
-    vnode.state.panEnd = false;
-    vnode.state.swap = true;
     vnode.state._gestureRegex = {
       pan: new RegExp('^pan')
     };
   },
 
   oncreate: function(vnode){
+    // register mithrilComponent for gesture handling
     vnode.dom.mithrilComponent = this;
+    // register functions to state/dom for gesture handling
     vnode.dom.mithrilComponent.handleGesture = vnode.tag.handleGesture;
     vnode.state._onPan = vnode.tag._onPan;
-    vnode.state.bmap = vnode.state.bioMaps[vnode.state.domOrder];
-    console.log("pre testGubbins", vnode.state.order, vnode.state.bmap.domBounds.left,this.bmap.domBounds.width,this.bmap.domBounds.right);
-    vnode.state.lastPanEvent = null;
     vnode.state.zIndex = 0;
     this.vnode = vnode;
   },
+
   onbeforeupdate: function(vnode){
-    if(this.order != this.domOrder){console.log("order eater",this.order, this.domOrder)};
+    vnode.state.bioMaps = vnode.attrs.bioMaps;
+    if(this.titleOrder[this.order] != this.domOrder){console.log("order eater",this.order, this.domOrder)};
     if(this.titleOrder[this.order] != this.domOrder){
       if(this.titleOrder[this.order] > this.domOrder){
-        console.log("swapTest Right",this.order,this.domOrder,this.leftBound, this.bioMaps[this.titleOrder.indexOf(this.domOrder+1)].domBounds.width);
         this.leftBound += this.bioMaps[this.titleOrder.indexOf(this.domOrder+1)].domBounds.width;
         this.rightBound += this.bioMaps[this.titleOrder.indexOf(this.domOrder+1)].domBounds.width;
       } else {
@@ -52,6 +44,7 @@ export let TitleComponent = {
       this.domOrder = this.titleOrder[this.order];
     }
   },
+
   onupdate: function(vnode){
     let dispOffset = vnode.state.bioMaps[vnode.state.order].domBounds.left - vnode.state.leftStart;
     if (vnode.state.left != dispOffset && !vnode.state.swap){
@@ -70,6 +63,7 @@ export let TitleComponent = {
       m.redraw();
     }
   },
+
   view: function(vnode){
     if(!vnode.attrs || !vnode.state.contentBounds) return;
     let bMap = vnode.state.bioMaps[vnode.state.order];
@@ -82,12 +76,14 @@ export let TitleComponent = {
       ]
     );
   },
+
   handleGesture: function(evt){
     if(evt.type.match(this._gestureRegex.pan)){
       return this._onPan(evt);
     }
     return true;
   },
+
   _onPan: function(evt){
     if(evt.type === 'panstart'){
       this.vnode.state.zIndex = 1000; 
@@ -106,8 +102,8 @@ export let TitleComponent = {
     }
     
     let swapPosition = this.left + this.leftStart;
-    const leftMap = this.titleOrder[this.domOrder-1];
-    const rightMap = this.titleOrder[this.domOrder +1];
+    const leftMap = this.titleOrder.indexOf(this.domOrder-1);
+    const rightMap = this.titleOrder.indexOf(this.domOrder+1);
     let leftWidth = leftMap > -1 ? this.bioMaps[leftMap].domBounds.width : 0;
     let rightWidth = rightMap > -1 ? this.bioMaps[rightMap].domBounds.width : 0;
     console.log("pantest base",this.order,this.domOrder,leftMap,rightMap,this.left,this.leftBound,this.rightBound,swapPosition,this.titleOrder);

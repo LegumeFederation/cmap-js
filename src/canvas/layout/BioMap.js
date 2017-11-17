@@ -65,10 +65,10 @@ export class BioMap extends SceneGraphNodeCanvas {
   
   oncreate(vnode) {
     super.oncreate(vnode);
-    PubSub.subscribe(featureUpdate, () => {
-      this._layout(this.lb);
-      this._redrawViewport(this.model.view.visible);
-    });
+//    PubSub.subscribe(featureUpdate, () => {
+//      this._layout(this.lb);
+//      this._redrawViewport(this.model.view.visible);
+//    });
   }
   /**
    * culls elements to draw down to only those visible within the view 
@@ -349,20 +349,20 @@ export class BioMap extends SceneGraphNodeCanvas {
     // labels
     // Setup Canvas
     //const width = Math.floor(100 + Math.random() * 200);
-    this.lb = layoutBounds;
+    this.lb = this.lb || layoutBounds;
     console.log('BioMap -> layout');
-    const width = Math.floor(layoutBounds.width/this.appState.bioMaps.length);
+    const width = Math.floor(this.lb.width/this.appState.bioMaps.length);
     this.children = [];
-    this.domBounds = new Bounds({
-      left:layoutBounds.left,
-      top: layoutBounds.top,
+    this.domBounds = this.domBounds || new Bounds({
+      left:this.lb.left,
+      top: this.lb.top,
       width: width > 300 ? width:300,
-      height: layoutBounds.height
+      height: this.lb.height
     });
     
-    this.bounds = new Bounds({
+    this.bounds = this.bounds || new Bounds({
       left: 0,
-      top: layoutBounds.top + 40,
+      top: this.lb.top + 40,
       width: this.domBounds.width,
       height: Math.floor(this.domBounds.height - 140) // set to reasonably re-size for smaller windows
     });
