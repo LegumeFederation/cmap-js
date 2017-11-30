@@ -11,12 +11,17 @@ export class  QtlTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log('QtlTrack -> constructor',this.parent.domBounds);
+    console.log('QtlTrack -> constructor',this.parent.domBounds,params.position);
     const b = this.parent.bounds;
+    let trackPos = params.position || 1;
+    console.log("qtl p", this.parent.backbone);
+
+    let left = trackPos < 0 ? 10 : this.parent.bbGroup.bounds.right; 
+    console.log('qtlb',b);
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: this.parent.bounds.top,
-      left: this.parent.backbone.bounds.right + 100,
+      top: b.top,
+      left: left, 
       width: 50,
       height: b.height
     });
@@ -25,9 +30,14 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
+        // only draw the tracks on this group's sides, if no position given, defaults to RHS
+        qtlConf.position = qtlConf.position || 1;
+        if(trackPos !== qtlConf.position) continue;
+
         if (typeof qtlConf.filters === 'string'){ qtlConf.filters = [qtlConf.filters];}
         if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}        
         let qtlGroup = new SceneGraphNodeGroup({parent:this, tags:qtlConf.filters.slice(0)});
+        qtlGroup.lp = qtlConf.position || 1;
         this.addChild(qtlGroup);
         let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
         this.qtlGroup = qtlGroup;
@@ -84,7 +94,7 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       let qtlGroup = new SceneGraphNodeGroup({parent:this});
       this.addChild(qtlGroup);
       this.qtlGroup = qtlGroup;
-      
+      qtlGroup.lp = 0; 
       qtlGroup.bounds = new Bounds({
         top:0,
         left:0,
@@ -95,8 +105,8 @@ export class  QtlTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
-    return this.locMap.all();
-    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
+    //return this.locMap.all();
+    return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   } 
   
   draw(ctx){

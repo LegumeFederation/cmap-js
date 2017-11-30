@@ -79,7 +79,8 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     // this.bounds (scenegraph) has the same width and height, but zero the
     // left/top because we are the root node in a canvas sceneGraphNode
     // heirarchy.
-    let gb1 = this.bioMapComponents[0].backbone.backbone.globalBounds;
+    let gb1 = this.bioMapComponents[0].backbone.markerGroup.globalBounds;
+    console.log("lb",this.bioMapComponents[0]);
     this.bounds = new Bounds({
       allowSubpixel: false,
       left: 1,

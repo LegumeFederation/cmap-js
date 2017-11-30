@@ -23,8 +23,8 @@ export class  MapTrack extends SceneGraphNodeTrack {
     const backboneWidth =  this.model.config.backboneWidth;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.top,
-      left: this.model.config.rulerLabelSize * 10,//b.width * 0.5 - backboneWidth * 0.5,
+      top: 0,
+      left: 0,
       width: backboneWidth,
       height: b.height
     });
@@ -49,7 +49,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
       top: 0,
       left: this.backbone.bounds.right + 1,
       height: this.bounds.height,
-      width: 20
+      width: 0 
     });
 
     // Filter features for drawing
@@ -60,6 +60,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     //Place features and their labels, prepare to add to rtree
     let fmData = [];
     let lmData = [];
+    console.log('lgb',this.labelGroup.bounds.right);
     this.featureMarks = this.filteredFeatures.map( model => {
       let fm = new FeatureMark({
         featureModel: model,
@@ -85,11 +86,13 @@ export class  MapTrack extends SceneGraphNodeTrack {
         minY: model.coordinates.start,
         maxY: model.coordinates.stop,
         minX: lm.globalBounds.left,
-        maxX: lm.globalBounds.right,
+        maxX: lm.globalBounds.left + this.labelGroup.bounds.width,
         data: lm
       });
+      if(lm.bounds.right > this.labelGroup.bounds.right) this.labelGroup.bounds.right = lm.bounds.right;
       return fm;
     });
+    console.log('lgb post',this.labelGroup.bounds.right);
 
     // Load group rtrees for markers and labels
     markerGroup.locMap.load(fmData);

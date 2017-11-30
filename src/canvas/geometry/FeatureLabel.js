@@ -20,7 +20,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
       allowSubpixel: false,
       top: 0,
       left: 5,
-      width: parent.bounds.width,
+      width: 200, //this.fontSize*(this.model.name.length),
       height: 12
     });
   }
@@ -35,7 +35,8 @@ export class FeatureLabel extends SceneGraphNodeBase {
     ctx.fillStyle = this.fontColor;
     ctx.fillText(this.model.name,gb.left, gb.top);
     // reset bounding box to fit the new stroke location/width
-    this.bounds.right = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width)+1;
+    this.bounds.width = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width)+1;
+    console.log("width", this.parent, this.bounds.width, this.parent.bounds.width);
     if(this.parent.bounds.width < this.bounds.width) this.parent.bounds.width = this.bounds.width;
   }
 }

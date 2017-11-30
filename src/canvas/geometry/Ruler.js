@@ -24,7 +24,7 @@ export class Ruler extends SceneGraphNodeBase {
     const b = this.parent.backbone.bounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: this.parent.bounds.top,
+      top: 0,
       left: b.left- config.rulerWidth - config.rulerSpacing , //arbritray spacing to look goo
       width: config.rulerWidth,
       height: b.height 

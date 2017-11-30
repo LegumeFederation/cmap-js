@@ -62,7 +62,24 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.dirty = true;
 
   }
-  
+
+// draw(ctx){
+//   ctx = this.context2d;
+//   this.children.forEach(child => child.draw(ctx));
+//   ctx.save();
+//   ctx.globalAlpha = .5;
+//   ctx.fillStyle = '#f442e2';
+//   this.children.forEach( child => {
+//     let cb = child.globalBounds;
+//     ctx.fillRect(
+//       Math.floor(cb.left),
+//       Math.floor(cb.top),
+//       Math.floor(cb.width),
+//       Math.floor(cb.height)
+//     );
+//   });
+//   ctx.restore();
+// }
   oncreate(vnode) {
     super.oncreate(vnode);
 //    PubSub.subscribe(featureUpdate, () => {
@@ -369,9 +386,10 @@ export class BioMap extends SceneGraphNodeCanvas {
     //Add children tracks
     this.bbGroup = new Group({parent:this});
     this.bbGroup.bounds = new Bounds({
-        top:0,
-        left:0,
-        width:10
+        top: this.bounds.top,
+        left:this.model.config.rulerLabelSize * 10,
+        width:10,
+        height: this.bounds.height
         });
     this.bbGroup.model = this.model;
     this.backbone = new MapTrack({parent:this});
@@ -379,12 +397,34 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.model.view.backbone = this.backbone.backbone.globalBounds;
     this.ruler = new Ruler({parent:this, bioMap:this.model});
     this.bbGroup.addChild(this.ruler);
+    this.backbone.children.forEach( child =>{ 
+      console.log("bbshift?",this.bbGroup.bounds.right, child);
+      if(child.globalBounds.left < this.bbGroup.bounds.left){
+        this.bbGroup.bounds.left = child.globalBounds.left;
+      }
+      if(child.globalBounds.right > this.bbGroup.bounds.right){
+        this.bbGroup.bounds.right = child.globalBounds.right;
+      }
+    });
     this.children.push(this.bbGroup);
-    let qtl  = new QtlTrack({parent:this});
-    if(this.domBounds.width < qtl.globalBounds.right+30){
-      this.domBounds.width = qtl.globalBounds.right + 50;
+
+    let qtlRight  = new QtlTrack({parent:this,position:1});
+    let qtlLeft  = new QtlTrack({parent:this,position:-1});
+    
+    if(qtlLeft && qtlLeft.bounds.right > this.bbGroup.bounds.left){
+      const bbw = this.bbGroup.bounds.width;
+      this.bbGroup.bounds.left = qtlLeft.globalBounds.right +100; 
+      this.bbGroup.bounds.width = bbw;
+      const qrw = qtlRight.bounds.width;
+      qtlRight.bounds.left += qtlLeft.globalBounds.right; 
+      qtlRight.bounds.right = qtlRight.bounds.left + qrw;
     }
-    this.children.push(qtl);
+
+    if(this.domBounds.width < qtlRight.globalBounds.right+30){
+      this.domBounds.width = qtlRight.globalBounds.right + 50;
+    }
+    this.children.push(qtlRight);
+    this.children.push(qtlLeft);
     //load local rBush tree for hit detection
     this._loadHitMap();
     //let layout know that width has changed on an element;

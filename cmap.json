@@ -22,8 +22,13 @@
      "source" : "gm_composite",
      "map" : "D1a",
      "qtl" : [{
-        "filters":"QTL_other-seed",
-        "trackColor": "orange"
+        "filters":["QTL_other-seed","QTL_root"],
+        "trackColor": ["orange","blue"],
+        "position":-1
+      },{
+        "filters":"QTL_root",
+        "trackColor": "red",
+        "position":1
       }
       ]
     }
