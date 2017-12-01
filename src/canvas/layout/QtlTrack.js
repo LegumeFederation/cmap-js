@@ -87,11 +87,12 @@ export class  QtlTrack extends SceneGraphNodeTrack {
         });
         this.locMap.load(fmData);
       }
-    } else { // TODO: Rewrite so that this isn't required to be here
+    } 
+    if(this.locMap.all().length === 0){ // TODO: Rewrite so that this isn't required to be here
       let qtlGroup = new SceneGraphNodeGroup({parent:this});
       this.addChild(qtlGroup);
       this.qtlGroup = qtlGroup;
-      qtlGroup.lp = 0; 
+      qtlGroup.lp = this.trackPos; 
       qtlGroup.bounds = new Bounds({
         top:0,
         left:0,

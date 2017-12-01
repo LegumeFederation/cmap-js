@@ -13,6 +13,7 @@ export class FeatureMenu {
   constructor(data,order){
     // Setup modal position based on current placement of the actual map
     // layout viewport. keeps things self-contained when embedding.
+    console.log("fm",data);
     let viewport = document.getElementById('cmap-menu-viewport');
     let layoutBounds = document.getElementById('cmap-layout-viewport').getBoundingClientRect();
     document.getElementById('cmap-layout-viewport').style.visibility = 'hidden';
@@ -64,7 +65,7 @@ export class FeatureMenu {
     //Attach components to viewport, in general these are the close button (x in top
     //right), the acutal modal contents, and the apply/close/delete button bar
     let controls = [
-      m(_applyButton,{qtl:model.qtlGroups,track:trackGroups,order:order,reset:defaultSettings,newData:selected,mapIndex:model.component.bioMapIndex}),
+      m(_applyButton,{position:data.lp,qtl:model.qtlGroups,track:trackGroups,order:order,reset:defaultSettings,newData:selected,mapIndex:model.component.bioMapIndex}),
       m(_cancelButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected})
 		];
     
@@ -130,7 +131,8 @@ export let _applyButton = {
             return selected.name;
          });
 					let colors = vnode.attrs.track[order].trackColor;
-					vnode.attrs.qtl[order] = {filters: filters.slice(0), trackColor:colors.slice(0)};
+          console.log("applyInfo",vnode.attrs)
+					vnode.attrs.qtl[order] = {filters: filters.slice(0), trackColor:colors.slice(0),position:vnode.attrs.position};
           //Let UI layout know which map to update
 					PubSub.publish(featureUpdate,{mapIndex:vnode.attrs.mapIndex});
 					m.redraw();
