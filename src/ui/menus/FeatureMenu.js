@@ -36,13 +36,23 @@ export class FeatureMenu {
 
     if(!model.qtlGroups || model.qtlGroups[0] === undefined){
       order = 0;
-      settings = {filters:[tagList[0]],trackColor:['red']};
+      settings = {filters:[tagList[0]],trackColor:['red'],position:data.lp};
       trackGroups[0]= settings;
       model.qtlGroups = [];
     } else {
       trackGroups = model.qtlGroups.slice(0);
-      if(!trackGroups[order]){
-        trackGroups[order] = {filters:[tagList[0]],trackColor:['red']};
+      //filter order due to LHS and RHS being co-mingled in trackGroups
+      const baseOrder = order
+      if(data.lp === -1){
+        order = trackGroups.indexOf(trackGroups.filter( track => track.position === -1)[order]);
+      } else {
+        order = trackGroups.indexOf(trackGroups.filter( track => track.position !== -1)[order]);
+      }
+
+      if(order === -1){
+        //new track
+        order = baseOrder
+        trackGroups[order] = {filters:[tagList[0]],trackColor:['red'],position:data.lp};
       }
       settings = trackGroups[order];
     }
@@ -70,7 +80,7 @@ export class FeatureMenu {
 		];
     
     if(model.qtlGroups[order] != undefined){
-      controls.push(m(_removeButton,{qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected}));
+      controls.push(m(_removeButton,{position:data.lp,mapIndex:model.component.bioMapIndex,qtl:model.qtlGroups,order:order,reset:defaultSettings,newData:selected}));
     }
     
     // Buld menu mithril component, then mount    
@@ -100,6 +110,7 @@ export let _removeButton = {
 			onclick: 
         ()=>{
           vnode.attrs.qtl.splice(vnode.attrs.order,1);
+					PubSub.publish(featureUpdate,{mapIndex:vnode.attrs.mapIndex});
 					m.redraw();
           closeModal();
         },
