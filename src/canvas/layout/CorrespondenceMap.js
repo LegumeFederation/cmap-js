@@ -13,6 +13,7 @@ import {featuresInCommon} from '../../model/Feature';
 export class CorrespondenceMap extends SceneGraphNodeCanvas{
   constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
+    console.log("CorrespondenceMap -> constructor");
     this.bioMapComponents = bioMapComponents;
     this.appState = appState;
     this.verticalScale = 1;
@@ -80,7 +81,6 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     // left/top because we are the root node in a canvas sceneGraphNode
     // heirarchy.
     let gb1 = this.bioMapComponents[0].backbone.markerGroup.globalBounds;
-    console.log("lb",this.bioMapComponents[0]);
     this.bounds = new Bounds({
       allowSubpixel: false,
       left: 1,
@@ -99,7 +99,6 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
       height: gb1.height,
     });
     this.addChild(coorGroup);
-    console.log('childBounds', this.globalBounds, coorGroup.globalBounds);
 
     let bioMapCoordinates = [
       this.bioMapComponents[0].mapCoordinates, 
@@ -122,7 +121,6 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
       });
     });
     this.locMap.load(corrData); 
-    console.log('bioMap', this.locMap.all());
   }
 
   get visible(){

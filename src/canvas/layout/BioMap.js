@@ -398,7 +398,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.ruler = new Ruler({parent:this, bioMap:this.model});
     this.bbGroup.addChild(this.ruler);
     this.backbone.children.forEach( child =>{ 
-      console.log("bbshift?",this.bbGroup.bounds.right, child);
       if(child.globalBounds.left < this.bbGroup.bounds.left){
         this.bbGroup.bounds.left = child.globalBounds.left;
       }
@@ -410,7 +409,6 @@ export class BioMap extends SceneGraphNodeCanvas {
 
     let qtlRight  = new QtlTrack({parent:this,position:1});
     let qtlLeft  = new QtlTrack({parent:this,position:-1});
-    
     if(qtlLeft && qtlLeft.bounds.right > this.bbGroup.bounds.left){
       const bbw = this.bbGroup.bounds.width;
       this.bbGroup.bounds.left = qtlLeft.globalBounds.right +100; 

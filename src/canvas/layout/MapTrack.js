@@ -60,7 +60,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
     //Place features and their labels, prepare to add to rtree
     let fmData = [];
     let lmData = [];
-    console.log('lgb',this.labelGroup.bounds.right);
     this.featureMarks = this.filteredFeatures.map( model => {
       let fm = new FeatureMark({
         featureModel: model,
@@ -92,7 +91,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
       if(lm.bounds.right > this.labelGroup.bounds.right) this.labelGroup.bounds.right = lm.bounds.right;
       return fm;
     });
-    console.log('lgb post',this.labelGroup.bounds.right);
 
     // Load group rtrees for markers and labels
     markerGroup.locMap.load(fmData);

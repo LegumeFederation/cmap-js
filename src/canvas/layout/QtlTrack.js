@@ -13,11 +13,9 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     super(params);
     console.log('QtlTrack -> constructor',this.parent.domBounds,params.position);
     const b = this.parent.bounds;
-    let trackPos = params.position || 1;
-    console.log("qtl p", this.parent.backbone);
+    this.trackPos = params.position || 1;
 
-    let left = trackPos < 0 ? 10 : this.parent.bbGroup.bounds.right; 
-    console.log('qtlb',b);
+    let left = this.trackPos < 0 ? 10 : this.parent.bbGroup.bounds.right; 
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,
@@ -26,13 +24,12 @@ export class  QtlTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     if(this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0){
-      console.log('qtlGroups', this.parent.model.qtlGroups);
       let qtlGroups = this.parent.model.qtlGroups;
       for( let i = 0 ; i < qtlGroups.length; i++){
         let qtlConf = qtlGroups[i];
         // only draw the tracks on this group's sides, if no position given, defaults to RHS
         qtlConf.position = qtlConf.position || 1;
-        if(trackPos !== qtlConf.position) continue;
+        if(this.trackPos !== qtlConf.position) continue;
 
         if (typeof qtlConf.filters === 'string'){ qtlConf.filters = [qtlConf.filters];}
         if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}        
