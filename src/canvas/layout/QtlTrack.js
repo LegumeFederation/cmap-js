@@ -103,8 +103,8 @@ export class  QtlTrack extends SceneGraphNodeTrack {
   }
 
   get visible(){
-    //return this.locMap.all();
-    return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
+    return this.locMap.all();
+    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   } 
   
   draw(ctx){
