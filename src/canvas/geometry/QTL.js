@@ -26,12 +26,14 @@ export class QTL extends SceneGraphNodeBase {
     this.labelFace = config.trackLabelFace;
     this.offset =  this.trackSpacing + this.labelSize;
     this.invert = config.invert;
+    this.start = this.invert ? this.view.base.stop - this.model.coordinates.stop : this.model.coordinates.start;
+    this.stop = this.invert ? this.view.base.stop - this.model.coordinates.start : this.model.coordinates.stop;
 
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
-    let y1 = translateScale(this.model.coordinates.start,this.view.base, this.view.visible,this.invert) * this.pixelScaleFactor;
-    let y2 = translateScale(this.model.coordinates.stop, this.view.base, this.view.visible,this.invert) * this.pixelScaleFactor;
+    let y1 = translateScale(this.start,this.view.base, this.view.visible) * this.pixelScaleFactor;
+    let y2 = translateScale(this.stop, this.view.base, this.view.visible) * this.pixelScaleFactor;
     let leftLoc = 0;
     let leftArr = [];
     leftArr = this.parent.locMap.search({
@@ -63,17 +65,17 @@ export class QTL extends SceneGraphNodeBase {
     // Get start and stop of QTL on current region, if it isn't located in
     // current view, don't draw, else cutoff when it gets to end of currently
     // visible region.
-    if( this.model.coordinates.stop < this.view.visible.start || 
-        this.model.coordinates.start > this.view.visible.stop) return;
-    var y1pos = this.model.coordinates.start > this.view.visible.start ? this.model.coordinates.start : this.view.visible.start;
-    var y2pos = this.model.coordinates.stop < this.view.visible.stop ? this.model.coordinates.stop : this.view.visible.stop;
-    let y1 = translateScale(y1pos,this.view.base,this.view.visible,this.invert) * this.pixelScaleFactor;
-    let y2 = translateScale(y2pos,this.view.base,this.view.visible,this.invert) * this.pixelScaleFactor;
+    if( this.stop < this.view.visible.start || 
+        this.start > this.view.visible.stop) return;
+    var y1pos = this.start > this.view.visible.start ? this.start : this.view.visible.start;
+    var y2pos = this.stop < this.view.visible.stop ? this.stop : this.view.visible.stop;
+    let y1 = translateScale(y1pos,this.view.base,this.view.visible) * this.pixelScaleFactor;
+    let y2 = translateScale(y2pos,this.view.base,this.view.visible) * this.pixelScaleFactor;
 
     //setup bounds and draw
     this.bounds = new Bounds({
-      top: this.invert? y2 : y1,
-      height: this.invert ? y1-y2 : y2-y1,
+      top:  y1,
+      height: y2-y1,
       left: this.bounds.left,
       width: this.width
     });
@@ -90,10 +92,10 @@ export class QTL extends SceneGraphNodeBase {
       Math.floor(qtlHeight)
     );
     let textWidth = ctx.measureText(this.model.name).width + (ctx.measureText('M').width*6);
-    let textStop = this.model.coordinates.stop - (translateScale(textWidth/this.pixelScaleFactor,this.view.base,this.view.visible)+this.view.base.start);
+    let textStop = this.stop - (translateScale(textWidth/this.pixelScaleFactor,this.view.base,this.view.visible)+this.view.base.start);
     let overlap = this.parent.locMap.search({
       minY: textStop > this.view.visible.start ? textStop : this.view.visible.start,
-      maxY: this.model.coordinates.stop,
+      maxY: this.stop,
       minX: gb.left,
       maxX: gb.right
     });

@@ -17,6 +17,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
     this.fontColor = bioMap.config.markerLabelColor;
     this.pixelScaleFactor = this.view.pixelScaleFactor;
     this.invert = bioMap.config.invert;
+    this.start = this.invert ? this.view.base.stop - this.model.coordinates.start : this.model.coordinates.start;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
@@ -27,7 +28,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let y = translateScale(this.model.coordinates.start,this.view.base,this.view.visible,this.invert) * this.pixelScaleFactor;
+    let y = translateScale(this.start,this.view.base,this.view.visible) * this.pixelScaleFactor;
     this.bounds.top = y;
     this.bounds.bottom = y + this.fontSize;
     let gb = this.globalBounds || {};
