@@ -21,6 +21,7 @@ export class Ruler extends SceneGraphNodeBase {
     this.textColor = config.rulerLabelColor;
     this.rulerPrecision = config.rulerPrecision;
     this.invert = config.invert;
+    
 
     const b = this.parent.backbone.bounds;
     this.bounds = new Bounds({
@@ -33,9 +34,10 @@ export class Ruler extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-
-    let start = (this.mapCoordinates.visible.start+this.offset) * this.pixelScaleFactor;
-    let stop = (this.mapCoordinates.visible.stop+this.offset) * this.pixelScaleFactor;
+    let vStart = this.invert ? this.mapCoordinates.base.stop - this.mapCoordinates.visible.stop: this.mapCoordinates.visible.start;
+    let vStop = this.invert ? this.mapCoordinates.base.stop - this.mapCoordinates.visible.start: this.mapCoordinates.visible.stop;
+    let start = (vStart+this.offset) * this.pixelScaleFactor;
+    let stop = (vStop+this.offset) * this.pixelScaleFactor;
 		let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision),this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
 
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;

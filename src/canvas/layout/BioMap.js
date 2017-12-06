@@ -228,6 +228,7 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   // Moves ruler position on drag event
   _moveRuler(evt){
+    if(this.model.config.invert){evt.deltaY = -evt.deltaY};
     let delta = (evt.deltaY - this.zoomP.delta) / this.model.view.pixelScaleFactor;
     if(this.model.view.visible.start+delta < this.model.view.base.start){
       delta = this.model.view.base.start - this.model.view.visible.start;
