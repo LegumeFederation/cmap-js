@@ -3,8 +3,12 @@
  */
 
 // Takes a point on a map and translates it pixel coordinates on the current canvas
-export function translateScale(point, baseScale, newScale){
-  return ((baseScale.stop - baseScale.start)*(point-newScale.start)/(newScale.stop-newScale.start)+baseScale.start) - baseScale.start;
+export function translateScale(point, baseScale, newScale,invert){
+  let loc =  ((baseScale.stop - baseScale.start)*(point-newScale.start)/(newScale.stop-newScale.start)+baseScale.start) - baseScale.start;
+  if(invert) {
+    return newScale.stop-loc
+  }
+  return loc;
 }
 
 // takes an event and translates the event coordinates to canvas coordinates

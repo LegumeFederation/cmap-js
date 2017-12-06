@@ -5,6 +5,7 @@
     "backboneWidth":10
   },
   "Pv02":{
-    "backboneWidth":60
+    "backboneWidth":60,
+    "invert":true
   }
 }

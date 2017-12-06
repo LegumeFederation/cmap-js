@@ -21,6 +21,7 @@ export class BioMapConfigModel {
 export const defaultConfig = {
   'backboneWidth' : 20,
   'backboneColor' : '#fff6e8',
+  'invert':false,
   'markerColor' : 'black',
   'markerWeight': 1,
   'markerLabelSize' : 12,

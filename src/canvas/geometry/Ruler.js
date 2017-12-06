@@ -20,6 +20,7 @@ export class Ruler extends SceneGraphNodeBase {
     this.textSize = config.rulerLabelSize;
     this.textColor = config.rulerLabelColor;
     this.rulerPrecision = config.rulerPrecision;
+    this.invert = config.invert;
 
     const b = this.parent.backbone.bounds;
     this.bounds = new Bounds({
@@ -45,13 +46,22 @@ export class Ruler extends SceneGraphNodeBase {
 		ctx.font = `${this.textSize}px ${this.textFace}`;
     ctx.textAlign = 'left';
     ctx.fillStyle = this.textColor;
-    ctx.fillText(text[0],gb.left - ctx.measureText(text[0]).width - (gb.width/2),Math.floor(gb.top - this.textSize/2));
-    ctx.fillText(text[1],gb.left - ctx.measureText(text[1]).width - (gb.width/2),Math.floor(gb.bottom+this.textSize));
+    if(this.invert){
+      ctx.fillText(text[1],gb.left - ctx.measureText(text[1]).width - (gb.width/2),Math.floor(gb.top - this.textSize/2));
+      ctx.fillText(text[0],gb.left - ctx.measureText(text[0]).width - (gb.width/2),Math.floor(gb.bottom+this.textSize));
+    }else{
+      ctx.fillText(text[0],gb.left - ctx.measureText(text[0]).width - (gb.width/2),Math.floor(gb.top - this.textSize/2));
+      ctx.fillText(text[1],gb.left - ctx.measureText(text[1]).width - (gb.width/2),Math.floor(gb.bottom+this.textSize));
+    }
     // Draw zoom position labels
 		text = [this.mapCoordinates.visible.start.toFixed(this.rulerPrecision),this.mapCoordinates.visible.stop.toFixed(this.rulerPrecision)];
-    
-    ctx.fillText(text[0],gb.left + this.config.rulerWidth + this.config.rulerSpacing  , Math.floor(gb.top - this.textSize/2));
-    ctx.fillText(text[1],gb.left + this.config.rulerWidth + this.config.rulerSpacing ,(gb.bottom + this.textSize));
+    if(this.invert){ 
+      ctx.fillText(text[1],gb.left + this.config.rulerWidth + this.config.rulerSpacing  , Math.floor(gb.top - this.textSize/2));
+      ctx.fillText(text[0],gb.left + this.config.rulerWidth + this.config.rulerSpacing ,(gb.bottom + this.textSize));
+    }else{
+      ctx.fillText(text[0],gb.left + this.config.rulerWidth + this.config.rulerSpacing  , Math.floor(gb.top - this.textSize/2));
+      ctx.fillText(text[1],gb.left + this.config.rulerWidth + this.config.rulerSpacing ,(gb.bottom + this.textSize));
+    }
 
     //Draw baseline ruler
 		ctx.beginPath();
