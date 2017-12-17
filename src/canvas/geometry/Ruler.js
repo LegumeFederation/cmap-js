@@ -5,6 +5,7 @@
   */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
+import {translateScale} from '../../util/CanvasUtil';
 
 export class Ruler extends SceneGraphNodeBase {
 
@@ -34,10 +35,10 @@ export class Ruler extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let vStart = this.invert ? this.mapCoordinates.base.stop - this.mapCoordinates.visible.stop: this.mapCoordinates.visible.start;
-    let vStop = this.invert ? this.mapCoordinates.base.stop - this.mapCoordinates.visible.start: this.mapCoordinates.visible.stop;
-    let start = (vStart+this.offset) * this.pixelScaleFactor;
-    let stop = (vStop+this.offset) * this.pixelScaleFactor;
+    let vStart = this.invert ? this.mapCoordinates.visible.stop: this.mapCoordinates.visible.start;
+    let vStop = this.invert ? this.mapCoordinates.visible.start: this.mapCoordinates.visible.stop;
+    let start = translateScale(vStart,this.mapCoordinates.base,this.mapCoordinates.base,this.invert) * this.pixelScaleFactor;
+    let stop = translateScale(vStop,this.mapCoordinates.base,this.mapCoordinates.base,this.invert) * this.pixelScaleFactor;
 		let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision),this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
 
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;

@@ -26,14 +26,14 @@ export class QTL extends SceneGraphNodeBase {
     this.labelFace = config.trackLabelFace;
     this.offset =  this.trackSpacing + this.labelSize;
     this.invert = config.invert;
-    this.start = this.invert ? this.view.base.stop - this.model.coordinates.stop : this.model.coordinates.start;
-    this.stop = this.invert ? this.view.base.stop - this.model.coordinates.start : this.model.coordinates.stop;
+    this.start = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
+    this.stop = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
 
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
-    let y1 = translateScale(this.start,this.view.base, this.view.visible) * this.pixelScaleFactor;
-    let y2 = translateScale(this.stop, this.view.base, this.view.visible) * this.pixelScaleFactor;
+    let y1 = translateScale(this.start,this.view.base, this.view.visible,this.invert) * this.pixelScaleFactor;
+    let y2 = translateScale(this.stop, this.view.base, this.view.visible,this.invert) * this.pixelScaleFactor;
     let leftLoc = 0;
     let leftArr = [];
     leftArr = this.parent.locMap.search({
@@ -54,10 +54,10 @@ export class QTL extends SceneGraphNodeBase {
 
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: this.invert? y2 : y1,
+      top:  y1,
       left: leftLoc,
       width: this.width,
-      height: this.invert? y1-y2 : y2-y1
+      height: y2-y1
     });
   }
 
@@ -65,12 +65,19 @@ export class QTL extends SceneGraphNodeBase {
     // Get start and stop of QTL on current region, if it isn't located in
     // current view, don't draw, else cutoff when it gets to end of currently
     // visible region.
-    if( this.stop < this.view.visible.start || 
-        this.start > this.view.visible.stop) return;
-    var y1pos = this.start > this.view.visible.start ? this.start : this.view.visible.start;
-    var y2pos = this.stop < this.view.visible.stop ? this.stop : this.view.visible.stop;
-    let y1 = translateScale(y1pos,this.view.base,this.view.visible) * this.pixelScaleFactor;
-    let y2 = translateScale(y2pos,this.view.base,this.view.visible) * this.pixelScaleFactor;
+    if( this.model.coordinates.stop < this.view.visible.start || 
+        this.model.coordinates.start > this.view.visible.stop) return;
+    var y1pos = this.model.coordinates.start > this.view.visible.start ? this.model.coordinates.start : this.view.visible.start;
+    var y2pos = this.model.coordinates.stop < this.view.visible.stop ? this.model.coordinates.stop : this.view.visible.stop;
+    this.start = y1pos;
+    this.stop = y2pos;
+    if(this.invert){
+      this.start = y2pos;
+      this.stop = y1pos;
+    }
+    
+    let y1 = translateScale(this.start,this.view.base,this.view.visible,this.invert) * this.pixelScaleFactor;
+    let y2 = translateScale(this.stop,this.view.base,this.view.visible,this.invert) * this.pixelScaleFactor;
 
     //setup bounds and draw
     this.bounds = new Bounds({

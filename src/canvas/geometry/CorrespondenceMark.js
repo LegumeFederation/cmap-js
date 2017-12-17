@@ -20,11 +20,13 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       bioMap[0].model.view.pixelScaleFactor, 
       bioMap[1].model.view.pixelScaleFactor, 
     ];
+
     let leftY = translateScale(
         this.model[0].coordinates.start,
         bioMap[0].model.view.base,
         bioMap[0].model.view.visible,
         this.invert[0]) * this.pixelScaleFactor[0];
+    
     let rightY = translateScale(
         this.model[1].coordinates.start,
         bioMap[1].model.view.base,
@@ -47,6 +49,7 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       bioMap[0].model.view.base,
       bioMap[0].model.view.visible,
       this.invert[0]) * this.pixelScaleFactor[0];
+    
     let rightYStart = translateScale(
       this.model[1].coordinates.start,
       bioMap[1].model.view.base,

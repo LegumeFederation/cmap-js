@@ -102,6 +102,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
   get visible(){
     let coord = this.parent.model.view.base;
     let visc = this.parent.model.view.visible;
+      
     let vis = [{
       minX: this.bounds.left,
       maxX: this.bounds.right,
@@ -118,7 +119,7 @@ export class  MapTrack extends SceneGraphNodeTrack {
     let labels = [];
     let start = visc.start;
     let stop = visc.stop;
-		let psf = this.labelGroup.children[0].pixelScaleFactor;
+	  let psf = this.labelGroup.children[0].pixelScaleFactor;
     let step =((visc.start*(coord.stop*psf - 12) +	visc.stop*(12 - coord.start* psf))/(psf*(coord.stop - coord.start)) - start) - (coord.start*-1);
     for(let i = start; i < stop; i+=step){
      
@@ -133,7 +134,6 @@ export class  MapTrack extends SceneGraphNodeTrack {
      }
     }
     vis = vis.concat(labels);
-    //vis = vis.concat([{data:this}]);
     return vis;
   }
 
