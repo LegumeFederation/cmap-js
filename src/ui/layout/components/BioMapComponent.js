@@ -42,7 +42,6 @@ export class BioMapComponent {
     if(domBounds && ! domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = domBounds;
     }
-    console.log('view',domBounds);
     let b = domBounds || {};
     let selectedClass = vnode.state.selected ? 'selected' : '';
     return  m('canvas', {
