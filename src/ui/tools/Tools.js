@@ -7,11 +7,12 @@ import {ResetButton} from './ResetButton';
 import {RemoveMapButton} from './RemoveMapButton';
 import {AddMapButton} from './AddMapButton';
 import {ConfigurationButton} from './ConfigurationButton';
+import {UploadButton} from './UploadButton';
 //import {FilterButton} from './FilterButton';
 import {MapRemovalDialog} from './MapRemovalDialog';
 import {MapAdditionDialog} from './MapAdditionDialog';
 import {ConfigurationDialog} from './ConfigurationDialog';
-
+import {UploadDialog} from './UploadDialog';
 
 export class Tools  {
 
@@ -41,6 +42,9 @@ export class Tools  {
         }),
         m(ConfigurationButton, {
           onclick: () => this.currentDialog = ConfigurationDialog
+        }),
+        m(UploadButton, {
+          onclick: () => this.currentDialog = UploadDialog
         })
       ]),
       this.currentDialog && m(this.currentDialog, {
