@@ -1,8 +1,8 @@
 /**
-  * ruler
-  * A SceneGraphNode representing ruler and zoom position for a given backbone
-  *
-  */
+ * ruler
+ * A SceneGraphNode representing ruler and zoom position for a given backbone
+ *
+ */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
@@ -14,7 +14,7 @@ export class Ruler extends SceneGraphNodeBase {
     let config = bioMap.config;
     this.config = config;
     this.mapCoordinates = bioMap.view;
-    this.offset = this.mapCoordinates.base.start*-1;
+    this.offset = this.mapCoordinates.base.start * -1;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
     this.fillColor = config.rulerColor;
     this.textFace = config.rulerLabelFace;
@@ -22,61 +22,60 @@ export class Ruler extends SceneGraphNodeBase {
     this.textColor = config.rulerLabelColor;
     this.rulerPrecision = config.rulerPrecision;
     this.invert = config.invert;
-    
 
     const b = this.parent.backbone.bounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
-      left: b.left- config.rulerWidth - config.rulerSpacing , //arbritray spacing to look goo
+      left: b.left - config.rulerWidth - config.rulerSpacing, //arbritray spacing to look goo
       width: config.rulerWidth,
-      height: b.height 
+      height: b.height
     });
   }
 
   draw(ctx) {
-    let vStart = this.invert ? this.mapCoordinates.visible.stop: this.mapCoordinates.visible.start;
-    let vStop = this.invert ? this.mapCoordinates.visible.start: this.mapCoordinates.visible.stop;
-    let start = translateScale(vStart,this.mapCoordinates.base,this.mapCoordinates.base,this.invert) * this.pixelScaleFactor;
-    let stop = translateScale(vStop,this.mapCoordinates.base,this.mapCoordinates.base,this.invert) * this.pixelScaleFactor;
-		let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision),this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
+    let vStart = this.invert ? this.mapCoordinates.visible.stop : this.mapCoordinates.visible.start;
+    let vStop = this.invert ? this.mapCoordinates.visible.start : this.mapCoordinates.visible.stop;
+    let start = translateScale(vStart, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
+    let stop = translateScale(vStop, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
+    let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision), this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
 
     let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
-    this.textWidth = w; 
+    this.textWidth = w;
 
     let gb = this.globalBounds || {};
     // draw baseline labels
-		ctx.font = `${this.textSize}px ${this.textFace}`;
+    ctx.font = `${this.textSize}px ${this.textFace}`;
     ctx.textAlign = 'left';
     ctx.fillStyle = this.textColor;
-    if(this.invert){
-      ctx.fillText(text[1],gb.left - ctx.measureText(text[1]).width - (gb.width/2),Math.floor(gb.top - this.textSize/2));
-      ctx.fillText(text[0],gb.left - ctx.measureText(text[0]).width - (gb.width/2),Math.floor(gb.bottom+this.textSize));
-    }else{
-      ctx.fillText(text[0],gb.left - ctx.measureText(text[0]).width - (gb.width/2),Math.floor(gb.top - this.textSize/2));
-      ctx.fillText(text[1],gb.left - ctx.measureText(text[1]).width - (gb.width/2),Math.floor(gb.bottom+this.textSize));
+    if (this.invert) {
+      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.top - this.textSize / 2));
+      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.bottom + this.textSize));
+    } else {
+      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.top - this.textSize / 2));
+      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + this.textSize));
     }
     // Draw zoom position labels
-		text = [this.mapCoordinates.visible.start.toFixed(this.rulerPrecision),this.mapCoordinates.visible.stop.toFixed(this.rulerPrecision)];
-    if(this.invert){ 
-      ctx.fillText(text[1],gb.left + this.config.rulerWidth + this.config.rulerSpacing  , Math.floor(gb.top - this.textSize/2));
-      ctx.fillText(text[0],gb.left + this.config.rulerWidth + this.config.rulerSpacing ,(gb.bottom + this.textSize));
-    }else{
-      ctx.fillText(text[0],gb.left + this.config.rulerWidth + this.config.rulerSpacing  , Math.floor(gb.top - this.textSize/2));
-      ctx.fillText(text[1],gb.left + this.config.rulerWidth + this.config.rulerSpacing ,(gb.bottom + this.textSize));
+    text = [this.mapCoordinates.visible.start.toFixed(this.rulerPrecision), this.mapCoordinates.visible.stop.toFixed(this.rulerPrecision)];
+    if (this.invert) {
+      ctx.fillText(text[1], gb.left + this.config.rulerWidth + this.config.rulerSpacing, Math.floor(gb.top - this.textSize / 2));
+      ctx.fillText(text[0], gb.left + this.config.rulerWidth + this.config.rulerSpacing, (gb.bottom + this.textSize));
+    } else {
+      ctx.fillText(text[0], gb.left + this.config.rulerWidth + this.config.rulerSpacing, Math.floor(gb.top - this.textSize / 2));
+      ctx.fillText(text[1], gb.left + this.config.rulerWidth + this.config.rulerSpacing, (gb.bottom + this.textSize));
     }
 
     //Draw baseline ruler
-		ctx.beginPath();
+    ctx.beginPath();
     ctx.lineWidth = 1.0;
-		ctx.strokeStyle = 'black';
-    ctx.moveTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.top));
-    ctx.lineTo(Math.floor(gb.left + gb.width/2), Math.floor(gb.bottom));
+    ctx.strokeStyle = 'black';
+    ctx.moveTo(Math.floor(gb.left + gb.width / 2), Math.floor(gb.top));
+    ctx.lineTo(Math.floor(gb.left + gb.width / 2), Math.floor(gb.bottom));
     ctx.stroke();
 
     // Draw "zoom box"
     ctx.fillStyle = this.fillColor;//'aqua';
-		var height = stop - start > 1 ? stop-start : 1.0;
+    var height = stop - start > 1 ? stop - start : 1.0;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(start + gb.top),
@@ -92,10 +91,10 @@ export class Ruler extends SceneGraphNodeBase {
     //  Math.floor(gb.height)
     //);
 
-    this.children.forEach( child => child.draw(ctx));
+    this.children.forEach(child => child.draw(ctx));
   }
 
-  get  visible(){
-    return {data:this};
+  get visible() {
+    return {data: this};
   }
 }

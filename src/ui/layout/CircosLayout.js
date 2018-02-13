@@ -1,7 +1,7 @@
 /**
-  * CircosLayout
-  * A mithril component for circos-style layout of BioMaps.
-  */
+ * CircosLayout
+ * A mithril component for circos-style layout of BioMaps.
+ */
 import m from 'mithril';
 import {mix} from '../../../mixwith.js/src/mixwith';
 
@@ -10,28 +10,29 @@ import {Bounds} from '../../model/Bounds';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 const radians = degrees => degrees * Math.PI / 180;
+
 //const degrees = radians => radians * 180 / Math.PI; // TODO: remove if unused
 
 export class CircosLayout
-       extends mix(LayoutBase)
-       .with(RegisterComponentMixin) {
+  extends mix(LayoutBase)
+    .with(RegisterComponentMixin) {
 
   // constructor() - prefer do not use in mithril components
 
   _layout() {
     let domRect = this.el.getBoundingClientRect();
-    if(! domRect.width || ! domRect.height) {
+    if (!domRect.width || !domRect.height) {
       // may occur when component is created but dom element has not yet filled
       // available space; expect onupdate() will occur.
       console.warn('deferring layout');
       return;
     }
     let newBounds = new Bounds(domRect);
-    let dirty = ! Bounds.equals(this.domBounds, newBounds);
+    let dirty = !Bounds.equals(this.domBounds, newBounds);
     this.domBounds = newBounds;
     /* update child elements with their bounds */
     let radius = this.domBounds.width > this.domBounds.height
-                ? this.domBounds.height * 0.4 : this.domBounds.width * 0.4;
+      ? this.domBounds.height * 0.4 : this.domBounds.width * 0.4;
     let n = this.bioMaps.length;
     let center = {
       x: Math.floor(this.domBounds.width * 0.5),
@@ -42,7 +43,7 @@ export class CircosLayout
     let childHeight = Math.floor(childWidth * 0.6);
     let startDegrees = -180;
     let degrees = startDegrees;
-    this.bioMaps.forEach( child => {
+    this.bioMaps.forEach(child => {
       let rad = radians(degrees);
       let x = center.x - Math.floor(childWidth * 0.5) + Math.floor(radius * Math.cos(rad));
       let y = center.y - Math.floor(childHeight * 0.5) + Math.floor(radius * Math.sin(rad));
@@ -56,7 +57,7 @@ export class CircosLayout
       child.rotation = Math.floor(degrees) + startDegrees;
       degrees += degreesPerChild;
     });
-    if(dirty) m.redraw();
+    if (dirty) m.redraw();
   }
 
   /* mithril render callback */

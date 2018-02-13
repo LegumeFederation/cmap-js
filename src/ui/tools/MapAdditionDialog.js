@@ -52,8 +52,8 @@ export class MapAdditionDialog {
   }
 
   /**
-  * mithril component render callback.
-  */
+   * mithril component render callback.
+   */
   view() {
     const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
@@ -61,16 +61,16 @@ export class MapAdditionDialog {
       m('form', [
         m('table.u-full-width', [
           m('thead',
-            m('tr', [ m('th', 'Data Source'), m('th', 'Available Maps') ])
+            m('tr', [m('th', 'Data Source'), m('th', 'Available Maps')])
           ),
           m('tbody',
-            this.model.sources.map( source => {
+            this.model.sources.map(source => {
               return m('tr', [
                 m('td', source.id),
-                m('td', allMaps.filter( map => {
-                  return (map.source === source &&
-                          this.model.bioMaps.indexOf(map) === -1);
-                }).map( map => {
+                m('td', allMaps.filter(map => {
+                    return (map.source === source &&
+                      this.model.bioMaps.indexOf(map) === -1);
+                  }).map(map => {
                     return m('label', [
                       m('input[type="radio"]', {
                         name: `maps4${source.id}`,
@@ -96,7 +96,7 @@ export class MapAdditionDialog {
           'Add Map On Left'
         ]
       ),
-      m('button.button',  {
+      m('button.button', {
           disabled: this.selection ? false : true,
           class: this.selection ? 'button-primary' : 'button',
           onclick: evt => this._onAddRight(evt)
@@ -105,7 +105,7 @@ export class MapAdditionDialog {
           'Add Map On Right'
         ]
       ),
-      m('button.button', { onclick: evt => this._onCancel(evt) }, [
+      m('button.button', {onclick: evt => this._onCancel(evt)}, [
         m('i.material-icons', 'cancel'),
         'Cancel'
       ])

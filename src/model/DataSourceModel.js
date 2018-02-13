@@ -6,7 +6,7 @@ import parser from 'papaparse';
 
 import {BioMapModel} from './BioMapModel';
 import {Feature} from './Feature';
-import {BioMapConfigModel,defaultConfig} from './BioMapConfigModel';
+import {BioMapConfigModel, defaultConfig} from './BioMapConfigModel';
 
 // TODO: implement filtering at data loading time
 
@@ -20,38 +20,40 @@ export class DataSourceModel {
    * @param String url - HTTP URL (required)
    * @param Object data - query string parameters for the request (optional)
    */
-  constructor({id, method, data, url, filters, linkouts,config}) {
+  constructor({id, method, data, url, filters, linkouts, config}) {
     this.id = id;
     this.method = method;
     this.data = data;
     this.url = url;
     this.config = config || {};
-    this.bioConfig = {"default":defaultConfig};
+    this.bioConfig = {'default': defaultConfig};
     // request bioconfig urlpage as a promise, if it is gettable, fill in all
     // default values that aren't defined using the base config, otherwise
     // set the default values to the base config (found in BioMapConfigModel).
-    (( )  => {  // promise generator
+    (() => {  // promise generator
       let cfg = new BioMapConfigModel(this.config);
       return cfg.load();
     })().then( // promise resolution
-      (item)=>{ // success
+      (item) => { // success
         this.bioConfig = item;
-        for(const configGroup of Object.keys(this.bioConfig)){
-          for( const key of Object.keys(defaultConfig)){
-            if(this.bioConfig[configGroup][key] === undefined){
+        for (const configGroup of Object.keys(this.bioConfig)) {
+          for (const key of Object.keys(defaultConfig)) {
+            if (this.bioConfig[configGroup][key] === undefined) {
               this.bioConfig[configGroup][key] = defaultConfig[key];
             }
           }
         }
-      }, 
-      ()=>{ // failure
+      },
+      () => { // failure
         this.bioConfig.default = defaultConfig;
       }
     );
 
     this.filters = filters || [];
     this.linkouts = linkouts || [];
-    this.linkouts.forEach(l => {l.featuretypePattern != undefined ? l.featuretypePattern = new RegExp(l.featuretypePattern) : undefined;});
+    this.linkouts.forEach(l => {
+      l.featuretypePattern != undefined ? l.featuretypePattern = new RegExp(l.featuretypePattern) : undefined;
+    });
     this.background = true; // mithril not to redraw upon completion
   }
 
@@ -75,12 +77,12 @@ export class DataSourceModel {
       dynamicTyping: true,
       skipEmptyLines: true
     });
-    if(res.errors.length) {
+    if (res.errors.length) {
       console.error(res.errors);
       alert(`There were parsing errors in ${this.url}, please see console.`);
     }
     // apply filters from config file
-    res.data = res.data.filter( d => this.includeRecord(d) );
+    res.data = res.data.filter(d => this.includeRecord(d));
     this.parseResult = res;
   }
 
@@ -94,22 +96,22 @@ export class DataSourceModel {
    */
   includeRecord(d) {
     let hits = 0;
-    this.filters.forEach( f => {
+    this.filters.forEach(f => {
       let col = f.column;
-      if(d.hasOwnProperty(col)) {
+      if (d.hasOwnProperty(col)) {
         let testVal = d[col];
         let match;
-        if(f.operator === 'equals') {
+        if (f.operator === 'equals') {
           match = (testVal === f.value);
         }
-        else if(f.operator === 'regex') {
+        else if (f.operator === 'regex') {
           match = testVal.match(f.value);
         }
-        if(f.not) {
-          if(! match) ++hits;
+        if (f.not) {
+          if (!match) ++hits;
         }
         else {
-          if(match) ++hits;
+          if (match) ++hits;
         }
       }
     });
@@ -124,45 +126,45 @@ export class DataSourceModel {
    */
   get bioMaps() {
     const res = {};
-      try {
-        let typeField = this.parseResult.meta.fields.includes('feature_type') ? 'feature_type' : 'feature_type_acc';
-        this.parseResult.data.forEach( d => {
-          if(! d.map_name) return;
-          const uniqueMapName = `${this.id}/${d.map_name}`;
-          if(! res[uniqueMapName]) {
-            const model = new BioMapModel({
-              source: this,
-              name: d.map_name,
-              features: [],
-              tags: [],
-              coordinates: { start: d.map_start, stop: d.map_stop },
-              config: this.bioConfig[d.map_name] || this.bioConfig.default
-            });
-            res[uniqueMapName] = model;
+    try {
+      let typeField = this.parseResult.meta.fields.includes('feature_type') ? 'feature_type' : 'feature_type_acc';
+      this.parseResult.data.forEach(d => {
+        if (!d.map_name) return;
+        const uniqueMapName = `${this.id}/${d.map_name}`;
+        if (!res[uniqueMapName]) {
+          const model = new BioMapModel({
+            source: this,
+            name: d.map_name,
+            features: [],
+            tags: [],
+            coordinates: {start: d.map_start, stop: d.map_stop},
+            config: this.bioConfig[d.map_name] || this.bioConfig.default
+          });
+          res[uniqueMapName] = model;
+        }
+        else {
+          if (d.map_stop > res[uniqueMapName].coordinates.stop) {
+            res[uniqueMapName].coordinates.stop = d.map_stop;
           }
-          else {
-              if (d.map_stop > res[uniqueMapName].coordinates.stop) {
-                  res[uniqueMapName].coordinates.stop = d.map_stop;
-              }
-          }
-          res[uniqueMapName].features.push(
-            new Feature({
-              source : this,
-              name: d.feature_name,
-              tags: [d[typeField] !== '' ? d[typeField] : null],
-              // TODO: if there is more than one alias, how is it encoded? comma separated?
-              aliases: d.feature_aliases !== '' ? [ d.feature_aliases ] : [],
-              coordinates: { start: d.feature_start, stop: d.feature_stop }
-            })
-          );
-          if(d[typeField] !== '' && res[uniqueMapName].tags.indexOf(d[typeField]) === -1){
-            res[uniqueMapName].tags.push(d[typeField]);
-          }
-        });
-      } catch(e) {
-        console.trace();
-        console.error(e);
-      }
-      return res;
+        }
+        res[uniqueMapName].features.push(
+          new Feature({
+            source: this,
+            name: d.feature_name,
+            tags: [d[typeField] !== '' ? d[typeField] : null],
+            // TODO: if there is more than one alias, how is it encoded? comma separated?
+            aliases: d.feature_aliases !== '' ? [d.feature_aliases] : [],
+            coordinates: {start: d.feature_start, stop: d.feature_stop}
+          })
+        );
+        if (d[typeField] !== '' && res[uniqueMapName].tags.indexOf(d[typeField]) === -1) {
+          res[uniqueMapName].tags.push(d[typeField]);
+        }
+      });
+    } catch (e) {
+      console.trace();
+      console.error(e);
+    }
+    return res;
   }
 }

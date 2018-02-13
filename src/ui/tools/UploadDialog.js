@@ -3,6 +3,7 @@
  */
 import m from 'mithril';
 import {DataSourceModel} from '../../model/DataSourceModel';
+
 export class UploadDialog {
 
   // constructor() - prefer do not use in mithril components
@@ -34,49 +35,51 @@ export class UploadDialog {
     let sources = [];
     let uploadedMaps = [];
     let match = [];
-    if(!this.selection){
+    if (!this.selection) {
       this.selection = {
         id: UploadData.newName,
-        filters:[],
-        linkouts:[],
-        method:'GET',
-        url: UploadData.file !== '' ? UploadData.file: UploadData.loc,
-        config:{},
-        parseResult: {data:[]}
-      }
+        filters: [],
+        linkouts: [],
+        method: 'GET',
+        url: UploadData.file !== '' ? UploadData.file : UploadData.loc,
+        config: {},
+        parseResult: {data: []}
+      };
     }
 
     const oURL = this.selection.url;
     this.selection.url = UploadData.file !== '' ? UploadData.file : UploadData.loc;
     let cfg = [this.selection];
-    
-    let promises = cfg.map( cfg => {
+
+    let promises = cfg.map(cfg => {
       let dsm = new DataSourceModel(cfg);
       sources.push(dsm);
       return dsm.load();
     });
-    
-    Promise.all(promises).then( () => {
-      sources.forEach( src =>{
-          // change names to indicate uploaded data
-          if(UploadData.new){
-            this.model.sources.push(src);
-          }
-          src.parseResult.data.forEach(data => data.feature_type_acc = "Uploaded_"+data.feature_type_acc);
-          // update parseReaults and all maps to reflect new data
-          this.selection.parseResult.data = this.selection.parseResult.data.concat(src.parseResult.data)
-          this.model.allMaps = this.model.sources.map(src => Object.values(src.bioMaps)).concatAll();
-          // update active view models to show new data
-          this.model.bioMaps.forEach(activeMap =>{
-            this.model.allMaps.filter(map => {return((map.name === activeMap.name && 
-              activeMap.source.id === map.source.id))}).forEach( match => {
-                activeMap.features = match.features;
-                activeMap.tags = match.tags;
-            });
+
+    Promise.all(promises).then(() => {
+      sources.forEach(src => {
+        // change names to indicate uploaded data
+        if (UploadData.new) {
+          this.model.sources.push(src);
+        }
+        src.parseResult.data.forEach(data => data.feature_type_acc = 'Uploaded_' + data.feature_type_acc);
+        // update parseReaults and all maps to reflect new data
+        this.selection.parseResult.data = this.selection.parseResult.data.concat(src.parseResult.data);
+        this.model.allMaps = this.model.sources.map(src => Object.values(src.bioMaps)).concatAll();
+        // update active view models to show new data
+        this.model.bioMaps.forEach(activeMap => {
+          this.model.allMaps.filter(map => {
+            return ((map.name === activeMap.name &&
+              activeMap.source.id === map.source.id));
+          }).forEach(match => {
+            activeMap.features = match.features;
+            activeMap.tags = match.tags;
           });
+        });
       });
       this.selection.url = oURL;
-    }). catch( err => {
+    }).catch(err => {
       const msg = `While loading data source, ${err}`;
       console.error(msg);
       console.trace();
@@ -86,6 +89,7 @@ export class UploadDialog {
     evt.preventDefault();
     this.onDismiss(evt);
   }
+
   /**
    * event handler for radio button change.
    */
@@ -96,8 +100,8 @@ export class UploadDialog {
   }
 
   /**
-  * mithril component render callback.
-  */
+   * mithril component render callback.
+   */
   view() {
     const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
@@ -105,42 +109,52 @@ export class UploadDialog {
       m('p', 'Currently only one file may be added at a time. If both a URL and a local file are provided, preference will be given to the local file.'),
       m('form', [
         m('table.u-full-width', [
-          m('thead',[
-            m('tr', [ m('th', 'URL'), m('th',m("input[type=text]", {oninput: m.withAttr("value", UploadData.setLoc), value: UploadData.loc, style:'width:60%;'}))])
-             ,m('tr',[m('th','Local File'),m('th',m("input[type=file]", {onchange: m.withAttr("files", UploadData.setFile), file: UploadData.files}))])] 
+          m('thead', [
+            m('tr', [m('th', 'URL'), m('th', m('input[type=text]', {
+              oninput: m.withAttr('value', UploadData.setLoc),
+              value: UploadData.loc,
+              style: 'width:60%;'
+            }))])
+            , m('tr', [m('th', 'Local File'), m('th', m('input[type=file]', {
+              onchange: m.withAttr('files', UploadData.setFile),
+              file: UploadData.files
+            }))])]
           ),
           m('tbody',
-              m('tr', [
-                m('td', "Target Map Set"),
-                m('td', [
+            m('tr', [
+              m('td', 'Target Map Set'),
+              m('td', [
                   m('label', [
                     m('input[type="radio"]', {
-                        name: 'maps4new',
-                        checked: UploadData.new,
-                        value: 'newMap',
-                        onchange: (evt) => this._onSelection(evt, null)
-                      }), m("input[type=text]", {oninput: m.withAttr("value", UploadData.setName), value: UploadData.newName})
-                    ])
-                ].concat(this.model.sources.map( map => {
+                      name: 'maps4new',
+                      checked: UploadData.new,
+                      value: 'newMap',
+                      onchange: (evt) => this._onSelection(evt, null)
+                    }), m('input[type=text]', {
+                      oninput: m.withAttr('value', UploadData.setName),
+                      value: UploadData.newName
+                    })
+                  ])
+                ].concat(this.model.sources.map(map => {
                   return m('label', [
                     m('input[type="radio"]', {
-                        name: `maps4${map.id}`,
-                        checked: this.selection === map,
-                        value: map.id,
-                        onchange: (evt) => this._onSelection(evt, map)
-                      }),
-                      m('span[class="label-body"]', map.id)
-                    ]);
-                  })
+                      name: `maps4${map.id}`,
+                      checked: this.selection === map,
+                      value: map.id,
+                      onchange: (evt) => this._onSelection(evt, map)
+                    }),
+                    m('span[class="label-body"]', map.id)
+                  ]);
+                })
                 )
-                 )
-              ])
+              )
+            ])
           )
         ])
       ]),
       m('button', {
-        //disabled unless a selection is made, or a new set is selected *and* there is a location or file state)
-        disabled: (this.selection || UploadData.new) && (UploadData.loc !=='' || UploadData.file !=='') ? false : true,
+          //disabled unless a selection is made, or a new set is selected *and* there is a location or file state)
+          disabled: (this.selection || UploadData.new) && (UploadData.loc !== '' || UploadData.file !== '') ? false : true,
           class: this.selection || UploadData.new ? 'button-primary' : 'button',
           onclick: evt => this._onAddData(evt)
         }, [
@@ -148,7 +162,7 @@ export class UploadDialog {
           'Add Data to Map'
         ]
       ),
-      m('button.button', { onclick: evt => this._onCancel(evt) }, [
+      m('button.button', {onclick: evt => this._onCancel(evt)}, [
         m('i.material-icons', 'cancel'),
         'Cancel'
       ])
@@ -157,27 +171,27 @@ export class UploadDialog {
 }
 
 let UploadData = {
-  loc: "",
-  file: "",
-  newName:"",
+  loc: '',
+  file: '',
+  newName: '',
   new: false,
-  setLoc: function(value){
+  setLoc: function (value) {
     UploadData.loc = value;
   },
-  setName: function(value){
+  setName: function (value) {
     UploadData.newName = value;
   },
-  setFile: function(files){
-      var reader = new FileReader();
-      reader.onload = function(e){
-        UploadData.file = e.target.result;
-      };
-      reader.readAsDataURL(files[0]);
+  setFile: function (files) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      UploadData.file = e.target.result;
+    };
+    reader.readAsDataURL(files[0]);
 
   },
-  toggleNew: function(selection){
-    UploadData.new =  !selection ? true : false;
+  toggleNew: function (selection) {
+    UploadData.new = !selection ? true : false;
 
   }
-}
+};
 

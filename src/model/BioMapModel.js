@@ -12,13 +12,13 @@ export class BioMapModel {
    * @param Array features - an array of Feature instances.
    */
   constructor({
-    name,
-    source,
-    features,
-    tags,
-    coordinates = { start: 0, stop: 0},
-    config
-  }) {
+                name,
+                source,
+                features,
+                tags,
+                coordinates = {start: 0, stop: 0},
+                config
+              }) {
     this.name = name;
     this.source = source;
     this.features = features;

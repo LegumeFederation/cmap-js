@@ -1,6 +1,6 @@
 /**
-  * A mithril component of the UI tools in a div (toolbar).
-  */
+ * A mithril component of the UI tools in a div (toolbar).
+ */
 import m from 'mithril';
 
 import {ResetButton} from './ResetButton';
@@ -14,7 +14,7 @@ import {MapAdditionDialog} from './MapAdditionDialog';
 import {ConfigurationDialog} from './ConfigurationDialog';
 import {UploadDialog} from './UploadDialog';
 
-export class Tools  {
+export class Tools {
 
   // constructor() - prefer do not use in mithril components
 

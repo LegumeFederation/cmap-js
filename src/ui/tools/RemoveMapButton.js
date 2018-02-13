@@ -3,13 +3,13 @@
  */
 import m from 'mithril';
 
-export class RemoveMapButton  {
+export class RemoveMapButton {
 
   // constructor() - prefer do not use in mithril components
 
   /**
-    * mithril render callback
-    */
+   * mithril render callback
+   */
   view(vnode) {
     const attrs = {
       onclick: vnode.attrs.onclick

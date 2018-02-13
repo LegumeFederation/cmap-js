@@ -1,8 +1,8 @@
 /**
-  * LayoutContainer
-  * A mithril component to wrap the current layout component inside of a
-  * scrollable div.
-  */
+ * LayoutContainer
+ * A mithril component to wrap the current layout component inside of a
+ * scrollable div.
+ */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 import {mix} from '../../../mixwith.js/src/mixwith';
@@ -14,7 +14,7 @@ import {Bounds} from '../../model/Bounds';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 // define allowed min/max range for scale (zoom operation)
-const SCALE = Object.freeze({ min: 0.05, max: 2});
+const SCALE = Object.freeze({min: 0.05, max: 2});
 
 export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
@@ -31,9 +31,9 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
     // create some regular expressions for faster dispatching of events
     this._gestureRegex = {
-      pan:   new RegExp('^pan'),
+      pan: new RegExp('^pan'),
       pinch: new RegExp('^pinch'),
-      tap:   new RegExp('^tap'),
+      tap: new RegExp('^tap'),
       wheel: new RegExp('^wheel')
     };
   }
@@ -75,10 +75,14 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
               transform: scale(${scale})`
     }, [
       this.appState.tools.layout === HorizontalLayout
-      ?
-      m(HorizontalLayout, {appState: this.appState, layoutBounds: this.bounds, contentBounds: vnode.state.contentBounds })
-      :
-      m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
+        ?
+        m(HorizontalLayout, {
+          appState: this.appState,
+          layoutBounds: this.bounds,
+          contentBounds: vnode.state.contentBounds
+        })
+        :
+        m(CircosLayout, {appState: this.appState, layoutBounds: this.bounds})
     ]);
   }
 
@@ -87,7 +91,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
    * to stop or continue event propagation.
    */
   handleGesture(evt) {
-    if(evt.type.match(this._gestureRegex.pan)) {
+    if (evt.type.match(this._gestureRegex.pan)) {
       return this._onPan(evt);
     }
     else if (evt.type.match(this._gestureRegex.pinch)) {
@@ -112,12 +116,12 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     console.log('LayoutContainer -> onPan', evt);
     // hammer provides the delta x,y in a distance since the start of the
     // gesture so need to convert it to delta x,y for this event.
-    if(evt.type === 'panend') {
+    if (evt.type === 'panend') {
       this.lastPanEvent = null;
       return;
     }
     let delta = {};
-    if(this.lastPanEvent) {
+    if (this.lastPanEvent) {
       delta.x = -1 * (this.lastPanEvent.deltaX - evt.deltaX);
       delta.y = -1 * (this.lastPanEvent.deltaY - evt.deltaY);
     }

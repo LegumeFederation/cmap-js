@@ -1,12 +1,11 @@
 /**
-  * LayoutBase
-  * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
-  * CircosLayout.
-  */
+ * LayoutBase
+ * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
+ * CircosLayout.
+ */
 import {Bounds} from '../../model/Bounds';
 
-export class Menu  {
-
+export class Menu {
 
   // constructor() - prefer do not use in mithril components
 
@@ -22,7 +21,7 @@ export class Menu  {
    */
   oncreate(vnode) {
     // save a reference to this component's dom element
-    
+
     this.el = vnode.dom;
     vnode.dom.mithrilComponent = this;
     this.bounds = new Bounds(vnode.dom.getBoundingClientRect());

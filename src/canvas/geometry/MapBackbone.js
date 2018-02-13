@@ -1,8 +1,8 @@
 /**
-  * MapBackbone
-  * A SceneGraphNode representing a backbone, simply a rectangle representing
-  * the background.
-  */
+ * MapBackbone
+ * A SceneGraphNode representing a backbone, simply a rectangle representing
+ * the background.
+ */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 
@@ -33,6 +33,6 @@ export class MapBackbone extends SceneGraphNodeBase {
       Math.floor(gb.width),
       Math.floor(gb.height)
     );
-    this.children.forEach( child => child.draw(ctx));
+    this.children.forEach(child => child.draw(ctx));
   }
 }

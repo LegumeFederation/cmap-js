@@ -1,11 +1,11 @@
 /**
-  * LayoutBase
-  * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
-  * CircosLayout.
-  */
+ * LayoutBase
+ * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
+ * CircosLayout.
+ */
 import {Bounds} from '../../model/Bounds';
 
-export class LayoutBase  {
+export class LayoutBase {
 
   // constructor() - prefer do not use in mithril components
 

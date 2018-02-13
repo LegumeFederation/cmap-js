@@ -1,7 +1,7 @@
 /**
-  * FeatureLabel
-  * A SceneGraphNode representing a text label for a feature on a Map.
-  */
+ * FeatureLabel
+ * A SceneGraphNode representing a text label for a feature on a Map.
+ */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
@@ -28,16 +28,16 @@ export class FeatureLabel extends SceneGraphNodeBase {
   }
 
   draw(ctx) {
-    let y = translateScale(this.start,this.view.base,this.view.visible,this.invert) * this.pixelScaleFactor;
+    let y = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.bounds.top = y;
     this.bounds.bottom = y + this.fontSize;
     let gb = this.globalBounds || {};
     ctx.font = `${this.fontSize}px ${this.fontFace}`;
     ctx.textAlign = 'left';
     ctx.fillStyle = this.fontColor;
-    ctx.fillText(this.model.name,gb.left, gb.top);
+    ctx.fillText(this.model.name, gb.left, gb.top);
     // reset bounding box to fit the new stroke location/width
-    this.bounds.width = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width)+1;
-    if(this.parent.bounds.width < this.bounds.width) this.parent.bounds.width = this.bounds.width;
+    this.bounds.width = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width) + 1;
+    if (this.parent.bounds.width < this.bounds.width) this.parent.bounds.width = this.bounds.width;
   }
 }

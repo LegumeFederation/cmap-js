@@ -1,8 +1,8 @@
 /**
-  * CorrespondenceMap
-  * Mithril component for correspondence lines between 2 or more BioMaps with an
-  * html5 canvas element.
-  */
+ * CorrespondenceMap
+ * Mithril component for correspondence lines between 2 or more BioMaps with an
+ * html5 canvas element.
+ */
 import m from 'mithril';
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
@@ -10,10 +10,10 @@ import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {CorrespondenceMark} from '../geometry/CorrespondenceMark';
 import {featuresInCommon} from '../../model/Feature';
 
-export class CorrespondenceMap extends SceneGraphNodeCanvas{
+export class CorrespondenceMap extends SceneGraphNodeCanvas {
   constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
-    console.log("CorrespondenceMap -> constructor");
+    console.log('CorrespondenceMap -> constructor');
     this.bioMapComponents = bioMapComponents;
     this.appState = appState;
     this.verticalScale = 1;
@@ -26,8 +26,8 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
    */
   draw() {
     let ctx = this.context2d;
-    if(! ctx) return;
-    if(! this.domBounds) return;
+    if (!ctx) return;
+    if (!this.domBounds) return;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     let gb = this.globalBounds || {};
     ctx.save();
@@ -62,7 +62,7 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
    *
    */
   view() {
-    if(this.domBounds && ! this.domBounds.isEmptyArea) {
+    if (this.domBounds && !this.domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = this.domBounds;
     }
     let b = this.domBounds || {};
@@ -88,9 +88,9 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
       width: this.domBounds.width,
       height: this.domBounds.height
     });
-    
+
     let corrData = [];
-    let coorGroup = new SceneGraphNodeGroup({parent:this});
+    let coorGroup = new SceneGraphNodeGroup({parent: this});
     coorGroup.bounds = new Bounds({
       allowSubpixel: false,
       top: gb1.top,
@@ -101,29 +101,29 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     this.addChild(coorGroup);
 
     let bioMapCoordinates = [
-      this.bioMapComponents[0].mapCoordinates, 
+      this.bioMapComponents[0].mapCoordinates,
       this.bioMapComponents[1].mapCoordinates
     ];
-    this.commonFeatures.forEach( feature => {
+    this.commonFeatures.forEach(feature => {
       let corrMark = new CorrespondenceMark({
         parent: coorGroup,
         featurePair: feature,
-        mapCoordinates:bioMapCoordinates,
-        bioMap : this.bioMapComponents
+        mapCoordinates: bioMapCoordinates,
+        bioMap: this.bioMapComponents
       });
       coorGroup.addChild(corrMark);
       corrData.push({
-        minX:this.bounds.left,
-        maxX:this.bounds.right ,
-        minY:feature[0].coordinates.start,
+        minX: this.bounds.left,
+        maxX: this.bounds.right,
+        minY: feature[0].coordinates.start,
         maxY: feature[1].coordinates.start,
         data: corrMark
       });
     });
-    this.locMap.load(corrData); 
+    this.locMap.load(corrData);
   }
 
-  get visible(){
+  get visible() {
     return this.locMap.all();
   }
 }

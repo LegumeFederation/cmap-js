@@ -1,7 +1,7 @@
 /**
-  * UI
-  * A mithril component presenting all DOM aspects of user-interface.
-  */
+ * UI
+ * A mithril component presenting all DOM aspects of user-interface.
+ */
 import m from 'mithril';
 import Hammer from 'hammerjs';
 import Hamster from 'hamsterjs';
@@ -46,9 +46,9 @@ export class UI extends mix().with(RegisterComponentMixin) {
     return m('div.cmap-layout.cmap-vbox', [
       m(Header, childAttrs),
       m(Tools, childAttrs),
-      m('div#cmap-layout-titles',{style:'display:inline-flex;'}),
-      [ m('div.cmap-menu-viewport#cmap-menu-viewport',{style:'display:none;'}),
-        m('div.cmap-layout-viewport.cmap-hbox', {  id: 'cmap-layout-viewport',style:'position:relative;' },
+      m('div#cmap-layout-titles', {style: 'display:inline-flex;'}),
+      [m('div.cmap-menu-viewport#cmap-menu-viewport', {style: 'display:none;'}),
+        m('div.cmap-layout-viewport.cmap-hbox', {id: 'cmap-layout-viewport', style: 'position:relative;'},
           m(LayoutContainer, {
             appState: this.appState,
             registerComponentCallback: (comp) => this._layoutContainer = comp
@@ -59,7 +59,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
   }
 
   _logRenders() {
-    if(! this.count) this.count = 0;
+    if (!this.count) this.count = 0;
     this.count += 1;
     console.log(`*** mithril render #${this.count} ***`);
   }
@@ -94,7 +94,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
       evt.deltaY = deltaY; // workaround
       // add an additional property to make it similar enough to the pinch
       // gesture so event consumers can just implement one 'zoom', if they want.
-      evt.center = { x: evt.originalEvent.x, y: evt.originalEvent.y };
+      evt.center = {x: evt.originalEvent.x, y: evt.originalEvent.y};
       this._dispatchGestureEvt(evt);
     };
     hamster.wheel(hamsterHandler);
@@ -107,32 +107,33 @@ export class UI extends mix().with(RegisterComponentMixin) {
     const hammer = Hammer(this.el);
     const hammerHandler = (evt) => this._dispatchGestureEvt(evt);
     const hammerEvents = 'panmove panend panstart pinchmove pinchend tap';
-    hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-    hammer.get('pinch').set({ enable: true });
+    hammer.get('pan').set({direction: Hammer.DIRECTION_ALL});
+    hammer.get('pinch').set({enable: true});
     hammer.on(hammerEvents, hammerHandler);
   }
 
   /**
-    * Custom dispatch of ui events. Layout elements like BioMap and
-    * CorrespondenceMap are visually overlapping, and so do not fit cleanly into
-    * the js event capture or bubbling phases. Query the dom at the events
-    * coordinates, and dispatch the event to child who
-    * a) intersects with this point
-    * b) wants to handle this event (it can decide whether to based on it's
-    *    canvas own scenegraph contents, etc.)
-    */
+   * Custom dispatch of ui events. Layout elements like BioMap and
+   * CorrespondenceMap are visually overlapping, and so do not fit cleanly into
+   * the js event capture or bubbling phases. Query the dom at the events
+   * coordinates, and dispatch the event to child who
+   * a) intersects with this point
+   * b) wants to handle this event (it can decide whether to based on it's
+   *    canvas own scenegraph contents, etc.)
+   */
   _dispatchGestureEvt(evt) {
     let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
-    let filtered = hitElements.filter( el => {
+    let filtered = hitElements.filter(el => {
       return (el.mithrilComponent && el.mithrilComponent.handleGesture);
     });
     // dispatch event to all the mithril components, until one returns true;
     // effectively the same as 'stopPropagation' on a normal event bubbling.
-    filtered.some( el =>{
+    filtered.some(el => {
       var state = el.mithrilComponent.handleGesture(evt);
       return state;
     });
   }
+
   /**
    * Gesture event recapture and force upon the LayoutContainer. This is to
    * prevent the the layout container from missing events after it has partially
