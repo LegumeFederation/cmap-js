@@ -11,7 +11,7 @@ const monitorPubSub = () => {
     // eslint-disable-next-line no-console
     console.log(`[${topic}]`, data);
   };
-  Object.keys(topics).forEach( t => {
+  Object.keys(topics).forEach(t => {
     //console.log(`subscribing to: ${t}`);
     PubSub.subscribe(t, logger);
   });
