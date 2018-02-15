@@ -14,8 +14,8 @@ import {featureUpdate, dataLoaded} from '../../topics';
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
 import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
-import {MapTrack} from './MapTrack';
-import {QtlTrack} from './QtlTrack';
+import {MapTrack} from '../layout/MapTrack';
+import {QtlTrack} from '../layout/QtlTrack';
 import {Ruler} from '../geometry/Ruler';
 import {pageToCanvas} from '../../util/CanvasUtil';
 

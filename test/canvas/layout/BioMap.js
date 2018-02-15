@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import mq from '../../ui/mithrilQuerySetup';
 import {Bounds} from '../../../src/model/Bounds';
-import {BioMap} from '../../../src/canvas/layout/BioMap';
+import {BioMap} from '../../../src/canvas/canvas/BioMap';
 
 describe('BioMap test', function() {
   describe('constructor', function() {

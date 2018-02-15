@@ -4,6 +4,11 @@ There are:
 * multiple canvas DOM elements, drawn offscreen and composited.
 * the src/canvas classes are organized into a "scenegraph" with parent-child
   relationships.
+  
+## Directory Contents
+`/canvas` - Top level drawing entities that bind a canvas context
+`/layout` - Grouped entities
+`/geometry` - Individual constituent geometries of a layout
 
 ## Node Classes:
 * `SceneGraphNodeBase` - base node that all others are based on.
