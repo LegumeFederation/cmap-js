@@ -35,6 +35,7 @@
  optimized canvas.drawImage() of 1000 words using 12px sans-serif took 18 ms
  average ms 17
  */
+
 import m from 'mithril';
 import {TextAtlas} from './TextAtlas';
 
@@ -54,6 +55,7 @@ export class TextRendererBenchmark {
    * @param Number - height, of canvas
    * @param Boolean - useOffscreenAtlas, offscreen drawing optimization
    */
+
   constructor({words, width, height, useOffscreenAtlas}) {
     this.words = words;
     this.width = width;
@@ -64,10 +66,24 @@ export class TextRendererBenchmark {
   /**
    * mithril lifecycle method
    */
+
   oncreate(vnode) {
     this.canvas = vnode.dom;
     this.useOffscreenAtlas ? this._drawOffScreen() : this._drawOnScreen();
   }
+
+  /**
+   * mithril render method
+   */
+
+  view() {
+    return m('canvas', {width: this.width, height: this.height, 'moz-opaque': ''});
+  }
+
+  /**
+   *
+   * @private
+   */
 
   _drawOffScreen() {
     let elapsedTime = 0;
@@ -107,6 +123,11 @@ export class TextRendererBenchmark {
     console.log('average ms', avg);
   }
 
+  /**
+   *
+   * @private
+   */
+
   _drawOnScreen() {
     const ctx = this.canvas.getContext('2d');
     let elapsedTime = 0;
@@ -127,12 +148,5 @@ export class TextRendererBenchmark {
     const avg = Math.floor(elapsedTime / fonts.length);
     // eslint-disable-next-line no-console
     console.log('average ms', avg);
-  }
-
-  /**
-   * mithril render method
-   */
-  view() {
-    return m('canvas', {width: this.width, height: this.height, 'moz-opaque': ''});
   }
 }

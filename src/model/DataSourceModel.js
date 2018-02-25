@@ -1,6 +1,7 @@
 /**
  * Data source model
  */
+
 import m from 'mithril';
 import parser from 'papaparse';
 
@@ -14,12 +15,13 @@ export class DataSourceModel {
 
   /**
    * create a DataSourceModel
-   * @param Object params having the following properties:
-   * @param String id - uniqueId string for the data source (required)
-   * @param String method - HTTP method, get or post (required)
-   * @param String url - HTTP URL (required)
-   * @param Object data - query string parameters for the request (optional)
+   * @param {Object} params having the following properties:
+   * @param {String} id - uniqueId string for the data source (required)
+   * @param {String} method - HTTP method, get or post (required)
+   * @param {String} url - HTTP URL (required)
+   * @param {Object} data - query string parameters for the request (optional)
    */
+
   constructor({id, method, data, url, filters, linkouts, config}) {
     this.id = id;
     this.method = method;
@@ -58,9 +60,10 @@ export class DataSourceModel {
   }
 
   /**
-   * Load the data source with mithril request
-   * @return Promise
+   *Load the data source with mithril request
+   * @returns {*}
    */
+
   load() {
     return m.request(this);
   }
@@ -69,8 +72,9 @@ export class DataSourceModel {
    * Callback from mithril request(); instead of the default deserialization
    * which is JSON, use the papaparse library to parse csv or tab delimited
    * content.
-   * @param String delimited text - csv or tsv
+   * @param {String} data - delimited text, csv or tsv
    */
+
   deserialize(data) {
     const res = parser.parse(data, {
       header: true,
@@ -91,9 +95,10 @@ export class DataSourceModel {
    * processed sequentially and the result is all or nothing, effectively like
    * SQL AND.
    *
-   * @param Object d - key/value properies of 1 record
-   * @return Boolean - true for include, false for exclude
+   * @param {Object} d - key/value properies of 1 record
+   * @return {Boolean} true for include, false for exclude
    */
+
   includeRecord(d) {
     let hits = 0;
     this.filters.forEach(f => {
@@ -122,8 +127,9 @@ export class DataSourceModel {
    * bioMaps getter; return a mapping of the uniquified map name to
    * an instance of BioMapModel.
    *
-   * @return Object - key: prefix + map_name -> val: BioMapModel instance
+   * @return {Object} key: prefix + map_name -> val: BioMapModel instance
    */
+
   get bioMaps() {
     const res = {};
     try {

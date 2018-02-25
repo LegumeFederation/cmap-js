@@ -7,6 +7,11 @@ import {Bounds} from '../model/Bounds';
 
 export let DrawLazilyMixin = (superclass) => class extends superclass {
 
+  /**
+   *
+   * @param wantedBounds
+   */
+
   drawLazily(wantedBounds) {
     if (wantedBounds.area === 0) return;
     if (this._drawLazilyTimeoutId) clearTimeout(this._drawLazilyTimeoutId);

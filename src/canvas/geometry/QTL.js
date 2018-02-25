@@ -2,12 +2,22 @@
  * QTL - A feature with a length and width drawn as part of a group of similar
  * features
  *
+ * @extends SceneGraphNodeBase
  */
+
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
 
 export class QTL extends SceneGraphNodeBase {
+
+  /**
+   * Construct the QTL feature
+   * @param parent - parent scene graph node
+   * @param bioMap - map data
+   * @param featureModel - feature data
+   * @param initialConfig - configuration object for display variables
+   */
 
   constructor({parent, bioMap, featureModel, initialConfig}) {
     super({parent, tags: [featureModel.name]});
@@ -62,6 +72,11 @@ export class QTL extends SceneGraphNodeBase {
       height: y2 - y1
     });
   }
+
+  /**
+   *
+   * @param ctx
+   */
 
   draw(ctx) {
     // Get start and stop of QTL on current region, if it isn't located in

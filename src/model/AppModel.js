@@ -12,6 +12,10 @@ import {DataSourceModel} from './DataSourceModel';
 
 export class AppModel {
 
+  /**
+   *
+   */
+
   constructor() {
     // sources and bioMaps arrays will be populated in load()
     this.sources = [];
@@ -33,8 +37,12 @@ export class AppModel {
 
   /**
    * load the app model
-   * @param Object - object with properties defined in cmap.json
+   * @param header
+   * @param attribution
+   * @param sources
+   * @param initialView
    */
+
   load({header, attribution, sources, initialView}) {
     let sourceConfigs = sources;
     this.header = header;
@@ -73,6 +81,7 @@ export class AppModel {
   /**
    * create this.bioMaps based on initialView of config file.
    */
+
   setupInitialView() {
     this.bioMaps = this.initialView.map(viewConf => {
       const res = this.allMaps.filter(map => {
@@ -104,9 +113,10 @@ export class AppModel {
 
   /**
    * Add map at the given index (note, this is called by MapAdditionDialog)
-   * @param Object bioMap - a bioMap from one of the already loaded data sources.
-   * @param Number index - zero based index into the bioMaps array.
+   * @param {Object} bioMap - a bioMap from one of the already loaded data sources.
+   * @param {Number} index - zero based index into the bioMaps array.
    */
+
   addMap(bioMap, index = 0) {
     this.bioMaps.splice(index, 0, bioMap);
     PubSub.publish(mapAdded, bioMap);
@@ -114,7 +124,9 @@ export class AppModel {
 
   /**
    * PubSub event handler
+   * @private
    */
+
   _onReset() {
     this.tools.zoomFactor = 1;
     this.tools.layout = HorizontalLayout;

@@ -7,16 +7,29 @@ export class BioMapConfigModel {
 
   /**
    * create a BioMapConfigModel
+   * @param url
+   * @param method
    */
+
   constructor({url, method}) {
     this.url = url;
     this.method = method;
   }
 
+  /**
+   *
+   */
   load() {
     return m.request(this);
   }
 }
+
+/**
+ * Constant that defines the default configuration of cmap maps
+ * when no other configuration information is present.
+ *
+ * @type {{backboneWidth: number, backboneColor: string, invert: boolean, markerColor: string, markerWeight: number, markerLabelSize: number, markerLabelFace: string, markerLabelColor: string, rulerWidth: number, rulerSpacing: number, rulerColor: string, rulerLabelFace: string, rulerLabelSize: number, rulerLabelColor: string, rulerPrecision: number, rulerSteps: number, trackWidth: number, trackSpacing: number, trackColor: string, trackLabelSize: number, trackLabelFace: string, trackLabelColor: string}}
+ */
 
 export const defaultConfig = {
   'backboneWidth': 20,

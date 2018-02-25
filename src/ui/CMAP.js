@@ -1,6 +1,7 @@
 /**
  * CMAP
  */
+
 import m from 'mithril';
 
 import {AppModel} from './../model/AppModel';
@@ -8,6 +9,11 @@ import {UI} from './UI';
 
 /* istanbul ignore next: mithril-query does not work with m.mount, and dom id is hardcoded as well */
 export class CMAP {
+
+  /**
+   *
+   * @param configURL
+   */
 
   load(configURL) {
     this.rootElement = document.getElementById('cmap-ui');

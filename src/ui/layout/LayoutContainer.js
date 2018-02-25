@@ -22,7 +22,9 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     super.oninit(vnode);
     this.appState = vnode.attrs.appState;
@@ -40,7 +42,9 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oncreate(vnode) {
     super.oncreate(vnode);
     this.el = vnode.dom; // this is the outer m('div') from view()
@@ -58,14 +62,19 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   onupdate(vnode) {
     this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
   }
 
   /**
    * mithril component render method
+   * @param vnode
+   * @returns {*}
    */
+
   view(vnode) {
     let b = this.contentBounds || {}; // relative bounds of the layout-container
     let scale = this.appState.tools.zoomFactor;
@@ -89,7 +98,10 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   /**
    * handle the event from _dispatchGestureEvt. Returns true or false
    * to stop or continue event propagation.
+   * @param evt
+   * @returns {boolean}
    */
+
   handleGesture(evt) {
     if (evt.type.match(this._gestureRegex.pan)) {
       return this._onPan(evt);
@@ -103,6 +115,13 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     return false; // do not stop event propagation
   }
 
+  /**
+   *
+   * @param evt
+   * @returns {boolean}
+   * @private
+   */
+
   _onZoom(evt) {
     // TODO: utilize the distance of touch event for better interaction
     const normalized = evt.deltaY / this.bounds.height;
@@ -111,6 +130,13 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     m.redraw();
     return true; // stop evt propagation
   }
+
+  /**
+   *
+   * @param evt
+   * @returns {boolean}
+   * @private
+   */
 
   _onPan(evt) {
     console.log('LayoutContainer -> onPan', evt);
@@ -137,11 +163,12 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
   }
 
   /**
-   * PubSub event handler
+   *
+   * @private
    */
+
   _onReset() {
     this.contentBounds = new Bounds(this.originalContentBounds);
     m.redraw();
   }
-
 }

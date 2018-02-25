@@ -9,7 +9,9 @@ export class FilterButton {
 
   /**
    * mithril render callback
+   * @returns {*}
    */
+
   view() {
     const attrs = {
       onclick: evt => this._onClick(evt)

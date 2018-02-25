@@ -1,6 +1,8 @@
 /**
  * FeatureMarker
  * A SceneGraphNode representing a feature on a Map with a line or hash mark.
+ *
+ * @extends SceneGraphNodeBase
  */
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
@@ -8,13 +10,20 @@ import {translateScale} from '../../util/CanvasUtil';
 
 export class FeatureMark extends SceneGraphNodeBase {
 
+  /**
+   * Constructor
+   * @param parent - parent scene graph node
+   * @param bioMap - map data
+   * @param featureModel - feature data
+   */
+
   constructor({parent, bioMap, featureModel}) {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
     this.featureMap = bioMap;
 
     this.offset = this.featureMap.view.base.start * -1;
-    this.lineWidth = bioMap.config.markerWeight;
+    this.lineWeight = bioMap.config.markerWeight;
     this.strokeStyle = bioMap.config.markerColor;
     this.invert = bioMap.config.invert;
     this.start = this.model.coordinates.start;
@@ -25,9 +34,14 @@ export class FeatureMark extends SceneGraphNodeBase {
       top: 0,
       left: 0,
       width: parent.bounds.width,
-      height: this.lineWidth
+      height: this.lineWeight
     });
   }
+
+  /**
+   * Draw the marker
+   * @param ctx - active canvas2D context
+   */
 
   draw(ctx) {
     let y = translateScale(this.start, this.featureMap.view.base, this.featureMap.view.visible, this.invert) * this.pixelScaleFactor;
@@ -35,8 +49,10 @@ export class FeatureMark extends SceneGraphNodeBase {
     let gb = this.globalBounds || {};
     ctx.beginPath();
     ctx.strokeStyle = this.strokeStyle;
-    ctx.lineWidth = this.lineWidth;
+    ctx.lineWidth = this.lineWeight;
+    // noinspection JSSuspiciousNameCombination
     ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
+    // noinspection JSSuspiciousNameCombination
     ctx.lineTo(Math.floor(gb.right), Math.floor(gb.top));
     ctx.stroke();
     // reset bounding box to fit the new stroke location/width

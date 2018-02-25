@@ -5,6 +5,11 @@
 
 export let RegisterComponentMixin = (superclass) => class extends superclass {
 
+  /**
+   *
+   * @param vnode
+   */
+
   oninit(vnode) {
     if (super.oninit) super.oninit(vnode);
     if (vnode.attrs && vnode.attrs.registerComponentCallback) {
@@ -12,10 +17,20 @@ export let RegisterComponentMixin = (superclass) => class extends superclass {
     }
   }
 
+  /**
+   *
+   * @param vnode
+   */
+
   oncreate(vnode) {
     if (super.oncreate) super.oncreate(vnode);
     vnode.dom.mithrilComponent = this;
   }
+
+  /**
+   *
+   * @param vnode
+   */
 
   onbeforeremove(vnode) {
     if (super.onbeforeremove) super.onbeforeremove(vnode);

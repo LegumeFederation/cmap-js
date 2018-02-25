@@ -21,14 +21,17 @@ export class UI extends mix().with(RegisterComponentMixin) {
    * Create a UI instance
    * @param Object - the appState, instance of model/AppModel.
    */
+
   constructor(appState) {
     super();
     this.appState = appState;
   }
 
   /**
-   * mithril lifecycle method
+   * Mithril lifecycle method
+   * @param vnode
    */
+
   oncreate(vnode) {
     super.oncreate(vnode);
     this.el = vnode.dom;
@@ -37,7 +40,9 @@ export class UI extends mix().with(RegisterComponentMixin) {
 
   /**
    * mithril component render callback
+   * @returns {*}
    */
+
   view() {
     const childAttrs = {
       appState: this.appState,
@@ -58,11 +63,21 @@ export class UI extends mix().with(RegisterComponentMixin) {
     ]);
   }
 
+  /**
+   *
+   * @private
+   */
+
   _logRenders() {
     if (!this.count) this.count = 0;
     this.count += 1;
     console.log(`*** mithril render #${this.count} ***`);
   }
+
+  /**
+   *
+   * @private
+   */
 
   _setupEventHandlers() {
     this._setupMousewheel();
@@ -72,7 +87,9 @@ export class UI extends mix().with(RegisterComponentMixin) {
 
   /**
    * Setup pubsub subscriptions
+   * @private
    */
+
   _setupPubSub() {
     PubSub.subscribe(reset, () => {
       // if the viewport were refactored into it's own mithril component, then
@@ -85,7 +102,9 @@ export class UI extends mix().with(RegisterComponentMixin) {
 
   /**
    * setup mouse wheel (hamsterjs) handlers.
+   * @private
    */
+
   _setupMousewheel() {
     const hamster = Hamster(this.el);
     const hamsterHandler = (evt, delta, deltaX, deltaY) => {
@@ -102,7 +121,9 @@ export class UI extends mix().with(RegisterComponentMixin) {
 
   /**
    * setup gesture (hammerjs) handlers.
+   * @private
    */
+
   _setupGestures() {
     const hammer = Hammer(this.el);
     const hammerHandler = (evt) => this._dispatchGestureEvt(evt);
@@ -120,7 +141,11 @@ export class UI extends mix().with(RegisterComponentMixin) {
    * a) intersects with this point
    * b) wants to handle this event (it can decide whether to based on it's
    *    canvas own scenegraph contents, etc.)
+   *
+   * @param evt
+   * @private
    */
+
   _dispatchGestureEvt(evt) {
     let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
     let filtered = hitElements.filter(el => {
@@ -138,9 +163,11 @@ export class UI extends mix().with(RegisterComponentMixin) {
    * Gesture event recapture and force upon the LayoutContainer. This is to
    * prevent the the layout container from missing events after it has partially
    * moved out of the viewport.
+   *
+   * @param evt
    */
+
   handleGesture(evt) {
     this._layoutContainer.handleGesture(evt);
   }
-
 }

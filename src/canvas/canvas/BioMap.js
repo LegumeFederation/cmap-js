@@ -1,15 +1,13 @@
 /**
- this.info.top = this.info.data.globalBounds.top;
- m.redraw();
- * BioMap
- *
- * SceneGraphNodeCanvas representing a biological map and its associated tracks
- *
+ * Class representing a biological map and its associated tracks
+ * @class BioMap
+ * @extends SceneGraphNodeCanvas
  */
-import m from 'mithril';
-import PubSub from 'pubsub-js';
 
-import {featureUpdate, dataLoaded} from '../../topics';
+
+import m from 'mithril';
+//import PubSub from 'pubsub-js';
+//import {featureUpdate, dataLoaded} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
@@ -20,6 +18,15 @@ import {Ruler} from '../geometry/Ruler';
 import {pageToCanvas} from '../../util/CanvasUtil';
 
 export class BioMap extends SceneGraphNodeCanvas {
+
+  /**
+   * Create a new bio map
+   *
+   * @param {object} bioMapModel - Parsed model of the bio map to be drawn
+   * @param {object} appState - Application's meta state object
+   * @param {object} layoutBounds - Bounds object of position on screen
+   * @param {number} bioMapIndex - bio map's order on screen
+   */
 
   constructor({bioMapModel, appState, layoutBounds, bioMapIndex}) {
     super({model: bioMapModel});
@@ -63,23 +70,33 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   }
 
-// draw(ctx){
-//   ctx = this.context2d;
-//   this.children.forEach(child => child.draw(ctx));
-//   ctx.save();
-//   ctx.globalAlpha = .5;
-//   ctx.fillStyle = '#f442e2';
-//   this.children.forEach( child => {
-//     let cb = child.globalBounds;
-//     ctx.fillRect(
-//       Math.floor(cb.left),
-//       Math.floor(cb.top),
-//       Math.floor(cb.width),
-//       Math.floor(cb.height)
-//     );
-//   });
-//   ctx.restore();
-// }
+  /*
+   *  debug draw to test that the layer is positioned properly
+   */
+  /*
+    draw(ctx){
+   ctx = this.context2d;
+   this.children.forEach(child => child.draw(ctx));
+   ctx.save();
+   ctx.globalAlpha = .5;
+   ctx.fillStyle = '#f442e2';
+   this.children.forEach( child => {
+     let cb = child.globalBounds;
+     ctx.fillRect(
+       Math.floor(cb.left),
+       Math.floor(cb.top),
+       Math.floor(cb.width),
+       Math.floor(cb.height)
+     );
+   });
+   ctx.restore();
+ }
+*/
+  /**
+   * Mithril lifecycle method on initial vnode creation.
+   * @param {object} vnode - node on mithril vnode representing this canvas item
+   */
+
   oncreate(vnode) {
     super.oncreate(vnode);
 //    PubSub.subscribe(featureUpdate, () => {
@@ -88,10 +105,15 @@ export class BioMap extends SceneGraphNodeCanvas {
 //    });
   }
 
+  // getters and setters
+
   /**
-   * culls elements to draw down to only those visible within the view
-   * bounds
+   * Culls elements to draw.
+   *
+   * @return array of elements visible in current canvas' viewport
+   *
    */
+
   get visible() {
     let vis = [];
     let cVis = this.children.map(child => {
@@ -104,21 +126,25 @@ export class BioMap extends SceneGraphNodeCanvas {
   }
 
   /**
-   * children.visible() culls hits based on map coordiantes
-   * the hitMap is based on canvas global coordinates.
-   * */
+   * getter for the R-tree of subnodes.
+   * @return rbush R-tree
+   */
+
   get hitMap() {
     return this.locMap;
   }
 
+  // Private functions
+
+  // gesture components
+
   /**
-   *
-   * Re-implement lifecycle/gestrue components as needed to appease
-   * the items on the canvas.
-   *
+   * Handles mouse wheel zoom
+   * @param evt - zoom event
+   * @returns {boolean} returns true to stop event propagation further down layers
+   * @private
    */
 
-  // mousewheel event
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -147,7 +173,13 @@ export class BioMap extends SceneGraphNodeCanvas {
     return true; // stop event propagation
   }
 
-  // return hits in case of tap/click event
+  /**
+   * Handles tap/click event on canvas
+   * @param evt - tap event
+   * @returns {boolean} return true to stop event prorogation further down layers
+   * @private
+   */
+
   _onTap(evt) {
     console.log('BioMap -> onTap', evt, this);
     let globalPos = pageToCanvas(evt, this.canvas);
@@ -181,6 +213,7 @@ export class BioMap extends SceneGraphNodeCanvas {
         return hit.model.name;
       });
       //@awilkey: is this obsolete?
+      //TODO: Revisit info popovers
       this.info.innerHTML = `<p> ${names.join('\n')} <\p>`;
       m.redraw();
     } else if (this.info.display !== 'none') {
@@ -191,7 +224,15 @@ export class BioMap extends SceneGraphNodeCanvas {
     return true;
   }
 
-  // Setup selection context for pan event
+  /**
+   *  Handle start of pan events on canvas, box zooms if ruler is part of selected or
+   *  mass select if not.
+   *
+   * @param evt - tap event
+   * @returns {boolean} return true to stop event prorogation further down layers
+   * @private
+   */
+
   _onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -222,6 +263,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       this.zoomP.corner = {top: globalPos.y - evt.deltaY, left: globalPos.x - evt.deltaX};
       ctx.lineWidth = 1.0;
       ctx.strokeStyle = 'black';
+      // noinspection JSSuspiciousNameCombination
       ctx.strokeRect(
         Math.floor(globalPos.x - evt.deltaX),
         Math.floor(globalPos.y - evt.deltaY),
@@ -232,12 +274,18 @@ export class BioMap extends SceneGraphNodeCanvas {
     return true;
   }
 
-  // Moves ruler position on drag event
+  /**
+   * Pans ruler's position box on click-and-pan
+   *
+   * @param evt - pan event
+   * @private
+   */
+
   _moveRuler(evt) {
     if (this.model.config.invert) {
       evt.deltaY = -evt.deltaY;
     }
-    ;
+
     let delta = (evt.deltaY - this.zoomP.delta) / this.model.view.pixelScaleFactor;
     if (this.model.view.visible.start + delta < this.model.view.base.start) {
       delta = this.model.view.base.start - this.model.view.visible.start;
@@ -250,6 +298,14 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.zoomP.delta = evt.deltaY;
   }
 
+  /**
+   * Continue pre-exiting pan event
+   *
+   * @param evt - continuation of pan event
+   * @returns {boolean} return true to stop event prorogation further down layers
+   * @private
+   */
+
   _onPan(evt) {
     // block propegation if pan hasn't started
     if (!this.zoomP || !this.zoomP.pStart) return true;
@@ -261,6 +317,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       let ctx = this.context2d;
       ctx.lineWidth = 1.0;
       ctx.strokeStyle = 'black';
+      // noinspection JSSuspiciousNameCombination
       ctx.strokeRect(
         Math.floor(this.zoomP.corner.left),
         Math.floor(this.zoomP.corner.top),
@@ -270,6 +327,14 @@ export class BioMap extends SceneGraphNodeCanvas {
     }
     return true;
   }
+
+  /**
+   * Finalize pan event
+   *
+   * @param evt - tap event
+   * @returns {boolean} return true to stop event prorogation further down layers
+   * @private
+   */
 
   _onPanEnd(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
@@ -286,7 +351,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       let rLeft = this.ruler.globalBounds.left;
       let rRight = this.ruler.globalBounds.right;
       let lCorner = this.zoomP.corner.left < globalPos.x ? this.zoomP.corner.left : globalPos.x;
-      let rCorner = lCorner == this.zoomP.corner.left ? globalPos.x : this.zoomP.corner.left;
+      let rCorner = lCorner === this.zoomP.corner.left ? globalPos.x : this.zoomP.corner.left;
       // if zoom rectangle contains the ruler, zoom, else populate popover
       if (((lCorner <= rLeft) && (rCorner >= rLeft)) || ((lCorner <= rRight && rCorner >= rRight))) {
         this.model.view.visible = this.model.view.base;
@@ -363,10 +428,16 @@ export class BioMap extends SceneGraphNodeCanvas {
     return true; // do not stop propagation
   }
 
+
   /**
    *  Converts a pixel position to the  canvas' backbone coordinate system.
    *
+   *  @param {number} point - pixel position on screen
+   *  @return {number} backbone position
+   *
+   *  @private
    */
+
   _pixelToCoordinate(point) {
     let coord = this.model.view.base;
     let visc = this.model.view.visible;
@@ -376,6 +447,10 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   /**
    * perform layout of backbone, feature markers, and feature labels.
+   *
+   * @param {object} layoutBounds - bounds object representing bounds of this canvas
+   *
+   * @private
    */
 
   _layout(layoutBounds) {
@@ -447,6 +522,12 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.dirty = true;
   }
 
+  /**
+   * Adds children nodes to the R-tree
+   *
+   * @private
+   */
+
   _loadHitMap() {
     let hits = [];
     let childrenHits = this.children.map(child => {
@@ -458,6 +539,13 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.locMap.clear();// = rbush();
     this.locMap.load(hits);
   }
+
+  /**
+   * Redraw restricted view
+   *
+   * @param coordinates
+   * @private
+   */
 
   _redrawViewport(coordinates) {
     this.model.view.visible = {

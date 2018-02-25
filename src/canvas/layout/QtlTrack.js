@@ -1,6 +1,8 @@
 /**
  * QtlTrack
  * A SceneGraphNode representing a collection of QTLs.
+ *
+ * @extends SceneGraphNodeTrack
  */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
@@ -8,6 +10,11 @@ import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
 
 export class QtlTrack extends SceneGraphNodeTrack {
+
+  /**
+   * Constructor - sets up a track that's a group of QTL rectangles
+   * @param params
+   */
 
   constructor(params) {
     super(params);
@@ -108,10 +115,19 @@ export class QtlTrack extends SceneGraphNodeTrack {
     }
   }
 
+  /**
+   *
+   */
+
   get visible() {
     return this.locMap.all();
     //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
+
+  /**
+   * Debug draw to check track positioning
+   * @param ctx
+   */
 
   draw(ctx) {
     ctx.save();
@@ -128,6 +144,11 @@ export class QtlTrack extends SceneGraphNodeTrack {
     });
     ctx.restore();
   }
+
+  /**
+   * Get RTree children that are visible in the canvas' current zoom bounds
+   * @returns {Array}
+   */
 
   get hitMap() {
     //return [];

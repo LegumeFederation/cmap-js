@@ -11,14 +11,18 @@ export class Menu {
 
   /**
    * mithril lifecycle callback
+   * @param vnode
    */
+
   oninit(vnode) {
     this.appState = vnode.attrs.appState;
   }
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oncreate(vnode) {
     // save a reference to this component's dom element
 
@@ -29,7 +33,9 @@ export class Menu {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   onupdate(vnode) {
     this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
   }

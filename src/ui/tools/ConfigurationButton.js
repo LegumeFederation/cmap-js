@@ -9,6 +9,8 @@ export class ConfigurationButton {
 
   /**
    * mithril render callback
+   * @param vnode
+   * @returns {*}
    */
   view(vnode) {
     const attrs = {

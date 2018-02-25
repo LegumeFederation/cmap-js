@@ -14,6 +14,11 @@ import {FeatureLabel} from '../geometry/FeatureLabel';
 
 export class MapTrack extends SceneGraphNodeTrack {
 
+  /**
+   *
+   * @param params
+   */
+
   constructor(params) {
     console.log('MapTrack-> Constructing Map');
     super(params);
@@ -99,6 +104,11 @@ export class MapTrack extends SceneGraphNodeTrack {
     this.locMap.load(fmData);
   }
 
+  /**
+   *
+   * @returns {*[]}
+   */
+
   get visible() {
     let coord = this.parent.model.view.base;
     let visc = this.parent.model.view.visible;
@@ -137,6 +147,10 @@ export class MapTrack extends SceneGraphNodeTrack {
     return vis;
   }
 
+  /**
+   *
+   */
+
   get hitMap() {
     let bbGb = this.backbone.globalBounds;
     return this.markerGroup.children.map(child => {
@@ -149,6 +163,11 @@ export class MapTrack extends SceneGraphNodeTrack {
       };
     });
   }
+
+  /**
+   *
+   * @param ctx
+   */
 
   draw(ctx) {
     let gb = this.globalBounds || {};

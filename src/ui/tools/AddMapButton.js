@@ -9,7 +9,10 @@ export class AddMapButton {
 
   /**
    * mithril render callback
+   * @param vnode
+   * @return {*}
    */
+
   view(vnode) {
     const attrs = {
       onclick: vnode.attrs.onclick

@@ -1,12 +1,22 @@
 /**
  * MapBackbone
- * A SceneGraphNode representing a backbone, simply a rectangle representing
- * the background.
+ * A SceneGraphNode representing a backbone, simply a rectangle enclosing the upper and
+ * lower bounds of the map of the current feature, providing a delineated region to draw
+ * features of interest
+ *
+ * @extends SceneGraphNodeBase
  */
+
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 
 export class MapBackbone extends SceneGraphNodeBase {
+
+  /**
+   * Constructor
+   * @param parent - Parent scene graph node
+   * @param bioMap - Map data
+   */
 
   constructor({parent, bioMap}) {
     super({parent});
@@ -23,6 +33,11 @@ export class MapBackbone extends SceneGraphNodeBase {
     });
     bioMap.view.backbone = this.globalBounds;
   }
+
+  /**
+   * Draw the map backbone, then iterate through and draw its children
+   * @param ctx - currently active canvas2D context
+   */
 
   draw(ctx) {
     let gb = this.globalBounds || {};

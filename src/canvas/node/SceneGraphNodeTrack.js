@@ -1,11 +1,15 @@
 /**
- * FeatureMarker
- * A SceneGraphNode representing a feature on a Map with a line or hash mark.
+ * Placeholder for advanced group nodes 
  */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 export class SceneGraphNodeTrack extends SceneGraphNodeBase {
 
+  /**
+   * Constructor
+   * @param params
+   */
+  
   constructor(params) {
     super(params);
   }

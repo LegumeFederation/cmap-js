@@ -20,7 +20,9 @@ export class Tools {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     this.appState = vnode.attrs.appState;
     this.currentDialog = vnode.attrs.dialog;
@@ -28,7 +30,9 @@ export class Tools {
 
   /**
    * mithril component render method
+   * @returns {*}
    */
+
   view() {
     return m('div.cmap-tools', [
       m('div.cmap-toolbar.cmap-hbox', [

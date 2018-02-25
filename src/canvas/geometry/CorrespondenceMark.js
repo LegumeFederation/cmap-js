@@ -1,12 +1,23 @@
 /**
  * FeatureMarker
  * A SceneGraphNode representing a feature on a Map with a line or hash mark.
+ *
+ * @extends SceneGraphNodeBase
  */
+
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
 
 export class CorrespondenceMark extends SceneGraphNodeBase {
+
+  /**
+   * Construct the CorrespondenceMark layer
+   * @param parent - parent scene graph node
+   * @param featurePair - array of features being compared
+   * @param mapCoordinates - current zoom level of each feature maps
+   * @param bioMap - array of both sets of map data
+   */
 
   constructor({parent, featurePair, mapCoordinates, bioMap}) {
     super({parent});
@@ -42,8 +53,13 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
     });
   }
 
+  /**
+   * Draw the correspondence marks
+   * @param {object} ctx - canvas context 2D
+   */
+
   draw(ctx) {
-    var bioMap = this.bioMap;
+    let bioMap = this.bioMap;
     let leftYStart = translateScale(
       this.model[0].coordinates.start,
       bioMap[0].model.view.base,
@@ -97,7 +113,7 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       ctx.beginPath();
       ctx.lineWidth = this.lineWidth;
       ctx.globalAlpha = 0.2;
-      ctx.fillStyle = '#7C6400';//'#A4870C';
+      ctx.fillStyle = '#7C6400'; //'#A4870C';
       ctx.moveTo(Math.floor(gbLeft.left), Math.floor(gbLeft.top));
       ctx.lineTo(Math.floor(gbLeft.left), Math.floor(gbLeft.bottom));
       ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.bottom));

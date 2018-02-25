@@ -18,6 +18,10 @@ export class CircosLayout
     .with(RegisterComponentMixin) {
 
   // constructor() - prefer do not use in mithril components
+  /**
+   *
+   * @private
+   */
 
   _layout() {
     let domRect = this.el.getBoundingClientRect();
@@ -61,6 +65,10 @@ export class CircosLayout
   }
 
   /* mithril render callback */
+  /**
+   *
+   * @returns {*}
+   */
   view() {
     return m('div.cmap-layout-circos',
       this.children.map(m)

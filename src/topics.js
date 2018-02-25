@@ -1,7 +1,8 @@
 /**
- * topics
- * define constants for all PubSub message topics used by cmap
+ * @file
+ * defines constants for all PubSub message topics used by cmap
  */
+
 export const selectedMap = 'selectedMap'; // the selected map (canvas) changed
 export const reset = 'reset'; // reset button click
 export const layout = 'layout'; // layout selection changed

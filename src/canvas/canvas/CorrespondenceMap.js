@@ -1,7 +1,9 @@
 /**
- * CorrespondenceMap
  * Mithril component for correspondence lines between 2 or more BioMaps with an
  * html5 canvas element.
+ *
+ * @extends SceneGraphNodeCanvas
+ *
  */
 import m from 'mithril';
 import {Bounds} from '../../model/Bounds';
@@ -58,9 +60,10 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas {
   }
 
   /**
-   * +   * mithril component render callback
+   * mithril component render callback
    *
    */
+
   view() {
     if (this.domBounds && !this.domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = this.domBounds;
@@ -74,6 +77,12 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas {
       height: b.height
     });
   }
+
+  /**
+   * Lay out correspondence lines between features
+   * @param layoutBounds - bounds of the linked canvas
+   * @private
+   */
 
   _layout(layoutBounds) {
     this.domBounds = layoutBounds;
@@ -122,6 +131,10 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas {
     });
     this.locMap.load(corrData);
   }
+
+  /**
+   * Return visible elements in R-Tree
+   */
 
   get visible() {
     return this.locMap.all();

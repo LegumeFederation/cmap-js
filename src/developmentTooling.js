@@ -1,10 +1,16 @@
 /**
- * development tooling: conditionally run code based on the ENV string,
+ * @file
+ * Development tooling: conditionally run code based on the ENV string,
  * which is interpolated by a plugin in the rollup.config.js.
+ *
  */
 import PubSub from 'pubsub-js';
 
 import * as topics from './topics';
+
+/**
+ * @description Logger to check that pub-sub events propagate.
+ */
 
 const monitorPubSub = () => {
   let logger = (topic, data) => {

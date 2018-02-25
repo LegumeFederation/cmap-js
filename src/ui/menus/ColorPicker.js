@@ -8,7 +8,16 @@ import PubSub from 'pubsub-js';
 
 import {pageToCanvas} from '../../util/CanvasUtil';
 
+/**
+ *
+ * @type {{oninit: ColorPicker.oninit, onupdate: ColorPicker.onupdate, view: ColorPicker.view}}
+ */
 export let ColorPicker = {
+  /**
+   *
+   * @param vnode
+   */
+
   oninit: function (vnode) {
     vnode.state = vnode.attrs;
     vnode.state.colors = {
@@ -17,9 +26,21 @@ export let ColorPicker = {
       hueValueColor: null
     };
   },
+
+  /**
+   *
+   * @param vnode
+   */
+
   onupdate: function (vnode) {
     vnode.attrs.settings.trackColor[vnode.attrs.order] = vnode.state.colors.baseColor;
   },
+
+  /**
+   *
+   * @param vnode
+   * @returns {*[]}
+   */
 
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
@@ -37,8 +58,18 @@ export let ColorPicker = {
     ];
   }
 };
+/**
+ *
+ * @type {{oncreate: BaseSelector.oncreate, onupdate: BaseSelector.onupdate, view: BaseSelector.view, draw: BaseSelector.draw, handleGesture: BaseSelector.handleGesture, _locationChange: BaseSelector._locationChange, _changeColor: BaseSelector._changeColor, _posFromHsv: BaseSelector._posFromHsv, _hsvFromPos: BaseSelector._hsvFromPos}}
+ */
 
 export let BaseSelector = {
+
+  /**
+   *
+   * @param vnode
+   */
+
   oncreate: function (vnode) {
     vnode.dom.mithrilComponent = this;
     this.vnode = vnode;
@@ -63,15 +94,19 @@ export let BaseSelector = {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   onupdate: function (vnode) {
     vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.info.colors.hueValueColor);
     vnode.dom.mithrilComponent.draw();
   },
 
   /**
-   * mithril component render method
+   *
+   * @returns {*}
    */
+
   view: function () {
     // store these bounds, for checking in drawLazily()
     return m('canvas', {
@@ -81,6 +116,10 @@ export let BaseSelector = {
       height: 100
     });
   },
+
+  /**
+   *
+   */
 
   draw: function () {
     let canvas = this.vnode.state.canvas;
@@ -146,6 +185,12 @@ export let BaseSelector = {
     ctx.stroke();
   },
 
+  /**
+   *
+   * @param evt
+   * @returns {boolean}
+   */
+
   handleGesture: function (evt) {
     if (evt.type.match(this._gestureRegex.tap) ||
       evt.type.match(this._gestureRegex.pan)) {
@@ -154,6 +199,12 @@ export let BaseSelector = {
     }
     return true;
   },
+
+  /**
+   *
+   * @param evt
+   * @private
+   */
 
   _locationChange: function (evt) {
     let hueValue = this.vnode.state.info.colors.hueValueColor;
@@ -169,6 +220,11 @@ export let BaseSelector = {
     }
     this._changeColor();
   },
+  /**
+   *
+   * @private
+   */
+
   _changeColor: function () {
     //PubSub to alert the Saturation slider that the position has changed
     //order is passed to not update *every* color selector
@@ -176,6 +232,13 @@ export let BaseSelector = {
     PubSub.publish('hueValue', {color: this.vnode.state.colors, order: this.vnode.state.info.order});
     this.draw();
   },
+
+  /**
+   *
+   * @param hsv
+   * @returns {{x: number, y: number}}
+   * @private
+   */
 
   _posFromHsv: function (hsv) {
     // Math.round to avoid annoying sub-pixel rendering
@@ -187,6 +250,13 @@ export let BaseSelector = {
     };
   },
 
+  /**
+   *
+   * @param pos
+   * @returns {*[]}
+   * @private
+   */
+
   _hsvFromPos: function (pos) {
     let h = Math.max(0, (pos.x * 360) / this.vnode.state.canvas.width);
     let s = 100;
@@ -194,8 +264,17 @@ export let BaseSelector = {
     return [h, s, l];
   }
 };
+/**
+ *
+ * @type {{oncreate: SaturationSelector.oncreate, onupdate: SaturationSelector.onupdate, view: SaturationSelector.view, draw: SaturationSelector.draw, handleGesture: SaturationSelector.handleGesture, _changeColor: SaturationSelector._changeColor, _hueUpdated: SaturationSelector._hueUpdated, _posFromHsv: SaturationSelector._posFromHsv, _sFromPos: SaturationSelector._sFromPos}}
+ */
 
 export let SaturationSelector = {
+  /**
+   *
+   * @param vnode
+   */
+
   oncreate: function (vnode) {
     vnode.dom.mithrilComponent = this;
     this.vnode = vnode;
@@ -223,6 +302,11 @@ export let SaturationSelector = {
     this.draw();
   },
 
+  /**
+   *
+   * @param vnode
+   */
+
   onupdate: function (vnode) {
     vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.info.colors.hueValueColor);
     PubSub.publish('satUpdated', {order: vnode.state.info.order, currentColors: vnode.state.info.colors}); // keeps hex value in sync
@@ -231,7 +315,9 @@ export let SaturationSelector = {
 
   /**
    * mithril component render method
+   * @returns {*}
    */
+
   view: function () {
     // store these bounds, for checking in drawLazily()
     return m('canvas', {
@@ -241,6 +327,10 @@ export let SaturationSelector = {
       height: 100
     });
   },
+
+  /**
+   *
+   */
 
   draw: function () {
     let canvas = this.vnode.state.canvas;
@@ -276,6 +366,12 @@ export let SaturationSelector = {
     ctx.stroke();
   },
 
+  /**
+   *
+   * @param evt
+   * @returns {boolean}
+   */
+
   handleGesture: function (evt) {
     if (evt.type.match(this._gestureRegex.tap) ||
       evt.type.match(this._gestureRegex.pan)) {
@@ -285,27 +381,63 @@ export let SaturationSelector = {
     return true;
   },
 
+  /**
+   *
+   * @param evt
+   * @private
+   */
+
   _changeColor: function (evt) {
     this.vnode.state.ptrPos = evt.y;
     this.vnode.state.info.colors.hueValueColor[1] = this._sFromPos(this.vnode.state.ptrPos);
     this._hueUpdated(this.vnode.state.info.colors);
   },
 
+  /**
+   *
+   * @private
+   */
+
   _hueUpdated: function () {
     PubSub.publish('satUpdated', {order: this.vnode.state.info.order, currentColors: this.vnode.state.info.colors});
     this.draw();
   },
 
+  /**
+   *
+   * @param hsv
+   * @returns {number}
+   * @private
+   */
+
   _posFromHsv: function (hsv) {
     return Math.round((1 - (hsv[1] / 100)) * this.vnode.state.canvas.height);
   },
+
+  /**
+   *
+   * @param pos
+   * @returns {number}
+   * @private
+   */
 
   _sFromPos: function (pos) {
     return 100 * (1 - (pos / this.vnode.state.canvas.height));
   }
 };
 
+/**
+ *
+ * @type {{oncreate: ColorPreview.oncreate, onupdate: ColorPreview.onupdate, view: ColorPreview.view, draw: ColorPreview.draw}}
+ */
+
 export let ColorPreview = {
+
+  /**
+   *
+   * @param vnode
+   */
+
   oncreate: function (vnode) {
     this.order = vnode.attrs.info.order;
     this.colors = vnode.attrs.info.colors;
@@ -326,14 +458,18 @@ export let ColorPreview = {
 
   /**
    * mithril lifecycle method
+   *
    */
+
   onupdate: function () {
     this.draw();
   },
 
   /**
    * mithril component render method
+   * @returns {*}
    */
+
   view: function () {
     return m('canvas#color-canvas-preview', {
       style: 'margin-left:10px; width: 20; height: 100;',
@@ -341,6 +477,10 @@ export let ColorPreview = {
       height: 100
     });
   },
+
+  /**
+   *
+   */
 
   draw: function () {
     let ctx = this.context2d;
@@ -353,11 +493,19 @@ export let ColorPreview = {
   }
 };
 
-// Use currently selected color
+/**
+ * Use currently selected color
+ * @type {{view: ColorApplyButton.view}}
+ */
+
 export let ColorApplyButton = {
+
   /**
    * mithril component render method
+   * @param vnode
+   * @returns {*}
    */
+
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
     return m('button.approve-button', {
@@ -372,11 +520,19 @@ export let ColorApplyButton = {
   }
 };
 
-// Reset color to prior
+/**
+ * Reset color to prior
+ * @type {{view: ColorResetButton.view}}
+ */
+
 export let ColorResetButton = {
+
   /**
    * mithril component render method
+   * @param vnode
+   * @returns {*}
    */
+
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
     return m('button.reset-button', {
@@ -390,8 +546,18 @@ export let ColorResetButton = {
   }
 };
 
-// Text Box to find color
+/**
+ * Text Box to find color
+ * @type {{oninit: ColorBox.oninit, view: ColorBox.view, handleGesture: ColorBox.handleGesture}}
+ */
+
 export let ColorBox = {
+
+  /**
+   *
+   * @param vnode
+   */
+
   oninit: function (vnode) {
     this.canvas = this.el = vnode.dom;
     this.order = vnode.attrs.info.order;
@@ -402,9 +568,13 @@ export let ColorBox = {
       }
     });
   },
+
   /**
    * mithril component render method
+   * @param vnode
+   * @returns {*}
    */
+
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
     return m('input[type=text].color-input', {
@@ -426,18 +596,35 @@ export let ColorBox = {
     });
   },
 
+  /**
+   *
+   * @returns {boolean}
+   */
+
   handleGesture: function () {
     return true;
   }
 };
 
-// #FFFFFF ->[0-255,0-255,0-255]	
+/**
+ * convert hex triplet to RGB
+ * #FFFFFF ->[0-255,0-255,0-255]
+ * @param hex
+ * @returns {*[]}
+ */
+
 export function hexToRgb(hex) {
   var result = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
   return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)];
 }
 
-// [0-255,0-255,0-255] -> #FFFFFF 	
+/**
+ *  convert RGB priplet to hex
+ * [0-255,0-255,0-255] -> #FFFFFF
+ * @param rgb
+ * @returns {string}
+ */
+
 export function rgbToHex(rgb) {
   return (
     (0x100 | Math.round(rgb[0])).toString(16).substr(1) +
@@ -446,7 +633,13 @@ export function rgbToHex(rgb) {
   );
 }
 
-// [0-255,0-255,0-255] -> [0-360,0-100,0-100]
+/**
+ * Convert RGB triplet ot HSV
+ * [0-255,0-255,0-255] -> [0-360,0-100,0-100]
+ * @param rgb
+ * @returns {*[]}
+ */
+
 export function rgbToHsv(rgb) {
   //make sure RGB values are within 0-255 range
   //and convert to decimal
@@ -455,6 +648,7 @@ export function rgbToHsv(rgb) {
   });
 
   // Conversion from RGB -> HSV colorspace
+
   let cmin = Math.min(Math.min(rgb[0], rgb[1]), rgb[2]);
   let cmax = Math.max(Math.max(rgb[0], rgb[1]), rgb[2]);
   let delta = parseFloat(cmax - cmin);
@@ -475,7 +669,13 @@ export function rgbToHsv(rgb) {
   return [hue, sat, value];
 }
 
-// [0-360,0-100,0-100] -> [0-255,0-255,0-255]
+/**
+ * Convert from HSV to RGB
+ * [0-360,0-100,0-100] -> [0-255,0-255,0-255]
+ * @param hsv
+ * @returns {*[]}
+ */
+
 export function hsvToRgb(hsv) {
   let u = 255 * (hsv[2] / 100);
   let h = hsv[0] / 60;

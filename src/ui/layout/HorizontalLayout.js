@@ -26,7 +26,9 @@ export class HorizontalLayout
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     super.oninit(vnode);
     this.contentBounds = vnode.attrs.contentBounds;
@@ -58,6 +60,11 @@ export class HorizontalLayout
     ];
   }
 
+  /**
+   *
+   * @param vnode
+   */
+
   onupdate(vnode) {
     this.contentBounds = vnode.attrs.contentBounds;
   }
@@ -65,18 +72,22 @@ export class HorizontalLayout
   /**
    * mithril lifecycle method
    */
+
   onremove() {
     this.subscriptions.forEach(token => PubSub.unsubscribe(token));
   }
 
   /**
    * mithril component render method
+   * @param vnode
+   * @returns {*}
    */
-  view(vnode) {
-    //m.mount(document.getElementById('cmap-layout-titles'),null);
-    let mo = this.bioMapOrder.map(i => {
-      return this.bioMapComponents[i];
-    });
+
+  view() {
+   //m.mount(document.getElementById('cmap-layout-titles'),null);
+   // let mo = this.bioMapOrder.map(i => {
+   //   return this.bioMapComponents[i];
+   // });
     return m('div.cmap-layout-horizontal',
       [//this.swapComponents,
         this.bioMapOrder.map((i) => {
@@ -92,7 +103,10 @@ export class HorizontalLayout
 
   /**
    * pub/sub event handler
+   *
+   * @private
    */
+
   _onDataLoaded() {
     this._layoutBioMaps();
     this._layoutSwapComponents();
@@ -101,6 +115,11 @@ export class HorizontalLayout
     this._layoutPopovers();
     m.redraw();
   }
+
+  /**
+   *
+   * @private
+   */
 
   _onReorder() {
     let left = 0;
@@ -123,6 +142,11 @@ export class HorizontalLayout
     m.redraw();
     this._layoutSwapComponents();
   }
+
+  /**
+   *
+   * @private
+   */
 
   _layoutSwapComponents() {
     this.swapComponents = [];
@@ -147,6 +171,11 @@ export class HorizontalLayout
     });
 
   }
+
+  /**
+   *
+   * @private
+   */
 
   _layoutFeatureControls() {
     this.featureControls = [];
@@ -194,7 +223,11 @@ export class HorizontalLayout
 
   /**
    * Horizonal (left to right) layout of BioMaps
+   *
+   * @returns {Array}
+   * @private
    */
+
   _layoutBioMaps() {
     if (!this.bounds) return []; // early out if the layout bounds is unknown
     let n = this.appState.bioMaps.length;
@@ -223,6 +256,11 @@ export class HorizontalLayout
 
   }
 
+  /**
+   *
+   * @private
+   */
+
   _layoutPopovers() {
     this.popoverComponents = this.bioMapComponents.map(model => {
       let component = new Popover();
@@ -235,7 +273,10 @@ export class HorizontalLayout
   /**
    * Horizontal layout of Correspondence Maps. In this layout, for N maps there
    * are N -1 correspondence maps.
+   * @returns {Array}
+   * @private
    */
+
   _layoutCorrespondenceMaps() {
     if (!this.bounds) return []; // early out if our canvas bounds is unknown
     let childHeight = Math.floor(this.bounds.height * 0.95);
@@ -264,8 +305,9 @@ export class HorizontalLayout
    * and redraw components once from the base layout than deal with
    * it through the individual components.
    * (Difficulty in reaching the mithril component to get canvas context)
-   *
+   * @private
    */
+
   _onReset() {
     this.bioMapComponents.forEach(item => {
       item.model.view.visible = item.model.view.base;
@@ -278,10 +320,15 @@ export class HorizontalLayout
     m.redraw();
   }
 
+  /**
+   *
+   * @param data
+   * @private
+   */
+
   _onFeatureUpdate(data) {
     this.bioMapComponents[data.mapIndex]._layout();
     m.redraw();
     this._onReorder();
   }
-
 }

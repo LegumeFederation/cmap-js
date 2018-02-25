@@ -12,6 +12,7 @@ export class TextAtlas {
    * @param Number - lineHeight: will default to 1.5 times the font size in pixels
    * @param Boolean - fill: whether to fill, or stroke (default true)
    */
+
   constructor({
                 words,
                 fonts = ['16px sans-serif'],
@@ -29,6 +30,7 @@ export class TextAtlas {
   /**
    * create a data structure for each font -> { canvas, 2d context, etc.. }
    */
+
   _initCanvases() {
     this.fonts.forEach(font => {
       const canvas = document.createElement('canvas');
@@ -50,6 +52,7 @@ export class TextAtlas {
   /**
    * draw all the words on each font -> atlas and build an index for retrieval
    */
+
   _prepareAtlases() {
     this.index = {};
     this.fonts.forEach(font => {
@@ -79,6 +82,7 @@ export class TextAtlas {
    * @param Number x - the horizontal coordinate
    * @param Number y - ths vertical coordinate
    */
+
   draw({font, word, ctx, x, y}) {
     const srcBounds = this.index[word][font];
     const srcCanvas = this.atlases[font].canvas;

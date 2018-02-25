@@ -13,6 +13,7 @@ class Feature {
    * @param {Object} aliases - array of alternate names, optional
    * @returns {Object}
    */
+
   constructor({
                 source,
                 coordinates = {start: 0, stop: 0},
@@ -27,15 +28,31 @@ class Feature {
     this.aliases = aliases;
   }
 
+  /**
+   *
+   * @returns {number}
+   */
+
   get length() {
     return this.coordinates.stop - this.coordinates.start;
   }
+
+  /**
+   *
+   * @returns {boolean}
+   */
 
   get typeHasLinkouts() {
     return this.source.linkouts.some(l => {
       return this.typeLinkedBy(l);
     });
   }
+
+  /**
+   *
+   * @param linkout
+   * @returns {Array|*|boolean}
+   */
 
   typeLinkedBy(linkout) {
     return linkout.featuretypePattern != undefined ?
@@ -47,11 +64,17 @@ class Feature {
 }
 
 /**
- * Find the common features based on name and aliases.
  * @param Array features1 - 1st collection of features
  * @param Array features2 - 2nd collection of features
  * @return Array - tuples of results in common [[feat1, feat2], ...]
  */
+/**
+ * Find the common features based on name and aliases.
+ * @param features1
+ * @param features2
+ * @returns {any[]}
+ */
+
 // TODO: support more than two collections of features
 function featuresInCommon(features1, features2) {
   const setupDict = (features) => {

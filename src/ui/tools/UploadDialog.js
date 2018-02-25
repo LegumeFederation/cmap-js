@@ -10,7 +10,9 @@ export class UploadDialog {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     this.model = vnode.attrs.model;
     this.onDismiss = vnode.attrs.onDismiss;
@@ -22,7 +24,10 @@ export class UploadDialog {
 
   /**
    * event handler for cancel button.
+   * @param evt
+   * @private
    */
+
   _onCancel(evt) {
     evt.preventDefault();
     this.onDismiss(evt);
@@ -30,7 +35,10 @@ export class UploadDialog {
 
   /**
    * event handler for add-on-right button
+   * @param evt
+   * @private
    */
+
   _onAddData(evt) {
     let sources = [];
     let uploadedMaps = [];
@@ -92,7 +100,11 @@ export class UploadDialog {
 
   /**
    * event handler for radio button change.
+   * @param evt
+   * @param map
+   * @private
    */
+
   _onSelection(evt, map) {
     evt.preventDefault();
     this.selection = map;
@@ -101,7 +113,9 @@ export class UploadDialog {
 
   /**
    * mithril component render callback.
+   * @returns {*}
    */
+
   view() {
     const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
@@ -170,6 +184,11 @@ export class UploadDialog {
   }
 }
 
+/**
+ *
+ * @type {{loc: string, file: string, newName: string, new: boolean, setLoc: UploadData.setLoc, setName: UploadData.setName, setFile: UploadData.setFile, toggleNew: UploadData.toggleNew}}
+ */
+
 let UploadData = {
   loc: '',
   file: '',
@@ -182,16 +201,14 @@ let UploadData = {
     UploadData.newName = value;
   },
   setFile: function (files) {
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = function (e) {
       UploadData.file = e.target.result;
     };
     reader.readAsDataURL(files[0]);
-
   },
   toggleNew: function (selection) {
-    UploadData.new = !selection ? true : false;
-
+    UploadData.new = !selection;
   }
 };
 

@@ -2,12 +2,20 @@
  * ruler
  * A SceneGraphNode representing ruler and zoom position for a given backbone
  *
+ * @extends SceneGraphNodeBase
  */
+
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
 
 export class Ruler extends SceneGraphNodeBase {
+
+  /**
+   * Constructor
+   * @param parent - parent scene graph node
+   * @param bioMap - map data
+   */
 
   constructor({parent, bioMap}) {
     super({parent});
@@ -32,6 +40,11 @@ export class Ruler extends SceneGraphNodeBase {
       height: b.height
     });
   }
+
+  /**
+   * Draw ruler and zoom bar
+   * @param ctx - linked canvas2D context
+   */
 
   draw(ctx) {
     let vStart = this.invert ? this.mapCoordinates.visible.stop : this.mapCoordinates.visible.start;
@@ -93,6 +106,12 @@ export class Ruler extends SceneGraphNodeBase {
 
     this.children.forEach(child => child.draw(ctx));
   }
+
+  /**
+   * Return the ruler as data for an scenegraph visibility check. (Ruler by defenition is
+   * always visible, and does own logic for the position bar)
+   * @returns {{data: Ruler}}
+   */
 
   get visible() {
     return {data: this};

@@ -12,6 +12,11 @@ import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
 
+  /**
+   *
+   * @param vnode
+   */
+
   oninit(vnode) {
     super.oninit(vnode);
     this.tagList = vnode.attrs.info.parent.parent.model.tags.sort();
@@ -22,7 +27,10 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
 
   /**
    * mithril component render method
+   * @param vnode
+   * @returns {*}
    */
+
   view(vnode) {
     let info = vnode.attrs.info || {};
     let bounds = vnode.attrs.bounds || {};
@@ -39,6 +47,13 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
     }, [this._dropDown(modal), this._applyButton(modal), this._closeButton(modal)]);
   }
 
+  /**
+   *
+   * @param modal
+   * @returns {*}
+   * @private
+   */
+
   _applyButton(modal) {
     return m('button', {
       onclick: function () {
@@ -51,6 +66,13 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
     }, 'Apply Selection');
   }
 
+  /**
+   *
+   * @param modal
+   * @returns {*}
+   * @private
+   */
+
   _closeButton(modal) {
     return m('button', {
       onclick: function () {
@@ -58,6 +80,13 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
       }
     }, 'Close');
   }
+
+  /**
+   *
+   * @param modal
+   * @returns {*}
+   * @private
+   */
 
   _dropDown(modal) {
     console.log('what inner', modal, modal.rootNode);
@@ -74,6 +103,11 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
     })
     ]);
   }
+
+  /**
+   *
+   * @returns {boolean}
+   */
 
   handleGesture() {
     // prevent interacting with div from propegating events

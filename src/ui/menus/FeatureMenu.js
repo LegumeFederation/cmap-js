@@ -9,6 +9,12 @@ import {featureUpdate} from '../../topics';
 import {ColorPicker} from './ColorPicker';
 
 export class FeatureMenu {
+  /**
+   *
+   * @param data
+   * @param order
+   */
+
   constructor(data, order) {
     // Setup modal position based on current placement of the actual map
     // layout viewport. keeps things self-contained when embedding.
@@ -121,7 +127,20 @@ export class FeatureMenu {
   }
 }
 
+/**
+ *
+ * @type {{view: _removeButton.view}}
+ * @private
+ */
+
 export let _removeButton = {
+
+  /**
+   *
+   * @param vnode
+   * @returns {*}
+   */
+
   view: function (vnode) {
     return m('button', {
       onclick:
@@ -136,7 +155,20 @@ export let _removeButton = {
   }
 };
 
+/**
+ *
+ * @type {{view: _cancelButton.view}}
+ * @private
+ */
+
 export let _cancelButton = {
+
+  /**
+   *
+   * @param vnode
+   * @returns {*}
+   */
+
   view: function (vnode) {
     return m('button', {
       onclick:
@@ -150,7 +182,20 @@ export let _cancelButton = {
   }
 };
 
+/**
+ *
+ * @type {{view: _applyButton.view}}
+ * @private
+ */
+
 export let _applyButton = {
+
+  /**
+   *
+   * @param vnode
+   * @returns {*}
+   */
+
   view: function (vnode) {
     return m('button', {
       onclick: function () {
@@ -174,10 +219,19 @@ export let _applyButton = {
   }
 };
 
-/*
+/**
  * Div with simple close X
+ * @type {{view: CloseButton.view}}
  */
+
 export let CloseButton = {
+
+  /**
+   *
+   * @param vnode
+   * @returns {*}
+   */
+
   view: function (vnode) {
     return m('div',
       {
@@ -196,13 +250,28 @@ export let CloseButton = {
 /*
  * Mithril component
  * Div that contains the dropdowns and components for selecting track options
+ * @type {{oninit: TrackMenu.oninit, view: TrackMenu.view}}
  */
+
 export let TrackMenu = {
+
+  /**
+   *
+   * @param vnode
+   */
+
   oninit: function (vnode) {
     vnode.state = vnode.attrs;
     vnode.state.hidden = [];
     vnode.state.picker = [];
   },
+
+  /**
+   *
+   * @param vnode
+   * @returns {*}
+   */
+
   view: function (vnode) {
     let selected = vnode.state.info.selected;
     let settings = vnode.state.info.settings;
@@ -266,11 +335,24 @@ export let TrackMenu = {
 /*
  * Mithril component
  * Actual dropdown selector
+ * @type {{oninit: Dropdown.oninit, onbeforeupdate: Dropdown.onbeforeupdate, view: Dropdown.view}}
  */
+
 export let Dropdown = {
+
+  /**
+   *
+   * @param vnode
+   */
+
   oninit: function (vnode) {
     vnode.state = vnode.attrs;
   },
+  /**
+   *
+   * @param vnode
+   */
+
   onbeforeupdate: function (vnode) {
     if (vnode.state.count > vnode.attrs.parentDiv.count) {
       vnode.attrs.parentDiv.count = vnode.state.count;
@@ -278,6 +360,13 @@ export let Dropdown = {
       vnode.state.count = vnode.attrs.parentDiv.count;
     }
   },
+
+  /**
+   *
+   * @param vnode
+   * @returns {*}
+   */
+
   view: function (vnode) {
     let order = vnode.state.order;
     let settings = vnode.state.settings;
@@ -285,7 +374,7 @@ export let Dropdown = {
       id: `selector-${order}`,
       selectedIndex: settings.selected[order].index,
       oninput: (e) => {
-        var selected = e.target.selectedIndex;
+        let selected = e.target.selectedIndex;
         settings.selected[order].name = settings.tags[selected];
         settings.selected[order].index = selected;
       }
@@ -296,10 +385,12 @@ export let Dropdown = {
   }
 };
 
-/*
+/**
  * Function to close the menu-viewport and reshow the
  * layout viewport
+ *
  */
+
 export function closeModal() {
   //reset cmap-menu-viewport vdom tree to empty state
   m.mount(document.getElementById('cmap-menu-viewport'), null);

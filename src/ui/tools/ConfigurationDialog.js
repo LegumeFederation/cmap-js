@@ -10,6 +10,11 @@ export class ConfigurationDialog {
   /**
    * mithril lifecycle method
    */
+  /**
+   *
+   * @param vnode
+   */
+
   oninit(vnode) {
     this.model = vnode.attrs.model;
     console.log('cd', this.model);
@@ -33,7 +38,10 @@ export class ConfigurationDialog {
 
   /**
    * event handler for cancel button.
+   * @param evt
+   * @private
    */
+
   _onCancel(evt) {
     evt.preventDefault();
     this.onDismiss(evt);
@@ -41,7 +49,10 @@ export class ConfigurationDialog {
 
   /**
    * event handler for add-on-right button
+   * @param evt
+   * @private
    */
+
   _onUpdated(evt) {
     let newConfig = JSON.parse(ConfigData.updated);
     let finalConfig = [];
@@ -63,7 +74,9 @@ export class ConfigurationDialog {
 
   /**
    * mithril component render callback.
+   * @returns {*}
    */
+
   view() {
     const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
@@ -94,6 +107,11 @@ export class ConfigurationDialog {
     ]);
   }
 }
+
+/**
+ *
+ * @type {{base: string, updated: string, setBase: ConfigData.setBase, setUpdated: ConfigData.setUpdated}}
+ */
 
 let ConfigData = {
   base: '',

@@ -9,7 +9,9 @@ export class MapAdditionDialog {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     this.model = vnode.attrs.model;
     this.onDismiss = vnode.attrs.onDismiss;
@@ -18,7 +20,10 @@ export class MapAdditionDialog {
 
   /**
    * event handler for cancel button.
+   * @param evt
+   * @private
    */
+
   _onCancel(evt) {
     evt.preventDefault();
     this.onDismiss(evt);
@@ -26,7 +31,10 @@ export class MapAdditionDialog {
 
   /**
    * event handler for add-on-right button
+   * @param evt
+   * @private
    */
+
   _onAddRight(evt) {
     const i = this.model.bioMaps.length;
     this.model.addMap(this.selection, i);
@@ -36,7 +44,10 @@ export class MapAdditionDialog {
 
   /**
    * event handler for add-on-left button
+   * @param evt
+   * @private
    */
+
   _onAddLeft(evt) {
     this.model.addMap(this.selection, 0);
     evt.preventDefault();
@@ -45,7 +56,11 @@ export class MapAdditionDialog {
 
   /**
    * event handler for radio button change.
+   * @param evt
+   * @param map
+   * @private
    */
+
   _onSelection(evt, map) {
     evt.preventDefault();
     this.selection = map;
@@ -53,7 +68,9 @@ export class MapAdditionDialog {
 
   /**
    * mithril component render callback.
+   * @returns {*}
    */
+
   view() {
     const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [

@@ -6,9 +6,19 @@ import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 export class SceneGraphNodeGroup extends SceneGraphNodeBase {
 
+  /**
+   * constructor
+   * @param params
+   */
+
   constructor(params) {
     super(params);
   }
+
+  /**
+   * Return visible children elements
+   * @returns {Array}
+   */
 
   get visible() {
     let vis = [];

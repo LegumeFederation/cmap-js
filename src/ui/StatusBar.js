@@ -7,9 +7,19 @@ import m from 'mithril';
 export class StatusBar {
 
   // constructor() - prefer do not use in mithril components
+  /**
+   *
+   * @param vnode
+   */
+
   oninit(vnode) {
     this.appState = vnode.attrs.appState;
   }
+
+  /**
+   *
+   * @returns {*}
+   */
 
   view() {
     return m('div', [

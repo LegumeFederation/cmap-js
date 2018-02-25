@@ -15,14 +15,18 @@ export class LayoutPicker {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     this.appState = vnode.attrs.appState;
   }
 
   /**
    * mithril component render method
+   * @returns {*}
    */
+
   view() {
     return m('fieldset', [
         m('legend', 'layout:'),
@@ -54,7 +58,9 @@ export class LayoutPicker {
 
   /**
    * mithril event handler
+   * @param e
    */
+
   onchange(e) {
     let l = e.target.value;
     this.appState.layout = l;

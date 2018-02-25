@@ -21,6 +21,12 @@ export class SceneGraphNodeCanvas
   extends mix(SceneGraphNodeBase)
     .with(DrawLazilyMixin, RegisterComponentMixin) {
 
+  /**
+   * constructor
+   * @param model - data model for canvas
+   * @param appState - app state model
+   */
+
   constructor({model, appState}) {
     super({});
     this.model = model;
@@ -39,13 +45,20 @@ export class SceneGraphNodeCanvas
     };
   }
 
+  /**
+   * Getter if canvas has focus
+   * @returns {boolean}
+   */
+
   get selected() {
     return this.appState.selection.bioMaps.indexOf(this) !== -1;
   }
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oncreate(vnode) {
     super.oncreate(vnode);
     this.canvas = this.el = vnode.dom;
@@ -55,7 +68,9 @@ export class SceneGraphNodeCanvas
 
   /**
    * mithril lifecycle method
+   * @param vnode - current virtual dom node
    */
+
   onupdate(vnode) {
     // TODO: remove this development assistive method
     console.assert(this.el === vnode.dom);
@@ -84,8 +99,9 @@ export class SceneGraphNodeCanvas
   }
 
   /**
-   * draw our scenegraph children our canvas element
+   * draw our scene graph children on canvas element
    */
+
   draw() {
     let ctx = this.context2d;
     if (!ctx) return;
@@ -102,7 +118,10 @@ export class SceneGraphNodeCanvas
 
   /**
    * custom gesture event dispatch listener; see LayoutContainer
+   * @param evt
+   * @returns {boolean} Don't stop event propagation
    */
+
   handleGesture(evt) {
     if (evt.type.match(this._gestureRegex.tap)) {
       return this._onTap(evt);
@@ -126,12 +145,26 @@ export class SceneGraphNodeCanvas
     return false; // dont stop evt propagation
   }
 
+  /**
+   * Handle zoom event
+   * @param evt - zoom event (mousewheel or gesture)
+   * @returns {boolean} don't stop event propagation
+   * @private
+   */
+
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onZoom -- implement me', evt);
     return false; // stop event propagation
   }
+
+  /**
+   * Tap/Click event
+   * @param evt
+   * @returns {boolean} Don't stop event propagation by default
+   * @private
+   */
 
   _onTap(evt) {
     let sel = this.appState.selection.bioMaps;
@@ -150,6 +183,13 @@ export class SceneGraphNodeCanvas
     return false;
   }
 
+  /**
+   * Pan event that isn't first or last in sequence
+   * @param evt
+   * @returns {boolean}
+   * @private
+   */
+
   _onPan(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
@@ -160,12 +200,26 @@ export class SceneGraphNodeCanvas
     return false; // do not stop propagation
   }
 
+  /**
+   * First pan event in sequence
+   * @param evt
+   * @returns {boolean}
+   * @private
+   */
+
   _onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
     // (dont scale the canvas element itself)
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
     return false;
   }
+
+  /**
+   * Final pan event in sequence
+   * @param evt
+   * @returns {boolean}
+   * @private
+   */
 
   _onPanEnd(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
