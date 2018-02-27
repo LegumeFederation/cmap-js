@@ -36,14 +36,19 @@ export class Bounds {
     if (isNil(this.right)) this._right = this.left + this.width;
 
     if (!allowSubpixel) {
+      // noinspection JSSuspiciousNameCombination
       this._bottom = Math.floor(this.bottom);
+      // noinspection JSSuspiciousNameCombination
       this._top = Math.floor(this.top);
       this._left = Math.floor(this.left);
       this._right = Math.floor(this.right);
       this._width = Math.floor(this.width);
+      // noinspection JSSuspiciousNameCombination
       this._height = Math.floor(this.height);
       if (this.x) this.x = Math.floor(this.x);
-      if (this.y) this.y = Math.floor(this.y);
+      if (this.y) { // noinspection JSSuspiciousNameCombination
+        this.y = Math.floor(this.y);
+      }
     }
   }
 
@@ -161,7 +166,7 @@ export class Bounds {
     let p, n1, n2;
     if (!bounds1 || !bounds2)
       return false; // check for null args
-    for (var i = 0; i < PROPS.length; i++) {
+    for (let i = 0; i < PROPS.length; i++) {
       p = PROPS[i];
       n1 = bounds1[p];
       n2 = bounds2[p];

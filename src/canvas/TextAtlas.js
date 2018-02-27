@@ -7,10 +7,9 @@ export class TextAtlas {
   /**
    * create a TextAtlas
    * @param Object - parameters object with properties:
-   * @param Array - words: an array of words of phrases to be rendered
-   * @param Array - fonts: array of font definitions, default ['12px sans-serif']
-   * @param Number - lineHeight: will default to 1.5 times the font size in pixels
-   * @param Boolean - fill: whether to fill, or stroke (default true)
+   * @param {Array} words - an array of words of phrases to be rendered
+   * @param {Array} fonts - array of font definitions, default ['12px sans-serif']
+   * @param {Boolean} fill - whether to fill, or stroke (default true)
    */
 
   constructor({
@@ -76,11 +75,11 @@ export class TextAtlas {
   /**
    * draw some text using the offscreen canvas technique.
    * @param Object params - an object with the following properties:
-   * @param String font - which font specification to use
-   * @param String word - which word or phrase to draw
-   * @param Object ctx - canvas context2d to draw into
-   * @param Number x - the horizontal coordinate
-   * @param Number y - ths vertical coordinate
+   * @param {String} font which font specification to use
+   * @param {String} word - which word or phrase to draw
+   * @param {Object} ctx - canvas context2d to draw into
+   * @param {Number} x - the horizontal coordinate
+   * @param {Number} y - ths vertical coordinate
    */
 
   draw({font, word, ctx, x, y}) {

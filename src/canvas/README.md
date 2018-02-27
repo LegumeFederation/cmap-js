@@ -21,7 +21,7 @@ There are:
   of the same overall drawn geometry. SceneGraphNodeGroup could be extended to be a "track" style node setup for drawing complex groups of items, such as FeatureMap.
 * `SceneGraphNodeCanvas` - top level node for a given canvas
   * `BioMap` - A Canvas that contains at minimum a 'MapTrack' (mapbackbone + markers)
-  * `CorrespondenceMap` - A Canvas that contains only a Corresponence Map
+  * `CorrespondenceMap` - A Canvas that contains only a Correspondence Map
 * `SceneGraphNodeRoot` - NOT REIMPLEMENTED: SceneGraphNodeBase with explicit 0,0 top and left. Used for navigating rtrees between canvases.
 * `SceneGraphNodeText` - NOT IMPLEMENTED: Like Geometry, but for text items.
 

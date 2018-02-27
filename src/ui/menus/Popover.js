@@ -141,7 +141,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
    */
 
   static handleGesture() {
-    // prevent interacting with div from propegating events
+    // prevent interacting with div from propagating events
     return true;
   }
 }

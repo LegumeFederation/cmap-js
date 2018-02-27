@@ -15,7 +15,7 @@ export class SceneGraphNodeBase {
    * e.g. new SceneGraphNode({param: .., param2, etc.})
    *
    * @param {Object} params - having the following properties:
-   * @param {String} tag - an label or slug
+   * @param {Array} tags - an label or slug
    * @param {Object} parent - the parent node
    * @param {Object} bounds - local Canvas bounds, relative to our parent.
    * This is not the same as DOM bounds of the canvas element!
@@ -98,7 +98,7 @@ export class SceneGraphNodeBase {
    * At this level, it is assumed that there is no viewport
    * constraints to the filter.
    *
-   *  @retrun {Array} - array of rbush nodes
+   *  @return {Array} - array of rbush nodes
    */
 
   get visible() {

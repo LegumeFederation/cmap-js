@@ -57,7 +57,7 @@ export class ConfigurationDialog {
     let newConfig = JSON.parse(ConfigData.updated);
     let finalConfig = [];
     this.model.allMaps.forEach(map => {
-      for (var name in newConfig) {
+      for (let name in newConfig) {
         if (newConfig.hasOwnProperty(name) && name === map.name && newConfig[name].source === map.source.id) {
           let item = map;
           item.config = newConfig[name].config;
@@ -78,7 +78,7 @@ export class ConfigurationDialog {
    */
 
   view() {
-    const allMaps = this.model.allMaps || [];
+    //const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
       m('h5', 'Configuration Details'),
       m('form', [
@@ -87,7 +87,7 @@ export class ConfigurationDialog {
             value: ConfigData.updated,
             onchange: function (e) {
               e.preventDefault();
-              ConfigData.updated = e.currentTarget.value;
+              ConfigData.updated = String(e.currentTarget.value);
             }
           }
         )

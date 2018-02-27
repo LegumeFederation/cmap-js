@@ -79,8 +79,7 @@ export class HorizontalLayout
 
   /**
    * mithril component render method
-   * @param vnode
-   * @returns {*}
+   * @returns {*} mithril vnode
    */
 
   view() {
@@ -130,7 +129,7 @@ export class HorizontalLayout
     });
     for (let i = 0; i < bmaps.length; i++) {
       let map = bmaps[sc[i]];
-      const mapC = bmaps[sc[i]].domBounds;
+      //const mapC = bmaps[sc[i]].domBounds;
       const mw = map.domBounds.width;
       map.domBounds.left = left;
       map.domBounds.right = left + mw;
@@ -153,7 +152,7 @@ export class HorizontalLayout
     let sc = this.bioMapOrder;
     let maps = this;
     let cb = this.contentBounds;
-    let bmaps = this.bioMapComponents;
+    //let bmaps = this.bioMapComponents;
     let pan = [];
     pan[0] = false;
     m.mount(document.getElementById('cmap-layout-titles'), {
@@ -179,8 +178,8 @@ export class HorizontalLayout
 
   _layoutFeatureControls() {
     this.featureControls = [];
-    let n = this.bioMapComponents.length;
-    let maps = this;
+    //let n = this.bioMapComponents.length;
+    //let maps = this;
     this.bioMapComponents.forEach(component => {
       component.children.forEach(child => {
         if (child instanceof QtlTrack) {
@@ -195,8 +194,7 @@ export class HorizontalLayout
                       top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
                   onclick: function () {
                     let info = child.children[0];
-                    let order = i;
-                    new FeatureMenu(info, order);
+                    new FeatureMenu(info, i);
                   }
                 }, featureGroup.tags[0])
               );
@@ -211,10 +209,10 @@ export class HorizontalLayout
                       top: ${component.domBounds.top}px; width: 20px;`,
               onclick: function () {
                 let info = child.children[0];
-                let order = child.children.lenght;
+                let order = child.children.length;
                 new FeatureMenu(info, order);
               }
-            }, `+`)
+            }, '+')
           );
         }
       });
@@ -222,7 +220,7 @@ export class HorizontalLayout
   }
 
   /**
-   * Horizonal (left to right) layout of BioMaps
+   * Horizontal (left to right) layout of BioMaps
    *
    * @returns {Array}
    * @private
@@ -282,7 +280,7 @@ export class HorizontalLayout
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let n = this.bioMapComponents.length;
     this.correspondenceMapComponents = [];
-    for (var i = 0; i < n - 1; i++) {
+    for (let i = 0; i < n - 1; i++) {
       let left = this.bioMapComponents[i];
       let right = this.bioMapComponents[i + 1];
       let layoutBounds = new Bounds({

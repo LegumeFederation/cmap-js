@@ -45,7 +45,7 @@ export class QTL extends SceneGraphNodeBase {
     let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     let y2 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     let leftLoc = 0;
-    let leftArr = [];
+    let leftArr;
     leftArr = this.parent.locMap.search({
       minY: this.model.coordinates.start,
       maxY: this.model.coordinates.stop,
@@ -84,8 +84,8 @@ export class QTL extends SceneGraphNodeBase {
     // visible region.
     if (this.model.coordinates.stop < this.view.visible.start ||
       this.model.coordinates.start > this.view.visible.stop) return;
-    var y1pos = this.model.coordinates.start > this.view.visible.start ? this.model.coordinates.start : this.view.visible.start;
-    var y2pos = this.model.coordinates.stop < this.view.visible.stop ? this.model.coordinates.stop : this.view.visible.stop;
+    let y1pos = this.model.coordinates.start > this.view.visible.start ? this.model.coordinates.start : this.view.visible.start;
+    let y2pos = this.model.coordinates.stop < this.view.visible.stop ? this.model.coordinates.stop : this.view.visible.stop;
     this.start = y1pos;
     this.stop = y2pos;
     if (this.invert) {
@@ -109,6 +109,8 @@ export class QTL extends SceneGraphNodeBase {
     let fontStyle = this.labelFace;
     ctx.font = `${fontSize}px ${fontStyle}`;
     ctx.fillStyle = this.fill;
+    // noinspection JSSuspiciousNameCombination
+    // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),

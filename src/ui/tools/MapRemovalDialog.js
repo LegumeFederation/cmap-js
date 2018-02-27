@@ -38,10 +38,9 @@ export class MapRemovalDialog {
    */
 
   _onRemove(evt) {
-    const filtered = this.model.bioMaps.filter(bioMap => {
+    this.model.bioMaps = this.model.bioMaps.filter(bioMap => {
       return this.selection.indexOf(bioMap) === -1;
     });
-    this.model.bioMaps = filtered;
     PubSub.publish(mapRemoved, this.selection);
     evt.preventDefault();
     this.onDismiss(evt);

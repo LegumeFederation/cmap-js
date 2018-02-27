@@ -54,7 +54,7 @@ export class DataSourceModel {
     this.filters = filters || [];
     this.linkouts = linkouts || [];
     this.linkouts.forEach(l => {
-      l.featuretypePattern != undefined ? l.featuretypePattern = new RegExp(l.featuretypePattern) : undefined;
+      l.featuretypePattern !== undefined ? l.featuretypePattern = new RegExp(l.featuretypePattern) : undefined;
     });
     this.background = true; // mithril not to redraw upon completion
   }
@@ -95,7 +95,7 @@ export class DataSourceModel {
    * processed sequentially and the result is all or nothing, effectively like
    * SQL AND.
    *
-   * @param {Object} d - key/value properies of 1 record
+   * @param {Object} d - key/value properties of 1 record
    * @return {Boolean} true for include, false for exclude
    */
 
@@ -138,7 +138,7 @@ export class DataSourceModel {
         if (!d.map_name) return;
         const uniqueMapName = `${this.id}/${d.map_name}`;
         if (!res[uniqueMapName]) {
-          const model = new BioMapModel({
+          res[uniqueMapName] = new BioMapModel({
             source: this,
             name: d.map_name,
             features: [],
@@ -146,7 +146,6 @@ export class DataSourceModel {
             coordinates: {start: d.map_start, stop: d.map_stop},
             config: this.bioConfig[d.map_name] || this.bioConfig.default
           });
-          res[uniqueMapName] = model;
         }
         else {
           if (d.map_stop > res[uniqueMapName].coordinates.stop) {

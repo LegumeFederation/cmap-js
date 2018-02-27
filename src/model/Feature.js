@@ -55,7 +55,7 @@ class Feature {
    */
 
   typeLinkedBy(linkout) {
-    return linkout.featuretypePattern != undefined ?
+    return linkout.featuretypePattern !== undefined ?
       this.tags.some(t => {
         return linkout.featuretypePattern.test(t);
       })

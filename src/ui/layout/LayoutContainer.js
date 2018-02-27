@@ -126,6 +126,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     // TODO: utilize the distance of touch event for better interaction
     const normalized = evt.deltaY / this.bounds.height;
     const z = this.appState.tools.zoomFactor + normalized;
+    // noinspection Annotator
     this.appState.tools.zoomFactor = Math.clamp(z, SCALE.min, SCALE.max);
     m.redraw();
     return true; // stop evt propagation
@@ -144,7 +145,7 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     // gesture so need to convert it to delta x,y for this event.
     if (evt.type === 'panend') {
       this.lastPanEvent = null;
-      return;
+      return true;
     }
     let delta = {};
     if (this.lastPanEvent) {

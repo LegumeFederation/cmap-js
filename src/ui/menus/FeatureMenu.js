@@ -34,11 +34,11 @@ export class FeatureMenu {
     let tagList = model.tags.sort();
     let settings = {};
     let trackGroups = [];
-    let defaultSettings = model.qtlGroups && model.qtlGroups[order] != undefined ? {
+    let defaultSettings = model.qtlGroups && model.qtlGroups[order] !== undefined ? {
       filters: model.qtlGroups[order].filters.slice(0),
       trackColor: model.qtlGroups[order].trackColor.slice(0)
     } : undefined;
-    if (order == undefined) {
+    if (order === undefined) {
       order = model.qtlGroups ? model.qtlGroups.length : 0;
     }
 
@@ -81,7 +81,7 @@ export class FeatureMenu {
     };
 
     //Attach components to viewport, in general these are the close button (x in top
-    //right), the acutal modal contents, and the apply/close/delete button bar
+    //right), the actual modal contents, and the apply/close/delete button bar
     let controls = [
       m(_applyButton, {
         position: data.lp,
@@ -95,7 +95,7 @@ export class FeatureMenu {
       m(_cancelButton, {qtl: model.qtlGroups, order: order, reset: defaultSettings, newData: selected})
     ];
 
-    if (model.qtlGroups[order] != undefined) {
+    if (model.qtlGroups[order] !== undefined) {
       controls.push(m(_removeButton, {
         position: data.lp,
         mapIndex: model.component.bioMapIndex,
@@ -106,12 +106,12 @@ export class FeatureMenu {
       }));
     }
 
-    // Buld menu mithril component, then mount    
+    // Build menu mithril component, then mount
     let modalDiv = {
       oncreate: function (vnode) {
         vnode.dom.mithrilComponent = this; // Without this and handleGesture, clicks in modal will pass through to the underlying view
       },
-      view: function (vnode) {
+      view: function () {
         return m('div', {style: 'height:100%; width:100%'}, [
             m(CloseButton, {qtl: model.qtlGroups, order: order, reset: defaultSettings, newData: selected}),
             m(TrackMenu, {info: trackConfig, count: 0}),
@@ -173,7 +173,7 @@ export let _cancelButton = {
     return m('button', {
       onclick:
         () => {
-          if (vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] != undefined) {
+          if (vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] !== undefined) {
             vnode.attrs.qtl[vnode.attrs.order] = vnode.attrs.reset;
           }
           closeModal();
@@ -238,7 +238,7 @@ export let CloseButton = {
         style: 'text-align:right;',
         onclick:
           () => {
-            if (vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] != undefined) {
+            if (vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] !== undefined) {
               vnode.attrs.qtl[vnode.attrs.order] = vnode.attrs.reset;
             }
             closeModal();
@@ -277,8 +277,8 @@ export let TrackMenu = {
     let settings = vnode.state.info.settings;
     this.count = 0;
 
-    let dropdows = selected.map((item, order) => {
-      if (settings.trackColor[order] == undefined) {
+    let dropdowns = selected.map((item, order) => {
+      if (settings.trackColor[order] === undefined) {
         settings.trackColor[order] = settings.trackColor.slice(0, 1);
       }
       if (!vnode.state.hidden[order]) {
@@ -328,7 +328,7 @@ export let TrackMenu = {
     });
     return m('div#track-select-div', {
       style: 'overflow:auto;width:100%;height:80%;'
-    }, dropdows);
+    }, dropdowns);
   }
 };
 
@@ -394,7 +394,7 @@ export let Dropdown = {
 export function closeModal() {
   //reset cmap-menu-viewport vdom tree to empty state
   m.mount(document.getElementById('cmap-menu-viewport'), null);
-  //explicity set visibility to avoid weird page interaction issues
+  //explicitly set visibility to avoid weird page interaction issues
   document.getElementById('cmap-layout-viewport').style.visibility = 'visible';
   document.getElementById('cmap-menu-viewport').style.display = 'none';
 }

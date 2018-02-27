@@ -41,8 +41,6 @@ export class UploadDialog {
 
   _onAddData(evt) {
     let sources = [];
-    let uploadedMaps = [];
-    let match = [];
     if (!this.selection) {
       this.selection = {
         id: UploadData.newName,
@@ -72,7 +70,7 @@ export class UploadDialog {
           this.model.sources.push(src);
         }
         src.parseResult.data.forEach(data => data.feature_type_acc = 'Uploaded_' + data.feature_type_acc);
-        // update parseReaults and all maps to reflect new data
+        // update parseResults and all maps to reflect new data
         this.selection.parseResult.data = this.selection.parseResult.data.concat(src.parseResult.data);
         this.model.allMaps = this.model.sources.map(src => Object.values(src.bioMaps)).concatAll();
         // update active view models to show new data
@@ -117,7 +115,7 @@ export class UploadDialog {
    */
 
   view() {
-    const allMaps = this.model.allMaps || [];
+    //const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
       m('h5', 'Add Map'),
       m('p', 'Currently only one file may be added at a time. If both a URL and a local file are provided, preference will be given to the local file.'),
@@ -168,7 +166,7 @@ export class UploadDialog {
       ]),
       m('button', {
           //disabled unless a selection is made, or a new set is selected *and* there is a location or file state)
-          disabled: (this.selection || UploadData.new) && (UploadData.loc !== '' || UploadData.file !== '') ? false : true,
+          disabled: !((this.selection || UploadData.new) && (UploadData.loc !== '' || UploadData.file !== '')),
           class: this.selection || UploadData.new ? 'button-primary' : 'button',
           onclick: evt => this._onAddData(evt)
         }, [

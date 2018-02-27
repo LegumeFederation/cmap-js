@@ -105,7 +105,7 @@ export class MapAdditionDialog {
         ])
       ]),
       m('button', {
-          disabled: this.selection ? false : true,
+          disabled: !this.selection,
           class: this.selection ? 'button-primary' : 'button',
           onclick: evt => this._onAddLeft(evt)
         }, [
@@ -114,7 +114,7 @@ export class MapAdditionDialog {
         ]
       ),
       m('button.button', {
-          disabled: this.selection ? false : true,
+          disabled: !this.selection,
           class: this.selection ? 'button-primary' : 'button',
           onclick: evt => this._onAddRight(evt)
         }, [

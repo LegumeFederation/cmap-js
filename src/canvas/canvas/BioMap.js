@@ -147,7 +147,7 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
+    // (don't scale the canvas element itself)
     console.warn('BioMap -> onZoom', evt);
     // normalise scroll delta
     this.verticalScale = evt.deltaY < 0 ? -this.zoomDelta : this.zoomDelta;
@@ -214,7 +214,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       });
       //@awilkey: is this obsolete?
       //TODO: Revisit info popovers
-      this.info.innerHTML = `<p> ${names.join('\n')} <\p>`;
+      this.info.innerHTML = `<p> ${names.join('\n')} </p>`;
       m.redraw();
     } else if (this.info.display !== 'none') {
       this.info.display = 'none';
@@ -235,7 +235,7 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   _onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
+    // (don't scale the canvas element itself)
     this.zoomP = {
       start: 0,
       end: 0,
@@ -307,7 +307,7 @@ export class BioMap extends SceneGraphNodeCanvas {
    */
 
   _onPan(evt) {
-    // block propegation if pan hasn't started
+    // block propagation if pan hasn't started
     if (!this.zoomP || !this.zoomP.pStart) return true;
     if (this.zoomP && this.zoomP.ruler) {
       this._moveRuler(evt);
@@ -338,9 +338,9 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   _onPanEnd(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
+    // (don't scale the canvas element itself)
     console.warn('BioMap -> onPanEnd -- vertically; implement me', evt, this.model.view.base);
-    // block propegation if pan hasn't started
+    // block propagation if pan hasn't started
     if (!this.zoomP || !this.zoomP.pStart) return true;
     if (this.zoomP && this.zoomP.ruler) {
       this._moveRuler(evt);
@@ -403,7 +403,7 @@ export class BioMap extends SceneGraphNodeCanvas {
             return hit.model.name;
           });
           //@awilkey: is this obsolete?
-          this.info.innerHTML = `<p> ${names.join('\n')} <\p>`;
+          this.info.innerHTML = `<p> ${names.join('\n')} </p>`;
           m.redraw();
         } else if (this.info.display !== 'none') {
           this.info.display = 'none';

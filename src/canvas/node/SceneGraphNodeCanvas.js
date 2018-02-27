@@ -75,7 +75,7 @@ export class SceneGraphNodeCanvas
     // TODO: remove this development assistive method
     console.assert(this.el === vnode.dom);
     let b = new Bounds(this.el.getBoundingClientRect());
-    console.log('BioMap.onupdate', this.el.mithrilComponent);
+    console.log('BioMap.onupdate', this.el.mithrilComponent, b);
   }
 
   /**
@@ -142,7 +142,7 @@ export class SceneGraphNodeCanvas
       }
     }
 
-    return false; // dont stop evt propagation
+    return false; // don't stop evt propagation
   }
 
   /**
@@ -154,7 +154,7 @@ export class SceneGraphNodeCanvas
 
   _onZoom(evt) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
+    // (don't scale the canvas element itself)
     console.warn('BioMap -> onZoom -- implement me', evt);
     return false; // stop event propagation
   }
@@ -192,8 +192,8 @@ export class SceneGraphNodeCanvas
 
   _onPan(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
-    if (evt.direction & Hammer.DIRECTION_VERTICAL) {
+    // (don't scale the canvas element itself)
+    if (evt.direction && Hammer.DIRECTION_VERTICAL) {
       console.warn('BioMap -> onPan -- vertically; implement me', evt);
       return false; // stop event propagation
     }
@@ -209,7 +209,7 @@ export class SceneGraphNodeCanvas
 
   _onPanStart(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
+    // (don't scale the canvas element itself)
     console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
     return false;
   }
@@ -223,7 +223,7 @@ export class SceneGraphNodeCanvas
 
   _onPanEnd(evt) {
     // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (dont scale the canvas element itself)
+    // (don't scale the canvas element itself)
     console.warn('BioMap -> onPanEnd -- vertically; implement me', evt);
     return false; // do not stop propagation
   }

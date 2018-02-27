@@ -82,7 +82,9 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       ctx.lineWidth = this.lineWidth;
       ctx.strokeStyle = '#CAA91E';
       ctx.globalAlpha = 0.7;
+      // noinspection JSSuspiciousNameCombination
       ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
+      // noinspection JSSuspiciousNameCombination
       ctx.lineTo(Math.floor(gb.right), Math.floor(gb.bottom));
       ctx.stroke();
     }
@@ -114,9 +116,13 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       ctx.lineWidth = this.lineWidth;
       ctx.globalAlpha = 0.2;
       ctx.fillStyle = '#7C6400'; //'#A4870C';
+      // noinspection JSSuspiciousNameCombination
       ctx.moveTo(Math.floor(gbLeft.left), Math.floor(gbLeft.top));
+      // noinspection JSSuspiciousNameCombination
       ctx.lineTo(Math.floor(gbLeft.left), Math.floor(gbLeft.bottom));
+      // noinspection JSSuspiciousNameCombination
       ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.bottom));
+      // noinspection JSSuspiciousNameCombination
       ctx.lineTo(Math.floor(gbRight.right), Math.floor(gbRight.top));
       ctx.fill();
     }

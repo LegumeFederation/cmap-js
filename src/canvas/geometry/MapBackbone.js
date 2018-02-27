@@ -42,6 +42,8 @@ export class MapBackbone extends SceneGraphNodeBase {
   draw(ctx) {
     let gb = this.globalBounds || {};
     ctx.fillStyle = this.fillStyle;
+    // noinspection JSSuspiciousNameCombination
+    // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),

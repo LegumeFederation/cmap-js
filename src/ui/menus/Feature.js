@@ -4,10 +4,10 @@
  */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import {featureUpdate, reset} from '../../topics';
+import {featureUpdate} from '../../topics';
 
 import {mix} from '../../../mixwith.js/src/mixwith';
-import {Menu} from './Menus';
+import {Menu} from './Menu';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 
 export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
@@ -32,9 +32,9 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
    */
 
   view(vnode) {
-    let info = vnode.attrs.info || {};
+    //let info = vnode.attrs.info || {};
+    //let order = vnode.attrs.order || 0;
     let bounds = vnode.attrs.bounds || {};
-    let order = vnode.attrs.order || 0;
     let modal = this;
     modal.rootNode = vnode;
 
@@ -110,7 +110,7 @@ export class FeatureMenu extends mix(Menu).with(RegisterComponentMixin) {
    */
 
   handleGesture() {
-    // prevent interacting with div from propegating events
+    // prevent interacting with div from propagating events
     return true;
   }
 }

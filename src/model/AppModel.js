@@ -88,7 +88,7 @@ export class AppModel {
         return (viewConf.source === map.source.id &&
           viewConf.map === map.name);
       });
-      if (res.length == 0) {
+      if (res.length === 0) {
         // TODO: make a nice mithril component to display errors in the UI
         const info = JSON.stringify(viewConf);
         const msg = `failed to resolve initialView entry: ${info}`;

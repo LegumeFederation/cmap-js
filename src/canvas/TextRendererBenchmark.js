@@ -50,10 +50,10 @@ export class TextRendererBenchmark {
   /**
    * create a TextRendererBenchmark
    * @param Object - parameters object with following properties:
-   * @param Array - words, an array of words to rendered
-   * @param Number - width, of canvas
-   * @param Number - height, of canvas
-   * @param Boolean - useOffscreenAtlas, offscreen drawing optimization
+   * @param {Array} words - an array of words to rendered
+   * @param {Number} width - of canvas
+   * @param {Number} height - of canvas
+   * @param {Boolean} useOffscreenAtlas - offscreen drawing optimization
    */
 
   constructor({words, width, height, useOffscreenAtlas}) {

@@ -13,8 +13,8 @@ if (!document.elementsFromPoint) {
 
 /* istanbul ignore next: depends on browser native elementFromPoint(x,y) */
 function elementsFromPoint(x, y) {
-  var parents = [];
-  var parent = void 0;
+  let parents = [];
+  let parent = void 0;
   do {
     if (parent !== document.elementFromPoint(x, y)) {
       parent = document.elementFromPoint(x, y);

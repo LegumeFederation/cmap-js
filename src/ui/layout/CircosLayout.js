@@ -51,13 +51,14 @@ export class CircosLayout
       let rad = radians(degrees);
       let x = center.x - Math.floor(childWidth * 0.5) + Math.floor(radius * Math.cos(rad));
       let y = center.y - Math.floor(childHeight * 0.5) + Math.floor(radius * Math.sin(rad));
-      let bounds = new Bounds({
+      // noinspection JSSuspiciousNameCombination
+      // noinspection JSSuspiciousNameCombination
+      child.domBounds = new Bounds({
         left: x,
         top: y,
         width: childHeight, // swap the width and height
         height: childWidth
       });
-      child.domBounds = bounds;
       child.rotation = Math.floor(degrees) + startDegrees;
       degrees += degreesPerChild;
     });

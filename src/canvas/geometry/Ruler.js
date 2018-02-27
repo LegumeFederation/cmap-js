@@ -35,7 +35,7 @@ export class Ruler extends SceneGraphNodeBase {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
-      left: b.left - config.rulerWidth - config.rulerSpacing, //arbritray spacing to look goo
+      left: b.left - config.rulerWidth - config.rulerSpacing, //arbitrary spacing to look goo
       width: config.rulerWidth,
       height: b.height
     });
@@ -53,8 +53,7 @@ export class Ruler extends SceneGraphNodeBase {
     let stop = translateScale(vStop, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
     let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision), this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
 
-    let w = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
-    this.textWidth = w;
+    this.textWidth = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
 
     let gb = this.globalBounds || {};
     // draw baseline labels
@@ -82,13 +81,16 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.beginPath();
     ctx.lineWidth = 1.0;
     ctx.strokeStyle = 'black';
+    // noinspection JSSuspiciousNameCombination
     ctx.moveTo(Math.floor(gb.left + gb.width / 2), Math.floor(gb.top));
+    // noinspection JSSuspiciousNameCombination
     ctx.lineTo(Math.floor(gb.left + gb.width / 2), Math.floor(gb.bottom));
     ctx.stroke();
 
     // Draw "zoom box"
     ctx.fillStyle = this.fillColor;//'aqua';
-    var height = stop - start > 1 ? stop - start : 1.0;
+    let height = stop - start > 1 ? stop - start : 1.0;
+    // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(start + gb.top),
@@ -108,7 +110,7 @@ export class Ruler extends SceneGraphNodeBase {
   }
 
   /**
-   * Return the ruler as data for an scenegraph visibility check. (Ruler by defenition is
+   * Return the ruler as data for an scenegraph visibility check. (Ruler by definition is
    * always visible, and does own logic for the position bar)
    * @returns {{data: Ruler}}
    */

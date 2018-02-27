@@ -34,14 +34,14 @@ export let TitleComponent = {
 
   onbeforeupdate: function (vnode) {
     vnode.state.bioMaps = vnode.attrs.bioMaps;
-    if (this.titleOrder[this.domOrder] != this.order) {
+    if (this.titleOrder[this.domOrder] !== this.order) {
       this.domOrder = this.titleOrder.indexOf(this.order);
     }
   },
 
   onupdate: function (vnode) {
     let dispOffset = vnode.state.bioMaps[vnode.state.order].domBounds.left - vnode.state.leftStart;
-    if (vnode.state.left != dispOffset && !vnode.state.swap) {
+    if (vnode.state.left !== dispOffset && !vnode.state.swap) {
       this.left = dispOffset;
       this.dirty = true;
     }
@@ -85,7 +85,7 @@ export let TitleComponent = {
       this.lastPanEvent = null;
       this.left = 0;
     }
-    //End pan to set rerrangement
+    //End pan to set rearrangement
     if (evt.type === 'panend') {
       this.vnode.state.zIndex = 0;
       PubSub.publish(mapReorder, null);
@@ -104,7 +104,7 @@ export let TitleComponent = {
 
     //Setup maps and swap points
     let selLeftEdge = this.left + this.leftStart;
-    let selRightEdge = selLeftEdge + this.bioMaps[this.order].domBounds.width;
+    //let selRightEdge = selLeftEdge + this.bioMaps[this.order].domBounds.width;
     const leftMap = this.domOrder > 0 ? this.titleOrder[this.domOrder - 1] : null;
     const rightMap = this.titleOrder[this.domOrder + 1] > -1 ? this.titleOrder[this.domOrder + 1] : null;
     const leftSwapBound = leftMap ? this.leftBound - this.bioMaps[leftMap].domBounds.width : null;
@@ -128,9 +128,9 @@ export let TitleComponent = {
 
     } else if (!(!leftMap && selLeftEdge <= 0) && !(!rightMap && selLeftEdge > this.leftBound)) { //Move current map and its left/right partner
 
-      var movedMap = rightMap;
+      let movedMap = rightMap;
 
-      if (selLeftEdge < this.leftBound || (selLeftEdge == this.leftBound && delta.x < 0)) {
+      if (selLeftEdge < this.leftBound || (selLeftEdge === this.leftBound && delta.x < 0)) {
         movedMap = leftMap;
       }
 

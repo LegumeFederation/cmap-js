@@ -338,7 +338,7 @@ export let SaturationSelector = {
     let ptrPos = this.vnode.state.ptrPos;
     // clear and redraw gradient slider for current picked HueValue color;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
     let hueValueColor = this.vnode.state.info.colors.hueValueColor;
     let rgbStart = hsvToRgb([hueValueColor[0], 100, hueValueColor[2]]).map(color => {
       return Math.floor(color);
@@ -375,7 +375,7 @@ export let SaturationSelector = {
   handleGesture: function (evt) {
     if (evt.type.match(this._gestureRegex.tap) ||
       evt.type.match(this._gestureRegex.pan)) {
-      var point = pageToCanvas(evt, this.vnode.state.canvas);
+      let point = pageToCanvas(evt, this.vnode.state.canvas);
       this._changeColor(point);
     }
     return true;
@@ -614,12 +614,12 @@ export let ColorBox = {
  */
 
 export function hexToRgb(hex) {
-  var result = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+  let result = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
   return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)];
 }
 
 /**
- *  convert RGB priplet to hex
+ *  convert RGB triplet to hex
  * [0-255,0-255,0-255] -> #FFFFFF
  * @param rgb
  * @returns {string}

@@ -97,7 +97,7 @@ export class MapTrack extends SceneGraphNodeTrack {
       return fm;
     });
 
-    // Load group rtrees for markers and labels
+    // Load group rTrees for markers and labels
     markerGroup.locMap.load(fmData);
     labelGroup.locMap.load(lmData);
     // load this rtree with markers (elements that need hit detection)
@@ -139,7 +139,7 @@ export class MapTrack extends SceneGraphNodeTrack {
         continue;
       }
       let last = labels[labels.length - 1];
-      if (item != last && (item.minY > (last.maxY + step))) {
+      if (item !== last && (item.minY > (last.maxY + step))) {
         labels.push(item);
       }
     }
@@ -172,6 +172,8 @@ export class MapTrack extends SceneGraphNodeTrack {
   draw(ctx) {
     let gb = this.globalBounds || {};
     ctx.fillStyle = 'blue';
+    // noinspection JSSuspiciousNameCombination
+    // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
@@ -180,6 +182,8 @@ export class MapTrack extends SceneGraphNodeTrack {
     );
     ctx.fillStyle = 'green';
     gb = this.labelGroup.globalBounds || {};
+    // noinspection JSSuspiciousNameCombination
+    // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),

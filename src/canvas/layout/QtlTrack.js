@@ -59,7 +59,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
         this.mapCoordinates = this.parent.mapCoordinates;
         this.filteredFeatures = [];
         qtlConf.filters.forEach((filter, order) => {
-          var test = this.parent.model.features.filter(model => {
+          let test = this.parent.model.features.filter(model => {
             return model.tags[0].match(filter) !== null;
           });
           if (test.length === 0) {
@@ -135,6 +135,8 @@ export class QtlTrack extends SceneGraphNodeTrack {
     ctx.fillStyle = '#ADD8E6';
     this.children.forEach(child => {
       let cb = child.globalBounds;
+      // noinspection JSSuspiciousNameCombination
+      // noinspection JSSuspiciousNameCombination
       ctx.fillRect(
         Math.floor(cb.left),
         Math.floor(cb.top),

@@ -19,7 +19,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
 
   /**
    * Create a UI instance
-   * @param Object - the appState, instance of model/AppModel.
+   * @param {Object} appState - instance of model/AppModel.
    */
 
   constructor(appState) {
@@ -40,7 +40,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
 
   /**
    * mithril component render callback
-   * @returns {*}
+   * @returns {*} mithril vnode component
    */
 
   view() {
@@ -108,7 +108,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
   _setupMousewheel() {
     const hamster = Hamster(this.el);
     const hamsterHandler = (evt, delta, deltaX, deltaY) => {
-      // hamsterjs claims to normalizizing the event object, across browsers,
+      // hamsterjs claims to normalizing the event object, across browsers,
       // but at least in firefox it is not because deltaY is not on the evt.
       evt.deltaY = deltaY; // workaround
       // add an additional property to make it similar enough to the pinch
@@ -154,8 +154,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
     // dispatch event to all the mithril components, until one returns true;
     // effectively the same as 'stopPropagation' on a normal event bubbling.
     filtered.some(el => {
-      var state = el.mithrilComponent.handleGesture(evt);
-      return state;
+      return el.mithrilComponent.handleGesture(evt);
     });
   }
 
