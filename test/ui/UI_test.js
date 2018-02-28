@@ -5,6 +5,7 @@ describe('UI component', function() {
   it('should generate appropriate output', function() {
     let component = new UI();
     let out = mq(component);
-    out.should.have('div.cmap-layout.cmap-vbox > div.cmap-layout-viewport.cmap-hbox');
+    out.should.have('div.cmap-layout.cmap-vbox');
+    out.should.have('div.cmap-layout-viewport.cmap-hbox');
   });
 });

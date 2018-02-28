@@ -2,9 +2,9 @@ import {expect} from 'chai';
 import {Bounds} from '../../../src/model/Bounds';
 import {SceneGraphNodeBase} from '../../../src/canvas/node/SceneGraphNodeBase';
 
-describe('SceneGraphNodeBase test', function() {
-  describe('constructor', function() {
-    it('should construct a new node', function() {
+describe('SceneGraphNodeBase test', function () {
+  describe('constructor', function () {
+    it('should construct a new node', function () {
       let bounds = new Bounds({
         top: 1,
         bottom: 11,
@@ -28,8 +28,8 @@ describe('SceneGraphNodeBase test', function() {
     });
   });
 
-  describe('custom getters', function() {
-    it('should get children', function() {
+  describe('custom getters', function () {
+    it('should get children', function () {
       let p1 = baseParams('parent');
       let p2 = baseParams('child');
       let parentNode = new SceneGraphNodeBase(p1);
@@ -38,10 +38,10 @@ describe('SceneGraphNodeBase test', function() {
       expect(parentNode.children.length).to.equal(1);
       expect(parentNode.children[0]).to.equal(childNode);
     });
-    it('should get bounds', function() {
+    it('should get bounds', function () {
       let p1 = baseParams('parent');
       let parentNode = new SceneGraphNodeBase(p1);
-      let b1 = new Bounds ({
+      let b1 = new Bounds({
         top: 0,
         bottom: 1,
         left: 0,
@@ -52,20 +52,20 @@ describe('SceneGraphNodeBase test', function() {
       parentNode._bounds = b1;
       expect(parentNode.bounds).to.equal(b1);
     });
-    it('should get rotation', function() {
+    it('should get rotation', function () {
       let p1 = baseParams('parent');
       let parentNode = new SceneGraphNodeBase(p1);
       parentNode._rotation = 90;
       expect(parentNode.rotation).to.equal(90);
     });
-    it('should get tags', function() {
+    it('should get tags', function () {
       let p1 = baseParams('parent');
       let parentNode = new SceneGraphNodeBase(p1);
       parentNode._tags[0] = 'testTag';
       expect(parentNode.tags).to.eql(['testTag']);
     });
-    describe('get globalBounds', function() {
-      it('should work with existing parent', function() {
+    describe('get globalBounds', function () {
+      it('should work with existing parent', function () {
         let parentNode = parentChildGenerator();
         let childNode = parentNode.children[0];
         parentNode.children.push(childNode);
@@ -77,14 +77,14 @@ describe('SceneGraphNodeBase test', function() {
         expect(result.left).to.equal(childNode.bounds.left + parentNode.bounds.left);
         expect(result.right).to.equal(childNode.bounds.right + parentNode.bounds.left);
       });
-      it('should work with no parent', function() {
+      it('should work with no parent', function () {
         let p1 = baseParams('testNode');
         let parentNode = new SceneGraphNodeBase(p1);
         expect(parentNode.globalBounds).to.eql(parentNode.bounds);
       });
     });
 
-    it('should get visible from children', function() {
+    it('should get visible from children', function () {
       let parentNode = parentChildGenerator();
       let childNode = parentNode.children[0];
       let visNode = {
@@ -99,7 +99,7 @@ describe('SceneGraphNodeBase test', function() {
       expect(parentNode.visible).to.eql(childNode.locMap.all());
     });
 
-    it('should get hitMap from children', function() {
+    it('should get hitMap from children', function () {
       let p1 = baseParams('testNode');
       let parentNode = new SceneGraphNodeBase(p1);
       let visNode = {
@@ -109,13 +109,13 @@ describe('SceneGraphNodeBase test', function() {
         maxY: 2,
         data: 'empty'
       };
-      parentNode.addChild({hitMap:[visNode]})
+      parentNode.addChild({hitMap: [visNode]});
       expect(parentNode.hitMap).to.eql([visNode]);
     });
   });
 
-  describe('custom setters', function() {
-    it('should set children', function() {
+  describe('custom setters', function () {
+    it('should set children', function () {
       let p1 = baseParams('testNode');
       let p2 = baseParams('childNode');
       let parentNode = new SceneGraphNodeBase(p1);
@@ -125,10 +125,10 @@ describe('SceneGraphNodeBase test', function() {
       expect(parentNode.children).to.eql([childNode]);
     });
 
-    it('should set bounds', function() {
+    it('should set bounds', function () {
       let p1 = baseParams('testNode');
       let parentNode = new SceneGraphNodeBase(p1);
-      let b1 = new Bounds ({
+      let b1 = new Bounds({
         top: 0,
         bottom: 1,
         left: 0,
@@ -140,26 +140,26 @@ describe('SceneGraphNodeBase test', function() {
       parentNode.bounds = b1;
       expect(parentNode.bounds).to.equal(b1);
     });
-    it('should set rotation', function() {
+    it('should set rotation', function () {
       let p1 = baseParams('parent');
       let parentNode = new SceneGraphNodeBase(p1);
       expect(parentNode.rotation).to.equal(45);
       parentNode.rotation = 90;
       expect(parentNode.rotation).to.equal(90);
     });
-    it('should set tags', function() {
+    it('should set tags', function () {
       let p1 = baseParams('parent');
       let parentNode = new SceneGraphNodeBase(p1);
       expect(parentNode.tags).to.eql(['parent']);
       parentNode.tags[0] = 'testTag';
       expect(parentNode.tags).to.eql(['testTag']);
     });
-    
+
   });
 
-  describe('public methods', function() {
-    describe('translatePointToGlobal({x,y})', function() {
-      it('should translate given {x,y} point to global coordinates', function() {
+  describe('public methods', function () {
+    describe('translatePointToGlobal({x,y})', function () {
+      it('should translate given {x,y} point to global coordinates', function () {
         let parentNode = parentChildGenerator();
         let childNode = parentNode.children[0];
         let point = childNode.translatePointToGlobal({x: 3, y: 8});
@@ -167,19 +167,25 @@ describe('SceneGraphNodeBase test', function() {
       });
     });
 
-    describe('draw(ctx)', function() {
-      it('should not throw an error when invoked', function() { 
+    describe('draw(ctx)', function () {
+      it('should not throw an error when invoked', function () {
         let p1 = baseParams('parent');
         let p2 = baseParams('child');
         let parentNode = new SceneGraphNodeBase(p1);
-        let childNode = {draw: function() {return true;}}
+        let childNode = {
+          draw: function () {
+            return true;
+          }
+        };
         parentNode.addChild(childNode);
-        expect(function() {parentNode.draw()}).to.not.throw();
+        expect(function () {
+          parentNode.draw();
+        }).to.not.throw();
       });
     });
 
-    describe('removeChild(node)', function() {
-      it('should remove the passed node from its parent', function() {
+    describe('removeChild(node)', function () {
+      it('should remove the passed node from its parent', function () {
         let p1 = baseParams('parent');
         let p2 = baseParams('child');
         let parentNode = new SceneGraphNodeBase(p1);
@@ -193,60 +199,62 @@ describe('SceneGraphNodeBase test', function() {
         expect(childNode.parent).to.equal(null);
       });
 
-      it('should not throw an error is passed node has no parent', function() {
+      it('should not throw an error is passed node has no parent', function () {
         let p2 = baseParams('child');
         let childNode = new SceneGraphNodeBase(p2);
-        expect(function() {childNode.removeChild(childNode)}).to.not.throw();
+        expect(function () {
+          childNode.removeChild(childNode);
+        }).to.not.throw();
         expect(childNode.parent).to.equal(null);
       });
     });
 
-    describe('addChild(node))', function() {
-	  	it('should add new child to new parent node', function() {
+    describe('addChild(node))', function () {
+      it('should add new child to new parent node', function () {
         let p1 = baseParams('parent');
         let p2 = baseParams('child');
         let parentNode = new SceneGraphNodeBase(p1);
         let childNode = new SceneGraphNodeBase(p2);
-	  		expect(parentNode.children.length).to.equal(0);
-	  		parentNode.addChild(childNode);
-	  		
-	  		expect(parentNode.children.length).to.equal(1);
-	  		expect(parentNode.children[0]).to.equal(childNode);
-	  		expect(childNode.parent).to.equal(parentNode);
-	  	});
-
-	  	it('should not duplicate already existing children', function() {
-        let p1 = baseParams('parent');
-        let p2 = baseParams('child');
-        let parentNode = new SceneGraphNodeBase(p1);
-        let childNode = new SceneGraphNodeBase(p2);
-	  		expect(parentNode.children.length).to.equal(0);
-	  		parentNode.addChild(childNode);
+        expect(parentNode.children.length).to.equal(0);
         parentNode.addChild(childNode);
-	  		expect(parentNode.children.length).to.equal(1);
-	  		expect(parentNode.children[0]).to.equal(childNode);
-	  		expect(childNode.parent).to.equal(parentNode);
-	  	});
-	  	
-      it('should transfer child node between two parent nodes', function() {
+
+        expect(parentNode.children.length).to.equal(1);
+        expect(parentNode.children[0]).to.equal(childNode);
+        expect(childNode.parent).to.equal(parentNode);
+      });
+
+      it('should not duplicate already existing children', function () {
+        let p1 = baseParams('parent');
+        let p2 = baseParams('child');
+        let parentNode = new SceneGraphNodeBase(p1);
+        let childNode = new SceneGraphNodeBase(p2);
+        expect(parentNode.children.length).to.equal(0);
+        parentNode.addChild(childNode);
+        parentNode.addChild(childNode);
+        expect(parentNode.children.length).to.equal(1);
+        expect(parentNode.children[0]).to.equal(childNode);
+        expect(childNode.parent).to.equal(parentNode);
+      });
+
+      it('should transfer child node between two parent nodes', function () {
         let p1 = baseParams('parentOriginal');
         let p2 = baseParams('parentNew');
         let p3 = baseParams('child');
         let parentNode = new SceneGraphNodeBase(p1);
-	  		let secondParent = new SceneGraphNodeBase(p2);
+        let secondParent = new SceneGraphNodeBase(p2);
         let childNode = new SceneGraphNodeBase(p3);
-	  		parentNode.addChild(childNode);
-	  		secondParent.addChild(childNode);
-	  		expect(parentNode.children.length).to.equal(0);
-	  		expect(secondParent.children.length).to.equal(1);
-	  		expect(secondParent.children[0]).to.equal(childNode);
-	  		expect(childNode.parent).to.equal(secondParent);
-	  	});
-	  });
+        parentNode.addChild(childNode);
+        secondParent.addChild(childNode);
+        expect(parentNode.children.length).to.equal(0);
+        expect(secondParent.children.length).to.equal(1);
+        expect(secondParent.children[0]).to.equal(childNode);
+        expect(childNode.parent).to.equal(secondParent);
+      });
+    });
   });
 });
 
-const parentChildGenerator =  function() {
+const parentChildGenerator = function () {
   let parentNode = new SceneGraphNodeBase({
     parent: null,
     bounds: new Bounds({
@@ -273,7 +281,7 @@ const parentChildGenerator =  function() {
   return parentNode;
 };
 
-const baseParams = function(tag) {
+const baseParams = function (tag) {
   let bounds = new Bounds({
     top: 1,
     bottom: 11,
@@ -287,5 +295,5 @@ const baseParams = function(tag) {
     tags: [tag],
     rotation: 45,
     parent: null
-  }
+  };
 };

@@ -2,8 +2,8 @@ import {expect} from 'chai';
 import {Bounds} from '../../../src/model/Bounds';
 import {SceneGraphNodeTrack} from '../../../src/canvas/node/SceneGraphNodeTrack';
 
-describe('SceneGraphNodeTrack test', function() {
-  it('constructor works', function() {
+describe('SceneGraphNodeTrack test', function () {
+  it('constructor works', function () {
     let bounds = new Bounds({
       top: 1,
       bottom: 11,
@@ -19,7 +19,7 @@ describe('SceneGraphNodeTrack test', function() {
       tags: ['test'],
       rotation: 45
     };
-    let node = new SceneGraphNodeTrack (params);
+    let node = new SceneGraphNodeTrack(params);
     expect(node.parent).to.equal(parent);
     expect(node.bounds).eql(bounds);
     expect(node.tags).eql(['test']);

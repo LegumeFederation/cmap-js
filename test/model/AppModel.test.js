@@ -6,9 +6,9 @@ import {AppModel} from '../../src/model/AppModel';
 
 const config = require('../../cmap.json');
 
-describe('AppModel test', function() {
+describe('AppModel test', function () {
 
-  it('constructor works', function() {
+  it('constructor works', function () {
     const model = new AppModel();
     expect(model).to.have.property('sources')
       .that.is.an('array');
