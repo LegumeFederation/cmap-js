@@ -9,7 +9,10 @@
         "filters":["QTL_seed","QTL_other-seed"],
         "trackColor": "orange"
       }
-      ],
+      ]
+    }, {
+      "source" : "pv_genome",
+      "map" : "phavu.Chr02",
       "manhattan": {
         "dataId" : "manhattan_test",
         "width" : 20,
@@ -18,10 +21,6 @@
         "targetField" : "Chr",
         "pField" : "p"
       }
-    }, {
-      "source" : "pv_genome",
-      "map" : "phavu.Chr02"
-        
     }, {
       "source" : "gm_genome",
       "map" : "glyma.Chr01"

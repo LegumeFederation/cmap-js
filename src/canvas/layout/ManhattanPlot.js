@@ -34,7 +34,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         let baseData = this.parent.appState.sources.filter(model => {
           return model.id === this.parent.model.manhattanPlot.dataId;
         });
-
+        console.log("manhattan dta", baseData);
         let prefix = manhattanInfo.prefix || '';
         manhattanInfo.data = baseData[0].parseResult.data.filter(mdata =>{
           if(prefix + mdata[manhattanInfo.targetField] === this.parent.model.name){
@@ -49,9 +49,16 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       console.log('manhattan filterTest',manhattanInfo);
 
       //Draw manhattan plot
+      let left = 10;
+      this.bounds = new Bounds({
+          allowSubpixel: false,
+          top: b.top,
+          left: left,
+          width: manhattanInfo.width,
+          height: b.height
+        });
 
     }
-    //let left = this.trackPos < 0 ? 10 : this.parent.qtlGroups.bounds.right;
     //this.bounds = new Bounds({
     //  allowSubpixel: false,
     //  top: b.top,
