@@ -23,18 +23,33 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
     if(this.parent.model.manhattanPlot !== null){
       console.log('I\'ve got a manhattan', this.parent.model);
       let manhattanInfo = this.parent.model.manhattanPlot;
-      if(manhattanInfo.data === undefined){ //Filter manhattan data for this map
+
+      // If data hasn't been attached to this map to plot, filter and attach it.
+      if(manhattanInfo.data === undefined){
+        manhattanInfo.view = {
+          start: 0,
+          stop: manhattanInfo.max || 0
+        };
+
         let baseData = this.parent.appState.sources.filter(model => {
           return model.id === this.parent.model.manhattanPlot.dataId;
         });
-        console.log('manhattan base data', baseData);
+
         let prefix = manhattanInfo.prefix || '';
         manhattanInfo.data = baseData[0].parseResult.data.filter(mdata =>{
-
-          return prefix + mdata[manhattanInfo.targetField] === this.parent.model.name;
+          if(prefix + mdata[manhattanInfo.targetField] === this.parent.model.name){
+            if(manhattanInfo.max === undefined && -Math.log10(mdata[manhattanInfo.pField]) >= manhattanInfo.view.stop ){ //determine max value while filtering data
+              manhattanInfo.view.stop = Math.ceil(-Math.log10(mdata[manhattanInfo.pField]));
+            }
+            return true;
+          }
+          return false;
         });
       }
-      console.log('manhattan filterTest',manhattanInfo.data);
+      console.log('manhattan filterTest',manhattanInfo);
+
+      //Draw manhattan plot
+
     }
     //let left = this.trackPos < 0 ? 10 : this.parent.qtlGroups.bounds.right;
     //this.bounds = new Bounds({
