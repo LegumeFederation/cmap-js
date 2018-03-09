@@ -245,7 +245,8 @@ export class HorizontalLayout
         bioMapModel: model,
         layoutBounds: layoutBounds,
         appState: this.appState,
-        bioMapIndex: mapIndex
+        bioMapIndex: mapIndex,
+        initialView : this.appState.initialView[mapIndex]
       });
       model.component = component; // save a reference for mapping model -> component
       cursor += component.domBounds.width + padding;

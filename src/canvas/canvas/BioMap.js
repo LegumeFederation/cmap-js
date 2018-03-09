@@ -16,6 +16,7 @@ import {MapTrack} from '../layout/MapTrack';
 import {QtlTrack} from '../layout/QtlTrack';
 import {Ruler} from '../geometry/Ruler';
 import {pageToCanvas} from '../../util/CanvasUtil';
+import {ManhattanPlot} from '../layout/ManhattanPlot';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -25,11 +26,13 @@ export class BioMap extends SceneGraphNodeCanvas {
    * @param {object} bioMapModel - Parsed model of the bio map to be drawn
    * @param {object} appState - Application's meta state object
    * @param {object} layoutBounds - Bounds object of position on screen
-   * @param {number} bioMapIndex - bio map's order on screen
+   * @param {number} bioMapIndex - bio map's order on screen,
+   * @param {object} initialView - bio map's original layout, used for resetting view
    */
 
-  constructor({bioMapModel, appState, layoutBounds, bioMapIndex}) {
+  constructor({bioMapModel, appState, layoutBounds, bioMapIndex, initialView}) {
     super({model: bioMapModel});
+    this.initialView = initialView;
     this.bioMapIndex = bioMapIndex;
     this.model.visible = {
       start: this.model.coordinates.start,
@@ -45,6 +48,7 @@ export class BioMap extends SceneGraphNodeCanvas {
         stop: this.model.coordinates.stop
       }
     };
+    this.model.manhattanPlot = this.initialView.manhattan || null;
     this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start) / this.model.config.rulerSteps;
     // set up coordinate bounds for view scaling
     this.appState = appState;
@@ -515,6 +519,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     }
     this.children.push(qtlRight);
     this.children.push(qtlLeft);
+    let manhattan = new ManhattanPlot({parent:this});
+    this.children.push(manhattan);
     //load local rBush tree for hit detection
     this._loadHitMap();
     //let layout know that width has changed on an element;

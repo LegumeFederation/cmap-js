@@ -9,7 +9,15 @@
         "filters":["QTL_seed","QTL_other-seed"],
         "trackColor": "orange"
       }
-      ]
+      ],
+      "manhattan": {
+        "dataId" : "manhattan_test",
+        "width" : 20,
+        "displayRadius" : 2,
+        "posField" :"Pos",
+        "targetField" : "Chr",
+        "pField" : "p"
+      }
     }, {
       "source" : "pv_genome",
       "map" : "phavu.Chr02"
@@ -110,6 +118,11 @@
             "text" : "View Marker info at SoyBase"
         }
       ]
+    }, {
+      "id" : "manhattan_test",
+      "method": "GET",
+      "url" : "data/Tassel_output_sample.txt",
+      "filters" : []
     }
   ]
 }
