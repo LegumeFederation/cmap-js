@@ -26,7 +26,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       allowSubpixel: false,
       top: b.top,
       left: this.parent.bbGroup.bounds.right,
-      width: 50, // manhattanInfo.width,
+      width: 20, // manhattanInfo.width,
       height: b.height
     });
     if (this.parent.model.manhattanPlot !== null) {
@@ -81,7 +81,8 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       this.qtlMarks = manhattanInfo.data.map(model => {
 
         model.coordinates = {
-          start: model[manhattanInfo.posField]
+          start: model[manhattanInfo.posField],
+          depth: model[manhattanInfo.pField]
         };
 
         let fm = new Dot({
