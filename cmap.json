@@ -22,7 +22,12 @@
         "minorMark" : 5,
         "posField" :"Pos",
         "targetField" : "Chr",
-        "pField" : "p"
+        "pField" : "p",
+        "line" : {
+          "value" : 5,
+          "weight" : 3,
+          "color" : "red"
+        }
       }
     }, {
       "source" : "gm_genome",
