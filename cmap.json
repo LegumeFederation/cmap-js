@@ -19,7 +19,7 @@
         "maxValue" : 6,
         "displayRadius" : 2,
         "majorMark" : 10,
-        "minorMark" : 5,
+        "minorMark" : 2,
         "posField" :"Pos",
         "targetField" : "Chr",
         "pField" : "p",

@@ -135,28 +135,40 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       //Draw "ruler"
       ctx.strokeStyle='black';
       ctx.lineWidth = 2;
+
+      //Baseline marks
       ctx.beginPath();
       ctx.moveTo(cb.left,cb.top);
       ctx.lineTo(cb.right, cb.top);
       ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cb.left,cb.bottom);
+      ctx.lineTo(cb.right, cb.bottom);
+      ctx.stroke();
 
-      for (let i = 0; i <= this.parent.model.manhattanPlot.view.stop; i+=5) {
-        depth = translateScale(i, {
-          start: 0,
-          stop: this.parent.model.manhattanPlot.width
-        }, this.parent.model.manhattanPlot.view, false);
-        ctx.beginPath();
-        ctx.moveTo(cb.left+depth,cb.top);
-        ctx.lineTo(cb.left+depth, cb.top - 10);
-        ctx.stroke();
 
-        ctx.font = '10px';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = 'black';
-        ctx.fillText(String(i), cb.left+depth, cb.top-10);
+      //Ruler
+      for (let i = 0; i <= this.parent.model.manhattanPlot.view.stop; i++) {
+        if(i%this.parent.model.manhattanPlot.minorMark === 0 || i%this.parent.model.manhattanPlot.majorMark === 0) {
+          depth = translateScale(i, {
+            start: 0,
+            stop: this.parent.model.manhattanPlot.width
+          }, this.parent.model.manhattanPlot.view, false);
+          ctx.beginPath();
+          ctx.moveTo(cb.left + depth, cb.top);
+          ctx.lineTo(cb.left + depth, cb.top - 10);
+          ctx.stroke();
+          if (i % this.parent.model.manhattanPlot.majorMark === 0) {
+            ctx.font = '10px';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'black';
+            ctx.fillText(String(i), cb.left + depth, cb.top - 11);
+          }
+        }
       }
       ctx.fillText('-log10(p)', cb.left + this.parent.model.manhattanPlot.width/2 , cb.top-25);
 
+      // Reference line
       if(this.parent.model.manhattanPlot.line){
         depth = translateScale(this.parent.model.manhattanPlot.line.value, {
           start: 0,
