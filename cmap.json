@@ -23,11 +23,19 @@
         "posField" :"Pos",
         "targetField" : "Chr",
         "pField" : "p",
-        "line" : {
-          "value" : 5,
-          "weight" : 3,
-          "color" : "red"
-        }
+        "lines" : [
+          {
+            "value": 5,
+            "weight": 3,
+            "color": "red"
+          },
+          {
+            "value": 2,
+            "weight": 3,
+            "color": "blue"
+          }
+        ]
+
       }
     }, {
       "source" : "gm_genome",

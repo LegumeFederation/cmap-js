@@ -168,18 +168,21 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       }
       ctx.fillText('-log10(p)', cb.left + this.parent.model.manhattanPlot.width/2 , cb.top-25);
 
-      // Reference line
-      if(this.parent.model.manhattanPlot.line){
-        depth = translateScale(this.parent.model.manhattanPlot.line.value, {
-          start: 0,
-          stop: this.parent.model.manhattanPlot.width
-        }, this.parent.model.manhattanPlot.view, false);
-        ctx.strokeStyle = this.parent.model.manhattanPlot.line.color;
-        ctx.lineWidth = this.parent.model.manhattanPlot.line.width;
-        ctx.beginPath();
-        ctx.moveTo(cb.left+depth,cb.top);
-        ctx.lineTo(cb.left+depth, cb.bottom);
-        ctx.stroke();
+      // Reference lines
+
+      if(this.parent.model.manhattanPlot.lines) {
+        this.parent.model.manhattanPlot.lines.forEach(line =>{
+          depth = translateScale(line.value, {
+            start: 0,
+            stop: this.parent.model.manhattanPlot.width
+          }, this.parent.model.manhattanPlot.view, false);
+          ctx.strokeStyle = line.color;
+          ctx.lineWidth = line.width;
+          ctx.beginPath();
+          ctx.moveTo(cb.left + depth, cb.top);
+          ctx.lineTo(cb.left + depth, cb.bottom);
+          ctx.stroke();
+        });
       }
     }
     ctx.restore();
