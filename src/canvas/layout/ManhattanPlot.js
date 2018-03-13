@@ -9,6 +9,7 @@ import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 
 import {Dot} from '../geometry/Dot';
+import {translateScale} from '../../util/CanvasUtil';
 
 export class ManhattanPlot extends SceneGraphNodeTrack {
 
@@ -26,29 +27,29 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       allowSubpixel: false,
       top: b.top,
       left: this.parent.bbGroup.bounds.right,
-      width: 20, // manhattanInfo.width,
+      width: 0,
       height: b.height
     });
     if (this.parent.model.manhattanPlot !== null) {
-      console.log('I\'ve got a manhattan', this.parent.model);
       let manhattanInfo = this.parent.model.manhattanPlot;
 
       // If data hasn't been attached to this map to plot, filter and attach it.
       if (manhattanInfo.data === undefined) {
         manhattanInfo.view = {
           start: 0,
-          stop: manhattanInfo.max || 0
+          stop: manhattanInfo.maxValue || 0
         };
 
         let baseData = this.parent.appState.sources.filter(model => {
           return model.id === this.parent.model.manhattanPlot.dataId;
         });
-        console.log('manhattan dta', baseData);
+
         let prefix = manhattanInfo.prefix || '';
         manhattanInfo.data = baseData[0].parseResult.data.filter(mdata => {
           if (prefix + mdata[manhattanInfo.targetField] === this.parent.model.name) {
             if (manhattanInfo.max === undefined && -Math.log10(mdata[manhattanInfo.pField]) >= manhattanInfo.view.stop) { //determine max value while filtering data
               manhattanInfo.view.stop = Math.ceil(-Math.log10(mdata[manhattanInfo.pField]));
+
             }
             return true;
           }
@@ -60,13 +61,13 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       //Draw manhattan plot
       let left = this.parent.bbGroup.bounds.right;
 
-      //this.bounds = new Bounds({
-      //  allowSubpixel: false,
-      //  top: b.top,
-      //  left: left,
-      //  width: 50,
-      //  height: b.height
-      //});
+     this.bounds = new Bounds({
+       allowSubpixel: false,
+        top: b.top,
+        left: left,
+        width: manhattanInfo.width || 0,
+        height: b.height
+      });
       let mapGroup = new SceneGraphNodeGroup({parent: this});
       //    qtlGroup.lp = qtlConf.position || 1;
       this.addChild(mapGroup);
@@ -78,12 +79,14 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       });
 
       let fmData = [];
+      console.log('parentCheck',this.parent.model.view);
       this.qtlMarks = manhattanInfo.data.map(model => {
-
         model.coordinates = {
           start: model[manhattanInfo.posField],
-          depth: model[manhattanInfo.pField]
+          depth: -Math.log10(model[manhattanInfo.pField])
         };
+        if((model.coordinates.start > this.parent.model.view.base.stop) ||
+          (model.coordinates.start < this.parent.model.view.base.start) ){ return; }
 
         let fm = new Dot({
           featureModel: model,
@@ -125,18 +128,29 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
   draw(ctx) {
     ctx.save();
     ctx.globalAlpha = .5;
-    ctx.fillStyle = '#ADD8E6';
-    this.children.forEach(child => {
-      let cb = child.globalBounds;
-      // noinspection JSSuspiciousNameCombination
-      // noinspection JSSuspiciousNameCombination
-      ctx.fillRect(
-        Math.floor(cb.left),
-        Math.floor(cb.top),
-        Math.floor(cb.width),
-        Math.floor(cb.height)
-      );
-    });
+    ctx.fillStyle = 'green';
+    let cb = this.globalBounds;
+    let depth = 0;
+    if(this.parent.model.manhattanPlot) {
+      //Draw "ruler"
+      ctx.strokeStyle='black';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cb.left,cb.top);
+      ctx.lineTo(cb.right, cb.top);
+      ctx.stroke();
+
+      for (let i = 0; i <= this.parent.model.manhattanPlot.view.stop; i+=5) {
+        depth = translateScale(i, {
+          start: 0,
+          stop: this.parent.model.manhattanPlot.width
+        }, this.parent.model.manhattanPlot.view, false);
+        ctx.beginPath();
+        ctx.moveTo(cb.left+depth,cb.top);
+        ctx.lineTo(cb.left+depth, cb.top - 10);
+        ctx.stroke();
+      }
+    }
     ctx.restore();
   }
 
