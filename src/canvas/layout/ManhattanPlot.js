@@ -9,6 +9,7 @@ import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 
 import {Dot} from '../geometry/Dot';
+import {manhattanRuler} from '../geometry/manhattanRuler';
 import {translateScale} from '../../util/CanvasUtil';
 
 export class ManhattanPlot extends SceneGraphNodeTrack {
@@ -19,14 +20,14 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
    */
 
   constructor(params) {
-    super(params);
+    super(params,);
     console.log('manhattan -> constructor', params);
     const b = this.parent.bounds;
     this.trackPos = params.position || 1;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: b.top,
-      left: this.parent.bbGroup.bounds.right,
+      top: 0,
+      left: 0,
       width: 0,
       height: b.height
     });
@@ -59,28 +60,29 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       console.log('manhattan filterTest', manhattanInfo);
 
       //Draw manhattan plot
-      let left = this.parent.bbGroup.bounds.right;
+      //let left = this.parent.bbGroup.bounds.right;
 
      this.bounds = new Bounds({
        allowSubpixel: false,
-        top: b.top,
-        left: left,
+        top: 0,
+        left: 0,
         width: manhattanInfo.width || 0,
         height: b.height
       });
-      let mapGroup = new SceneGraphNodeGroup({parent: this});
+      let mapGroup = new SceneGraphNodeGroup({parent: this, tags:'manhattan'});
       //    qtlGroup.lp = qtlConf.position || 1;
       this.addChild(mapGroup);
+
       mapGroup.bounds = new Bounds({
         top: 0,
         left: 0,
-        width: 20,
+        width: manhattanInfo.width || 0,
         height: b.height
       });
 
       let fmData = [];
-      console.log('parentCheck',this.parent.model.view);
-      this.qtlMarks = manhattanInfo.data.map(model => {
+
+      this.manhattanMarks = manhattanInfo.data.map(model => {
         model.coordinates = {
           start: model[manhattanInfo.posField],
           depth: -Math.log10(model[manhattanInfo.pField])
@@ -95,19 +97,41 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         });
 
         mapGroup.addChild(fm);
+
         let loc = {
-          minY: 100,
-          maxY: 110,
-          minX: 100,
-          maxX: 110,
+          minY: model.coordinates.start,
+          maxY: model.coordinates.start,
+          minX: fm.globalBounds.left,
+          maxX: fm.globalBounds.right,
           data: fm
         };
+        this.mapGroup = mapGroup;
+
         mapGroup.locMap.insert(loc);
         fmData.push(loc);
         return fm;
       });
-      this.locMap.load(fmData);
-      console.log('manhattan Dots', fmData);
+
+
+
+      let ruler ={
+          minY: 0,
+          maxY: 100000000,
+          minX: this.globalBounds.left,
+          maxX: this.globalBounds.right,
+          data: new manhattanRuler({
+          featureModel : this.parent.model.manhattanPlot,
+          parent: this,
+        })
+      };
+
+      this.locMap.insert(ruler);
+      this.addChild(ruler.data);
+
+      this.locMap.load(mapGroup.locMap.all());
+
+      this.tags = ['manhattan'];
+      console.log('manhattan Dots', this.children);
     }
   }
 
@@ -116,8 +140,8 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
    */
 
   get visible() {
-    // return this.locMap.all();
-    return this.locMap.all().concat([{data: this}]); // debugging statement to test track width bounds
+    console.log('mhat vis');
+    return this.locMap.all();
   }
 
   // /**
@@ -138,6 +162,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
 
       //Baseline marks
       ctx.beginPath();
+
       ctx.moveTo(cb.left,cb.top);
       ctx.lineTo(cb.right, cb.top);
       ctx.stroke();
@@ -186,6 +211,8 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       }
     }
     ctx.restore();
+
+    this.children.forEach(child => child.draw(ctx));
   }
 
   // /**
@@ -219,5 +246,5 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       data: this
     };
 
-  };
+  }
 }

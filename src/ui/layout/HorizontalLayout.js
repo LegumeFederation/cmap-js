@@ -89,11 +89,11 @@ export class HorizontalLayout
    // });
     return m('div.cmap-layout-horizontal',
       [//this.swapComponents,
+        this.correspondenceMapComponents.map(m),
         this.bioMapOrder.map((i) => {
           return m(BioMapVnode, {bioMap: this.bioMapComponents[i]});
         }), this.featureControls,
         //this.modal.map(modal =>{ return m(modal,{info:modal.info, bounds: modal.bounds, order:modal.order}); }),
-        this.correspondenceMapComponents.map(m),
         this.popoverComponents.map(popover => {
           return m(popover, {info: popover.info, domBounds: popover.domBounds});
         })]

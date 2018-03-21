@@ -517,10 +517,15 @@ export class BioMap extends SceneGraphNodeCanvas {
     if (this.domBounds.width < qtlRight.globalBounds.right + 30) {
       this.domBounds.width = qtlRight.globalBounds.right + 50;
     }
+
     this.children.push(qtlRight);
     this.children.push(qtlLeft);
+
+    //add manhattan plot
     let manhattan = new ManhattanPlot({parent:this});
-    this.children.push(manhattan);
+    if(manhattan.mapGroup){
+      qtlRight.addChild(manhattan);
+    }
     //load local rBush tree for hit detection
     this._loadHitMap();
     //let layout know that width has changed on an element;

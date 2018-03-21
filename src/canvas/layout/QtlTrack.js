@@ -120,8 +120,13 @@ export class QtlTrack extends SceneGraphNodeTrack {
    */
 
   get visible() {
-    return this.locMap.all();
-    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
+    let visible = [];
+    this.children.forEach(child => {
+      visible = visible.concat(child.locMap.all());
+    });
+    return visible;
+  //  //return this.locMap.all();
+  //  //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
