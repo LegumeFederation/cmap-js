@@ -336,7 +336,7 @@ export class BioMap extends SceneGraphNodeCanvas {
    * Finalize pan event
    *
    * @param evt - tap event
-   * @returns {boolean} return true to stop event prorogation further down layers
+   * @returns {boolean} return true to stop event propagation further down layers
    * @private
    */
 
