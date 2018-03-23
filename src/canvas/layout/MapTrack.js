@@ -69,13 +69,15 @@ export class MapTrack extends SceneGraphNodeTrack {
       let fm = new FeatureMark({
         featureModel: model,
         parent: this.backbone,
-        bioMap: this.model
+        bioMap: this.model,
+        config: this.model.config.marker
       });
 
       let lm = new FeatureLabel({
         featureModel: model,
         parent: this.labelGroup,
-        bioMap: this.parent.model
+        bioMap: this.parent.model,
+        config: this.model.config.marker
       });
       markerGroup.addChild(fm);
       labelGroup.addChild(lm);

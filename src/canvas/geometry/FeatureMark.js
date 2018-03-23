@@ -17,15 +17,14 @@ export class FeatureMark extends SceneGraphNodeBase {
    * @param featureModel - feature data
    */
 
-  constructor({parent, bioMap, featureModel}) {
+  constructor({parent, bioMap, featureModel,config}) {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
     this.featureMap = bioMap;
+    this.config = config;
 
     this.offset = this.featureMap.view.base.start * -1;
-    this.lineWeight = bioMap.config.markerWeight;
-    this.strokeStyle = bioMap.config.markerColor;
-    this.invert = bioMap.config.invert;
+    this.invert = this.featureMap.view.invert;
     this.start = this.model.coordinates.start;
 
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
@@ -44,12 +43,13 @@ export class FeatureMark extends SceneGraphNodeBase {
    */
 
   draw(ctx) {
+    let config = this.config;
     let y = translateScale(this.start, this.featureMap.view.base, this.featureMap.view.visible, this.invert) * this.pixelScaleFactor;
     this.bounds.top = y;
     let gb = this.globalBounds || {};
     ctx.beginPath();
-    ctx.strokeStyle = this.strokeStyle;
-    ctx.lineWidth = this.lineWeight;
+    ctx.strokeStyle = config.lineColor;
+    ctx.lineWidth = config.lineWeight;
     // noinspection JSSuspiciousNameCombination
     ctx.moveTo(Math.floor(gb.left), Math.floor(gb.top));
     // noinspection JSSuspiciousNameCombination
@@ -57,7 +57,7 @@ export class FeatureMark extends SceneGraphNodeBase {
     ctx.stroke();
     // reset bounding box to fit the new stroke location/width
     // lineWidth adds equal percent of passed width above and below path
-    this.bounds.top = Math.floor(y - this.lineWeight / 2);
-    this.bounds.bottom = Math.floor(y + this.lineWeight / 2);
+    this.bounds.top = Math.floor(y - config.lineWeight / 2);
+    this.bounds.bottom = Math.floor(y + config.lineWeight / 2);
   }
 }

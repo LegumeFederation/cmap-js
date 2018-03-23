@@ -49,6 +49,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       },
       invert : this.model.config.invert
     };
+
     this.model.manhattanPlot = this.initialView.manhattan || null;
     this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start) / this.model.config.rulerSteps;
     // set up coordinate bounds for view scaling

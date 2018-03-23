@@ -18,15 +18,13 @@ export class FeatureLabel extends SceneGraphNodeBase {
    * @param featureModel - feature data
    */
 
-  constructor({parent, bioMap, featureModel}) {
+  constructor({parent, bioMap, featureModel,config}) {
     super({parent, tags: [featureModel.name]});
+    this.config = config;
     this.model = featureModel;
     this.view = bioMap.view;
-    this.fontSize = bioMap.config.markerLabelSize;
-    this.fontFace = bioMap.config.markerLabelFace;
-    this.fontColor = bioMap.config.markerLabelColor;
     this.pixelScaleFactor = this.view.pixelScaleFactor;
-    this.invert = bioMap.config.invert;
+    this.invert = bioMap.view.invert;
     this.start = this.model.coordinates.start;
     this.bounds = new Bounds({
       top: 0,
@@ -43,13 +41,14 @@ export class FeatureLabel extends SceneGraphNodeBase {
    */
 
   draw(ctx) {
+    let config = this.config;
     let y = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.bounds.top = y;
-    this.bounds.bottom = y + this.fontSize;
+    this.bounds.bottom = y + config.labelSize;
     let gb = this.globalBounds || {};
-    ctx.font = `${this.fontSize}px ${this.fontFace}`;
+    ctx.font = `${config.labelSize}px ${config.labelFace}`;
     ctx.textAlign = 'left';
-    ctx.fillStyle = this.fontColor;
+    ctx.fillStyle = config.labelColor;
     ctx.fillText(this.model.name, gb.left, gb.top);
     // reset bounding box to fit the new stroke location/width
     this.bounds.width = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width) + 1;

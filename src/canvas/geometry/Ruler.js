@@ -51,40 +51,41 @@ export class Ruler extends SceneGraphNodeBase {
    */
 
   draw(ctx) {
+    let config = this.config;
     let vStart = this.invert ? this.mapCoordinates.visible.stop : this.mapCoordinates.visible.start;
     let vStop = this.invert ? this.mapCoordinates.visible.start : this.mapCoordinates.visible.stop;
     let start = translateScale(vStart, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
     let stop = translateScale(vStop, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
-    let text = [this.mapCoordinates.base.start.toFixed(this.rulerPrecision), this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
+    let text = [this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
 
     this.textWidth = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
 
     let gb = this.globalBounds || {};
     // draw baseline labels
-    ctx.font = `${this.textSize}px ${this.textFace}`;
+    ctx.font = `${config.labelSize}px ${config.labelFace}`;
+    ctx.fillStyle = config.labelColor;
     ctx.textAlign = 'left';
-    ctx.fillStyle = this.textColor;
     if (this.invert) {
-      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.top - this.textSize / 2));
-      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.bottom + this.textSize));
+      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize / 2));
+      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize));
     } else {
-      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.top - this.textSize / 2));
-      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + this.textSize));
+      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize / 2));
+      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize));
     }
     // Draw zoom position labels
-    text = [this.mapCoordinates.visible.start.toFixed(this.rulerPrecision), this.mapCoordinates.visible.stop.toFixed(this.rulerPrecision)];
+    text = [this.mapCoordinates.visible.start.toFixed(config.precision), this.mapCoordinates.visible.stop.toFixed(config.precision)];
     if (this.invert) {
-      ctx.fillText(text[1], gb.left + this.rulerWidth + this.rulerPadding, Math.floor(gb.top - this.textSize / 2));
-      ctx.fillText(text[0], gb.left + this.rulerWidth + this.rulerPadding, (gb.bottom + this.textSize));
+      ctx.fillText(text[1], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize / 2));
+      ctx.fillText(text[0], gb.left + config.width + config.padding, (gb.bottom + config.labelSize));
     } else {
-      ctx.fillText(text[0], gb.left + this.rulerWidth + this.rulerPadding, Math.floor(gb.top - this.textSize / 2));
-      ctx.fillText(text[1], gb.left + this.rulerWidth + this.rulerPadding, (gb.bottom + this.textSize));
+      ctx.fillText(text[0], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize / 2));
+      ctx.fillText(text[1], gb.left + config.width + config.padding, (gb.bottom + config.labelSize));
     }
 
     //Draw baseline ruler
     ctx.beginPath();
-    ctx.lineWidth = this.innerSize;
-    ctx.strokeStyle = this.innerColor;
+    ctx.lineWidth = config.innerLineWeight;
+    ctx.strokeStyle = config.innerLineColor;
     // noinspection JSSuspiciousNameCombination
     ctx.moveTo(Math.floor(gb.left + gb.width / 2), Math.floor(gb.top));
     // noinspection JSSuspiciousNameCombination
@@ -92,7 +93,7 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.stroke();
 
     // Draw "zoom box"
-    ctx.fillStyle = this.fillColor;//'aqua';
+    ctx.fillStyle = config.fillColor;//'aqua';
     let height = stop - start > 1 ? stop - start : 1.0;
     // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
@@ -102,9 +103,9 @@ export class Ruler extends SceneGraphNodeBase {
       Math.floor(height)
     );
     //draw border if asked for
-    if(this.config.lineWeight > 0) {
-      ctx.strokeStyle = this.config.lineColor;
-      ctx.lineWidth = this.config.lineWeight;
+    if(config.lineWeight > 0) {
+      ctx.strokeStyle = config.lineColor;
+      ctx.lineWidth = config.lineWeight;
       ctx.strokeRect(
         Math.floor(gb.left),
         Math.floor(start + gb.top),

@@ -64,11 +64,14 @@ export const defaultConfig = {
     'internalPadding' : '5'
   },
   'marker':{
-    'lineWeight' : 0,
+    'lineWeight' : 1,
     'lineColor' : 'black',
     'labelFace' : 'Nunito',
     'labelSize' : 12,
     'labelColor' : 'black',
+  },
+  'Correspondence' : {
+
   },
   'backboneWidth': 20,
   'backboneColor': '#fff6e8',
