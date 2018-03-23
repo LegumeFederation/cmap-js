@@ -27,7 +27,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
       allowSubpixel: false,
       top: b.top,
       left: left,
-      width: 50,
+      width: this.parent.model.config.qtl.trackMinWidth,
       height: b.height
     });
     if (this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0) {
@@ -41,8 +41,8 @@ export class QtlTrack extends SceneGraphNodeTrack {
         if (typeof qtlConf.filters === 'string') {
           qtlConf.filters = [qtlConf.filters];
         }
-        if (typeof qtlConf.trackColor === 'string') {
-          qtlConf.trackColor = [qtlConf.trackColor];
+        if (typeof qtlConf.fillColor === 'string') {
+          qtlConf.fillColor = [qtlConf.fillColor];
         }
         let qtlGroup = new SceneGraphNodeGroup({parent: this, tags: qtlConf.filters.slice(0)});
         qtlGroup.lp = qtlConf.position || 1;
@@ -52,7 +52,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
         qtlGroup.bounds = new Bounds({
           top: 0,
           left: offset,
-          width: 20,
+          width: this.parent.model.config.qtl.trackMinWidth,
           height: b.height
         });
 
@@ -79,7 +79,8 @@ export class QtlTrack extends SceneGraphNodeTrack {
             featureModel: model,
             parent: this.qtlGroup,
             bioMap: this.parent.model,
-            initialConfig: this.parent.model.qtlGroups[i]
+            initialConfig: this.parent.model.qtlGroups[i],
+            config : this.parent.model.config.qtl
           });
           qtlGroup.addChild(fm);
           let loc = {

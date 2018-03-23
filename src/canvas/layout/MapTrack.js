@@ -25,7 +25,7 @@ export class MapTrack extends SceneGraphNodeTrack {
     const b = this.parent.bounds;
     this.model = this.parent.model;
     //const backboneWidth = b.width * 0.2;
-    const backboneWidth = this.model.config.backboneWidth;
+    const backboneWidth = this.model.config.backbone.width;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,

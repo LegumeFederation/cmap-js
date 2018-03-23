@@ -51,7 +51,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     };
 
     this.model.manhattanPlot = this.initialView.manhattan || null;
-    this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start) / this.model.config.rulerSteps;
+    this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start) / this.model.config.ruler.steps;
     // set up coordinate bounds for view scaling
     this.appState = appState;
     this.verticalScale = 0;
@@ -485,7 +485,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.bbGroup = new Group({parent: this});
     this.bbGroup.bounds = new Bounds({
       top: this.bounds.top,
-      left: this.model.config.rulerLabelSize * 10,
+      left: this.model.config.ruler.labelSize * 10,
       width: 10,
       height: this.bounds.height
     });

@@ -7,7 +7,7 @@
      "map" : "Pv02",
      "qtl" : [{
         "filters":["QTL_seed","QTL_other-seed"],
-        "trackColor": "orange"
+        "fillColor": "orange"
       }
       ]
     }, {
@@ -15,24 +15,24 @@
       "map" : "phavu.Chr02",
       "manhattan": {
         "dataId" : "manhattan_test",
-        "width" : 50,
+        "displayWidth" : 50,
         "maxValue" : 6,
-        "displayRadius" : 2,
-        "majorMark" : 10,
-        "minorMark" : 2,
+        "width" : 2,
+        "rulerMajorMark" : 10,
+        "rulerMinorMark" : 2,
         "posField" :"Pos",
         "targetField" : "Chr",
         "pField" : "p",
         "lines" : [
           {
             "value": 5,
-            "weight": 3,
-            "color": "red"
+            "lineWeight": 3,
+            "lineColor": "red"
           },
           {
             "value": 2,
-            "weight": 3,
-            "color": "blue"
+            "lineWeight": 3,
+            "lineColor": "blue"
           }
         ]
 
@@ -46,11 +46,11 @@
      "map" : "D1a",
      "qtl" : [{
         "filters":["QTL_other-seed","QTL_root"],
-        "trackColor": ["orange","blue"],
+        "fillColor": ["orange","blue"],
         "position":-1
       },{
         "filters":"QTL_root",
-        "trackColor": "red",
+        "fillColor": "red",
         "position":1
       }
       ]

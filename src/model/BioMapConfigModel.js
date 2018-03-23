@@ -28,7 +28,7 @@ export class BioMapConfigModel {
  * Constant that defines the default configuration of cmap maps
  * when no other configuration information is present.
  *
- * @type {{backboneWidth: number, backboneColor: string, invert: boolean, markerColor: string, markerWeight: number, markerLabelSize: number, markerLabelFace: string, markerLabelColor: string, rulerWidth: number, rulerSpacing: number, rulerColor: string, rulerLabelFace: string, rulerLabelSize: number, rulerLabelColor: string, rulerPrecision: number, rulerSteps: number, trackWidth: number, trackSpacing: number, trackColor: string, trackLabelSize: number, trackLabelFace: string, trackLabelColor: string}}
+ * @type {{backboneWidth: number, backboneColor: string, invert: boolean, markerColor: string, markerWeight: number, markerLabelSize: number, markerLabelFace: string, markerLabelColor: string, rulerWidth: number, rulerSpacing: number, rulerColor: string, rulerLabelFace: string, rulerLabelSize: number, rulerLabelColor: string, rulerPrecision: number, rulerSteps: number, trackWidth: number, trackSpacing: number, fillColor: string, trackLabelSize: number, trackLabelFace: string, trackLabelColor: string}}
  */
 
 export const defaultConfig = {
@@ -89,26 +89,15 @@ export const defaultConfig = {
     'rulerMajorMark':10,
     'rulerMinorMark':2,
   },
-  'backboneWidth': 20,
-  'backboneColor': '#fff6e8',
+  'qtl':{
+    'width': 5,
+    'fillColor': 'green',
+    'labelSize': 12,
+    'labelFace': 'Nunito',
+    'labelColor': 'black',
+    'trackMinWidth' : 50,
+    'internalPadding': 5,
+    'position' : 1
+  },
   'invert': false,
-  'markerColor': 'black',
-  'markerWeight': 1,
-  'markerLabelSize': 12,
-  'markerLabelFace': 'Nunito',
-  'markerLabelColor': 'black',
-  'rulerWidth': 10,
-  'rulerSpacing': 5,
-  'rulerColor': 'aqua',
-  'rulerLabelFace': 'Nunito',
-  'rulerLabelSize': 12,
-  'rulerLabelColor': 'black',
-  'rulerPrecision': 2,
-  'rulerSteps': 100,
-  'trackWidth': 5,
-  'trackSpacing': 5,
-  'trackColor': '#636081',
-  'trackLabelSize': 12,
-  'trackLabelFace': 'Nunito',
-  'trackLabelColor': 'black'
 };

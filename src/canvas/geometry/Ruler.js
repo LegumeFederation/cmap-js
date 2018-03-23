@@ -56,7 +56,7 @@ export class Ruler extends SceneGraphNodeBase {
     let vStop = this.invert ? this.mapCoordinates.visible.start : this.mapCoordinates.visible.stop;
     let start = translateScale(vStart, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
     let stop = translateScale(vStop, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
-    let text = [this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(this.rulerPrecision)];
+    let text = [this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(config.precision)];
 
     this.textWidth = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
 

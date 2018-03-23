@@ -19,23 +19,26 @@ export class QTL extends SceneGraphNodeBase {
    * @param initialConfig - configuration object for display variables
    */
 
-  constructor({parent, bioMap, featureModel, initialConfig}) {
+  constructor({parent, bioMap, featureModel, initialConfig,config}) {
     super({parent, tags: [featureModel.name]});
-    let config = bioMap.config;
     this.model = featureModel;
     this.featureMap = bioMap;
     this.view = this.featureMap.view;
     this.lineWidth = 1.0;
     //min and max location in pixels
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
-    this.fill = initialConfig.trackColor[initialConfig.filters.indexOf(this.model.tags[0])] || initialConfig.trackColor[0] || config.trackColor;
-    this.width = initialConfig.trackWidth || config.trackWidth;
-    this.trackSpacing = initialConfig.trackSpacing || config.trackSpacing;
-    this.labelColor = config.trackLabelColor;
-    this.labelSize = config.trackLabelSize;
-    this.labelFace = config.trackLabelFace;
+    this.fill = config.fillColor;
+    if(initialConfig.fillColor) {
+      this.fill = initialConfig.fillColor[initialConfig.filters.indexOf(this.model.tags[0])] || initialConfig.fillColor[0];
+    }
+
+    this.width = initialConfig.width || config.width;
+    this.trackSpacing = initialConfig.internalPadding || config.internalPadding;
+    this.labelColor = initialConfig.labelColor || config.labelColor;
+    this.labelSize = initialConfig.labelSize || config.labelSize;
+    this.labelFace = initialConfig.labelFace || config.labelFace;
     this.offset = this.trackSpacing + this.labelSize;
-    this.invert = config.invert;
+    this.invert = this.view.invert;
     this.start = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
     this.stop = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
 

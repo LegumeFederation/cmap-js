@@ -36,7 +36,7 @@ export class FeatureMenu {
     let trackGroups = [];
     let defaultSettings = model.qtlGroups && model.qtlGroups[order] !== undefined ? {
       filters: model.qtlGroups[order].filters.slice(0),
-      trackColor: model.qtlGroups[order].trackColor.slice(0)
+      fillColor: model.qtlGroups[order].fillColor.slice(0)
     } : undefined;
     if (order === undefined) {
       order = model.qtlGroups ? model.qtlGroups.length : 0;
@@ -44,7 +44,7 @@ export class FeatureMenu {
 
     if (!model.qtlGroups || model.qtlGroups[0] === undefined) {
       order = 0;
-      settings = {filters: [tagList[0]], trackColor: ['red'], position: data.lp};
+      settings = {filters: [tagList[0]], fillColor: ['red'], position: data.lp};
       trackGroups[0] = settings;
       model.qtlGroups = [];
     } else {
@@ -60,7 +60,7 @@ export class FeatureMenu {
       if (order === -1) {
         //new track
         order = baseOrder;
-        trackGroups[order] = {filters: [tagList[0]], trackColor: ['red'], position: data.lp};
+        trackGroups[order] = {filters: [tagList[0]], fillColor: ['red'], position: data.lp};
       }
       settings = trackGroups[order];
     }
@@ -203,11 +203,11 @@ export let _applyButton = {
         let filters = vnode.attrs.newData.map(selected => {
           return selected.name;
         });
-        let colors = vnode.attrs.track[order].trackColor;
+        let colors = vnode.attrs.track[order].fillColor;
         console.log('applyInfo', vnode.attrs);
         vnode.attrs.qtl[order] = {
           filters: filters.slice(0),
-          trackColor: colors.slice(0),
+          fillColor: colors.slice(0),
           position: vnode.attrs.position
         };
         //Let UI layout know which map to update
@@ -278,19 +278,19 @@ export let TrackMenu = {
     this.count = 0;
 
     let dropdowns = selected.map((item, order) => {
-      if (settings.trackColor[order] === undefined) {
-        settings.trackColor[order] = settings.trackColor.slice(0, 1);
+      if (settings.fillColor[order] === undefined) {
+        settings.fillColor[order] = settings.fillColor.slice(0, 1);
       }
       if (!vnode.state.hidden[order]) {
         vnode.state.hidden[order] = 'none';
       }
       if (!vnode.state.picker[order]) {
-        vnode.state.picker[order] = settings.trackColor[order] || 'orange';
+        vnode.state.picker[order] = settings.fillColor[order] || 'orange';
       }
       let dropSettings = {
         selected: selected,
         name: settings.filters[order],
-        trackColor: settings.trackColor,
+        fillColor: settings.fillColor,
         tags: vnode.state.info.tagList,
         nodeColor: vnode.state.picker
       };

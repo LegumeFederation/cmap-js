@@ -21,7 +21,7 @@ export let ColorPicker = {
   oninit: function (vnode) {
     vnode.state = vnode.attrs;
     vnode.state.colors = {
-      baseColor: vnode.attrs.settings.trackColor[vnode.attrs.order] || 'red',
+      baseColor: vnode.attrs.settings.fillColor[vnode.attrs.order] || 'red',
       currentColor: null,
       hueValueColor: null
     };
@@ -33,7 +33,7 @@ export let ColorPicker = {
    */
 
   onupdate: function (vnode) {
-    vnode.attrs.settings.trackColor[vnode.attrs.order] = vnode.state.colors.baseColor;
+    vnode.attrs.settings.fillColor[vnode.attrs.order] = vnode.state.colors.baseColor;
   },
 
   /**
