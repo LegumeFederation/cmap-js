@@ -172,7 +172,11 @@ export class QtlTrack extends SceneGraphNodeTrack {
       });
     });
     childPos.forEach(childArray => {
-      hits = hits.concat(childArray);
+      let children = [];
+      childArray.forEach( item => {
+        if(item.data.children) children = children.concat(item.data.locMap.all());
+      });
+        hits = children.length > 0 ? hits.concat(children) : hits.concat(childArray);
     });
     return hits;
     //  return {

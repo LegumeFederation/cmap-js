@@ -387,6 +387,7 @@ export class BioMap extends SceneGraphNodeCanvas {
           maxY: swapV ? globalPos.y : this.zoomP.corner.top
         }).forEach(hit => {
           // temp fix, find why hit map stopped updating properly
+          if(!hit.data.model) return;
           if ((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
             (hit.data.model.coordinates.start <= this.model.view.visible.stop)) {
             hits.push(hit.data);

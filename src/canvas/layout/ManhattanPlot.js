@@ -57,7 +57,6 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
           return false;
         });
       }
-      console.log('manhattan filterTest', manhattanInfo);
 
       //Draw manhattan plot
       //let left = this.parent.bbGroup.bounds.right;
@@ -131,7 +130,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       this.locMap.load(mapGroup.locMap.all());
 
       this.tags = ['manhattan'];
-      console.log('manhattan Dots', this.children);
+      console.log('manhattan Dots', this.locMap.all());
     }
   }
 
@@ -221,30 +220,21 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
 //   */
 //
   get hitMap() {
-    // //return [];
+    return this.locMap.all();
     // let hits = [];
-    // let childPos = this.children.map(child => {
-    //   return child.children.map(qtlGroup => {
+    // let childPos = this.mapGroup.map(child => {
     //     return {
-    //       minY: qtlGroup.globalBounds.top,
-    //       maxY: qtlGroup.globalBounds.bottom,
-    //       minX: qtlGroup.globalBounds.left,
-    //       maxX: qtlGroup.globalBounds.right,
-    //       data: qtlGroup
+    //       minY: child.globalBounds.top,
+    //       maxY: child.globalBounds.bottom,
+    //       minX: child.globalBounds.left,
+    //       maxX: child.globalBounds.right,
+    //       data: child
     //     };
     //   });
-    // });
+    //
     // childPos.forEach(childArray => {
     //   hits = hits.concat(childArray);
     // });
     // return hits;
-    return {
-      minY: this.globalBounds.top,
-      maxY: this.globalBounds.bottom,
-      minX: this.globalBounds.left,
-      maxX: this.globalBounds.right,
-      data: this
-    };
-
   }
 }

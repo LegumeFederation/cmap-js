@@ -26,7 +26,7 @@ export class manhattanRuler extends SceneGraphNodeBase {
       allowSubpixel: false,
       top:0,
       left:0,
-      width: this.parent.width,
+      width: this.manhattanPlot.width,
       height: this.parent.bounds.height
     });
   }
