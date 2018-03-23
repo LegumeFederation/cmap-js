@@ -34,7 +34,7 @@ export class MapTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     this.mC = this.parent.mapCoordinates;
-    this.backbone = new MapBackbone({parent: this, bioMap: this.model});
+    this.backbone = new MapBackbone({parent: this, bioMap: this.model,config: this.model.config.backbone});
     this.addChild(this.backbone);
 
     // calculate scale factor between backbone coordinates in pixels

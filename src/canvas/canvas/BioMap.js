@@ -46,7 +46,8 @@ export class BioMap extends SceneGraphNodeCanvas {
       visible: {
         start: this.model.coordinates.start,
         stop: this.model.coordinates.stop
-      }
+      },
+      invert : this.model.config.invert
     };
     this.model.manhattanPlot = this.initialView.manhattan || null;
     this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start) / this.model.config.rulerSteps;
@@ -71,7 +72,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     };
     this._layout(layoutBounds);
     this.dirty = true;
-
   }
 
   /*
@@ -492,7 +492,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.backbone = new MapTrack({parent: this});
     this.bbGroup.addChild(this.backbone);
     this.model.view.backbone = this.backbone.backbone.globalBounds;
-    this.ruler = new Ruler({parent: this, bioMap: this.model});
+    this.ruler = new Ruler({parent: this, bioMap: this.model, config: this.model.config.ruler});
     this.bbGroup.addChild(this.ruler);
     this.backbone.children.forEach(child => {
       if (child.globalBounds.left < this.bbGroup.bounds.left) {

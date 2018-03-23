@@ -32,6 +32,44 @@ export class BioMapConfigModel {
  */
 
 export const defaultConfig = {
+  'backbone' : {
+    'width' : 20,
+    'fillColor' : '#fff6e8',
+    'lineWeight' : 0,
+    'lineColor' : 'black'
+  },
+  'ruler' : {
+    'width' : 10,
+    'padding' : 5,
+    'fillColor' : 'aqua',
+    'lineWeight' : 0,
+    'lineColor' : 'black',
+    'labelFace' : 'Nunito',
+    'labelSize' : 12,
+    'labelColor' : 'black',
+    'innerLineWeight' : 1.0,
+    'innerLineColor' : 'black',
+    'precision' : 2,
+    'steps' : 100
+  },
+  'track' : {
+    'width' : 5,
+    'padding' : 5,
+    'fillColor' : '#636081',
+    'lineWeight' : 0,
+    'lineColor' : 'black',
+    'labelFace' : 'Nunito',
+    'labelSize' : 12,
+    'labelColor' : 'black',
+    'internalPadding' : '5'
+  },
+  'marker':{
+    'lineWeight' : 0,
+    'lineColor' : 'black',
+    'labelFace' : 'Nunito',
+    'labelSize' : 12,
+    'labelColor' : 'black',
+  },
   'backboneWidth': 20,
   'backboneColor': '#fff6e8',
   'invert': false,

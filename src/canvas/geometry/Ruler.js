@@ -15,28 +15,32 @@ export class Ruler extends SceneGraphNodeBase {
    * Constructor
    * @param parent - parent scene graph node
    * @param bioMap - map data
+   * @param config - ruler configuration object
    */
 
-  constructor({parent, bioMap}) {
+  constructor({parent, bioMap, config}) {
     super({parent});
-    let config = bioMap.config;
     this.config = config;
     this.mapCoordinates = bioMap.view;
     this.offset = this.mapCoordinates.base.start * -1;
     this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
-    this.fillColor = config.rulerColor;
-    this.textFace = config.rulerLabelFace;
-    this.textSize = config.rulerLabelSize;
-    this.textColor = config.rulerLabelColor;
-    this.rulerPrecision = config.rulerPrecision;
-    this.invert = config.invert;
+    this.invert = this.mapCoordinates.invert;
+    this.fillColor = config.fillColor;
+    this.textFace = config.labelFace;
+    this.textSize = config.labelSize;
+    this.textColor = config.labelColor;
+    this.rulerPrecision = config.precision;
+    this.rulerWidth = config.width;
+    this.rulerPadding = config.padding;
+    this.innerSize = config.innerLineWeight;
+    this.innerColor = config.innerLineColor;
 
     const b = this.parent.backbone.bounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
-      left: b.left - config.rulerWidth - config.rulerSpacing, //arbitrary spacing to look goo
-      width: config.rulerWidth,
+      left: b.left - config.width - config.padding - config.lineWeight, //arbitrary spacing to look goo
+      width: config.width,
       height: b.height
     });
   }
@@ -70,17 +74,17 @@ export class Ruler extends SceneGraphNodeBase {
     // Draw zoom position labels
     text = [this.mapCoordinates.visible.start.toFixed(this.rulerPrecision), this.mapCoordinates.visible.stop.toFixed(this.rulerPrecision)];
     if (this.invert) {
-      ctx.fillText(text[1], gb.left + this.config.rulerWidth + this.config.rulerSpacing, Math.floor(gb.top - this.textSize / 2));
-      ctx.fillText(text[0], gb.left + this.config.rulerWidth + this.config.rulerSpacing, (gb.bottom + this.textSize));
+      ctx.fillText(text[1], gb.left + this.rulerWidth + this.rulerPadding, Math.floor(gb.top - this.textSize / 2));
+      ctx.fillText(text[0], gb.left + this.rulerWidth + this.rulerPadding, (gb.bottom + this.textSize));
     } else {
-      ctx.fillText(text[0], gb.left + this.config.rulerWidth + this.config.rulerSpacing, Math.floor(gb.top - this.textSize / 2));
-      ctx.fillText(text[1], gb.left + this.config.rulerWidth + this.config.rulerSpacing, (gb.bottom + this.textSize));
+      ctx.fillText(text[0], gb.left + this.rulerWidth + this.rulerPadding, Math.floor(gb.top - this.textSize / 2));
+      ctx.fillText(text[1], gb.left + this.rulerWidth + this.rulerPadding, (gb.bottom + this.textSize));
     }
 
     //Draw baseline ruler
     ctx.beginPath();
-    ctx.lineWidth = 1.0;
-    ctx.strokeStyle = 'black';
+    ctx.lineWidth = this.innerSize;
+    ctx.strokeStyle = this.innerColor;
     // noinspection JSSuspiciousNameCombination
     ctx.moveTo(Math.floor(gb.left + gb.width / 2), Math.floor(gb.top));
     // noinspection JSSuspiciousNameCombination
@@ -97,6 +101,17 @@ export class Ruler extends SceneGraphNodeBase {
       Math.floor(gb.width),
       Math.floor(height)
     );
+    //draw border if asked for
+    if(this.config.lineWeight > 0) {
+      ctx.strokeStyle = this.config.lineColor;
+      ctx.lineWidth = this.config.lineWeight;
+      ctx.strokeRect(
+        Math.floor(gb.left),
+        Math.floor(start + gb.top),
+        Math.floor(gb.width),
+        Math.floor(height)
+      );
+    }
     ////debugging rectangle to test group bounds
     //ctx.fillStyle = 'red';
     //ctx.fillRect(

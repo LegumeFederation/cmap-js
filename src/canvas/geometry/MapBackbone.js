@@ -18,17 +18,18 @@ export class MapBackbone extends SceneGraphNodeBase {
    * @param bioMap - Map data
    */
 
-  constructor({parent, bioMap}) {
+  constructor({parent, bioMap,config}) {
     super({parent});
     const b = parent.bounds;
-    const config = bioMap.config;
-    const backboneWidth = config.backboneWidth;
-    this.fillStyle = config.backboneColor;
+    const backboneWidth = config.width;
+    this.fillStyle = config.fillColor;
+    this.strokeStyle = config.lineColor;
+    this.lineWidth = config.lineWeight;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
       left: b.width * 0.5 - backboneWidth * 0.5,
-      width: backboneWidth,
+      width: backboneWidth + config.lineWeight,
       height: b.height
     });
     bioMap.view.backbone = this.globalBounds;
@@ -50,6 +51,18 @@ export class MapBackbone extends SceneGraphNodeBase {
       Math.floor(gb.width),
       Math.floor(gb.height)
     );
+
+    if(this.lineWidth > 0) {
+      ctx.strokeStyle = this.strokeStyle;
+      ctx.lineWidth = this.lineWidth;
+      ctx.strokeRect(
+        Math.floor(gb.left),
+        Math.floor(gb.top),
+        Math.floor(gb.width),
+        Math.floor(gb.height)
+      );
+    }
+
     this.children.forEach(child => child.draw(ctx));
   }
 }
