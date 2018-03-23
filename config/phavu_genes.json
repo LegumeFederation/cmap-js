@@ -1,11 +1,17 @@
 {
   "default":{
-    "rulerWidth":10,
-    "rulerColor":"aqua",
-    "backboneWidth":10
+    "ruler" : {
+      "width" : 10,
+      "fillColor" : "aqua"
+    },
+    "backbone":{
+      "width":20
+    }
   },
   "Pv02":{
-    "backboneWidth":60,
+    "backbone":{
+      "width" : 60
+    },
     "invert":true
   }
 }

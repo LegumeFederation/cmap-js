@@ -70,9 +70,7 @@ export const defaultConfig = {
     'labelSize' : 12,
     'labelColor' : 'black'
   },
-  'Correspondence' : {
 
-  },
   'manhattan' :{
     'width' : 2,
     'fillColor':'green',

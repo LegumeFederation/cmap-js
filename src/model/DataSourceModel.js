@@ -41,7 +41,12 @@ export class DataSourceModel {
         for (const configGroup of Object.keys(this.bioConfig)) {
           for (const key of Object.keys(defaultConfig)) {
             if (this.bioConfig[configGroup][key] === undefined) {
-              this.bioConfig[configGroup][key] = defaultConfig[key];
+              this.bioConfig[configGroup][key] = this.bioConfig.default[key] || defaultConfig[key];
+            }
+            for(const subkey of Object.keys(defaultConfig[key])) {
+              if (this.bioConfig[configGroup][key][subkey] === undefined) {
+                this.bioConfig[configGroup][key][subkey] = this.bioConfig.default[key][subkey] || defaultConfig[key][subkey];
+              }
             }
           }
         }
