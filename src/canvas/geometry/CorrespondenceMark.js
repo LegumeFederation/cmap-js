@@ -19,6 +19,10 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
    * @param bioMap - array of both sets of map data
    */
 
+  /**
+   * TODO: Allow configuration as part of config file
+   */
+
   constructor({parent, featurePair, mapCoordinates, bioMap}) {
     super({parent});
     this.model = featurePair;
