@@ -68,10 +68,26 @@ export const defaultConfig = {
     'lineColor' : 'black',
     'labelFace' : 'Nunito',
     'labelSize' : 12,
-    'labelColor' : 'black',
+    'labelColor' : 'black'
   },
   'Correspondence' : {
 
+  },
+  'manhattan' :{
+    'width' : 2,
+    'fillColor':'green',
+    'lineWeight':1,
+    'lineColor':'black',
+    'labelFace' : 'Nunito',
+    'labelSize' : 10,
+    'labelColor' : 'black',
+    'displayWidth' : 50,
+    'featureLineWeight' : 3,
+    'featureLineColor' : 'red',
+    'rulerWeight' : 2,
+    'rulerColor' : 'black',
+    'rulerMajorMark':10,
+    'rulerMinorMark':2,
   },
   'backboneWidth': 20,
   'backboneColor': '#fff6e8',

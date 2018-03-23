@@ -19,14 +19,15 @@ export class manhattanRuler extends SceneGraphNodeBase {
    * @param initialConfig - configuration object for display variables
    */
 
-  constructor({parent, featureModel}) {
+  constructor({parent, featureModel,config}) {
     super({parent});
+    this.config = config;
     this.manhattanPlot = featureModel;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top:0,
       left:0,
-      width: this.manhattanPlot.width,
+      width: config.displayWidth,
       height: this.parent.bounds.height
     });
   }
@@ -37,15 +38,15 @@ export class manhattanRuler extends SceneGraphNodeBase {
    */
 
   draw(ctx) {
+    let config = this.config;
     ctx.save();
     ctx.globalAlpha = .5;
-    ctx.fillStyle = 'green';
     let cb = this.globalBounds;
     let depth = 0;
     if (this.manhattanPlot) {
       //Draw "ruler"
-      ctx.strokeStyle = 'black';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = config.rulerColor;
+      ctx.lineWidth = config.rulerWeight;
 
       //Baseline marks
       ctx.beginPath();
@@ -60,24 +61,24 @@ export class manhattanRuler extends SceneGraphNodeBase {
 
       //Ruler
       for (let i = 0; i <= this.manhattanPlot.view.stop; i++) {
-        if (i % this.manhattanPlot.minorMark === 0 || i % this.manhattanPlot.majorMark === 0) {
+        if (i % config.rulerMinorMark === 0 || i % config.rulerMajorMark === 0) {
           depth = translateScale(i, {
             start: 0,
-            stop: this.manhattanPlot.width
+            stop: config.displayWidth
           }, this.manhattanPlot.view, false);
           ctx.beginPath();
           ctx.moveTo(cb.left + depth, cb.top);
           ctx.lineTo(cb.left + depth, cb.top - 10);
           ctx.stroke();
-          if (i % this.manhattanPlot.majorMark === 0) {
-            ctx.font = '10px';
+          if (i % config.rulerMajorMark === 0) {
+            ctx.font = config.labelSize;
+            ctx.fillStyle = config.labelColor;
             ctx.textAlign = 'center';
-            ctx.fillStyle = 'black';
             ctx.fillText(String(i), cb.left + depth, cb.top - 11);
           }
         }
       }
-      ctx.fillText('-log10(p)', cb.left + this.manhattanPlot.width / 2, cb.top - 25);
+      ctx.fillText('-log10(p)', cb.left + config.displayWidth / 2, cb.top - 25);
 
       // Reference lines
 
@@ -85,10 +86,10 @@ export class manhattanRuler extends SceneGraphNodeBase {
         this.manhattanPlot.lines.forEach(line => {
           depth = translateScale(line.value, {
             start: 0,
-            stop: this.manhattanPlot.width
+            stop: config.displayWidth
           }, this.manhattanPlot.view, false);
-          ctx.strokeStyle = line.color;
-          ctx.lineWidth = line.width;
+          ctx.strokeStyle = line.lineColor;
+          ctx.lineWidth = line.lineWeight;
           ctx.beginPath();
           ctx.moveTo(cb.left + depth, cb.top);
           ctx.lineTo(cb.left + depth, cb.bottom);

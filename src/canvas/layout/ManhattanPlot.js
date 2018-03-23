@@ -33,6 +33,20 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
     });
     if (this.parent.model.manhattanPlot !== null) {
       let manhattanInfo = this.parent.model.manhattanPlot;
+      //merge configuration information with default config
+      for( let key in this.parent.model.config.manhattan){
+        if(!manhattanInfo.hasOwnProperty(key)){
+          manhattanInfo[key] = this.parent.model.config.manhattan[key];
+        }
+      }
+      manhattanInfo.lines.forEach(line => {
+        if(!line.lineWeight){
+          line.lineWeigth = manhattanInfo.featureLineWeight;
+        }
+        if(!line.lineColor){
+          line.lineColor = manhattanInfo.featureLineColor;
+        }
+      });
 
       // If data hasn't been attached to this map to plot, filter and attach it.
       if (manhattanInfo.data === undefined) {
@@ -65,7 +79,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
        allowSubpixel: false,
         top: 0,
         left: 0,
-        width: manhattanInfo.width || 0,
+        width: manhattanInfo.displayWidth || 0,
         height: b.height
       });
       let mapGroup = new SceneGraphNodeGroup({parent: this, tags:'manhattan'});
@@ -75,11 +89,13 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       mapGroup.bounds = new Bounds({
         top: 0,
         left: 0,
-        width: manhattanInfo.width || 0,
+        width: manhattanInfo.displayWidth || 0,
         height: b.height
       });
 
       let fmData = [];
+
+
 
       this.manhattanMarks = manhattanInfo.data.map(model => {
         model.coordinates = {
@@ -93,6 +109,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
           featureModel: model,
           parent: this.parent,
           bioMap: this.parent.model,
+          config: manhattanInfo
         });
 
         mapGroup.addChild(fm);
@@ -114,16 +131,17 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
 
 
       let ruler ={
-          minY: 0,
-          maxY: 100000000,
-          minX: this.globalBounds.left,
-          maxX: this.globalBounds.right,
-          data: new manhattanRuler({
+        minY: 0,
+        maxY: 100000000,
+        minX: this.globalBounds.left,
+        maxX: this.globalBounds.right,
+        data: new manhattanRuler({
           featureModel : this.parent.model.manhattanPlot,
           parent: this,
+          config: manhattanInfo
         })
       };
-
+      this.ruler = ruler;
       this.locMap.insert(ruler);
       this.addChild(ruler.data);
 
@@ -139,8 +157,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
    */
 
   get visible() {
-    console.log('mhat vis');
-    return this.locMap.all();
+    return this.locMap.all().concat([this.ruler]);
   }
 
   // /**
@@ -149,67 +166,12 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
   //  */
 
   draw(ctx) {
-    ctx.save();
-    ctx.globalAlpha = .5;
-    ctx.fillStyle = 'green';
-    let cb = this.globalBounds;
-    let depth = 0;
-    if(this.parent.model.manhattanPlot) {
-      //Draw "ruler"
-      ctx.strokeStyle='black';
-      ctx.lineWidth = 2;
-
-      //Baseline marks
-      ctx.beginPath();
-
-      ctx.moveTo(cb.left,cb.top);
-      ctx.lineTo(cb.right, cb.top);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(cb.left,cb.bottom);
-      ctx.lineTo(cb.right, cb.bottom);
-      ctx.stroke();
-
-
-      //Ruler
-      for (let i = 0; i <= this.parent.model.manhattanPlot.view.stop; i++) {
-        if(i%this.parent.model.manhattanPlot.minorMark === 0 || i%this.parent.model.manhattanPlot.majorMark === 0) {
-          depth = translateScale(i, {
-            start: 0,
-            stop: this.parent.model.manhattanPlot.width
-          }, this.parent.model.manhattanPlot.view, false);
-          ctx.beginPath();
-          ctx.moveTo(cb.left + depth, cb.top);
-          ctx.lineTo(cb.left + depth, cb.top - 10);
-          ctx.stroke();
-          if (i % this.parent.model.manhattanPlot.majorMark === 0) {
-            ctx.font = '10px';
-            ctx.textAlign = 'center';
-            ctx.fillStyle = 'black';
-            ctx.fillText(String(i), cb.left + depth, cb.top - 11);
-          }
-        }
-      }
-      ctx.fillText('-log10(p)', cb.left + this.parent.model.manhattanPlot.width/2 , cb.top-25);
-
-      // Reference lines
-
-      if(this.parent.model.manhattanPlot.lines) {
-        this.parent.model.manhattanPlot.lines.forEach(line =>{
-          depth = translateScale(line.value, {
-            start: 0,
-            stop: this.parent.model.manhattanPlot.width
-          }, this.parent.model.manhattanPlot.view, false);
-          ctx.strokeStyle = line.color;
-          ctx.lineWidth = line.width;
-          ctx.beginPath();
-          ctx.moveTo(cb.left + depth, cb.top);
-          ctx.lineTo(cb.left + depth, cb.bottom);
-          ctx.stroke();
-        });
-      }
-    }
-    ctx.restore();
+   // ctx.save();
+   // ctx.globalAlpha = .5;
+   // ctx.fillStyle = 'green';
+   // let cb = this.globalBounds;
+   // ctx.fillRect(cb.left,cb.top,cb.width,cb.height);
+   // ctx.restore();
 
     this.children.forEach(child => child.draw(ctx));
   }
