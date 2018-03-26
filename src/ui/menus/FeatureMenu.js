@@ -6,7 +6,7 @@ import m from 'mithril';
 import PubSub from 'pubsub-js';
 
 import {featureUpdate} from '../../topics';
-import {ColorPicker} from './ColorPicker';
+import {ColorPicker, hexToRgb, rgbToHsv} from './ColorPicker';
 
 export class FeatureMenu {
   /**
@@ -44,11 +44,17 @@ export class FeatureMenu {
     if(!settings.fillColor){
       settings.fillColor = fillColor;
     }
+    if(!settings.title){
+      settings.title = filters[0];
+    }
 
     let defaultSettings = {
       filters : settings.filters.slice(),
-      fillColor : settings.fillColor.slice()
+      fillColor : settings.fillColor.slice(),
+      title : settings.title.slice()
     };
+
+    console.log('default ctx', defaultSettings);
 
     settings.position = data.position;
 
@@ -97,6 +103,7 @@ export class FeatureMenu {
       view: function () {
         return m('div', {style: 'height:100%; width:100%'}, [
             m(CloseButton, {model: model, config: settings, order: order, reset: defaultSettings}),
+            m(TitleBox, {settings: settings}),
             m(TrackMenu, {info: trackConfig, count: 0}),
             m('div', {style: 'text-align:center'}, controls)
           ]
@@ -138,6 +145,36 @@ export let _removeButton = {
   }
 };
 
+export let TitleBox = {
+  /**
+   *
+   * @param vnode
+   * @returns {*}
+   */
+  oninit: function (vnode) {
+    vnode.state.value = vnode.attrs.settings.title;
+  },
+  view: function (vnode) {
+    return m('div',{},'Track title: ',
+      m('input[type=text].title-input', {
+        style: 'display:block; width:10%;',
+        defaultValue : vnode.attrs.settings.title,
+        oninput: m.withAttr('value', function (value) {
+          try {
+            console.log('track boo hiss',value, vnode.attrs.settings.title);
+            vnode.attrs.settings.title = value;
+            console.log('track boo hiss 2',value, vnode.attrs.settings.title);
+          } catch (e) {
+            // expect this to fail silently, as most typing will not actually give
+            // a proper hex triplet/sextet
+          }
+        })
+      })
+    );
+  }
+};
+
+
 /**
  *
  * @type {{view: _cancelButton.view}}
@@ -158,6 +195,7 @@ export let _cancelButton = {
         () => {
           vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
           vnode.attrs.config.filters = vnode.attrs.reset.filters;
+          vnode.attrs.config.title = vnode.attrs.reset.title;
           if(vnode.attrs.order < vnode.attrs.model.tracks.length) {
             vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
           }
@@ -215,6 +253,7 @@ export let CloseButton = {
           () => {
             vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
             vnode.attrs.config.filters = vnode.attrs.reset.filters;
+            vnode.attrs.config.title = vnode.attrs.reset.title;
             if(vnode.attrs.order < vnode.attrs.model.tracks.length) {
               vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
             }
@@ -265,6 +304,7 @@ export let TrackMenu = {
       if (!vnode.state.picker[order]) {
         vnode.state.picker[order] = settings.fillColor[order] || 'orange';
       }
+
       let dropSettings = {
         selected: selected,
         name: settings.filters[order],
@@ -362,6 +402,7 @@ export let Dropdown = {
     ]), m(ColorPicker, {settings: vnode.state.settings, order: order, hidden: vnode.state.hidden}));
   }
 };
+
 
 /**
  * Function to close the menu-viewport and reshow the
