@@ -5,11 +5,7 @@
   "initialView" : [ {
      "source" : "pv_consensus",
      "map" : "Pv02",
-     "qtl" : [{
-        "filters":["QTL_seed","QTL_other-seed"],
-        "fillColor": "orange"
-      }],
-      "tracks" :[
+     "tracks" :[
         {
           "type": "qtl",
           "title": "seed 1",
@@ -21,7 +17,6 @@
           "fillColor": ["yellow"]
         },{
           "type": "qtl",
-          "title":"seed 2",
           "filters": [
             "QTL_seed",
             "QTL_root"
@@ -29,8 +24,6 @@
           "fillColor": ["green","red"]
         }
       ]
-
-
   },{
      "source" : "pv_genome",
      "map" : "phavu.Chr02",
@@ -65,16 +58,18 @@
     }, {
      "source" : "gm_composite",
      "map" : "D1a",
-     "qtl" : [{
+     "tracks" : [{
+        "type" : "qtl",
         "filters":["QTL_other-seed","QTL_root"],
         "fillColor": ["orange","blue"],
         "position":-1
       },{
-        "filters":"QTL_root",
-        "fillColor": "red",
+        "type" : "qtl",
+        "filters":["QTL_root"],
+        "fillColor": ["red"],
         "position":1
       }
-      ]
+     ]
     }
   ],
   "sources" : [ {
