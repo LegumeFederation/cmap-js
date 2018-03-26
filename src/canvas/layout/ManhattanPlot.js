@@ -162,20 +162,15 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
 //
   get hitMap() {
     //return this.locMap.all();
-     let hits = [];
-     let childPos = this.mapGroup.map(child => {
-         return {
-           minY: child.globalBounds.top,
-           maxY: child.globalBounds.bottom,
-           minX: child.globalBounds.left,
-           maxX: child.globalBounds.right,
-           data: child
-         };
-       });
+    return this.children.map(child => {
+      return {
+        minY: child.globalBounds.top,
+        maxY: child.globalBounds.bottom,
+        minX: child.globalBounds.left,
+        maxX: child.globalBounds.right,
+        data: child
+      };
+    });
 
-     childPos.forEach(childArray => {
-       hits = hits.concat(childArray);
-     });
-     return hits;
   }
 }

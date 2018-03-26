@@ -75,6 +75,8 @@ export class FeatureTrack extends SceneGraphNodeTrack {
 
         this.addChild(newFeatureTrack);
       });
+    } else {
+      this.parent.model.tracks = [];
     }
 
   }
@@ -130,25 +132,13 @@ export class FeatureTrack extends SceneGraphNodeTrack {
 
   get hitMap() {
     //return [];
+   // console.log('hits child',child);
     let hits = [];
-    let childPos = this.children.map(child => {
+    this.children.forEach(child => {
       return child.children.map(qtlGroup => {
-        return {
-          minY: qtlGroup.globalBounds.top,
-          maxY: qtlGroup.globalBounds.bottom,
-          minX: qtlGroup.globalBounds.left,
-          maxX: qtlGroup.globalBounds.right,
-          data: qtlGroup
-        };
+        hits = hits.concat(qtlGroup.hitMap);
       });
     });
-    childPos.forEach(childArray => {
-      let children = [];
-      childArray.forEach( item => {
-        if(item.data.children) children = children.concat(item.data.locMap.all());
-      });
-        hits = children.length > 0 ? hits.concat(children) : hits.concat(childArray);
-      });
-      return childPos;
+    return hits;
   }
 }

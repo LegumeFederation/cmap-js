@@ -96,7 +96,7 @@ export class FeatureMenu {
       },
       view: function () {
         return m('div', {style: 'height:100%; width:100%'}, [
-            m(CloseButton, {qtl: model.qtlGroups, order: order, reset: defaultSettings, newData: selected}),
+            m(CloseButton, {model: model, config: settings, order: order, reset: defaultSettings}),
             m(TrackMenu, {info: trackConfig, count: 0}),
             m('div', {style: 'text-align:center'}, controls)
           ]
@@ -156,9 +156,8 @@ export let _cancelButton = {
     return m('button', {
       onclick:
         () => {
-          console.log('ctx cnc',vnode.attrs.reset);
-            vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
-            vnode.attrs.config.filters = vnode.attrs.reset.filters;
+          vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
+          vnode.attrs.config.filters = vnode.attrs.reset.filters;
           if(vnode.attrs.order < vnode.attrs.model.tracks.length) {
             vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
           }
@@ -214,8 +213,10 @@ export let CloseButton = {
         style: 'text-align:right;',
         onclick:
           () => {
-            if (vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] !== undefined) {
-              vnode.attrs.qtl[vnode.attrs.order] = vnode.attrs.reset;
+            vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
+            vnode.attrs.config.filters = vnode.attrs.reset.filters;
+            if(vnode.attrs.order < vnode.attrs.model.tracks.length) {
+              vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
             }
             closeModal();
           }

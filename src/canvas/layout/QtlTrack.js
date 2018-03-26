@@ -133,7 +133,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
    */
 
   get hitMap() {
-    //return [];
+    //return this.locMap.all();
     return this.children.map(child => {
       return {
         minY: child.globalBounds.top,
