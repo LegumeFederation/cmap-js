@@ -12,11 +12,21 @@
       "tracks" :[
         {
           "type": "qtl",
+          "title": "seed 1",
           "filters": [
+            "QTL_root",
             "QTL_seed",
             "QTL_other-seed"
           ],
-          "fillColor": "green"
+          "fillColor": ["yellow"]
+        },{
+          "type": "qtl",
+          "title":"seed 2",
+          "filters": [
+            "QTL_seed",
+            "QTL_root"
+          ],
+          "fillColor": ["green","red"]
         }
       ]
 

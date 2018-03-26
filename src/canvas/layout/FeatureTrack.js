@@ -32,15 +32,19 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       width: 0,
       height: b.height
     });
-
     if(this.parent.model.tracks) {
       let tracks = this.trackPos === 1 ? this.parent.tracksLeft : this.parent.tracksRight;
       tracks.forEach((track, order) => {
         // newFeatureTrack is a group with two components, the feature data track, and the feature label track
+        track.appState = this.parent.appState;
         let newFeatureTrack = new SceneGraphNodeGroup({parent:this});
+        newFeatureTrack.model = this.model;
+        newFeatureTrack.config = track;
+        newFeatureTrack.order = order;
+
         let trackLeft = order === 0 ? 0 : this.children[order-1].bounds.right;
         trackLeft += this.model.config.qtl.padding;
-        console.log("trackBreakdow", track,order,trackLeft);
+
         newFeatureTrack.bounds = new Bounds({
           allowSubpixel: false,
           top: 0,
@@ -49,17 +53,15 @@ export class FeatureTrack extends SceneGraphNodeTrack {
           height: b.height
         });
 
-        newFeatureTrack.model = this.model;
 
         let featureData = {};
         if(track.type === 'qtl') {
           featureData = new QtlTrack({parent:newFeatureTrack , config: track});
+          newFeatureTrack.title = track.title || this.model.config.qtl.title || track.filters[0];
         } else if( track.type = 'manhattan') {
-          track.appState = this.parent.appState;
           featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
+          newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
         }
-
-
 
         newFeatureTrack.addChild(featureData);
         if(featureData.globalBounds.right > newFeatureTrack.globalBounds.right){
@@ -73,8 +75,6 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         }
 
         this.addChild(newFeatureTrack);
-        console.log('featureTrackTest',this, newFeatureTrack,featureData);
-
       });
     }
 
@@ -86,14 +86,11 @@ export class FeatureTrack extends SceneGraphNodeTrack {
 
   get visible() {
     let visible = [];
-    console.log('qtlVisible get', this);
     this.children.forEach(child => {
-      console.log('qtlVisible get child', child, child.visible);
       visible = visible.concat(child.visible);
     });
-    //return visible;
-   return visible.concat([{data:this}]); // debugging statement to test track width bounds
-  //  //return this.locMap.all();
+    return visible;
+    //return visible.concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
@@ -146,6 +143,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         };
       });
     });
+    console.log('hits Map', childPos);
     childPos.forEach(childArray => {
       let children = [];
       childArray.forEach( item => {
@@ -154,6 +152,6 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         hits = children.length > 0 ? hits.concat(children) : hits.concat(childArray);
       });
       console.log('hits',hits);
-      return hits;
+      return childPos;
   }
 }

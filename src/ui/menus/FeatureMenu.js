@@ -18,7 +18,6 @@ export class FeatureMenu {
   constructor(data, order) {
     // Setup modal position based on current placement of the actual map
     // layout viewport. keeps things self-contained when embedding.
-    console.log('fm', data);
     let viewport = document.getElementById('cmap-menu-viewport');
     let layoutBounds = document.getElementById('cmap-layout-viewport').getBoundingClientRect();
     document.getElementById('cmap-layout-viewport').style.visibility = 'hidden';
@@ -28,44 +27,28 @@ export class FeatureMenu {
     viewport.style.left = `${layoutBounds.left}px`;
     viewport.style.width = '95%';
     viewport.style.height = `${layoutBounds.height}px`;
-
     // Setup track and subtrack data
-    let model = data.parent.parent.model;
+    let model = data.model || data.component.model;
     let tagList = model.tags.sort();
-    let settings = {};
+    let settings = model.tracks[order] ? data.config : model.config.qtl;
     let trackGroups = [];
-    let defaultSettings = model.qtlGroups && model.qtlGroups[order] !== undefined ? {
-      filters: model.qtlGroups[order].filters.slice(0),
-      fillColor: model.qtlGroups[order].fillColor.slice(0)
-    } : undefined;
-    if (order === undefined) {
-      order = model.qtlGroups ? model.qtlGroups.length : 0;
+    let filters = settings.filters ? settings.filters.slice() : [tagList[0].slice()];
+    let fillColor = settings.fillColor ? settings.fillColor.slice() : ['aqua'];
+
+    console.log('feature Menu init', model, data,order);
+    let defaultSettings = {
+      filters : filters.slice(),
+      fillColor : fillColor.slice()
+    };
+
+    if(!settings.filters){
+      settings.filters = filters;
+    }
+    if(!settings.fillColor){
+      settings.fillColor = fillColor;
     }
 
-    if (!model.qtlGroups || model.qtlGroups[0] === undefined) {
-      order = 0;
-      settings = {filters: [tagList[0]], fillColor: ['red'], position: data.lp};
-      trackGroups[0] = settings;
-      model.qtlGroups = [];
-    } else {
-      trackGroups = model.qtlGroups.slice(0);
-      //filter order due to LHS and RHS being co-mingled in trackGroups
-      const baseOrder = order;
-      if (data.lp === -1) {
-        order = trackGroups.indexOf(trackGroups.filter(track => track.position === -1)[order]);
-      } else {
-        order = trackGroups.indexOf(trackGroups.filter(track => track.position !== -1)[order]);
-      }
-
-      if (order === -1) {
-        //new track
-        order = baseOrder;
-        trackGroups[order] = {filters: [tagList[0]], fillColor: ['red'], position: data.lp};
-      }
-      settings = trackGroups[order];
-    }
-
-    let selected = settings.filters.map((item) => {
+    let selected = filters.map((item) => {
       return {
         name: item,
         index: tagList.indexOf(item)
@@ -84,18 +67,16 @@ export class FeatureMenu {
     //right), the actual modal contents, and the apply/close/delete button bar
     let controls = [
       m(_applyButton, {
-        position: data.lp,
-        qtl: model.qtlGroups,
-        track: trackGroups,
+        model:model,
+        config : settings,
         order: order,
+        bioMapIndex : model.component.bioMapIndex,
         reset: defaultSettings,
-        newData: selected,
-        mapIndex: model.component.bioMapIndex
       }),
       m(_cancelButton, {qtl: model.qtlGroups, order: order, reset: defaultSettings, newData: selected})
     ];
 
-    if (model.qtlGroups[order] !== undefined) {
+    if (order < model.tracks.length) {
       controls.push(m(_removeButton, {
         position: data.lp,
         mapIndex: model.component.bioMapIndex,
@@ -199,19 +180,9 @@ export let _applyButton = {
   view: function (vnode) {
     return m('button', {
       onclick: function () {
-        let order = vnode.attrs.order;
-        let filters = vnode.attrs.newData.map(selected => {
-          return selected.name;
-        });
-        let colors = vnode.attrs.track[order].fillColor;
-        console.log('applyInfo', vnode.attrs);
-        vnode.attrs.qtl[order] = {
-          filters: filters.slice(0),
-          fillColor: colors.slice(0),
-          position: vnode.attrs.position
-        };
-        //Let UI layout know which map to update
-        PubSub.publish(featureUpdate, {mapIndex: vnode.attrs.mapIndex});
+        console.log('update feature', vnode.attrs.model.tracks, vnode.attrs.order, vnode.attrs.config);
+        vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
+        PubSub.publish(featureUpdate, {mapIndex: vnode.attrs.bioMapIndex});
         m.redraw();
         closeModal();
       }

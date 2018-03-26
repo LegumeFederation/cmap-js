@@ -21,7 +21,6 @@ export class QtlTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log('qtlConfTest',params.config);
 
     this.filteredFeatures = [];
     let b = this.parent.bounds;
@@ -34,6 +33,11 @@ export class QtlTrack extends SceneGraphNodeTrack {
     });
 
    let qtlConf = params.config;
+    for( let key in this.parent.model.config.qtl){
+      if(!qtlConf.hasOwnProperty(key)){
+        qtlConf[key] = this.parent.model.config.qtl[key];
+      }
+    }
 
    qtlConf.filters.forEach( (filter,order) => {
       var test = this.parent.model.features.filter( model => {
@@ -96,9 +100,8 @@ export class QtlTrack extends SceneGraphNodeTrack {
    // });
    //
    // return visible;
-    console.log('qtlVisible', this.locMap.all());
-    //return this.locMap.all();
-    return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
+    return this.locMap.all();
+    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
