@@ -6,7 +6,7 @@ import m from 'mithril';
 import PubSub from 'pubsub-js';
 
 import {featureUpdate} from '../../topics';
-import {ColorPicker, hexToRgb, rgbToHsv} from './ColorPicker';
+import {ColorPicker} from './ColorPicker';
 
 export class FeatureMenu {
   /**
@@ -53,8 +53,6 @@ export class FeatureMenu {
       fillColor : settings.fillColor.slice(),
       title : settings.title.slice()
     };
-
-    console.log('default ctx', defaultSettings);
 
     settings.position = data.position;
 
@@ -161,9 +159,7 @@ export let TitleBox = {
         defaultValue : vnode.attrs.settings.title,
         oninput: m.withAttr('value', function (value) {
           try {
-            console.log('track boo hiss',value, vnode.attrs.settings.title);
             vnode.attrs.settings.title = value;
-            console.log('track boo hiss 2',value, vnode.attrs.settings.title);
           } catch (e) {
             // expect this to fail silently, as most typing will not actually give
             // a proper hex triplet/sextet
