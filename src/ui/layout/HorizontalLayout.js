@@ -11,7 +11,7 @@ import {LayoutBase} from './LayoutBase';
 import {Bounds} from '../../model/Bounds';
 import {BioMap as BioMapComponent} from '../../canvas/canvas/BioMap';
 import {CorrespondenceMap as CorrMapComponent} from '../../canvas/canvas/CorrespondenceMap';
-import {QtlTrack} from '../../canvas/layout/QtlTrack';
+import {FeatureTrack} from '../../canvas/layout/FeatureTrack';
 import {Popover} from '../menus/Popover';
 import {FeatureMenu} from '../menus/FeatureMenu';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
@@ -182,7 +182,7 @@ export class HorizontalLayout
     //let maps = this;
     this.bioMapComponents.forEach(component => {
       component.children.forEach(child => {
-        if (child instanceof QtlTrack) {
+        if (child instanceof FeatureTrack) {
           for (let i = 0; i < child.children.length; i++) {
             if (child.children[i].bounds.width > 0) {
               let featureGroup = child.children[i];
@@ -193,10 +193,11 @@ export class HorizontalLayout
                   style: `position:absolute; left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
                       top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
                   onclick: function () {
-                    let info = child.children[0];
-                    new FeatureMenu(info, i);
+                    let info = child.children[i];
+                    info.position = child.trackPos;
+                    new FeatureMenu(info, child.children[i].config.tracksIndex);
                   }
-                }, featureGroup.tags[0])
+                }, featureGroup.title)
               );
             }
           }
@@ -208,8 +209,9 @@ export class HorizontalLayout
               style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
                       top: ${component.domBounds.top}px; width: 20px;`,
               onclick: function () {
-                let info = child.children[0];
-                let order = child.children.length;
+                let info = component.model;
+                info.position = child.trackPos;
+                let order = child.model.tracks.length;
                 new FeatureMenu(info, order);
               }
             }, '+')
@@ -326,6 +328,7 @@ export class HorizontalLayout
    */
 
   _onFeatureUpdate(data) {
+    //this._onDataLoaded();
     this.bioMapComponents[data.mapIndex]._layout();
     m.redraw();
     this._onReorder();

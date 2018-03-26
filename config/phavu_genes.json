@@ -6,6 +6,9 @@
     },
     "backbone":{
       "width":20
+    },
+    "qtl" : {
+      "fillColor" : ["red"]
     }
   },
   "Pv02":{

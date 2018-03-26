@@ -86,16 +86,19 @@ export const defaultConfig = {
     'rulerColor' : 'black',
     'rulerMajorMark':10,
     'rulerMinorMark':2,
+    'type':'manhattan'
   },
   'qtl':{
+    'padding' : 20,
     'width': 5,
-    'fillColor': 'green',
+    'fillColor': ['green'],
     'labelSize': 12,
     'labelFace': 'Nunito',
     'labelColor': 'black',
     'trackMinWidth' : 50,
     'internalPadding': 5,
-    'position' : 1
+    'position' : 1,
+    'type':'qtl'
   },
   'invert': false,
 };

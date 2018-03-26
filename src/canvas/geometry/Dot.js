@@ -16,6 +16,7 @@ export class Dot extends SceneGraphNodeBase {
    * @param parent - parent scene graph node
    * @param bioMap - map data
    * @param featureModel - feature data
+   * @param config - configuration information object
    */
 
   constructor({parent, bioMap, featureModel, config}) {
@@ -35,7 +36,7 @@ export class Dot extends SceneGraphNodeBase {
       this.depth = translateScale(this.model.coordinates.depth, {
         start: 0,
         stop: config.displayWidth
-      }, bioMap.manhattanPlot.view, false);
+      }, config.view, false);
     }
     this.bounds = new Bounds({
       top: 0,
