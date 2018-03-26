@@ -38,15 +38,20 @@ The cmap.json file is the core of configuring cmap.js an example file looks like
   "initialView" : [ {
      "source" : "pv_consensus",
      "map" : "Pv02",
-     "qtl" : [{
+     "tracks":[
+       {
+        "type: 'qtl',
+        "position" : 1,
         "filters":["QTL_seed","QTL_other-seed"],
-        "fillColor": "orange"
-      }
-      ]
+        "fillColor": "orange".
+       }
+     ]     
     }, {
       "source" : "pv_genome",
       "map" : "phavu.Chr02",
-      "manhattan": {
+      "tracks" : [
+       {
+        "type": "manhattan",
         "dataId" : "manhattan_test",
         "displayWidth" : 50,
         "maxValue" : 6,
@@ -68,8 +73,8 @@ The cmap.json file is the core of configuring cmap.js an example file looks like
             "lineColor": "blue"
           }
         ]
-
-      }
+       }
+      ]
     }
   ],
   "sources" : [ {
@@ -122,43 +127,57 @@ The cmap.json file is the core of configuring cmap.js an example file looks like
 }
 ```
 
-The subcomponents of the format are:
+The sub-components of the format are:
 `#`: comment
 `header` : Header line to display
 `attribution` : Data attribution footer
 `initialView` : One or more maps and their initial configuration to display as the starting view
-`sources` : Array of datasources to grab map information from
+`sources` : Array of data sources to grab map information from
 
-#### Initial View
----
+##Initial View
 Initial View has the following additional settings:
 
 | Setting | Description |
 |---------|-------------|
 |`source` * | Which of the sources to usefor this view's data |
 |`map`*| Which map to display from the data source above |
-|`qtl`| An array of data tracks to display that are comprised of 2-dimensional data |
-|`manhattan`| A dot plot for displaying gwas data |
+|`tracks`| An array of data tracks to display |
 Settings marked with a \* are  **REQUIRED**
 
-`QTL` style tracks require the following options:
+All `tracks` currently have the following shared options: 
+
+|Setting  | Description |
+|---------|-------------|
+|`type` * | Track type: currently `qtl` or `manhattan` |
+|`position`| Which side of the backbone to display map on `-1` LHS, `1` RHS |
+|`title`| Title the for the track |
+
+##### Qtl
+
+`qtl` style tracks require the following options:
 
 | Setting | Description |
 |---------|-------------|
-|`qtl.filters` \*\* | Array of tags to populate qtl track with |
-|`qtl.fillColor` \*\* | Array of colors to draw filtered qtl elements |
+|`filters` \*\* | Array of tags to populate qtl track with |
+|`fillColor` \*\* | Array of colors to draw filtered qtl elements |
 
+The default title for a `qtl` track is the first entry in the filters array
 
+##### Manhattan
 `manhattan` style tracks require the following options:
 
 | Setting | Description |
 |---------|-------------|
-|`manhattan.dataId`  | Source file for gwas data |
-|`manhattan.posField` | field in source file to base starting position |
-|`manhattan.pField` | field in source file to get pvalue from |
-|`manhattan.targetField` | field in source file to get target map from |
-|`manhattan.lines` | array of line objects to draw reference lines |
-|`manhattan.lines.value` | -log10(p) value to draw constant value line |
+|`dataId`  | Source file for gwas data |
+|`posField` | field in source file to base starting position |
+|`pField` | field in source file to get pvalue from |
+|`targetField` | field in source file to get target map from |
+|`lines` | array of line objects to draw reference lines |
+|`lines.value` | -log10(p) value to draw constant value line |
+
+The default title for a `manhattan` track is 'manhattan'
+
+Both track types also may be passed in any of the configuration elements supported by the track style.
 
 
 ####Sources
@@ -257,6 +276,8 @@ The default configuration object is:
     'rulerColor' : 'black',
     'rulerMajorMark':10,
     'rulerMinorMark':2,
+    'position; : 1,
+    'type': 'manhattan'
   },
   'qtl':{
     'width': 5,
@@ -266,7 +287,8 @@ The default configuration object is:
     'labelColor': 'black',
     'trackMinWidth' : 50,
     'internalPadding': 5,
-    'position' : 1
+    'position' : 1,
+    'type' : 'qtl'
   },
   'invert': false,
 }
@@ -294,7 +316,7 @@ Options are defined as:
 | rulerColor | color of solid lines for manhattan ruler |
 | rulerMajorMark | interval which to add line with label |
 | rulerMinorMark | interval which to add line |
-|trackMinWidth | minimum width for QTL track |
+| trackMinWidth | minimum width for QTL track |
 | position | display on right (1) or left (-1 ) of backbone|
 | internalPadding | spacing between elements within track |
 | invert | flip upper and lower values of track for display |
