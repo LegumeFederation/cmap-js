@@ -10,14 +10,13 @@ import m from 'mithril';
 //import {featureUpdate, dataLoaded} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
+import {pageToCanvas} from '../../util/CanvasUtil';
+
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
 import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from '../layout/MapTrack';
-import {QtlTrack} from '../layout/QtlTrack';
-import {Ruler} from '../geometry/Ruler';
-import {pageToCanvas} from '../../util/CanvasUtil';
-import {ManhattanPlot} from '../layout/ManhattanPlot';
 import {FeatureTrack} from '../layout/FeatureTrack';
+import {Ruler} from '../geometry/Ruler';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -510,7 +509,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.tracksRight =[];
     this.tracksLeft = [];
     if(this.model.tracks) {
-      this.model.tracks.forEach(track => {
+      this.model.tracks.forEach((track,order) => {
+        track.tracksIndex = order;
         if (track.position === -1) {
           this.tracksRight.push(track);
         } else {

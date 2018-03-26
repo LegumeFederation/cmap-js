@@ -194,7 +194,8 @@ export class HorizontalLayout
                       top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
                   onclick: function () {
                     let info = child.children[i];
-                    new FeatureMenu(info, i);
+                    info.position = child.trackPos;
+                    new FeatureMenu(info, child.children[i].config.tracksIndex);
                   }
                 }, featureGroup.title)
               );
@@ -209,7 +210,8 @@ export class HorizontalLayout
                       top: ${component.domBounds.top}px; width: 20px;`,
               onclick: function () {
                 let info = component.model;
-                let order = child.children.length;
+                info.position = child.trackPos;
+                let order = child.model.tracks.length;
                 new FeatureMenu(info, order);
               }
             }, '+')
@@ -327,7 +329,6 @@ export class HorizontalLayout
 
   _onFeatureUpdate(data) {
     //this._onDataLoaded();
-    console.log('update redraw',data);
     this.bioMapComponents[data.mapIndex]._layout();
     m.redraw();
     this._onReorder();

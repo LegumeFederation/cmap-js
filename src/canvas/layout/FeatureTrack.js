@@ -4,12 +4,13 @@
  *
  * @extends SceneGraphNodeTrack
  */
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
+
 import {Bounds} from '../../model/Bounds';
-import {QtlTrack} from './QtlTrack';
+
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
-import {QTL} from '../geometry/QTL';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {ManhattanPlot} from './ManhattanPlot';
+import {QtlTrack} from './QtlTrack';
 
 export class FeatureTrack extends SceneGraphNodeTrack {
 
@@ -58,7 +59,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         if(track.type === 'qtl') {
           featureData = new QtlTrack({parent:newFeatureTrack , config: track});
           newFeatureTrack.title = track.title || this.model.config.qtl.title || track.filters[0];
-        } else if( track.type = 'manhattan') {
+        } else if( track.type === 'manhattan') {
           featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
           newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
         }
@@ -69,9 +70,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         }
 
         if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
-          console.log('overflow track', newFeatureTrack.globalBounds.right, this.globalBounds.right);
           this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
-          console.log('overflow track post', newFeatureTrack.globalBounds.right, this.globalBounds.right);
         }
 
         this.addChild(newFeatureTrack);
@@ -143,7 +142,6 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         };
       });
     });
-    console.log('hits Map', childPos);
     childPos.forEach(childArray => {
       let children = [];
       childArray.forEach( item => {
@@ -151,7 +149,6 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       });
         hits = children.length > 0 ? hits.concat(children) : hits.concat(childArray);
       });
-      console.log('hits',hits);
       return childPos;
   }
 }

@@ -4,13 +4,11 @@
  *
  * @extends SceneGraphNodeTrack
  */
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {Dot} from '../geometry/Dot';
 import {manhattanRuler} from '../geometry/manhattanRuler';
-import {translateScale} from '../../util/CanvasUtil';
 
 export class ManhattanPlot extends SceneGraphNodeTrack {
 
@@ -73,7 +71,6 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         });
       }
 
-      console.log('manhattan info', manhattanInfo);
       //Draw manhattan plot
       //let left = this.parent.bbGroup.bounds.right;
 
@@ -117,7 +114,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         return fm;
       });
 
-      let ruler ={
+      this.ruler ={
         minY: 0,
         maxY: 100000000,
         minX: this.globalBounds.left,
@@ -128,9 +125,6 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
           config: manhattanInfo
         })
       };
-      this.ruler = ruler;
-      //this.locMap.insert(ruler);
-      //this.addChild(ruler.data);
 
       this.locMap.load(locData);
       this.tags = ['manhattan'];

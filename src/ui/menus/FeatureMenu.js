@@ -31,15 +31,17 @@ export class FeatureMenu {
     let model = data.model || data.component.model;
     let tagList = model.tags.sort();
     let settings = model.tracks[order] ? data.config : model.config.qtl;
+    if(typeof settings.fillColor === 'string'){settings.fillColor = [settings.fillColor];}
     let trackGroups = [];
     let filters = settings.filters ? settings.filters.slice() : [tagList[0].slice()];
     let fillColor = settings.fillColor ? settings.fillColor.slice() : ['aqua'];
+    if(typeof fillColor === 'string'){fillColor = [fillColor];}
 
-    console.log('feature Menu init', model, data,order);
     let defaultSettings = {
       filters : filters.slice(),
       fillColor : fillColor.slice()
     };
+
 
     if(!settings.filters){
       settings.filters = filters;
@@ -47,6 +49,7 @@ export class FeatureMenu {
     if(!settings.fillColor){
       settings.fillColor = fillColor;
     }
+    settings.position = data.position;
 
     let selected = filters.map((item) => {
       return {
@@ -72,18 +75,16 @@ export class FeatureMenu {
         order: order,
         bioMapIndex : model.component.bioMapIndex,
         reset: defaultSettings,
+        newData : selected
       }),
       m(_cancelButton, {qtl: model.qtlGroups, order: order, reset: defaultSettings, newData: selected})
     ];
 
     if (order < model.tracks.length) {
       controls.push(m(_removeButton, {
-        position: data.lp,
-        mapIndex: model.component.bioMapIndex,
-        qtl: model.qtlGroups,
-        order: order,
-        reset: defaultSettings,
-        newData: selected
+        order:order,
+        model:model,
+        bioMapIndex : model.component.bioMapIndex,
       }));
     }
 
@@ -126,8 +127,8 @@ export let _removeButton = {
     return m('button', {
       onclick:
         () => {
-          vnode.attrs.qtl.splice(vnode.attrs.order, 1);
-          PubSub.publish(featureUpdate, {mapIndex: vnode.attrs.mapIndex});
+          vnode.attrs.model.tracks.splice(vnode.attrs.order, 1);
+          PubSub.publish(featureUpdate, {mapIndex: vnode.attrs.bioMapIndex});
           m.redraw();
           closeModal();
         },
@@ -180,7 +181,7 @@ export let _applyButton = {
   view: function (vnode) {
     return m('button', {
       onclick: function () {
-        console.log('update feature', vnode.attrs.model.tracks, vnode.attrs.order, vnode.attrs.config);
+        vnode.attrs.config.filters = vnode.attrs.newData.map(data => {return data.name;});
         vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
         PubSub.publish(featureUpdate, {mapIndex: vnode.attrs.bioMapIndex});
         m.redraw();
@@ -247,6 +248,7 @@ export let TrackMenu = {
     let selected = vnode.state.info.selected;
     let settings = vnode.state.info.settings;
     this.count = 0;
+
 
     let dropdowns = selected.map((item, order) => {
       if (settings.fillColor[order] === undefined) {

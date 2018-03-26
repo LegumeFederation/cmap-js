@@ -16,6 +16,7 @@ export class Dot extends SceneGraphNodeBase {
    * @param parent - parent scene graph node
    * @param bioMap - map data
    * @param featureModel - feature data
+   * @param config - configuration information object
    */
 
   constructor({parent, bioMap, featureModel, config}) {

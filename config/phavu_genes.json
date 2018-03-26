@@ -8,7 +8,7 @@
       "width":20
     },
     "qtl" : {
-      "fillColor" : "red"
+      "fillColor" : ["red"]
     }
   },
   "Pv02":{

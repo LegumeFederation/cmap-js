@@ -320,8 +320,7 @@ export let SaturationSelector = {
 
   view: function () {
     // store these bounds, for checking in drawLazily()
-    return m('canvas', {
-      class: 'color-canvas-sat',
+    return m('canvas#color-canvas-sat', {
       style: 'margin-left:10px; width: 20; height: 100;',
       width: 20,
       height: 100
