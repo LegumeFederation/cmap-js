@@ -37,11 +37,6 @@ export class FeatureMenu {
     let fillColor = settings.fillColor ? settings.fillColor.slice() : ['aqua'];
     if(typeof fillColor === 'string'){fillColor = [fillColor];}
 
-    let defaultSettings = {
-      filters : filters.slice(),
-      fillColor : fillColor.slice()
-    };
-
 
     if(!settings.filters){
       settings.filters = filters;
@@ -49,6 +44,12 @@ export class FeatureMenu {
     if(!settings.fillColor){
       settings.fillColor = fillColor;
     }
+
+    let defaultSettings = {
+      filters : settings.filters.slice(),
+      fillColor : settings.fillColor.slice()
+    };
+
     settings.position = data.position;
 
     let selected = filters.map((item) => {
@@ -77,7 +78,7 @@ export class FeatureMenu {
         reset: defaultSettings,
         newData : selected
       }),
-      m(_cancelButton, {qtl: model.qtlGroups, order: order, reset: defaultSettings, newData: selected})
+      m(_cancelButton, {model: model, config: settings, order: order, reset: defaultSettings})
     ];
 
     if (order < model.tracks.length) {
@@ -155,12 +156,15 @@ export let _cancelButton = {
     return m('button', {
       onclick:
         () => {
-          if (vnode.attrs.qtl && vnode.attrs.qtl[vnode.attrs.order] !== undefined) {
-            vnode.attrs.qtl[vnode.attrs.order] = vnode.attrs.reset;
+          console.log('ctx cnc',vnode.attrs.reset);
+            vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
+            vnode.attrs.config.filters = vnode.attrs.reset.filters;
+          if(vnode.attrs.order < vnode.attrs.model.tracks.length) {
+            vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
           }
           closeModal();
         }
-    }, 'Close');
+    }, 'Cancel');
   }
 };
 
