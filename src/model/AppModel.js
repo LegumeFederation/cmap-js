@@ -50,10 +50,8 @@ export class AppModel {
     this.initialView = initialView || [];
     this.biomaps = [];
     let promises = sourceConfigs.map(config => {
-      console.log('config', config);
       let dsm = new DataSourceModel(config);
       this.sources.push(dsm);
-      console.log('push dsm', dsm);
       return dsm.load();
     });
     // wait for all data sources are loaded, then set this.bioMaps with
@@ -95,6 +93,9 @@ export class AppModel {
         console.error(msg);
         console.trace();
         alert(msg);
+      }
+      if(viewConf.tracks){
+        res[0].tracks = viewConf.tracks;
       }
       if (viewConf.qtl) {
         res[0].qtlGroups = viewConf.qtl;

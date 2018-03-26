@@ -88,6 +88,7 @@ export const defaultConfig = {
     'rulerMinorMark':2,
   },
   'qtl':{
+    'padding' : 20,
     'width': 5,
     'fillColor': 'green',
     'labelSize': 12,

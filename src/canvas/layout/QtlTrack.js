@@ -5,7 +5,6 @@
  * @extends SceneGraphNodeTrack
  */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
 
@@ -22,14 +21,15 @@ export class QtlTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    console.log("qtlConfTest",params.config);
+    console.log('qtlConfTest',params.config);
+
     this.filteredFeatures = [];
     let b = this.parent.bounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
       left: 0,
-      width: 20,
+      width: this.parent.model.config.qtl.trackMinWidth,
       height: b.height
     });
 
@@ -38,7 +38,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
    qtlConf.filters.forEach( (filter,order) => {
       var test = this.parent.model.features.filter( model => {
         return model.tags[0].match(filter) !== null;
-      })
+      });
       if(test.length === 0){
         // get rid of any tags that don't actually get used
         qtlConf.filters.splice(order,1);
@@ -76,9 +76,9 @@ export class QtlTrack extends SceneGraphNodeTrack {
       fmData.push(loc);
 
       if(fm.globalBounds.right > this.globalBounds.right){
-        this.maxLoc = this.globalBounds.right;
-        this.bounds.right = this.globalBounds.left + (fm.globalBounds.right - this.globalBounds.left);
+        this.bounds.right = fm.globalBounds.right - this.globalBounds.left;
       }
+
       return fm;
     });
     this.locMap.clear();
@@ -97,8 +97,8 @@ export class QtlTrack extends SceneGraphNodeTrack {
    //
    // return visible;
     console.log('qtlVisible', this.locMap.all());
-    return this.locMap.all();
-  //  //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
+    //return this.locMap.all();
+    return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
@@ -140,14 +140,5 @@ export class QtlTrack extends SceneGraphNodeTrack {
         data: child
       };
     });
-
-    //  return {
-    //    minY: child.globalBounds.top,
-    //    maxY: child.globalBounds.bottom,
-    //    minX: child.globalBounds.left,
-    //    maxX: child.globalBounds.right ,
-    //    data: child
-    //  };
-    //});
   }
 }

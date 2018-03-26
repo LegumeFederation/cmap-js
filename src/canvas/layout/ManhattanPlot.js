@@ -22,6 +22,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
   constructor(params) {
     super(params,);
     console.log('manhattan -> constructor', params);
+    let manhattanPlot = params.config;
     const b = this.parent.bounds;
     this.trackPos = params.position || 1;
     this.bounds = new Bounds({
@@ -31,8 +32,8 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       width: 0,
       height: b.height
     });
-    if (this.parent.model.manhattanPlot !== null) {
-      let manhattanInfo = this.parent.model.manhattanPlot;
+    if (manhattanPlot !== null) {
+      let manhattanInfo = manhattanPlot;
       //merge configuration information with default config
       for( let key in this.parent.model.config.manhattan){
         if(!manhattanInfo.hasOwnProperty(key)){
@@ -55,8 +56,8 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
           stop: manhattanInfo.maxValue || 0
         };
 
-        let baseData = this.parent.appState.sources.filter(model => {
-          return model.id === this.parent.model.manhattanPlot.dataId;
+        let baseData = manhattanInfo.appState.sources.filter(model => {
+          return model.id === manhattanInfo.dataId;
         });
 
         let prefix = manhattanInfo.prefix || '';
@@ -72,6 +73,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         });
       }
 
+      console.log('manhattan info', manhattanInfo);
       //Draw manhattan plot
       //let left = this.parent.bbGroup.bounds.right;
 
@@ -82,20 +84,10 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         width: manhattanInfo.displayWidth || 0,
         height: b.height
       });
-      let mapGroup = new SceneGraphNodeGroup({parent: this, tags:'manhattan'});
-      //    qtlGroup.lp = qtlConf.position || 1;
-      this.addChild(mapGroup);
-
-      mapGroup.bounds = new Bounds({
-        top: 0,
-        left: 0,
-        width: manhattanInfo.displayWidth || 0,
-        height: b.height
-      });
 
       let fmData = [];
-
-
+      let locData = [];
+      this.fmData = fmData;
 
       this.manhattanMarks = manhattanInfo.data.map(model => {
         model.coordinates = {
@@ -107,12 +99,11 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
 
         let fm = new Dot({
           featureModel: model,
-          parent: this.parent,
+          parent: this,
           bioMap: this.parent.model,
           config: manhattanInfo
         });
-
-        mapGroup.addChild(fm);
+        fmData.push(fm);
 
         let loc = {
           minY: model.coordinates.start,
@@ -121,14 +112,10 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
           maxX: fm.globalBounds.right,
           data: fm
         };
-        this.mapGroup = mapGroup;
 
-        mapGroup.locMap.insert(loc);
-        fmData.push(loc);
+        locData.push(loc);
         return fm;
       });
-
-
 
       let ruler ={
         minY: 0,
@@ -136,19 +123,17 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         minX: this.globalBounds.left,
         maxX: this.globalBounds.right,
         data: new manhattanRuler({
-          featureModel : this.parent.model.manhattanPlot,
+          featureModel : manhattanInfo,
           parent: this,
           config: manhattanInfo
         })
       };
       this.ruler = ruler;
-      this.locMap.insert(ruler);
-      this.addChild(ruler.data);
+      //this.locMap.insert(ruler);
+      //this.addChild(ruler.data);
 
-      this.locMap.load(mapGroup.locMap.all());
-
+      this.locMap.load(locData);
       this.tags = ['manhattan'];
-      console.log('manhattan Dots', this.locMap.all());
     }
   }
 
@@ -157,7 +142,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
    */
 
   get visible() {
-    return this.locMap.all().concat([this.ruler]);
+    return this.locMap.all().concat(this.ruler);
   }
 
   // /**
@@ -182,21 +167,21 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
 //   */
 //
   get hitMap() {
-    return this.locMap.all();
-    // let hits = [];
-    // let childPos = this.mapGroup.map(child => {
-    //     return {
-    //       minY: child.globalBounds.top,
-    //       maxY: child.globalBounds.bottom,
-    //       minX: child.globalBounds.left,
-    //       maxX: child.globalBounds.right,
-    //       data: child
-    //     };
-    //   });
-    //
-    // childPos.forEach(childArray => {
-    //   hits = hits.concat(childArray);
-    // });
-    // return hits;
+    //return this.locMap.all();
+     let hits = [];
+     let childPos = this.mapGroup.map(child => {
+         return {
+           minY: child.globalBounds.top,
+           maxY: child.globalBounds.bottom,
+           minX: child.globalBounds.left,
+           maxX: child.globalBounds.right,
+           data: child
+         };
+       });
+
+     childPos.forEach(childArray => {
+       hits = hits.concat(childArray);
+     });
+     return hits;
   }
 }
