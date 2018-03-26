@@ -8,12 +8,28 @@
      "qtl" : [{
         "filters":["QTL_seed","QTL_other-seed"],
         "fillColor": "orange"
+      }],
+      "tracks" :[{
+        "type": "qtl",
+        "filters":["QTL_seed","QTL_other-seed"],
+        "fillColor":"green"
+      },{
+        "type": "qtl",
+        "filters":["QTL_seed","QTL_other-seed"],
+        "fillColor":"green",
+        "position": -1
+      },{
+        "type" : "qtl",
+        "filters" : ["QTL_root"],
+        "fillColor" : "red"
       }
       ]
-    }, {
-      "source" : "pv_genome",
-      "map" : "phavu.Chr02",
-      "manhattan": {
+
+
+  },{
+     "source" : "pv_genome",
+     "map" : "phavu.Chr02",
+     "manhattan": {
         "dataId" : "manhattan_test",
         "displayWidth" : 50,
         "maxValue" : 6,
@@ -35,7 +51,6 @@
             "lineColor": "blue"
           }
         ]
-
       }
     }, {
       "source" : "gm_genome",

@@ -17,6 +17,7 @@ import {QtlTrack} from '../layout/QtlTrack';
 import {Ruler} from '../geometry/Ruler';
 import {pageToCanvas} from '../../util/CanvasUtil';
 import {ManhattanPlot} from '../layout/ManhattanPlot';
+import {FeatureTrack} from '../layout/FeatureTrack';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -62,6 +63,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       top: 0,
       left: 0,
       display: 'none'
+
     };
 
     // create some regular expressions for faster dispatching of events
@@ -505,8 +507,26 @@ export class BioMap extends SceneGraphNodeCanvas {
     });
     this.children.push(this.bbGroup);
 
-    let qtlRight = new QtlTrack({parent: this, position: 1});
-    let qtlLeft = new QtlTrack({parent: this, position: -1});
+    this.tracksRight =[];
+    this.tracksLeft = [];
+    if(this.model.tracks) {
+      this.model.tracks.forEach(track => {
+        if (track.position === -1) {
+          this.tracksRight.push(track);
+        } else {
+          this.tracksLeft.push(track);
+        }
+      });
+    }
+
+    let qtlRight = new FeatureTrack({parent:this,position:1});
+    let qtlLeft = new FeatureTrack({parent:this,position:-1});
+    // let qtlRight = {};
+    //let qtlRight = new QtlTrack({parent: this , position: 1});
+    //let qtlLeft = new QtlTrack({parent: this, position: -1});
+    this.addChild(qtlRight);
+    this.addChild(qtlLeft);
+
     if (qtlLeft && qtlLeft.bounds.right > this.bbGroup.bounds.left) {
       const bbw = this.bbGroup.bounds.width;
       this.bbGroup.bounds.left = qtlLeft.globalBounds.right + 100;
@@ -520,14 +540,6 @@ export class BioMap extends SceneGraphNodeCanvas {
       this.domBounds.width = qtlRight.globalBounds.right + 50;
     }
 
-    this.children.push(qtlRight);
-    this.children.push(qtlLeft);
-
-    //add manhattan plot
-    let manhattan = new ManhattanPlot({parent:this});
-    if(manhattan.mapGroup){
-      qtlRight.addChild(manhattan);
-    }
     //load local rBush tree for hit detection
     this._loadHitMap();
     //let layout know that width has changed on an element;
