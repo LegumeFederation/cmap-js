@@ -1,15 +1,26 @@
 /**
-  * FeatureMarker
-  * A SceneGraphNode representing a feature on a Map with a line or hash mark.
-  */
+ * FeatureMarker
+ * A SceneGraphNode representing a feature on a Map with a line or hash mark.
+ */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
 export class SceneGraphNodeGroup extends SceneGraphNodeBase {
 
+  /**
+   * constructor
+   * @param params
+   */
+
   constructor(params) {
     super(params);
   }
-  get visible(){
+
+  /**
+   * Return visible children elements
+   * @returns {Array}
+   */
+
+  get visible() {
     let vis = [];
     let cVis = this.children.map(child => {
       return child.visible;

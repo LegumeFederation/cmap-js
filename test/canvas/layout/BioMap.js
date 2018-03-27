@@ -1,63 +1,71 @@
 import {expect} from 'chai';
 import mq from '../../ui/mithrilQuerySetup';
 import {Bounds} from '../../../src/model/Bounds';
-import {BioMap} from '../../../src/canvas/layout/BioMap';
+import {BioMap} from '../../../src/canvas/canvas/BioMap';
 
-describe('BioMap test', function() {
-  describe('constructor', function() {
-    it('should construct a new node', function() {
+describe('BioMap test', function () {
+  describe('constructor', function () {
+    it('should construct a new node', function () {
       let gestureRegex = {
-    	  pan:   new RegExp('^pan'),
-    	  pinch: new RegExp('^pinch'),
-    	  tap:   new RegExp('^tap'),
-    	  wheel: new RegExp('^wheel')
-    	};
-			let params = baseParams();
-			// mock up test constructor to prevent _layout propegation blocking
-			// tests
-			let testBioMap = BioMap;
-			testBioMap.prototype._layout = function(layoutBounds){return true;};
-			let node = new testBioMap(params);
+        pan: new RegExp('^pan'),
+        pinch: new RegExp('^pinch'),
+        tap: new RegExp('^tap'),
+        wheel: new RegExp('^wheel')
+      };
+      let params = baseParams();
+      // mock up test constructor to prevent _layout propegation blocking
+      // tests
+      let testBioMap = BioMap;
+      testBioMap.prototype._layout = function (layoutBounds) {
+        return true;
+      };
+      let node = new testBioMap(params);
 
-			expect(node.model.visible).to.eql(params.bioMapModel.coordinates);
-			expect(node.model.view.base).to.eql(params.bioMapModel.coordinates);
-			expect(node.model.view.visible).to.eql(params.bioMapModel.coordinates);
+      expect(node.model.visible).to.eql(params.bioMapModel.coordinates);
+      expect(node.model.view.base).to.eql(params.bioMapModel.coordinates);
+      expect(node.model.view.visible).to.eql(params.bioMapModel.coordinates);
       expect(node.appState).to.equal(params.appState);
       expect(node.verticalScale).to.equal(0);
-			expect(node.backbone).to.equal(null);
-			expect(node.featureMarks).to.eql([]);
-			expect(node.featureLabels).to.eql([]);
+      expect(node.backbone).to.equal(null);
+      expect(node.featureMarks).to.eql([]);
+      expect(node.featureLabels).to.eql([]);
       expect(node._gestureRegex).to.eql(gestureRegex);
     });
   });
 
-  describe('custom getters', function() {
-		describe('get visible', function() {
-    	it('should return visible noded if children have visible', function() {
-    	  let p1 = baseParams();
-				let testBioMap = BioMap;
-				testBioMap.prototype._layout = function(layoutBounds){return true;};
-				let node = new testBioMap(p1);
-				node.children[0] = {visible:"visibleTest"};
-    	  expect(node.visible).to.eql(["visibleTest"]);
-    	});
-    	it('should return nothing if no children are visible', function() {
-    	  let p1 = baseParams();
-				let testBioMap = BioMap;
-				testBioMap.prototype._layout = function(layoutBounds){return true;};
-				let node = new testBioMap(p1);
-    	  expect(node.visible).to.eql([]);
-    	});
-		});
-		describe('get hitMap', function() {
-    	it('should return rbush tree of visible objects', function() {
-    	  let p1 = baseParams();
-				let testBioMap = BioMap;
-				testBioMap.prototype._layout = function(layoutBounds){return true;};
-				let node = new testBioMap(p1);
-    	  expect(node.hitMap).to.eql(node.locMap);
-    	});
-		});
+  describe('custom getters', function () {
+    describe('get visible', function () {
+      it('should return visible noded if children have visible', function () {
+        let p1 = baseParams();
+        let testBioMap = BioMap;
+        testBioMap.prototype._layout = function (layoutBounds) {
+          return true;
+        };
+        let node = new testBioMap(p1);
+        node.children[0] = {visible: 'visibleTest'};
+        expect(node.visible).to.eql(['visibleTest']);
+      });
+      it('should return nothing if no children are visible', function () {
+        let p1 = baseParams();
+        let testBioMap = BioMap;
+        testBioMap.prototype._layout = function (layoutBounds) {
+          return true;
+        };
+        let node = new testBioMap(p1);
+        expect(node.visible).to.eql([]);
+      });
+    });
+    describe('get hitMap', function () {
+      it('should return rbush tree of visible objects', function () {
+        let p1 = baseParams();
+        let testBioMap = BioMap;
+        testBioMap.prototype._layout = function (layoutBounds) {
+          return true;
+        };
+        let node = new testBioMap(p1);
+        expect(node.hitMap).to.eql(node.locMap);
+      });
+    });
   });
 //
 //  describe('mithril lifecycle events', function() {
@@ -156,7 +164,7 @@ describe('BioMap test', function() {
 //		});
 //	});
 //
-  describe('private methods', function() {
+  describe('private methods', function () {
 //    describe('_onZoom(evt)', function() {
 //      it('should increase zoom on negative deltaY', function() { 
 //    	  let p1 = baseParams();
@@ -224,55 +232,72 @@ describe('BioMap test', function() {
 //      });
 //    });
 
-		describe('_onTap(evt)', function() {
-      it('should be able to calculate a tap event', function() {
+    describe('_onTap(evt)', function () {
+      it('should be able to calculate a tap event', function () {
         let p1 = baseParams();
         let testBioMap = BioMap;
-        testBioMap.prototype._layout = function(layoutBounds){return true;};
-        testBioMap.prototype._draw = function(layoutBounds){return true;};
+        testBioMap.prototype._layout = function (layoutBounds) {
+          return true;
+        };
+        testBioMap.prototype._draw = function (layoutBounds) {
+          return true;
+        };
         let node = new testBioMap(p1);
-        let evt = {srcEvent:{ pageX: 0, pageY: 0}};
-				//let node.canvas = {offsetLeft:0, scrollLeft:0,offsetTop:0,scrollTop:0,offsetParent:null};
-        node.backbone = {loadLabelMap : function(){return true;} };
-        document.getElementsByClassName = function(){return [];};
+        let evt = {srcEvent: {pageX: 0, pageY: 0}};
+        //let node.canvas = {offsetLeft:0, scrollLeft:0,offsetTop:0,scrollTop:0,offsetParent:null};
+        node.backbone = {
+          loadLabelMap: function () {
+            return true;
+          }
+        };
+        document.getElementsByClassName = function () {
+          return [];
+        };
         let tap = node._onTap(evt);
         expect(tap).to.equal(true);
       });
-		});
+    });
 
-		describe('_loadHitMap()', function() {
-      it('should load a new hit map', function() {
+    describe('_loadHitMap()', function () {
+      it('should load a new hit map', function () {
         let p1 = baseParams();
         let testBioMap = BioMap;
-        testBioMap.prototype._layout = function(layoutBounds){return true;};
-        testBioMap.prototype._draw = function(layoutBounds){return true;};
+        testBioMap.prototype._layout = function (layoutBounds) {
+          return true;
+        };
+        testBioMap.prototype._draw = function (layoutBounds) {
+          return true;
+        };
         let node = new testBioMap(p1);
-				let hit = {minX:1,maxX:1,minY:1,maxY:1,data:'test'}
-				node.addChild({hitMap:hit});
-				node._loadHitMap();
-				//let node.canvas = {offsetLeft:0, scrollLeft:0,offsetTop:0,scrollTop:0,offsetParent:null};
+        let hit = {minX: 1, maxX: 1, minY: 1, maxY: 1, data: 'test'};
+        node.addChild({hitMap: hit});
+        node._loadHitMap();
+        //let node.canvas = {offsetLeft:0, scrollLeft:0,offsetTop:0,scrollTop:0,offsetParent:null};
         expect(node.locMap.all()).to.eql([hit]);
       });
-		});
-	});
+    });
+  });
 });
 
-const baseParams = function() {
-	let bounds = new Bounds({
+const baseParams = function () {
+  let bounds = new Bounds({
     top: 1,
- 	  left: 10,
+    left: 10,
     width: 10,
     height: 10
   });
 
   return {
     bioMapModel: {
-			coordinates:{
-				start: 1,
-				stop: 100
-			}
-		},
+      coordinates: {
+        start: 1,
+        stop: 100
+      },
+      config: {
+        rulerSteps: 100
+      }
+    },
     appState: {},
-		layoutBounds: bounds
+    layoutBounds: bounds
   };
-}
+};

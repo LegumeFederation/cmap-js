@@ -5,15 +5,52 @@
   "initialView" : [ {
      "source" : "pv_consensus",
      "map" : "Pv02",
-     "qtl" : [{
-        "filters":["QTL_seed","QTL_other-seed"],
-        "trackColor": "orange"
-      }
+     "tracks" :[
+        {
+          "type": "qtl",
+          "title": "seed 1",
+          "filters": [
+            "QTL_root",
+            "QTL_seed",
+            "QTL_other-seed"
+          ],
+          "fillColor": ["yellow"]
+        },{
+          "type": "qtl",
+          "filters": [
+            "QTL_seed",
+            "QTL_root"
+          ],
+          "fillColor": ["green","red"]
+        }
       ]
-    }, {
-      "source" : "pv_genome",
-      "map" : "phavu.Chr02"
-        
+  },{
+     "source" : "pv_genome",
+     "map" : "phavu.Chr02",
+     "tracks" : [{
+       "type" : "manhattan",
+        "dataId" : "manhattan_test",
+        "displayWidth" : 50,
+        "maxValue" : 6,
+        "width" : 2,
+        "rulerMajorMark" : 10,
+        "rulerMinorMark" : 2,
+        "posField" :"Pos",
+        "targetField" : "Chr",
+        "pField" : "p",
+        "lines" : [
+          {
+            "value": 5,
+            "lineWeight": 3,
+            "lineColor": "red"
+          },
+          {
+            "value": 2,
+            "lineWeight": 3,
+            "lineColor": "blue"
+          }
+        ]
+      }]
     }, {
       "source" : "gm_genome",
       "map" : "glyma.Chr01"
@@ -21,11 +58,18 @@
     }, {
      "source" : "gm_composite",
      "map" : "D1a",
-     "qtl" : [{
-        "filters":"QTL_other-seed",
-        "trackColor": "orange"
+     "tracks" : [{
+        "type" : "qtl",
+        "filters":["QTL_other-seed","QTL_root"],
+        "fillColor": ["orange","blue"],
+        "position":-1
+      },{
+        "type" : "qtl",
+        "filters":["QTL_root"],
+        "fillColor": ["red"],
+        "position":1
       }
-      ]
+     ]
     }
   ],
   "sources" : [ {
@@ -105,6 +149,11 @@
             "text" : "View Marker info at SoyBase"
         }
       ]
+    }, {
+      "id" : "manhattan_test",
+      "method": "GET",
+      "url" : "data/sample2.txt",
+      "filters" : []
     }
   ]
 }

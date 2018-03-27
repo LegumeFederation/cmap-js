@@ -1,41 +1,57 @@
 /**
-  * FeatureLabel
-  * A SceneGraphNode representing a text label for a feature on a Map.
-  */
+ *
+ * A SceneGraphNode representing a text label for a feature on a Map.
+ *
+ * @extends SceneGraphNodeBase
+ */
+
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
 
 export class FeatureLabel extends SceneGraphNodeBase {
+  /**
+   * Constructor
+   *
+   * @param parent - parent scene graph node
+   * @param bioMap - map data
+   * @param featureModel - feature data
+   */
 
-  constructor({parent, bioMap, featureModel}) {
+  constructor({parent, bioMap, featureModel,config}) {
     super({parent, tags: [featureModel.name]});
+    this.config = config;
     this.model = featureModel;
     this.view = bioMap.view;
-    this.fontSize = bioMap.config.markerLabelSize;
-    this.fontFace = bioMap.config.markerLabelFace;
-    this.fontColor = bioMap.config.markerLabelColor;
     this.pixelScaleFactor = this.view.pixelScaleFactor;
+    this.invert = bioMap.view.invert;
+    this.start = this.model.coordinates.start;
     this.bounds = new Bounds({
-      allowSubpixel: false,
       top: 0,
       left: 5,
-      width: parent.bounds.width,
-      height: 12
+      width: 200, //this.fontSize*(this.model.name.length),
+      height: 12,
+      allowSubpixel: false
     });
   }
 
+  /**
+   * Draw label on cmap canvas context
+   * @param ctx
+   */
+
   draw(ctx) {
-    let y = translateScale(this.model.coordinates.start,this.view.base,this.view.visible) * this.pixelScaleFactor;
+    let config = this.config;
+    let y = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.bounds.top = y;
-    this.bounds.bottom = y + this.fontSize;
+    this.bounds.bottom = y + config.labelSize;
     let gb = this.globalBounds || {};
-    ctx.font = `${this.fontSize}px ${this.fontFace}`;
+    ctx.font = `${config.labelSize}px ${config.labelFace}`;
     ctx.textAlign = 'left';
-    ctx.fillStyle = this.fontColor;
-    ctx.fillText(this.model.name,gb.left, gb.top);
+    ctx.fillStyle = config.labelColor;
+    ctx.fillText(this.model.name, gb.left, gb.top);
     // reset bounding box to fit the new stroke location/width
-    this.bounds.right = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width)+1;
-    if(this.parent.bounds.width < this.bounds.width) this.parent.bounds.width = this.bounds.width;
+    this.bounds.width = this.bounds.left + Math.floor(ctx.measureText(this.model.name).width) + 1;
+    if (this.parent.bounds.width < this.bounds.width) this.parent.bounds.width = this.bounds.width;
   }
 }

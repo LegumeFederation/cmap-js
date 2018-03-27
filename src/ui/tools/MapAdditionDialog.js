@@ -9,7 +9,9 @@ export class MapAdditionDialog {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     this.model = vnode.attrs.model;
     this.onDismiss = vnode.attrs.onDismiss;
@@ -18,7 +20,10 @@ export class MapAdditionDialog {
 
   /**
    * event handler for cancel button.
+   * @param evt
+   * @private
    */
+
   _onCancel(evt) {
     evt.preventDefault();
     this.onDismiss(evt);
@@ -26,7 +31,10 @@ export class MapAdditionDialog {
 
   /**
    * event handler for add-on-right button
+   * @param evt
+   * @private
    */
+
   _onAddRight(evt) {
     const i = this.model.bioMaps.length;
     this.model.addMap(this.selection, i);
@@ -36,7 +44,10 @@ export class MapAdditionDialog {
 
   /**
    * event handler for add-on-left button
+   * @param evt
+   * @private
    */
+
   _onAddLeft(evt) {
     this.model.addMap(this.selection, 0);
     evt.preventDefault();
@@ -45,15 +56,21 @@ export class MapAdditionDialog {
 
   /**
    * event handler for radio button change.
+   * @param evt
+   * @param map
+   * @private
    */
+
   _onSelection(evt, map) {
     evt.preventDefault();
     this.selection = map;
   }
 
   /**
-  * mithril component render callback.
-  */
+   * mithril component render callback.
+   * @returns {*}
+   */
+
   view() {
     const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
@@ -61,16 +78,16 @@ export class MapAdditionDialog {
       m('form', [
         m('table.u-full-width', [
           m('thead',
-            m('tr', [ m('th', 'Data Source'), m('th', 'Available Maps') ])
+            m('tr', [m('th', 'Data Source'), m('th', 'Available Maps')])
           ),
           m('tbody',
-            this.model.sources.map( source => {
+            this.model.sources.map(source => {
               return m('tr', [
                 m('td', source.id),
-                m('td', allMaps.filter( map => {
-                  return (map.source === source &&
-                          this.model.bioMaps.indexOf(map) === -1);
-                }).map( map => {
+                m('td', allMaps.filter(map => {
+                    return (map.source === source &&
+                      this.model.bioMaps.indexOf(map) === -1);
+                  }).map(map => {
                     return m('label', [
                       m('input[type="radio"]', {
                         name: `maps4${source.id}`,
@@ -88,7 +105,7 @@ export class MapAdditionDialog {
         ])
       ]),
       m('button', {
-          disabled: this.selection ? false : true,
+          disabled: !this.selection,
           class: this.selection ? 'button-primary' : 'button',
           onclick: evt => this._onAddLeft(evt)
         }, [
@@ -96,8 +113,8 @@ export class MapAdditionDialog {
           'Add Map On Left'
         ]
       ),
-      m('button.button',  {
-          disabled: this.selection ? false : true,
+      m('button.button', {
+          disabled: !this.selection,
           class: this.selection ? 'button-primary' : 'button',
           onclick: evt => this._onAddRight(evt)
         }, [
@@ -105,7 +122,7 @@ export class MapAdditionDialog {
           'Add Map On Right'
         ]
       ),
-      m('button.button', { onclick: evt => this._onCancel(evt) }, [
+      m('button.button', {onclick: evt => this._onCancel(evt)}, [
         m('i.material-icons', 'cancel'),
         'Cancel'
       ])

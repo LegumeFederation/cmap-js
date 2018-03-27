@@ -1,8 +1,10 @@
 /**
-  * CorrespondenceMap
-  * Mithril component for correspondence lines between 2 or more BioMaps with an
-  * html5 canvas element.
-  */
+ * Mithril component for correspondence lines between 2 or more BioMaps with an
+ * html5 canvas element.
+ *
+ * @extends SceneGraphNodeCanvas
+ *
+ */
 import m from 'mithril';
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
@@ -10,9 +12,10 @@ import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {CorrespondenceMark} from '../geometry/CorrespondenceMark';
 import {featuresInCommon} from '../../model/Feature';
 
-export class CorrespondenceMap extends SceneGraphNodeCanvas{
+export class CorrespondenceMap extends SceneGraphNodeCanvas {
   constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
+    console.log('CorrespondenceMap -> constructor');
     this.bioMapComponents = bioMapComponents;
     this.appState = appState;
     this.verticalScale = 1;
@@ -25,12 +28,14 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
    */
   draw() {
     let ctx = this.context2d;
-    if(! ctx) return;
-    if(! this.domBounds) return;
+    if (!ctx) return;
+    if (!this.domBounds) return;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     let gb = this.globalBounds || {};
     ctx.save();
     ctx.globalAlpha = 0;
+    // noinspection JSSuspiciousNameCombination
+    // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
@@ -51,17 +56,18 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     let leftFeatures = this.bioMapComponents[0].model.features;
     let rightFeatures = this.bioMapComponents[1].model.features;
     //let leftFeatures = this.bioMapComponents[0].backbone.filteredFeatures;
-    //let rightFeatures = this.bioMapComponents[1].backbone.filteredFeatures;
-    let common = featuresInCommon(leftFeatures, rightFeatures);
-    return common;
+    //let rightFeatures = this.bioMapComponents[1].backbone.filteredFeat
+    return featuresInCommon(leftFeatures, rightFeatures);
+    //return common;
   }
 
   /**
-   * +   * mithril component render callback
+   * mithril component render callback
    *
    */
+
   view() {
-    if(this.domBounds && ! this.domBounds.isEmptyArea) {
+    if (this.domBounds && !this.domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = this.domBounds;
     }
     let b = this.domBounds || {};
@@ -74,12 +80,18 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
     });
   }
 
+  /**
+   * Lay out correspondence lines between features
+   * @param layoutBounds - bounds of the linked canvas
+   * @private
+   */
+
   _layout(layoutBounds) {
     this.domBounds = layoutBounds;
     // this.bounds (scenegraph) has the same width and height, but zero the
     // left/top because we are the root node in a canvas sceneGraphNode
-    // heirarchy.
-    let gb1 = this.bioMapComponents[0].backbone.backbone.globalBounds;
+    // hierarchic.
+    let gb1 = this.bioMapComponents[0].backbone.markerGroup.globalBounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
       left: 1,
@@ -87,9 +99,9 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
       width: this.domBounds.width,
       height: this.domBounds.height
     });
-    
+
     let corrData = [];
-    let coorGroup = new SceneGraphNodeGroup({parent:this});
+    let coorGroup = new SceneGraphNodeGroup({parent: this});
     coorGroup.bounds = new Bounds({
       allowSubpixel: false,
       top: gb1.top,
@@ -98,33 +110,35 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas{
       height: gb1.height,
     });
     this.addChild(coorGroup);
-    console.log('childBounds', this.globalBounds, coorGroup.globalBounds);
 
     let bioMapCoordinates = [
-      this.bioMapComponents[0].mapCoordinates, 
+      this.bioMapComponents[0].mapCoordinates,
       this.bioMapComponents[1].mapCoordinates
     ];
-    this.commonFeatures.forEach( feature => {
+    this.commonFeatures.forEach(feature => {
       let corrMark = new CorrespondenceMark({
         parent: coorGroup,
         featurePair: feature,
-        mapCoordinates:bioMapCoordinates,
-        bioMap : this.bioMapComponents
+        mapCoordinates: bioMapCoordinates,
+        bioMap: this.bioMapComponents
       });
       coorGroup.addChild(corrMark);
       corrData.push({
-        minX:this.bounds.left,
-        maxX:this.bounds.right ,
-        minY:feature[0].coordinates.start,
+        minX: this.bounds.left,
+        maxX: this.bounds.right,
+        minY: feature[0].coordinates.start,
         maxY: feature[1].coordinates.start,
         data: corrMark
       });
     });
-    this.locMap.load(corrData); 
-    console.log('bioMap', this.locMap.all());
+    this.locMap.load(corrData);
   }
 
-  get visible(){
+  /**
+   * Return visible elements in R-Tree
+   */
+
+  get visible() {
     return this.locMap.all();
   }
 }

@@ -13,13 +13,14 @@ class Feature {
    * @param {Object} aliases - array of alternate names, optional
    * @returns {Object}
    */
+
   constructor({
-    source,
-    coordinates = { start: 0, stop: 0},
-    name,
-    tags=[],
-    aliases=[],
-  }) {
+                source,
+                coordinates = {start: 0, stop: 0},
+                name,
+                tags = [],
+                aliases = [],
+              }) {
     this.source = source;
     this.coordinates = Object.freeze(coordinates); // object w/ start and end props
     this.name = name;
@@ -27,48 +28,71 @@ class Feature {
     this.aliases = aliases;
   }
 
+  /**
+   *
+   * @returns {number}
+   */
+
   get length() {
     return this.coordinates.stop - this.coordinates.start;
   }
 
+  /**
+   *
+   * @returns {boolean}
+   */
+
   get typeHasLinkouts() {
     return this.source.linkouts.some(l => {
-          return this.typeLinkedBy(l);
-        });
+      return this.typeLinkedBy(l);
+    });
   }
 
+  /**
+   *
+   * @param linkout
+   * @returns {Array|*|boolean}
+   */
+
   typeLinkedBy(linkout) {
-    return linkout.featuretypePattern != undefined ? 
-    this.tags.some(t => {return linkout.featuretypePattern.test(t);}) 
-    : this.tags.includes(linkout.featuretype);
+    return linkout.featuretypePattern !== undefined ?
+      this.tags.some(t => {
+        return linkout.featuretypePattern.test(t);
+      })
+      : this.tags.includes(linkout.featuretype);
   }
 }
 
 /**
- * Find the common features based on name and aliases.
  * @param Array features1 - 1st collection of features
  * @param Array features2 - 2nd collection of features
  * @return Array - tuples of results in common [[feat1, feat2], ...]
  */
+/**
+ * Find the common features based on name and aliases.
+ * @param features1
+ * @param features2
+ * @returns {any[]}
+ */
+
 // TODO: support more than two collections of features
 function featuresInCommon(features1, features2) {
   const setupDict = (features) => {
     let dict = {};
-    features.forEach( f => {
+    features.forEach(f => {
       dict[f.name] = f;
-      f.aliases.forEach( a => {
-        if(a) dict[a] = f;
+      f.aliases.forEach(a => {
+        if (a) dict[a] = f;
       });
     });
     return dict;
   };
   let dict1 = setupDict(features1);
   let dict2 = setupDict(features2);
-  let intersectedKeys = Object.keys(dict1).filter( key => dict2[key] );
-  return intersectedKeys.map( key => {
-    return [ dict1[key], dict2[key] ];
+  let intersectedKeys = Object.keys(dict1).filter(key => dict2[key]);
+  return intersectedKeys.map(key => {
+    return [dict1[key], dict2[key]];
   });
 }
-
 
 export {Feature, featuresInCommon};

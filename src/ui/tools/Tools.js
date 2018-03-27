@@ -1,23 +1,28 @@
 /**
-  * A mithril component of the UI tools in a div (toolbar).
-  */
+ * A mithril component of the UI tools in a div (toolbar).
+ */
 import m from 'mithril';
 
 import {ResetButton} from './ResetButton';
 import {RemoveMapButton} from './RemoveMapButton';
 import {AddMapButton} from './AddMapButton';
+import {ConfigurationButton} from './ConfigurationButton';
+import {UploadButton} from './UploadButton';
 //import {FilterButton} from './FilterButton';
 import {MapRemovalDialog} from './MapRemovalDialog';
 import {MapAdditionDialog} from './MapAdditionDialog';
+import {ConfigurationDialog} from './ConfigurationDialog';
+import {UploadDialog} from './UploadDialog';
 
-
-export class Tools  {
+export class Tools {
 
   // constructor() - prefer do not use in mithril components
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     this.appState = vnode.attrs.appState;
     this.currentDialog = vnode.attrs.dialog;
@@ -25,7 +30,9 @@ export class Tools  {
 
   /**
    * mithril component render method
+   * @returns {*}
    */
+
   view() {
     return m('div.cmap-tools', [
       m('div.cmap-toolbar.cmap-hbox', [
@@ -36,6 +43,12 @@ export class Tools  {
         }),
         m(RemoveMapButton, {
           onclick: () => this.currentDialog = MapRemovalDialog
+        }),
+        m(ConfigurationButton, {
+          onclick: () => this.currentDialog = ConfigurationDialog
+        }),
+        m(UploadButton, {
+          onclick: () => this.currentDialog = UploadDialog
         })
       ]),
       this.currentDialog && m(this.currentDialog, {

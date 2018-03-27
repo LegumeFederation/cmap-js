@@ -1,27 +1,27 @@
 /**
-  * SceneGraphNodeBase
-  * Base Class representing a drawable element in canvas scenegraph
-  */
+ * SceneGraphNodeBase
+ * Base Class representing a drawable element in canvas scenegraph
+ */
 
-import  rbush  from 'rbush';
+import rbush from 'rbush';
 
-import { Bounds } from '../../model/Bounds';
+import {Bounds} from '../../model/Bounds';
 
 export class SceneGraphNodeBase {
 
   /**
-    * Create a SceneGraphNode.
-    * Constructor uses ES6 destructuring of parameters from an object.
-    * e.g. new SceneGraphNode({param: .., param2, etc.})
-    *
-    * @param {Object} params - having the following properties:
-    * @param {String} tag - an label or slug
-    * @param {Object} parent - the parent node
-    * @param {Object} bounds - local Canvas bounds, relative to our parent.
-       This is not the same as DOM bounds of the canvas element!
-    * @param {Number} rotation - degrees, default 0.
-    * @returns {Object}
-    */
+   * Create a SceneGraphNode.
+   * Constructor uses ES6 destructuring of parameters from an object.
+   * e.g. new SceneGraphNode({param: .., param2, etc.})
+   *
+   * @param {Object} params - having the following properties:
+   * @param {Array} tags - an label or slug
+   * @param {Object} parent - the parent node
+   * @param {Object} bounds - local Canvas bounds, relative to our parent.
+   * This is not the same as DOM bounds of the canvas element!
+   * @param {Number} rotation - degrees, default 0.
+   */
+
   constructor({parent, bounds, rotation = 0, tags = []}) {
     this.parent = parent;
     this._rotation = rotation;
@@ -32,29 +32,56 @@ export class SceneGraphNodeBase {
     this._visble = [];
   }
 
-	/* getters and setters */
+  /* getters and setters */
   /* define getters for our properties; note subclasses can override setters,
     e.g. to perform layout or calculations based on new state */
-  /* getters */
-  get children() { return this._children; }
-  get bounds() { return this._bounds; }
-  get rotation() { return this._rotation; }
-  get tags() { return this._tags; }
 
-  /* setters */
-  set children(b) { this._children = b;}
-  set bounds(b) { this._bounds = b; }
-  set rotation(degrees) { this._rotation = degrees; }
-  set tags(tags) { this._tags = tags; }
+  /* getters */
 
   /**
-  * Traverse all parents bounds to calculate self Bounds on Canvas.
-  *
-  * @returns {Object} - Bounds instance
-  */
+   * Children scene graph nodes
+   * @returns {Array|*} any child nodes this node has
+   */
+
+  get children() {
+    return this._children;
+  }
+
+  /**
+   * Local bounds
+   * @returns {*} local bounds
+   */
+
+  get bounds() {
+    return this._bounds;
+  }
+
+  /**
+   *  Rotation applied on this and subsequent children
+   * @returns {*} rotation
+   */
+
+  get rotation() {
+    return this._rotation;
+  }
+
+  /**
+   * Info tags
+   * @returns {*} tags
+   */
+
+  get tags() {
+    return this._tags;
+  }
+
+  /**
+   * Traverse all parents bounds to calculate self Bounds on Canvas.
+   * @returns {Object} - Bounds instance
+   */
+
   get globalBounds() {
     console.assert(this.bounds, 'bounds missing');
-    if(! this.parent) return this.bounds;
+    if (!this.parent) return this.bounds;
     let gb = this.parent.globalBounds;
     return new Bounds({
       top: this.bounds.top + gb.top,
@@ -67,46 +94,90 @@ export class SceneGraphNodeBase {
   }
 
   /**
-   * Use rbush to returni children nodes that may be visible.
+   * Use rbush to return children nodes that may be visible.
    * At this level, it is assumed that there is no viewport
    * constraints to the filter.
    *
-   *  @retrun {Array} - array of rbush nodes
+   *  @return {Array} - array of rbush nodes
    */
-  get visible(){ 
+
+  get visible() {
     let vis = [];
-    let childVisible = this.children.map( child => {
+    let childVisible = this.children.map(child => {
       return child.locMap.all();
     });
-    childVisible.forEach(item =>{ vis = vis.concat(item);});
+    childVisible.forEach(item => {
+      vis = vis.concat(item);
+    });
     return vis;
   }
 
   /**
    *  Traverse children, returning hitmap
-   *
    *  @returns {Array} - array of rbush entries
    */
 
-  get hitMap(){
+  get hitMap() {
     let hits = [];
-    let childMap = this.children.map( child => {
+    let childMap = this.children.map(child => {
       return child.hitMap;
     });
-    childMap.forEach(item =>{ hits = hits.concat(item);});
+    childMap.forEach(item => {
+      hits = hits.concat(item);
+    });
     return hits;
   }
 
-	/* public methods/*
+  /* setters */
+
+  /**
+   * Child scene graph nodes
+   * @param {Array|*} b
+   */
+
+  set children(b) {
+    this._children = b;
+  }
+
+  /**
+   * Nodes local bounds
+   * @param b - bounds object
+   */
+
+  set bounds(b) {
+    this._bounds = b;
+  }
+
+  /**
+   * Rotation
+   * @param {number} degrees - rotation in degrees
+   */
+
+  set rotation(degrees) {
+    this._rotation = degrees;
+  }
+
+  /**
+   * Tags
+   * @param {array} tags - object's descriptive tags
+   */
+
+  set tags(tags) {
+    this._tags = tags;
+  }
+
+  /* public methods */
+
   /**
    * Translate coordinates to canvas space. When an element wants to draw on
    * canvas, it requires translating into global coordinates for the canvas.
    *
    * @param {Object} params - object with following properties:
-   * @param {Number} x
-   * @param {Number} y
-   * @returns {Object} - { x, y }
+   * @param {Number} x - x location
+   * @param {Number} y - y location
+   * @returns {Object} - { x, y } x,y location in global terms
    */
+
   translatePointToGlobal({x, y}) {
     let gb = this.globalBounds;
     return {x: x + gb.left, y: y + gb.top};
@@ -118,35 +189,38 @@ export class SceneGraphNodeBase {
    *
    * @param {object} node - SceneGraphNode derived item to insert as a child
    **/
-  addChild(node){
-    if(node.parent){
+
+  addChild(node) {
+    if (node.parent) {
       node.parent.removeChild(node);
     }
     node.parent = this;
-    if(this._children.indexOf(node) === -1)  this._children.push(node);
+    if (this._children.indexOf(node) === -1) this._children.push(node);
   }
 
   /**
    * Removes a child node from the _children array
-   * and changes child node's parent to undefined 
+   * and changes child node's parent to undefined
    *
    * @param {object} node - SceneGraphNode derived node to remove
    **/
-  removeChild(node){
+
+  removeChild(node) {
     //TODO: May need to use a indexOf polyfill if targeting IE < 9
     let index = this._children.indexOf(node);
-    if(index > -1){
-      this._children.splice(index,1);
+    if (index > -1) {
+      this._children.splice(index, 1);
     }
     node.parent = null;
   }
+
   /**
    * Traverse children and call their draw on the provided context
    *
-   * #param {object} ctx - canvas context
-   *
+   * @param {object} ctx - canvas context
    */
-  draw(ctx){
+
+  draw(ctx) {
     this.children.forEach(child => child.draw(ctx));
   }
 }

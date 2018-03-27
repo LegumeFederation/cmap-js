@@ -1,5 +1,5 @@
 /**
- * main
+ * @file
  * Instantiate the CMAP class, and initialize it.
  * Also the entry point for bundling of javascript and css.
  */
@@ -14,6 +14,12 @@ import './util/concatAll';
 import {CMAP} from './ui/CMAP';
 
 /* istanbul ignore next: unable to test this module because of css imports */
+/**
+ * @description Initializes CMAP window with CSS and makes sure that the initial
+ * DOM events are properly handled.
+ *
+ */
+
 const main = () => {
   // FIXME: this way of exposing the cmap object seems kind of clunky. For
   // implementing a js api, maybe using this rollup plugin would be

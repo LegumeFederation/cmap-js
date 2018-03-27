@@ -11,7 +11,9 @@ export class MapRemovalDialog {
 
   /**
    * mithril lifecycle method
+   * @param vnode
    */
+
   oninit(vnode) {
     this.model = vnode.attrs.model;
     this.onDismiss = vnode.attrs.onDismiss;
@@ -20,20 +22,25 @@ export class MapRemovalDialog {
 
   /**
    * event handler for cancel button
+   * @param evt
+   * @private
    */
-  onCancel(evt) {
+
+  _onCancel(evt) {
     evt.preventDefault();
     this.onDismiss(evt);
   }
 
   /**
    * event handler for remove button
+   * @param evt
+   * @private
    */
-  onRemove(evt) {
-    const filtered = this.model.bioMaps.filter( bioMap => {
+
+  _onRemove(evt) {
+    this.model.bioMaps = this.model.bioMaps.filter(bioMap => {
       return this.selection.indexOf(bioMap) === -1;
     });
-    this.model.bioMaps = filtered;
     PubSub.publish(mapRemoved, this.selection);
     evt.preventDefault();
     this.onDismiss(evt);
@@ -41,10 +48,13 @@ export class MapRemovalDialog {
 
   /**
    * event handler for checkbox
+   * @param bioMap
+   * @private
    */
-  onToggleSelection(bioMap) {
+
+  _onToggleSelection(bioMap) {
     const i = this.selection.indexOf(bioMap);
-    if(i === -1) {
+    if (i === -1) {
       this.selection.push(bioMap);
     }
     else {
@@ -53,33 +63,35 @@ export class MapRemovalDialog {
   }
 
   /**
-  * mithril render callback
-  */
+   * mithril render callback
+   * @returns {*}
+   */
+
   view() {
     const haveSelection = this.selection.length > 0;
     const plural = this.selection.length > 1;
     return m('div.cmap-map-removal-dialog', [
       m('h5', plural ? 'Remove Maps' : 'Remove Map'),
       m('form', [
-        this.model.bioMaps.map( bioMap => {
+        this.model.bioMaps.map(bioMap => {
           return m('label.cmap-map-name', [
             m('input[type="checkbox"]', {
               checked: this.selection.indexOf(bioMap) !== -1,
-              onclick: () => this.onToggleSelection(bioMap)
+              onclick: () => this._onToggleSelection(bioMap)
             }),
-            m('span.label-body', bioMap.uniqueName )
+            m('span.label-body', bioMap.uniqueName)
           ]);
         }),
         m('button', {
           class: haveSelection ? 'button-primary' : 'button',
-          disabled: ! haveSelection,
+          disabled: !haveSelection,
           autocomplete: 'off', // firefox workaround for disabled state
-          onclick: evt => this.onRemove(evt)
+          onclick: evt => this._onRemove(evt)
         }, [
           m('i.material-icons', 'remove_circle_outline'),
           'Remove Selected'
         ]),
-        m('button.button', { onclick: evt => this.onCancel(evt) }, [
+        m('button.button', {onclick: evt => this._onCancel(evt)}, [
           m('i.material-icons', 'cancel'),
           'Cancel'
         ])
