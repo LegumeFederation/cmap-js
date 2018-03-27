@@ -8,8 +8,11 @@ export class UploadButton {
   // constructor() - prefer do not use in mithril components
 
   /**
-  * mithril render callback
-  */
+   * mithril render callback
+   * @param vnode
+   * @returns {*}
+   */
+
   view(vnode) {
     const attrs = {
       onclick: vnode.attrs.onclick

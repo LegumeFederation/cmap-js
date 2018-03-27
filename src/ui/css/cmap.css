@@ -1,89 +1,90 @@
 html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  font-family: Nunito,HelveticaNeue,Helvetica Neue,Helvetica,Arial,sans-serif;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: Nunito, HelveticaNeue, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 #cmap-ui {
-  width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
-  margin: 2rem;
-  margin-top: 0rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    margin: 0 2rem 2rem;
 }
+
 #cmap-disclaimer {
-  font-size: 20px;
-  color: red;
-  border: solid 2px black;
-  border-radius: 8px;
-  padding: 10px;
+    font-size: 20px;
+    color: red;
+    border: solid 2px black;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 .cmap-vbox {
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
 }
 
 .cmap-hbox {
-  display: flex;
-  flex-direction: row;
-  align-content: stretch;
-  justify-content: start;
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    justify-content: start;
 }
 
 .cmap-layout {
-  width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
 }
 
 .cmap-layout-viewport {
-  overflow: auto; /* overflow the content using scrollbars */
-  flex: auto; /* expand to fill the vertical space allowed by flexbox */
-  position: relative;
+    overflow-y: hidden; /* overflow the content using scrollbars */
+    overflow-x: hidden;
+    flex: auto; /* expand to fill the vertical space allowed by flexbox */
+    position: relative;
 }
 
 .cmap-layout-container {
-  position: absolute;;
-  width: calc(100% - 2rem);
-  height: calc(100% - 2.5rem);
+    position: absolute;;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2.5rem);
 }
 
 .cmap-canvas {
-  position: absolute;
+    position: absolute;
 }
 
 .cmap-layout-horizontal {
-  width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
-  position: relative;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    position: relative;
 }
 
 .cmap-layout-circos {
-  width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
-  position: relative;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    position: relative;
 }
 
 .cmap-correspondence-map {
-  /* border: dashed 2px cyan; */
+    /* border: dashed 2px cyan; */
 }
 
 .cmap-biomap {
-  /* border: dashed 2px grey; */
+    border: dashed 2px grey;
 }
 
 .cmap-biomap.selected {
-  border: dashed 2px magenta;
+    border: dashed 2px magenta;
 }
 
 h4.cmap-header {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .cmap-tools h5 {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 span.cmap-header {
@@ -96,124 +97,130 @@ span.cmap-header {
 }
 
 .cmap-map-removal-dialog, .cmap-map-addition-dialog {
-  padding-left: 2rem;
-  border-left: solid 4px grey;
+    padding-left: 2rem;
+    border-left: solid 4px grey;
 }
 
 .cmap-map-addition-dialog label {
-  display: inline-block;
-  margin: 0 0.5rem 0 0.5rem;
+    display: inline-block;
+    margin: 0 0.5rem 0 0.5rem;
 }
 
-button > i{
-  vertical-align: -30%;
+button > i {
+    vertical-align: -30%;
 }
 
 div.cmap-tools button {
-  margin-right: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+    margin-right: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 button[disabled] {
-  background:#ccc;
-  border-color: #ccc;
-  text-shadow:none;
+    background: #ccc;
+    border-color: #ccc;
+    text-shadow: none;
 }
 
 span.cmap-map-name-chip {
-  background: #eee;
-  border-radius: 4px;
-  padding: 0.2rem 1rem 0.2rem 1rem;
-  margin-right: 0.5rem;
+    background: #eee;
+    border-radius: 4px;
+    padding: 0.2rem 1rem 0.2rem 1rem;
+    margin-right: 0.5rem;
 }
 
 .biomap-info {
-  width: 15em;
-  height: 10em;
-  border: 1px solid #bbb;
-  border-radius: 4px;
-  background: white;
-  position: absolute;
-  display: inline-block;
-  overflow-y: auto;
-  z-index: 10;
+    width: 15em;
+    height: 10em;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: white;
+    position: absolute;
+    display: inline-block;
+    overflow-y: auto;
+    z-index: 10;
 }
 
 .biomap-info-name {
-  margin: 5px;
-  border: 1px solid #bbb;
-  border-radius: 4px;
-  background:white;
-  text-align: center;
+    margin: 5px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: white;
+    text-align: center;
 }
 
 .biomap-info-name:hover {
-  background:#ccc;
+    background: #ccc;
 }
 
 .biomap-info-data {
-  margin: 5px 20px 5px 20px;
+    margin: 5px 20px 5px 20px;
 }
-.swap-div{
-  opacity:50%;
-  z-index:100;
-  display:flex;
+
+.swap-div {
+    opacity: 0.6;
+    z-index: 10000;
+    border: 1px solid #bbb;
+    border-radius: 4px;
 }
-.swap-map-order{
-  margin: 5px 10px 5px 10px;
-  padding: 5px 10px 5px 10px;
-  border: 1px solid #bbb;
-  border-radius: 4px;
-  background: white;
-  text-align:center;
-  opacity:0.5;
+
+.swap-map-order {
+    margin: 5px 10px 5px 10px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: white;
+    text-align: center;
+    opacity: 0.5;
 }
+
 .swap-map-order:hover {
-  background:#ccc;
-}
-.map-title{
-  margin: 5px 10px 5px 10px;
-  padding: 5px 10px 5px 10px;
-  text-align: center;
-  background: white;
+    background: #ccc;
 }
 
-.feature-title{
-  z-index:1000;
-  background:white;
-  border: 1px solid black;
-  border-radius: 4px;
-  padding: 5px 0px 5px 0px;
-  margin: 5px 0px 5px 0px;
-  text-align: center;
-  white-space:nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.map-title {
+    margin: 5px 10px 5px 10px;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    background: white;
 }
 
-.feature-menu{
-  z-index: 10000;
-  background:white;
-  border: 1px solid black;
-  border-radius: 4px;
-  padding: 5px 0px 5px 0px;
-  margin: 5px 0px 5px 0px;
-  text-align: center;
+.feature-title {
+    z-index: 1000;
+    background: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 0 5px 0;
+    margin: 5px 0 5px 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#cmap-menu-viewport{
-  margin: 5px 5px 5px 5px;
-  padding: 5px 10px 5px 10px;
-  border: 1px solid #bbb;
-  border-radius: 4px;
-  background: white;
+.feature-menu {
+    z-index: 10000;
+    background: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px 0 5px 0;
+    margin: 5px 0 5px 0;
+    text-align: center;
 }
 
-.cmap-biomap{
-  border: 1px dashed black;
-  border-radius: 4px;
+#cmap-menu-viewport {
+    margin: 5px 5px 5px 5px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: white;
 }
-.cmap-correspondence-map{
-  /*border:1px dashed aqua;*/
+
+.cmap-biomap {
+    /* border: 1px dashed black;
+     border-radius: 4px; */
+}
+
+.cmap-correspondence-map {
+    /*border:1px dashed aqua;*/
 }

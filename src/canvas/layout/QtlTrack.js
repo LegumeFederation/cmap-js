@@ -1,110 +1,122 @@
 /**
-  * QtlTrack 
-  * A SceneGraphNode representing a collection of QTLs.
-  */
+ * QtlTrack
+ * A SceneGraphNode representing a collection of QTLs.
+ *
+ * @extends SceneGraphNodeTrack
+ */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
 
-export class  QtlTrack extends SceneGraphNodeTrack {
+export class QtlTrack extends SceneGraphNodeTrack {
+
+  /**
+   * Constructor - sets up a track that's a group of QTL rectangles
+   * @param params
+   */
+
+  /**
+   * TODO: Allow for subtracks
+   */
 
   constructor(params) {
     super(params);
-    console.log('QtlTrack -> constructor',this.parent.domBounds);
-    const b = this.parent.bounds;
+
+    this.filteredFeatures = [];
+    let b = this.parent.bounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: this.parent.bounds.top,
-      left: this.parent.backbone.bounds.right + 100,
-      width: 50,
+      top: 0,
+      left: 0,
+      width: this.parent.model.config.qtl.trackMinWidth,
       height: b.height
     });
-    if(this.parent.model.qtlGroups && this.parent.model.qtlGroups.length > 0){
-      console.log('qtlGroups', this.parent.model.qtlGroups);
-      let qtlGroups = this.parent.model.qtlGroups;
-      for( let i = 0 ; i < qtlGroups.length; i++){
-        let qtlConf = qtlGroups[i];
-        if (typeof qtlConf.filters === 'string'){ qtlConf.filters = [qtlConf.filters];}
-        if (typeof qtlConf.trackColor === 'string'){ qtlConf.trackColor = [qtlConf.trackColor];}        
-        let qtlGroup = new SceneGraphNodeGroup({parent:this, tags:qtlConf.filters.slice(0)});
-        this.addChild(qtlGroup);
-        let offset = this.qtlGroup !== undefined ? this.qtlGroup.bounds.right + 20 : 0;
-        this.qtlGroup = qtlGroup;
-        qtlGroup.bounds = new Bounds({
-          top:0,
-          left: offset,
-          width:20,
-          height: b.height
-        });
 
-        this.mapCoordinates = this.parent.mapCoordinates;
-        this.filteredFeatures = [];
-        qtlConf.filters.forEach( (filter,order) => {
-            var test = this.parent.model.features.filter( model => {
-              return model.tags[0].match(filter) !== null;
-            })
-            if(test.length === 0){
-              // get rid of any tags that don't actually get used
-              qtlConf.filters.splice(order,1);
-            } else {
-              this.filteredFeatures = this.filteredFeatures.concat(test);
-            }
-        });
-        this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
-        let fmData = [];
-        this.maxLoc = 0;
-        this.qtlMarks = this.filteredFeatures.map( model => {
-          let fm = new QTL ({
-            featureModel: model,
-            parent: this.qtlGroup,
-            bioMap: this.parent.model,
-            initialConfig:this.parent.model.qtlGroups[i]
-          });
-          qtlGroup.addChild(fm);
-          let loc = {
-            minY: model.coordinates.start,
-            maxY: model.coordinates.stop,
-            minX: fm.globalBounds.left,
-            maxX: fm.globalBounds.right,
-            data:fm
-          };
-          qtlGroup.locMap.insert(loc);
-          fmData.push(loc);
-          if(fm.globalBounds.right > this.globalBounds.right){
-            this.maxLoc = this.globalBounds.right;
-            this.bounds.right = this.globalBounds.left + (fm.globalBounds.right - this.globalBounds.left);
-            qtlGroup.bounds.right = qtlGroup.bounds.left + (fm.globalBounds.right - qtlGroup.globalBounds.left) + fm.offset; //set to fm.textWidth
-          }
-          return fm;
-        });
-        this.locMap.load(fmData);
+   let qtlConf = params.config;
+    for( let key in this.parent.model.config.qtl){
+      if(!qtlConf.hasOwnProperty(key)){
+        qtlConf[key] = this.parent.model.config.qtl[key];
       }
-    } else { // TODO: Rewrite so that this isn't required to be here
-      let qtlGroup = new SceneGraphNodeGroup({parent:this});
-      this.addChild(qtlGroup);
-      this.qtlGroup = qtlGroup;
-      
-      qtlGroup.bounds = new Bounds({
-        top:0,
-        left:0,
-        width:0,
-        height: b.height
-      });
     }
+
+   qtlConf.filters.forEach( (filter,order) => {
+      var test = this.parent.model.features.filter( model => {
+        return model.tags[0].match(filter) !== null;
+      });
+      if(test.length === 0){
+        // get rid of any tags that don't actually get used
+        qtlConf.filters.splice(order,1);
+      } else {
+        this.filteredFeatures = this.filteredFeatures.concat(test);
+      }
+    });
+
+    this.filteredFeatures.sort((a,b)=>{return a.coordinates.start - b.coordinates.start;});
+    let fmData = [];
+
+
+    this.maxLoc = 0;
+    this.qtlMarks = this.filteredFeatures.map( model => {
+      let fm = new QTL ({
+        featureModel: model,
+        parent: this,
+        bioMap: this.parent.model,
+        initialConfig: qtlConf,
+        config: this.parent.model.config.qtl
+      });
+
+      this.addChild(fm);
+
+      let loc = {
+        minY: model.coordinates.start,
+        maxY: model.coordinates.stop,
+        minX: fm.globalBounds.left,
+        maxX: fm.globalBounds.right,
+        data:fm
+      };
+
+      this.locMap.insert(loc);
+
+      fmData.push(loc);
+
+      if(fm.globalBounds.right > this.globalBounds.right){
+        this.bounds.right = fm.globalBounds.right - this.globalBounds.left;
+      }
+
+      return fm;
+    });
+    this.locMap.clear();
+    this.locMap.load(fmData);
   }
 
-  get visible(){
+  /**
+   *
+   */
+
+  get visible() {
+   // let visible = [];
+   // this.children.forEach(child => {
+   //   visible = visible.concat(child.locMap.all());
+   // });
+   //
+   // return visible;
     return this.locMap.all();
     //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
-  } 
-  
-  draw(ctx){
+  }
+
+  /**
+   * Debug draw to check track positioning
+   * @param ctx
+   */
+
+  draw(ctx) {
     ctx.save();
     ctx.globalAlpha = .5;
     ctx.fillStyle = '#ADD8E6';
-    this.children.forEach( child => {
+    this.children.forEach(child => {
       let cb = child.globalBounds;
+      // noinspection JSSuspiciousNameCombination
+      // noinspection JSSuspiciousNameCombination
       ctx.fillRect(
         Math.floor(cb.left),
         Math.floor(cb.top),
@@ -115,31 +127,21 @@ export class  QtlTrack extends SceneGraphNodeTrack {
     ctx.restore();
   }
 
-  get hitMap(){
-    //return [];
-    let hits = [];
-    let childPos = this.children.map(child => {
-      return child.children.map( qtlGroup =>{
-        return {
-          minY: qtlGroup.globalBounds.top,
-          maxY: qtlGroup.globalBounds.bottom,
-          minX: qtlGroup.globalBounds.left,
-          maxX: qtlGroup.globalBounds.right ,
-          data: qtlGroup
-        };
-      });
+  /**
+   * Get RTree children that are visible in the canvas' current zoom bounds
+   * @returns {Array}
+   */
+
+  get hitMap() {
+    //return this.locMap.all();
+    return this.children.map(child => {
+      return {
+        minY: child.globalBounds.top,
+        maxY: child.globalBounds.bottom,
+        minX: child.globalBounds.left,
+        maxX: child.globalBounds.right,
+        data: child
+      };
     });
-    childPos.forEach( childArray =>{
-      hits = hits.concat(childArray);
-    });
-   return hits;
-    //  return {
-    //    minY: child.globalBounds.top,
-    //    maxY: child.globalBounds.bottom,
-    //    minX: child.globalBounds.left,
-    //    maxX: child.globalBounds.right ,
-    //    data: child
-    //  };
-    //});
   }
 }

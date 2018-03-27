@@ -12,7 +12,9 @@ export class ResetButton {
 
   /**
    * mithril render callback
+   * @returns {*}
    */
+
   view() {
     return m('button', {
       onclick: evt => this._onClick(evt)
@@ -24,7 +26,10 @@ export class ResetButton {
 
   /**
    * reset button event handler
+   * @param evt
+   * @private
    */
+
   _onClick(evt) {
     PubSub.publish(reset, null);
     // subscribers to the reset topic may m.redraw if they need to; suppress

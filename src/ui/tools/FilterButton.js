@@ -3,26 +3,28 @@
  */
 import m from 'mithril';
 
-export class FilterButton  {
+export class FilterButton {
 
   // constructor() - prefer do not use in mithril components
 
   /**
-  * mithril render callback
-  */
+   * mithril render callback
+   * @returns {*}
+   */
+
   view() {
     const attrs = {
       onclick: evt => this._onClick(evt)
     };
-    return m('button', attrs , [
+    return m('button', attrs, [
       m('i.material-icons', 'filter_list'),
       'Filter'
     ]);
   }
 
   /**
-  * button event handler
-  */
+   * button event handler
+   */
   _onClick() {
   }
 }

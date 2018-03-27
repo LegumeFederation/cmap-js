@@ -3,10 +3,10 @@ import {DataSourceModel} from '../../src/model/DataSourceModel';
 
 const config = require('../../cmap.json');
 
-describe('DataSourceModel test', function() {
+describe('DataSourceModel test', function () {
 
-  it('constructor works', function() {
-    config.sources.forEach( params => {
+  it('constructor works', function () {
+    config.sources.forEach(params => {
       const model = new DataSourceModel(params);
       expect(model).to.have.property('method')
         .that.is.a('string');
@@ -21,7 +21,7 @@ describe('DataSourceModel test', function() {
 
   // TODO: test the load() function which will cause an http fetch.
 
-  it('deserialize works', function() {
+  it('deserialize works', function () {
     const model = new DataSourceModel(config.sources[0]);
     model.deserialize(data);
     expect(model).to.have.property('parseResult')
@@ -30,12 +30,12 @@ describe('DataSourceModel test', function() {
     expect(model.parseResult.data).to.have.lengthOf(9);
   });
 
-  it('includeRecord equals', function() {
+  it('includeRecord equals', function () {
     let model;
     config.sources[1].filters = [{
-      column : 'feature_type',
-      operator : 'equals',
-      value : 'gene_test'
+      column: 'feature_type',
+      operator: 'equals',
+      value: 'gene_test'
     }];
     model = new DataSourceModel(config.sources[1]);
     model.deserialize(data);
@@ -43,13 +43,13 @@ describe('DataSourceModel test', function() {
     expect(model.parseResult.data).to.have.lengthOf(1);
   });
 
-  it('includeRecord not', function() {
+  it('includeRecord not', function () {
     let model;
     config.sources[1].filters = [{
-      column : 'feature_type',
+      column: 'feature_type',
       not: true,
-      operator : 'equals',
-      value : 'gene_test'
+      operator: 'equals',
+      value: 'gene_test'
     }];
     model = new DataSourceModel(config.sources[1]);
     model.deserialize(data);
@@ -57,12 +57,12 @@ describe('DataSourceModel test', function() {
     expect(model.parseResult.data).to.have.lengthOf(8);
   });
 
-  it('includeRecord regex', function() {
+  it('includeRecord regex', function () {
     let model;
     config.sources[1].filters = [{
-      column : 'feature_type',
-      operator : 'regex',
-      value : '^g.+'
+      column: 'feature_type',
+      operator: 'regex',
+      value: '^g.+'
     }];
     model = new DataSourceModel(config.sources[1]);
     model.deserialize(data);
@@ -70,16 +70,16 @@ describe('DataSourceModel test', function() {
     expect(model.parseResult.data).to.have.lengthOf(8);
   });
 
-  it('includeRecord multiple filters', function() {
+  it('includeRecord multiple filters', function () {
     let model;
     config.sources[1].filters = [{
-      column : 'map_name',
-      operator : 'equals',
-      value : 'Pv01'
+      column: 'map_name',
+      operator: 'equals',
+      value: 'Pv01'
     }, {
-      column : 'feature_type',
-      operator : 'regex',
-      value : '_test$'
+      column: 'feature_type',
+      operator: 'regex',
+      value: '_test$'
     }];
     model = new DataSourceModel(config.sources[1]);
     model.deserialize(data);
@@ -89,13 +89,13 @@ describe('DataSourceModel test', function() {
 });
 
 const data =
-"map_name	map_start	map_stop	feature_start	feature_stop	feature_name	feature_type\n" +
-"Pv01	0	69.6073	13.3417	13.3469	phavu.Phvul.001G073700	gene\n" +
-"Pv01	0	69.6073	1.33705	1.34065	phavu.Phvul.001G011400	gene\n" +
-"Pv01	0	69.6073	13.4007	13.4024	phavu.Phvul.001G073800	gene\n" +
-"Pv01	0	69.6073	1.34167	1.34511	phavu.Phvul.001G011500	gene\n" +
-"Pv01	0	69.6073	13.4293	13.4313	phavu.Phvul.001G073900	gene\n" +
-"Pv01	0	69.6073	1.34743	1.35232	phavu.Phvul.001G011600	gene\n" +
-"Pv01	0	69.6073	13.4815	13.5003	phavu.Phvul.001G074000	gene\n" +
-"Pv01	0	69.6073	13.5095	13.5121	phavu.Phvul.001G074100	gene_test\n" +
-"Pv01	0	69.6073	13.5127	13.52	phavu.Phvul.001G074200	xyz_test\n";
+  'map_name	map_start	map_stop	feature_start	feature_stop	feature_name	feature_type\n' +
+  'Pv01	0	69.6073	13.3417	13.3469	phavu.Phvul.001G073700	gene\n' +
+  'Pv01	0	69.6073	1.33705	1.34065	phavu.Phvul.001G011400	gene\n' +
+  'Pv01	0	69.6073	13.4007	13.4024	phavu.Phvul.001G073800	gene\n' +
+  'Pv01	0	69.6073	1.34167	1.34511	phavu.Phvul.001G011500	gene\n' +
+  'Pv01	0	69.6073	13.4293	13.4313	phavu.Phvul.001G073900	gene\n' +
+  'Pv01	0	69.6073	1.34743	1.35232	phavu.Phvul.001G011600	gene\n' +
+  'Pv01	0	69.6073	13.4815	13.5003	phavu.Phvul.001G074000	gene\n' +
+  'Pv01	0	69.6073	13.5095	13.5121	phavu.Phvul.001G074100	gene_test\n' +
+  'Pv01	0	69.6073	13.5127	13.52	phavu.Phvul.001G074200	xyz_test\n';

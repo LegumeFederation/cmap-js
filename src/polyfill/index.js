@@ -3,7 +3,7 @@
  * Javascript, HTML5, or CSS3 features.
  */
 
- // adds Math.scale, fscale, clamp, radians, degrees
+// adds Math.scale, fscale, clamp, radians, degrees
 import 'ecma-proposal-math-extensions';
 
 // adds elementsFromPoint

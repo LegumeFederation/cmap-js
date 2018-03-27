@@ -80,4 +80,9 @@ Using the white boxes with arrows at the top of a map swaps map position with
 its neighbor. Maps may be added and removed from display using the as labeled
 buttons.
 
+## Known Issues
+
++ Manhattan style plots can **not** be added through the configure/add track menu.
++ Configuration menu will not display configuration of current tracks, however tracks
+may still be configured in the same way as in the `cmap.json`, overwriting existing tracks.
 
