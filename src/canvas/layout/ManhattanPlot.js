@@ -53,8 +53,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
           start: 0,
           stop: manhattanInfo.maxValue || 0
         };
-
-        let baseData = manhattanInfo.appState.sources.filter(model => {
+        let baseData = this.parent.sources.filter(model => {
           return model.id === manhattanInfo.dataId;
         });
 

@@ -2,6 +2,8 @@
  * A mithril component for configuration import/export
  */
 import m from 'mithril';
+import {featureUpdate} from '../../topics';
+import PubSub from 'pubsub-js';
 
 export class ConfigurationDialog {
 
@@ -17,7 +19,6 @@ export class ConfigurationDialog {
 
   oninit(vnode) {
     this.model = vnode.attrs.model;
-    console.log('cd', this.model);
     let cd = {};
     this.model.bioMaps.forEach(bioMap => {
       cd[bioMap.name] = {
@@ -30,7 +31,6 @@ export class ConfigurationDialog {
 
     ConfigData.base = JSON.stringify(cd, null, 2);
     ConfigData.updated = JSON.stringify(cd, null, 2);
-    console.log('cdp', cd);
 
     this.onDismiss = vnode.attrs.onDismiss;
     this.selection = null;
@@ -48,7 +48,7 @@ export class ConfigurationDialog {
   }
 
   /**
-   * event handler for add-on-right button
+   * event handler for use  new configuration button
    * @param evt
    * @private
    */
@@ -59,16 +59,22 @@ export class ConfigurationDialog {
     this.model.allMaps.forEach(map => {
       for (let name in newConfig) {
         if (newConfig.hasOwnProperty(name) && name === map.name && newConfig[name].source === map.source.id) {
+          console.log()
           let item = map;
           item.config = newConfig[name].config;
-          item.qtlGroups = newConfig[name].qtlGroups;
-          console.log('cd conf', newConfig[name]);
+          if(newConfig[name].config.tracks) {
+            let tracks = JSON.parse(JSON.stringify(newConfig[name].config.tracks));
+            delete newConfig[name].config.tracks;
+            item.tracks = tracks;
+          }
           finalConfig.push(item);
         }
       }
     });
-    console.log('cd fin', finalConfig);
     this.model.bioMaps = finalConfig;
+    for (let i = 0; i < finalConfig.length; i++) {
+      PubSub.publish(featureUpdate, {mapIndex: i});
+    }
     this.onDismiss(evt);
   }
 

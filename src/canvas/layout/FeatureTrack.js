@@ -37,7 +37,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       let tracks = this.trackPos === 1 ? this.parent.tracksLeft : this.parent.tracksRight;
       tracks.forEach((track, order) => {
         // newFeatureTrack is a group with two components, the feature data track, and the feature label track
-        track.appState = this.parent.appState;
+        //track.appState = this.parent.appState;
         let newFeatureTrack = new SceneGraphNodeGroup({parent:this});
         newFeatureTrack.model = this.model;
         newFeatureTrack.config = track;
@@ -57,11 +57,12 @@ export class FeatureTrack extends SceneGraphNodeTrack {
 
         let featureData = {};
         if(track.type === 'qtl') {
-          featureData = new QtlTrack({parent:newFeatureTrack , config: track});
           newFeatureTrack.title = track.title || this.model.config.qtl.title || track.filters[0];
+          featureData = new QtlTrack({parent:newFeatureTrack , config: track});
         } else if( track.type === 'manhattan') {
-          featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
+          newFeatureTrack.sources = this.parent.appState.sources;
           newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
+          featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
         }
 
         newFeatureTrack.addChild(featureData);
