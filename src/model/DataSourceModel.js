@@ -137,39 +137,39 @@ export class DataSourceModel {
 
   get bioMaps() {
     const res = {};
-    try {
-      let typeField = this.parseResult.meta.fields.includes('feature_type') ? 'feature_type' : 'feature_type_acc';
-      this.parseResult.data.forEach(d => {
-        if (!d.map_name) return;
-        const uniqueMapName = `${this.id}/${d.map_name}`;
-        if (!res[uniqueMapName]) {
-          res[uniqueMapName] = new BioMapModel({
-            source: this,
-            name: d.map_name,
-            features: [],
-            tags: [],
-            coordinates: {start: d.map_start, stop: d.map_stop},
-            config: this.bioConfig[d.map_name] || this.bioConfig.default
-          });
-        }
-        else {
-          if (d.map_stop > res[uniqueMapName].coordinates.stop) {
-            res[uniqueMapName].coordinates.stop = d.map_stop;
+      try {
+        let typeField = this.parseResult.meta.fields.includes('feature_type') ? 'feature_type' : 'feature_type_acc';
+        this.parseResult.data.forEach( d => {
+          if(! d.map_name) return;
+          const uniqueMapName = `${this.id}/${d.map_name}`;
+          if(! res[uniqueMapName]) {
+            const model = new BioMapModel({
+              source: this,
+              name: d.map_name,
+              features: [],
+              tags: [],
+              coordinates: { start: d.map_start, stop: d.map_stop },
+              config: this.bioConfig[d.map_name] || this.bioConfig.default
+            });
+            res[uniqueMapName] = model;
           }
-        }
-        res[uniqueMapName].features.push(
-          new Feature({
-            source: this,
-            name: d.feature_name,
-            tags: [d[typeField] !== '' ? d[typeField] : null],
-            // TODO: if there is more than one alias, how is it encoded? comma separated?
-            aliases: d.feature_aliases !== '' ? [d.feature_aliases] : [],
-            coordinates: {start: d.feature_start, stop: d.feature_stop}
-          })
-        );
-        if (d[typeField] !== '' && res[uniqueMapName].tags.indexOf(d[typeField]) === -1) {
-          res[uniqueMapName].tags.push(d[typeField]);
-        }
+          else {
+              if (d.map_stop > res[uniqueMapName].coordinates.stop) {
+                  res[uniqueMapName].coordinates.stop = d.map_stop;
+              }
+          }
+          res[uniqueMapName].features.push(
+            new Feature({
+              source : this,
+              name: d.feature_name,
+              tags: [d[typeField] !== '' ? d[typeField] : null],
+              aliases: d.feature_aliases !== '' ?  d.feature_aliases.split(',') : [],
+              coordinates: { start: d.feature_start, stop: d.feature_stop }
+            })
+          );
+          if(d[typeField] !== '' && res[uniqueMapName].tags.indexOf(d[typeField]) === -1){
+            res[uniqueMapName].tags.push(d[typeField]);
+       }
       });
     } catch (e) {
       console.trace();

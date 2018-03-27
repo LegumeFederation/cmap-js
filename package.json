@@ -11,7 +11,7 @@
     "coverage": "nyc npm test",
     "watch": "rollup -c -w --environment WATCH:yes",
     "validate-config": "ajv -s cmap-schema.json -d cmap.json",
-    "postinstall": "gunzip --keep --quiet --force data/*.gz"
+    "postinstall": "for f in data/*.gz; do gzip -dc $f > `echo $f | sed s/\\.gz//`; done"
   },
   "repository": {
     "type": "git",
