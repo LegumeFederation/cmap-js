@@ -25,6 +25,8 @@ export class UI extends mix().with(RegisterComponentMixin) {
   constructor(appState) {
     super();
     this.appState = appState;
+    this.panLock = false;
+    this.panTarget = null;
   }
 
   /**
@@ -147,15 +149,30 @@ export class UI extends mix().with(RegisterComponentMixin) {
    */
 
   _dispatchGestureEvt(evt) {
-    let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
-    let filtered = hitElements.filter(el => {
-      return (el.mithrilComponent && el.mithrilComponent.handleGesture);
-    });
-    // dispatch event to all the mithril components, until one returns true;
-    // effectively the same as 'stopPropagation' on a normal event bubbling.
-    filtered.some(el => {
-      return el.mithrilComponent.handleGesture(evt);
-    });
+    // dispatch events normally if pan hasn't started
+    if (!this.panLock) {
+      if(evt.type === 'panstart'){
+        this.panLock = true;
+      }
+      let hitElements = document.elementsFromPoint(evt.center.x, evt.center.y);
+      let filtered = hitElements.filter(el => {
+        return (el.mithrilComponent && el.mithrilComponent.handleGesture);
+      });
+      // dispatch event to all the mithril components, until one returns true;
+      // effectively the same as 'stopPropagation' on a normal event bubbling.
+      filtered.some(el => {
+        if (this.panLock) {
+          this.panTarget = el;
+        }
+        return el.mithrilComponent.handleGesture(evt);
+      });
+    } else { //redirect pan to original target component until end of pan
+      this.panTarget.mithrilComponent.handleGesture(evt);
+      if (evt.type === 'panend') {
+        this.panLock = false;
+      }
+    }
+
   }
 
   /**
