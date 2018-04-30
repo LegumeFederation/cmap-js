@@ -48,12 +48,16 @@ export class HorizontalLayout
       PubSub.subscribe(dataLoaded, handler),
       PubSub.subscribe(mapRemoved, () =>{
         this.bioMapComponents = [];
-        this.bioMapOrder=[];
+        this.bioMapOrder = [];
         this._onDataLoaded();
        // this.bioMapComponents.forEach(component => component.dirty = true);
        // m.redraw();
       }),
-      PubSub.subscribe(mapAdded, handler),
+      PubSub.subscribe(mapAdded, ()=>{
+        this.bioMapComponents = [];
+        this.bioMapOrder = [];
+        this._onDataLoaded();
+      }),
       PubSub.subscribe(reset, () => {
         this._onReset();
       }),
