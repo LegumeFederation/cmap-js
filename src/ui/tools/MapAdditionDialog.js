@@ -38,6 +38,7 @@ export class MapAdditionDialog {
   _onAddRight(evt) {
     const i = this.model.bioMaps.length;
     this.model.addMap(this.selection, i);
+    this.model.initialView.concat(this.selection.config);
     evt.preventDefault();
     this.onDismiss(evt);
   }
@@ -50,6 +51,7 @@ export class MapAdditionDialog {
 
   _onAddLeft(evt) {
     this.model.addMap(this.selection, 0);
+    [this.selection.config].concat(this.model.initialView);
     evt.preventDefault();
     this.onDismiss(evt);
   }
