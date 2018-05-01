@@ -46,8 +46,18 @@ export class HorizontalLayout
       // all of these topics have effectively the same event handler for
       // the purposes of horizontal layout.
       PubSub.subscribe(dataLoaded, handler),
-      PubSub.subscribe(mapRemoved, handler),
-      PubSub.subscribe(mapAdded, handler),
+      PubSub.subscribe(mapRemoved, () =>{
+        this.bioMapComponents = [];
+        this.bioMapOrder = [];
+        this._onDataLoaded();
+       // this.bioMapComponents.forEach(component => component.dirty = true);
+       // m.redraw();
+      }),
+      PubSub.subscribe(mapAdded, ()=>{
+        this.bioMapComponents = [];
+        this.bioMapOrder = [];
+        this._onDataLoaded();
+      }),
       PubSub.subscribe(reset, () => {
         this._onReset();
       }),
@@ -248,7 +258,7 @@ export class HorizontalLayout
         layoutBounds: layoutBounds,
         appState: this.appState,
         bioMapIndex: mapIndex,
-        initialView : this.appState.initialView[mapIndex]
+        initialView : this.appState.initialView[mapIndex] || model.config
       });
       model.component = component; // save a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
