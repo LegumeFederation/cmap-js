@@ -293,7 +293,6 @@ export class HorizontalLayout
     let childHeight = Math.floor(this.bounds.height * 0.95);
     let n = this.bioMapComponents.length;
     this.correspondenceMapComponents = [];
-    console.log("ordering test", this.bioMapOrder, this.bioMapComponents);
     for (let i = 0; i < n - 1; i++) {
       let left = this.bioMapComponents[this.bioMapOrder[i]];
       let right = this.bioMapComponents[this.bioMapOrder[i + 1]];
