@@ -219,7 +219,7 @@ export let _applyButton = {
     return m('button', {
       onclick: function () {
         vnode.attrs.config.filters = vnode.attrs.newData.map(data => {return data.name;});
-        vnode.attrs.model.tracks[vnode.attrs.order] = vnode.attrs.config;
+        vnode.attrs.model.tracks[vnode.attrs.order] = JSON.parse(JSON.stringify(vnode.attrs.config));
         PubSub.publish(featureUpdate, {mapIndex: vnode.attrs.bioMapIndex});
         m.redraw();
         closeModal();
