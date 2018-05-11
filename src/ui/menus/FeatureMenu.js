@@ -218,12 +218,10 @@ export let _applyButton = {
   view: function (vnode) {
     return m('button', {
       onclick: function () {
-        console.log('addfeature prePub',vnode.attrs);
         vnode.attrs.config.filters = vnode.attrs.newData.map(data => {return data.name;});
         vnode.attrs.model.tracks[vnode.attrs.order] = JSON.parse(JSON.stringify(vnode.attrs.config));
         PubSub.publish(featureUpdate, {mapIndex: vnode.attrs.bioMapIndex});
         m.redraw();
-        console.log('addfeature postPub',vnode.attrs);
         closeModal();
       }
     }, 'Apply Selection');
