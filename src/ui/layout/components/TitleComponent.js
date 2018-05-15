@@ -34,6 +34,7 @@ export let TitleComponent = {
 
   onbeforeupdate: function (vnode) {
     vnode.state.bioMaps = vnode.attrs.bioMaps;
+    vnode.state.domOrder = vnode.state.titleOrder.indexOf(vnode.state.order);
     if (this.titleOrder[this.domOrder] !== this.order) {
       this.domOrder = this.titleOrder.indexOf(this.order);
     }

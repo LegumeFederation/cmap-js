@@ -31,7 +31,7 @@ export class BioMapComponent {
 
   onupdate(vnode) {
     //redraw biomap if dirty (drawing has changed, instead of just changing position)
-    if (vnode.state.bioMap.dirty === true) {
+    if (vnode.state.bioMap && vnode.state.bioMap.dirty === true) {
       vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
       vnode.state.bioMap.draw();
     }
@@ -39,6 +39,13 @@ export class BioMapComponent {
 
   view(vnode) {
     // store these bounds, for checking in drawLazily()
+    if(vnode.state.bioMap && vnode.state.bioMap.model !== vnode.attrs.bioMap.model){
+      vnode.attrs.bioMap.canvas = vnode.state.bioMap.canvas;
+      vnode.state.bioMap = vnode.attrs.bioMap;
+      vnode.state.domBounds = vnode.state.bioMap.domBounds;
+      vnode.state.context2d = vnode.state.bioMap.context2d = vnode.state.canvas.getContext('2d');
+      vnode.state.context2d.imageSmoothingEnabled = false;
+    }
     let domBounds = vnode.state.domBounds || null;
     if (domBounds && !domBounds.isEmptyArea) {
       this.lastDrawnMithrilBounds = domBounds;

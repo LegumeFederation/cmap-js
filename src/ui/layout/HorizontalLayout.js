@@ -46,8 +46,18 @@ export class HorizontalLayout
       // all of these topics have effectively the same event handler for
       // the purposes of horizontal layout.
       PubSub.subscribe(dataLoaded, handler),
-      PubSub.subscribe(mapRemoved, handler),
-      PubSub.subscribe(mapAdded, handler),
+      PubSub.subscribe(mapRemoved, () =>{
+        this.bioMapComponents = [];
+        this.bioMapOrder = [];
+        this._onDataLoaded();
+       // this.bioMapComponents.forEach(component => component.dirty = true);
+       // m.redraw();
+      }),
+      PubSub.subscribe(mapAdded, ()=>{
+        this.bioMapComponents = [];
+        this.bioMapOrder = [];
+        this._onDataLoaded();
+      }),
       PubSub.subscribe(reset, () => {
         this._onReset();
       }),
@@ -248,7 +258,7 @@ export class HorizontalLayout
         layoutBounds: layoutBounds,
         appState: this.appState,
         bioMapIndex: mapIndex,
-        initialView : this.appState.initialView[mapIndex]
+        initialView : this.appState.initialView[mapIndex] || model.config
       });
       model.component = component; // save a reference for mapping model -> component
       cursor += component.domBounds.width + padding;
@@ -284,8 +294,8 @@ export class HorizontalLayout
     let n = this.bioMapComponents.length;
     this.correspondenceMapComponents = [];
     for (let i = 0; i < n - 1; i++) {
-      let left = this.bioMapComponents[i];
-      let right = this.bioMapComponents[i + 1];
+      let left = this.bioMapComponents[this.bioMapOrder[i]];
+      let right = this.bioMapComponents[this.bioMapOrder[i + 1]];
       let layoutBounds = new Bounds({
         left: Math.floor(left.domBounds.left + left.backbone.globalBounds.right),
         right: Math.floor(right.domBounds.left + right.backbone.globalBounds.left),
