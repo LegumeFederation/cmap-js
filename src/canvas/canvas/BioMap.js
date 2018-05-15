@@ -535,7 +535,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       qtlRight.bounds.left += qtlLeft.globalBounds.right;
       qtlRight.bounds.right = qtlRight.bounds.left + qrw;
     }
-
+    this.domBounds.width = width;
     if (this.domBounds.width < qtlRight.globalBounds.right + 30) {
       this.domBounds.width = qtlRight.globalBounds.right + 50;
     }
