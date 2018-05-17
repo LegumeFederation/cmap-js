@@ -106,12 +106,12 @@ export class LayoutContainer extends mix().with(RegisterComponentMixin) {
     if (evt.type.match(this._gestureRegex.pan)) {
       return this._onPan(evt);
     }
-    else if (evt.type.match(this._gestureRegex.pinch)) {
-      return this._onZoom(evt);
-    }
-    else if (evt.type.match(this._gestureRegex.wheel)) {
-      return this._onZoom(evt);
-    }
+    //else if (evt.type.match(this._gestureRegex.pinch)) {
+    //  return this._onZoom(evt);
+    //}
+    //else if (evt.type.match(this._gestureRegex.wheel)) {
+    //  return this._onZoom(evt);
+    //}
     return false; // do not stop event propagation
   }
 
