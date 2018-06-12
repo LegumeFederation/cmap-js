@@ -39,6 +39,7 @@ export class CMAP {
       Promise.all(promises).then(() => {
         if (viewOverride.view.length){
           let overrideInitialView = [];
+          if( typeof viewOverride.view === 'string'){ viewOverride.view = [viewOverride.view];}
           viewOverride.view.forEach( (view) =>{
             const filter = this.appState.allMaps.filter( map => map.name == view);
             if(filter.length){
