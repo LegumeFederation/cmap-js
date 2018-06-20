@@ -34,13 +34,17 @@ export class QTL extends SceneGraphNodeBase {
 
     this.width = initialConfig.width || config.width;
     this.trackSpacing = initialConfig.internalPadding || config.internalPadding;
-    this.labelColor = initialConfig.labelColor || config.labelColor;
-    this.labelSize = initialConfig.labelSize || config.labelSize;
-    this.labelFace = initialConfig.labelFace || config.labelFace;
-    this.offset = this.trackSpacing + this.labelSize;
+    this.offset = this.trackSpacing;
     this.invert = this.view.invert;
     this.start = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
     this.stop = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
+
+    if(initialConfig.labelPosition !== 'none') {
+      this.labelColor = initialConfig.labelColor || config.labelColor;
+      this.labelSize = initialConfig.labelSize || config.labelSize;
+      this.labelFace = initialConfig.labelFace || config.labelFace;
+      if(initialConfig.labelPosition === 'feature') this.offset += this.labelSize;
+    }
 
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
@@ -108,11 +112,7 @@ export class QTL extends SceneGraphNodeBase {
     });
     let gb = this.globalBounds || {};
     let qtlHeight = gb.height > 1 ? gb.height : 1;
-    let fontSize = this.labelSize;
-    let fontStyle = this.labelFace;
-    ctx.font = `${fontSize}px ${fontStyle}`;
     ctx.fillStyle = this.fill;
-    // noinspection JSSuspiciousNameCombination
     // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
@@ -120,22 +120,6 @@ export class QTL extends SceneGraphNodeBase {
       Math.floor(this.width),
       Math.floor(qtlHeight)
     );
-    let textWidth = ctx.measureText(this.model.name).width + (ctx.measureText('M').width * 6);
-    let textStop = this.stop - (translateScale(textWidth / this.pixelScaleFactor, this.view.base, this.view.visible) + this.view.base.start);
-    let overlap = this.parent.locMap.search({
-      minY: textStop > this.view.visible.start ? textStop : this.view.visible.start,
-      maxY: this.stop,
-      minX: gb.left,
-      maxX: gb.right
-    });
-    if (overlap.length <= 1 || textWidth <= gb.height) {
-      ctx.save();
-      ctx.translate(gb.left, gb.top);
-      ctx.fillStyle = this.labelColor;
-      ctx.rotate(-Math.PI / 2);
-      ctx.fillText(this.model.name, -gb.height, this.width + fontSize + 1);
-      ctx.restore();
-    }
 
     // Draw any children
     this.children.forEach(child => child.draw(ctx));
