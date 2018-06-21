@@ -285,6 +285,7 @@ The default configuration object is:
     'labelSize': 12,
     'labelFace': 'Nunito',
     'labelColor': 'black',
+    'labelPosition': 'feature',
     'trackMinWidth' : 50,
     'internalPadding': 5,
     'position' : 1,
@@ -305,6 +306,7 @@ Options are defined as:
 | labelFace | Font to use for labels |
 | labelColor | color of label |
 | labelSize | fontsize of label |
+| labelPosition | where to draw the label ['none' or 'feature'] |
 | padding | left/right spacing of whole track |
 | innerLineWeight | weight of the inner ruler line |
 | innerLineColor | color of the inner ruler line |
