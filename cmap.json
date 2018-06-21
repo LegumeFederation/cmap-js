@@ -14,14 +14,16 @@
             "QTL_seed",
             "QTL_other-seed"
           ],
-          "fillColor": ["yellow"]
+          "fillColor": ["yellow"],
+          "labelPosition": "feature"
         },{
           "type": "qtl",
           "filters": [
             "QTL_seed",
             "QTL_root"
           ],
-          "fillColor": ["green","red"]
+          "fillColor": ["green","red"],
+          "labelPosition": "feature"
         }
       ]
   },{

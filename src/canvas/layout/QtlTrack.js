@@ -40,7 +40,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
     }
 
    qtlConf.filters.forEach( (filter,order) => {
-      var test = this.parent.model.features.filter( model => {
+      let test = this.parent.model.features.filter( model => {
         return model.tags[0].match(filter) !== null;
       });
       if(test.length === 0){
@@ -101,7 +101,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
    //
    // return visible;
     return this.locMap.all();
-    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
+   // return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
