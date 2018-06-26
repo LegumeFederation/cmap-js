@@ -108,10 +108,9 @@ export let TitleComponent = {
     //let selRightEdge = selLeftEdge + this.bioMaps[this.order].domBounds.width;
     const leftMap = this.domOrder > 0 ? this.titleOrder[this.domOrder - 1] : null;
     const rightMap = this.titleOrder[this.domOrder + 1] > -1 ? this.titleOrder[this.domOrder + 1] : null;
-    const leftSwapBound = leftMap ? this.leftBound - this.bioMaps[leftMap].domBounds.width : null;
-    const rightSwapBound = rightMap ? this.leftBound + this.bioMaps[rightMap].domBounds.width : null;
-
-    if (leftMap && selLeftEdge < leftSwapBound) { // Swap Left
+    const leftSwapBound = leftMap !== null ? this.leftBound - this.bioMaps[leftMap].domBounds.width : null;
+    const rightSwapBound = rightMap !== null ? this.leftBound + this.bioMaps[rightMap].domBounds.width : null;
+    if ((leftMap !== null) && selLeftEdge < leftSwapBound) { // Swap Left
       this.leftBound -= this.bioMaps[leftMap].domBounds.width;
       this.rightBound -= this.bioMaps[leftMap].domBounds.width;
 
@@ -119,7 +118,7 @@ export let TitleComponent = {
       this.titleOrder[this.domOrder - 1] = this.order;
       this.domOrder = this.titleOrder[this.domOrder];
 
-    } else if (rightMap && selLeftEdge > rightSwapBound) { // Swap Right
+    } else if ((rightMap !== null) && selLeftEdge > rightSwapBound) { // Swap Right
       this.leftBound += this.bioMaps[rightMap].domBounds.width;
       this.rightBound += this.bioMaps[rightMap].domBounds.width;
 
@@ -127,7 +126,7 @@ export let TitleComponent = {
       this.titleOrder[this.domOrder + 1] = this.order;
       this.domOrder = this.titleOrder[this.domOrder];
 
-    } else if (!(!leftMap && selLeftEdge <= 0) && !(!rightMap && selLeftEdge > this.leftBound)) { //Move current map and its left/right partner
+    } else if (!(!leftMap && selLeftEdge <= 0) && !(!rightMap && selLeftEdge >= this.leftBound)) { //Move current map and its left/right partner
 
       let movedMap = rightMap;
 

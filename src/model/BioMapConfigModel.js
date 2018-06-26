@@ -68,6 +68,7 @@ export const defaultConfig = {
     'lineColor' : 'black',
     'labelFace' : 'Nunito',
     'labelSize' : 12,
+    'labelPosition' : 'column',
     'labelColor' : 'black'
   },
 
@@ -78,6 +79,7 @@ export const defaultConfig = {
     'lineColor':'black',
     'labelFace' : 'Nunito',
     'labelSize' : 10,
+    'labelPosition' : 'none',
     'labelColor' : 'black',
     'displayWidth' : 50,
     'featureLineWeight' : 3,
@@ -95,6 +97,7 @@ export const defaultConfig = {
     'labelSize': 12,
     'labelFace': 'Nunito',
     'labelColor': 'black',
+    'labelPosition': 'feature',
     'trackMinWidth' : 50,
     'internalPadding': 5,
     'position' : 1,

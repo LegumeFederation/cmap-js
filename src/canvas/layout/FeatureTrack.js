@@ -11,6 +11,7 @@ import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {ManhattanPlot} from './ManhattanPlot';
 import {QtlTrack} from './QtlTrack';
+import{LabelTrack} from './LabelTrack';
 
 export class FeatureTrack extends SceneGraphNodeTrack {
 
@@ -42,6 +43,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         newFeatureTrack.model = this.model;
         newFeatureTrack.config = track;
         newFeatureTrack.order = order;
+        newFeatureTrack.trackPos = this.trackPos;
 
         let trackLeft = order === 0 ? 0 : this.children[order-1].bounds.right;
         trackLeft += this.model.config.qtl.padding;
@@ -56,9 +58,12 @@ export class FeatureTrack extends SceneGraphNodeTrack {
 
 
         let featureData = {};
+        this.labels = [];
         if(track.type === 'qtl') {
           newFeatureTrack.title = track.title || this.model.config.qtl.title || track.filters[0];
           featureData = new QtlTrack({parent:newFeatureTrack , config: track});
+          newFeatureTrack.featureData = featureData.children;
+          newFeatureTrack.labels = new LabelTrack({parent:newFeatureTrack, config:track});
         } else if( track.type === 'manhattan') {
           newFeatureTrack.sources = this.parent.appState.sources;
           newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
@@ -73,6 +78,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
           this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
         }
+
 
         this.addChild(newFeatureTrack);
       });
@@ -90,6 +96,9 @@ export class FeatureTrack extends SceneGraphNodeTrack {
     let visible = [];
     this.children.forEach(child => {
       visible = visible.concat(child.visible);
+      if(child.labels){
+        visible = visible.concat(child.labels.visible);
+      }
     });
     return visible;
     //return visible.concat([{data:this}]); // debugging statement to test track width bounds

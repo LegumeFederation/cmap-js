@@ -86,6 +86,24 @@ Using the white boxes with arrows at the top of a map swaps map position with
 its neighbor. Maps may be added and removed from display using the as labeled
 buttons.
 
+## URL Control
+
+You can override which maps are displayed initally using a query string of the
+form:
+
+```
+cmaproot/?view=view1&view=view2&...
+```
+Having an empty query string, or not providing any views will cause cmap to 
+display the default initial view, otherwise cmap will attempt to match the map 
+by name, and then display matches in order. 
+
+Any name that is duplicated will default to the first match. The displayed view
+will match the configuration for that specific map, not the view defined in the
+initialView section of the configuration.
+
+More robust query string control of the view will be added as development continues. 
+
 ## Known Issues
 
 + Manhattan style plots can **not** be added through the configure/add track menu.
