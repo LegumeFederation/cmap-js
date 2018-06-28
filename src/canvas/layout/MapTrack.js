@@ -59,7 +59,6 @@ export class MapTrack extends SceneGraphNodeTrack {
     // Filter features for drawing, if there is an array of tags to filter, use them, otherwise
     // use length of individual models.
     let filterArr = this.model.config.marker.filter;
-    console.log("FF arr", filterArr);
     if(filterArr.length > 0) {
       this.filteredFeatures = this.model.features.filter(model => {
         return filterArr.some(tag => {
