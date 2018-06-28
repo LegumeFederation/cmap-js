@@ -1,0 +1,54 @@
+{
+  "default":{
+    "ruler" : {
+      "width" : 10,
+      "fillColor" : "aqua"
+    },
+    "backbone":{
+      "width":20
+    },
+    "tracks" :[
+      {
+        "type": "qtl",
+        "title": "yield",
+        "filters": [
+          "QTL_oil",
+          "QTL_other-seed",
+          "QTL_protein",
+          "QTL_yield",
+          "QTL_reprod-period"
+        ],
+
+        "fillColor": ["gold","pink","blue","darkblue", "red"],
+        "labelPosition": "none",
+        "position": 1
+      },{
+        "type": "qtl",
+        "title": "Other",
+        "filters": [
+          "QTL_pod",
+          "QTL_whole-plant"
+        ],
+
+        "fillColor": ["green", "purple"],
+        "labelPosition": "none",
+        "position": 1
+      }
+    ],
+    "marker" : {
+      "color" : "green",
+      "filter" : ["SNP","SSR","Gene","RFLP"]
+    },
+    "qtl" : {
+      "width" : 2,
+      "labelPosition" : "feature",
+      "internalPadding" : 1
+    }
+  },
+  "Pv02":{
+    "backbone":{
+      "width" : 60
+    },
+    "invert":true
+  }
+}

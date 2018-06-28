@@ -1,0 +1,7 @@
+{
+  "default":{
+    "rulerWidth":10,
+    "rulerColor":"red",
+    "backboneWidth":10
+  }
+}

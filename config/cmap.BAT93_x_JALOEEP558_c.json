@@ -1,0 +1,110 @@
+{
+  "#": "cmap-js example configuration file (json format)",
+  "header" : ": Phaseolus vulgaris genetic/physical map comparison",
+  "attribution" : "data attribution: BAT93_x_JALOEEP558_c; Blair et al., 2017",
+  "initialView" : [ {
+    "source" : "pv_genetic",
+    "map" : "PvLG01"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv01"
+  }, {
+    "source" : "pv_genetic",
+    "map" : "PvLG02"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv02"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG03"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv03"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG04"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv04"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG05"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv05"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG06"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv06"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG07"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv07"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG08"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv08"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG09"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv09"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG10"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv10"
+  },{
+    "source" : "pv_genetic",
+    "map" : "PvLG11"
+  }, {
+    "source" : "pv_physical",
+    "map" : "Pv11"
+  }
+  ],
+  "sources" : [ {
+    "id" : "pv_genetic",
+    "method": "GET",
+    "url": "data/phavu.mixed.map1.blair.7PMp.genetic.cmap",
+    "#url": "/cmap/download_data?format=tab&map_set_acc=BAT93_x_JALOEEP558_c&download=1",
+    "filters" : [],
+    "config": {
+      "url" : "config/genetic_physical.json",
+      "method":"GET",
+      "data":{}
+    },
+    "linkouts" : [
+      {
+        "featuretypePattern" : "SNP",
+        "url" : "/feature/Phaseolus/vulgaris/genetic_marker/${item.id}",
+        "text" : "View marker at LIS"
+      }
+    ]
+  }, {
+    "id" : "pv_physical",
+    "method": "GET",
+    "url": "data/phavu.mixed.map1.blair.7PMp.physical.cmap",
+    "filters" : [],
+    "config": {
+      "url" : "config/genetic_physical.json",
+      "method":"GET",
+      "data":{}
+    },
+    "linkouts" : [
+      {
+        "featuretypePattern" : "SNP",
+        "url" : "/feature/Phaseolus/vulgaris/genetic_marker/${item.id}",
+        "text" : "View marker at LIS"
+      }
+    ]
+  }
+  ]
+}

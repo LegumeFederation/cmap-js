@@ -1,0 +1,59 @@
+{
+  "#": "cmap-js example configuration file (json format)",
+  "header" : ": soybean and common bean genomes and genetic maps",
+  "attribution" : "data attribution: soybase, LIS",
+  "initialView" : [ {
+    "source" : "gm_GWAS",
+    "map" : "A1"
+  },{
+    "source" : "gm_composite",
+    "map" : "A1"
+  }
+  ],
+  "sources" : [ {
+    "id" : "gm_GWAS",
+    "method": "GET",
+    "url": "data/Soybean-GmGWASdl.cmap",
+    "filters" : [],
+    "config": {
+      "method" : "GET",
+      "url" : "config/gm_gwas.json",
+      "data" : {}
+    },
+    "linkouts" : [
+      {
+        "featuretype" : "gene",
+        "url" : "https://legumeinfo.org/gene_links/${item.id}/json",
+        "isLinkingService" : true
+      }
+    ]
+  }, {
+    "id" : "gm_composite",
+    "method": "GET",
+    "url" : "data/Soybean-GmComposite2003dl.cmap",
+    "filters" : [],
+    "config": {
+      "method" : "GET",
+      "url" : "config/gm_comp.json",
+      "data" : {}
+    },
+    "linkouts" : [
+      {
+        "featuretypePattern" : "QTL",
+        "url" : "https://soybase.org/sbt/search/search_results.php?category=QTLName&search_term=${item.id}",
+        "text" : "View QTL info at SoyBase"
+      },
+      {
+        "featuretype" : "SNP",
+        "url" : "https://soybase.org/sbt/search/search_results.php?category=SNP&search_term=${item.id}",
+        "text" : "View SNP info at SoyBase"
+      },
+      {
+        "featuretypePattern" : "^(SSR|[AR]FLP|Gene|PCR)$",
+        "url" : "https://soybase.org/sbt/search/search_results.php?category=LocusName&search_term=${item.id}",
+        "text" : "View Marker info at SoyBase"
+      }
+    ]
+  }
+  ]
+}

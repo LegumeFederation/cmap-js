@@ -475,7 +475,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       width: width > 300 ? width : 300,
       height: this.lb.height
     });
-
+    if (!this.model.tracks) this.model.tracks = this.model.config.tracks || null;
     this.bounds = this.bounds || new Bounds({
       left: 0,
       top: this.lb.top + 40,
