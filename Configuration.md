@@ -258,7 +258,8 @@ The default configuration object is:
     'lineColor' : 'black',
     'labelFace' : 'Nunito',
     'labelSize' : 12,
-    'labelColor' : 'black'
+    'labelColor' : 'black',
+    'filter' : []
   },
 
   'manhattan' :{
@@ -322,3 +323,9 @@ Options are defined as:
 | position | display on right (1) or left (-1 ) of backbone|
 | internalPadding | spacing between elements within track |
 | invert | flip upper and lower values of track for display |
+| filter | array of strings to match tags |
+
+`marker:filter` If no strings are passed, defaults to any feature that
+has a length of < .00001.
+This does occasionally populate map backbones
+with unwanted markers.
