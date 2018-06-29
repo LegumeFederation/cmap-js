@@ -37,6 +37,8 @@ export class CMAP {
 
       let promises = this.appState.load(config);
       Promise.all(promises).then(() => {
+        this.appState.status = '';
+        this.appState.busy = false;
         if (viewOverride.view.length){
           let overrideInitialView = [];
           if( typeof viewOverride.view === 'string'){ viewOverride.view = [viewOverride.view];}
@@ -48,8 +50,6 @@ export class CMAP {
           });
           this.appState.bioMaps = overrideInitialView;
         }
-        this.appState.status = '';
-        this.appState.busy = false;
       });
     }).catch(err => {
       // TODO: make a nice mithril component to display errors in the UI
