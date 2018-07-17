@@ -9,14 +9,13 @@ import {Bounds} from '../../model/Bounds';
 
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {ManhattanPlot} from './ManhattanPlot';
-import {QtlTrack} from './QtlTrack';
-import{LabelTrack} from './LabelTrack';
+
+import * as trackSelector from './TrackSelector';
 
 export class FeatureTrack extends SceneGraphNodeTrack {
 
   /**
-   * Constructor - sets up a track that's a group of QTL rectangles
+   * Constructor - sets up a track that's a collection of data display tracks
    * @param params
    */
 
@@ -35,7 +34,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     if(this.parent.model.tracks) {
-      let tracks = this.trackPos === 1 ? this.parent.tracksLeft : this.parent.tracksRight;
+      let tracks = this.trackPos >= 1 ? this.parent.tracksLeft : this.parent.tracksRight;
       tracks.forEach((track, order) => {
         // newFeatureTrack is a group with two components, the feature data track, and the feature label track
         //track.appState = this.parent.appState;
@@ -59,28 +58,41 @@ export class FeatureTrack extends SceneGraphNodeTrack {
 
         let featureData = {};
         this.labels = [];
-        if(track.type === 'qtl') {
-          newFeatureTrack.title = track.title || this.model.config.qtl.title || track.filters[0];
-          featureData = new QtlTrack({parent:newFeatureTrack , config: track});
-          newFeatureTrack.featureData = featureData.children;
-          newFeatureTrack.labels = new LabelTrack({parent:newFeatureTrack, config:track});
-        } else if( track.type === 'manhattan') {
-          newFeatureTrack.sources = this.parent.appState.sources;
-          newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
-          featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
-        }
+        //Load feature tracks and labels
+        //TODO: Add track adaptor class to prevent this type of mess
+        //if(track.type === 'qtl') {
+        //  newFeatureTrack.title = track.title || this.model.config.qtl.title || track.filters[0];
+        //  featureData = new QtlTrack({parent:this , config: track});
+        //  newFeatureTrack.featureData = featureData.children;
+        //  //newFeatureTrack.labels = new LabelTrack({parent:newFeatureTrack, config:track});
+        //} else if( track.type === 'manhattan') {
+        //  newFeatureTrack.sources = this.parent.appState.sources;
+        //  newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
+        //  featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
+        //}
 
+        newFeatureTrack.sources = this.parent.appState.sources;
+        newFeatureTrack.title = track.title || this.model.config[track.type].title || track.type;
+        featureData = trackSelector[track.type]({parent:newFeatureTrack, config: track});
         newFeatureTrack.addChild(featureData);
+
+        //Shift newFeature track bounds for wide feature glyphs
         if(featureData.globalBounds.right > newFeatureTrack.globalBounds.right){
           newFeatureTrack.bounds.right += featureData.bounds.right;
         }
+        //Shift newFeature track bounds for wide labels
+        if(newFeatureTrack.labels && newFeatureTrack.labels.globalBounds.right > newFeatureTrack.globalBounds.right){
+          newFeatureTrack.bounds.right = newFeatureTrack.bounds.right + newFeatureTrack.labels.bounds.right;
+        }
 
+        //shift this tracks's bounds so it still fits in the canvas
         if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
           this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
         }
 
-
         this.addChild(newFeatureTrack);
+
+
       });
     } else {
       this.parent.model.tracks = [];
@@ -101,7 +113,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       }
     });
     return visible;
-    //return visible.concat([{data:this}]); // debugging statement to test track width bounds
+    // return visible.concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
@@ -124,14 +136,14 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         Math.floor(cb.height)
       );
     });
-    //ctx.fillStyle = 'red';
-    //let cb = this.globalBounds;
-    //ctx.fillRect(
-    //  Math.floor(cb.left),
-    //  Math.floor(cb.top),
-    //  Math.floor(cb.width),
-    //  Math.floor(cb.height)
-    //);
+    ctx.fillStyle = 'red';
+    let cb = this.globalBounds;
+    ctx.fillRect(
+      Math.floor(cb.left),
+      Math.floor(cb.top),
+      Math.floor(cb.width),
+      Math.floor(cb.height)
+    );
     ctx.restore();
   }
 
@@ -142,7 +154,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
 
   get hitMap() {
     //return [];
-   // console.log('hits child',child);
+    // console.log('hits child',child);
     let hits = [];
     this.children.forEach(child => {
       return child.children.map(qtlGroup => {
