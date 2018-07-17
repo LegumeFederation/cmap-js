@@ -5,8 +5,10 @@
  * @extends SceneGraphNodeTrack
  */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
+import {LabelTrack} from './LabelTrack';
 import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
+
 
 export class QtlTrack extends SceneGraphNodeTrack {
 
@@ -56,7 +58,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
 
 
     this.maxLoc = 0;
-    this.qtlMarks = this.filteredFeatures.map( model => {
+    this.featureData = this.filteredFeatures.map( model => {
       let fm = new QTL ({
         featureModel: model,
         parent: this,
@@ -64,7 +66,6 @@ export class QtlTrack extends SceneGraphNodeTrack {
         initialConfig: qtlConf,
         config: this.parent.model.config.qtl
       });
-
       this.addChild(fm);
 
       let loc = {
@@ -85,6 +86,10 @@ export class QtlTrack extends SceneGraphNodeTrack {
 
       return fm;
     });
+
+    this.model= this.parent.model;
+    this.parent.labels = new LabelTrack({parent:this, config:params.config});
+
     this.locMap.clear();
     this.locMap.load(fmData);
   }
