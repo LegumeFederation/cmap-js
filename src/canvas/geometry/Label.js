@@ -22,6 +22,7 @@ export class Label extends SceneGraphNodeBase {
   constructor({parent, bioMap, featureModel,config}) {
     super({parent, tags: [featureModel.name]});
     this.config = config;
+    this.labelPos = config.labelPos || config.position;
     this.fm = featureModel;
     this.model = featureModel.model;
     this.view = bioMap.view;
@@ -29,11 +30,16 @@ export class Label extends SceneGraphNodeBase {
     this.invert = bioMap.view.invert;
     this.stop = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
     let y1 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
-    this.show = false;
+    this.show = true;
+    let padding = 2;
+    let width = config.labelSize + padding ;
+    this.offset = this.labelPos >= 0 ? 0 : padding;
+    let left = this.labelPos >= 0 ? this.fm.bounds.right  : this.fm.bounds.left-width;
+
     this.bounds = new Bounds({
       top: y1,
-      left: this.fm.bounds.left,
-      width: this.config.labelSize,
+      left: left,
+      width: width,
       height: -this.config.labelSize * this.model.name.length/2,
       allowSubpixel: false
     });
@@ -48,23 +54,16 @@ export class Label extends SceneGraphNodeBase {
     let config = this.config;
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
     let y1 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
-    let width = config.labelSize ;
-    let left = this.parent.trackPos > 0 ? this.fm.bounds.right : this.fm.bounds.left-width;
-    this.bounds = new Bounds({
-        top: y1,
-        left: left,
-        width: width,
-        height: -ctx.measureText(this.model.name).width,
-        allowSubpixel: false
-    });
+    this.bounds.top = y1;
+    this.bounds.height = -ctx.measureText(this.model.name).width;
     if(!this.show) return;
     let gb = this.globalBounds || {};
     ctx.save();
-    ctx.translate(gb.left, gb.top);
+    ctx.translate(gb.right, gb.top);
     ctx.textAlign = 'left';
     ctx.fillStyle = config.labelColor;
     ctx.rotate(-Math.PI / 2);
-    ctx.fillText(this.model.name, 0, config.labelSize-2);
+    ctx.fillText(this.model.name, 0, -this.offset); // config.labelSize-2);
     ctx.restore();
     // reset bounding box to fit the new stroke location/width
      }

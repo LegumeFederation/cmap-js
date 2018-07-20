@@ -38,7 +38,7 @@ export class BlockLabel extends SceneGraphNodeBase {
       top:  y1 ,
       left: 0,
       width: width,
-      height: -this.config.labelSize * this.model.name.length/2,
+      height: this.config.labelSize,
       allowSubpixel: false
     });
   }
@@ -56,7 +56,7 @@ export class BlockLabel extends SceneGraphNodeBase {
     const width = this.bounds.width;
     this.bounds = new Bounds({
         top: y1-height,
-        left: 0,
+        left:  this.parent.trackMaxWidth - width,
         width: width,
         height : height ,
         allowSubpixel: false

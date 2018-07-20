@@ -76,19 +76,31 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         featureData = trackSelector[track.type]({parent:newFeatureTrack, config: track});
         newFeatureTrack.addChild(featureData);
 
-        //Shift newFeature track bounds for wide feature glyphs
-        if(featureData.globalBounds.right > newFeatureTrack.globalBounds.right){
-          newFeatureTrack.bounds.right += featureData.bounds.right;
-        }
+       //Shift newFeature track bounds for wide feature glyphs
+       // if(featureData.globalBounds.right > newFeatureTrack.globalBounds.right){
+       //   newFeatureTrack.bounds.right += featureData.bounds.right;
+       // }
         //Shift newFeature track bounds for wide labels
-        if(newFeatureTrack.labels && newFeatureTrack.labels.globalBounds.right > newFeatureTrack.globalBounds.right){
-          newFeatureTrack.bounds.right = newFeatureTrack.bounds.right + newFeatureTrack.labels.bounds.right;
-        }
+        //if(newFeatureTrack.labels) console.log("labPost", newFeatureTrack.labels.globalBounds.left, newFeatureTrack.globalBounds.left);
+        //if(newFeatureTrack.labels && newFeatureTrack.labels.globalBounds.right > newFeatureTrack.globalBounds.right) {
+        //  newFeatureTrack.bounds.right = newFeatureTrack.bounds.right + newFeatureTrack.labels.bounds.right;
+        //}
+        //if(newFeatureTrack.labels && newFeatureTrack.labels.globalBounds.left < newFeatureTrack.globalBounds.left){
+
+        //  const offset = (newFeatureTrack.globalBounds.left - newFeatureTrack.labels.globalBounds.left);
+        //  this.bounds.left += offset;
+        //  this.bounds.width += (offset);
+        //  //newFeatureTrack.bounds.left += offset;
+        //  //newFeatureTrack.bounds.right += offset;
+       // }
 
         //shift this tracks's bounds so it still fits in the canvas
         if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
           this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
         }
+        //if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
+        //  this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
+        //}
 
         this.addChild(newFeatureTrack);
 
@@ -113,7 +125,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       }
     });
     return visible;
-    // return visible.concat([{data:this}]); // debugging statement to test track width bounds
+    //return visible.concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
@@ -125,17 +137,17 @@ export class FeatureTrack extends SceneGraphNodeTrack {
     ctx.save();
     ctx.globalAlpha = .5;
     ctx.fillStyle = '#ADD8E6';
-    this.children.forEach(child => {
-      let cb = child.globalBounds;
-      // noinspection JSSuspiciousNameCombination
-      // noinspection JSSuspiciousNameCombination
-      ctx.fillRect(
-        Math.floor(cb.left),
-        Math.floor(cb.top),
-        Math.floor(cb.width),
-        Math.floor(cb.height)
-      );
-    });
+    //this.children.forEach(child => {
+    //  let cb = child.globalBounds;
+    //  // noinspection JSSuspiciousNameCombination
+    //  // noinspection JSSuspiciousNameCombination
+    //  ctx.fillRect(
+    //    Math.floor(cb.left),
+    //    Math.floor(cb.top),
+    //    Math.floor(cb.width),
+    //    Math.floor(cb.height)
+    //  );
+    //});
     ctx.fillStyle = 'red';
     let cb = this.globalBounds;
     ctx.fillRect(

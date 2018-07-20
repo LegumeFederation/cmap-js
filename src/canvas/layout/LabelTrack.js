@@ -16,20 +16,16 @@ export class LabelTrack extends SceneGraphNodeTrack {
    * @param params
    */
 
-  /**
-   * TODO: Allow for subtracks
-   */
-
   constructor(params) {
     super(params);
     this.dirty = true;
     this.trackPos = this.parent.trackPos;
     //don't draw labels if they aren't to be shown
-    let labelPosition = params.config.labelPosition;
-    if (labelPosition === 'none') return;
-    if(labelPosition === 'feature'){
+    let labelStyle = params.config.labelStyle;
+    if (labelStyle === 'none') return;
+    if(labelStyle === 'feature'){
       this.generateFeatureLabels(params);
-    } else if (labelPosition === 'block'){
+    } else if (labelStyle === 'block'){
       this.generateBlockLabels(params);
     }
 
@@ -80,7 +76,7 @@ export class LabelTrack extends SceneGraphNodeTrack {
   draw(ctx) {
     ctx.save();
     ctx.globalAlpha = .5;
-    ctx.fillStyle = '#ADD8E6';
+    ctx.fillStyle = 'green';
 
     let gb = this.globalBounds;
     ctx.fillRect(
@@ -130,10 +126,11 @@ export class LabelTrack extends SceneGraphNodeTrack {
        allowSubpixel: false,
        top: 0,
        left: 0,
-       width: this.parent.model.config.qtl.trackMinWidth,
+       width: this.parent.bounds.width,
        height: b.height
      });
      let fmData = [];
+     this.offset = 0;
 
      this.maxLoc = 0;
      let qtlConf = params.config;
@@ -164,9 +161,16 @@ export class LabelTrack extends SceneGraphNodeTrack {
        };
 
        this.locMap.insert(loc);
-
+       if (fm.bounds.left < this.bounds.left && fm.bounds.left < this.offset) {
+         this.offset = -(fm.bounds.left);
+       }
+       if(fm.bounds.right > this.bounds.right && fm.bounds.right > this.offset){
+         this.offset = fm.bounds.right - this.bounds.right;
+       }
+       //if (gb.right > this.globalBounds.right) {
+       //  this.bounds.right += gb.right - this.globalBounds.right;
+       //}
         fmData.push(loc);
-
          return fm;
        });
        this.locMap.clear();
@@ -177,12 +181,12 @@ export class LabelTrack extends SceneGraphNodeTrack {
     this.filteredFeatures = [];
     this.trackMaxWidth = 10;
     let b = this.parent.bounds;
-    const startLeft = b.right;
+    const startLeft = b.left;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
       left : startLeft,
-      width: this.trackMaxWidth,
+      right: this.parent.featureGroup.bounds.right,
       height: b.height
     });
     let fmData = [];
@@ -209,9 +213,9 @@ export class LabelTrack extends SceneGraphNodeTrack {
         tempCtx: tempCtx
       });
 
-      if(this.bounds.left+this.trackMaxWidth > this.bounds.right){
-        this.bounds.width = this.trackMaxWidth;
-      }
+      //if(this.bounds.left+this.trackMaxWidth > this.bounds.right){
+      //  this.bounds.width = this.trackMaxWidth;
+      //}
 
       this.addChild(fm);
       let gb = fm.globalBounds;
@@ -224,12 +228,18 @@ export class LabelTrack extends SceneGraphNodeTrack {
       };
 
       this.locMap.insert(loc);
-
       fmData.push(loc);
-
       return fm;
     });
 
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: 0,
+      left: - this.trackMaxWidth,
+      width: this.trackMaxWidth,
+      height: b.height
+    });
+    this.offset = -this.trackMaxWidth;
     this.locMap.clear();
     this.locMap.load(fmData);
   }

@@ -28,7 +28,7 @@ export class BioMapConfigModel {
  * Constant that defines the default configuration of cmap maps
  * when no other configuration information is present.
  *
- * @type {{backbone: {width: number, fillColor: string, lineWeight: number, lineColor: string}, ruler: {width: number, padding: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelColor: string, innerLineWeight: number, innerLineColor: string, precision: number, steps: number, side: string}, track: {width: number, padding: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelColor: string, internalPadding: string}, marker: {lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelPosition: string, labelColor: string, filter: Array}, manhattan: {width: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelPosition: string, labelColor: string, displayWidth: number, featureLineWeight: number, featureLineColor: string, rulerWeight: number, rulerColor: string, rulerMajorMark: number, rulerMinorMark: number, type: string}, qtl: {padding: number, width: number, fillColor: string[], labelSize: number, labelFace: string, labelColor: string, labelPosition: string, trackMinWidth: number, internalPadding: number, position: number, type: string}, invert: boolean}}
+ * @type {{backbone: {width: number, fillColor: string, lineWeight: number, lineColor: string}, ruler: {width: number, padding: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelColor: string, innerLineWeight: number, innerLineColor: string, precision: number, steps: number, side: string}, track: {width: number, padding: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelColor: string, internalPadding: string}, marker: {lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelStyle: string, labelColor: string, filter: Array}, manhattan: {width: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelStyle: string, labelColor: string, displayWidth: number, featureLineWeight: number, featureLineColor: string, rulerWeight: number, rulerColor: string, rulerMajorMark: number, rulerMinorMark: number, type: string}, qtl: {padding: number, width: number, fillColor: string[], labelSize: number, labelFace: string, labelColor: string, labelStyle: string, trackMinWidth: number, internalPadding: number, position: number, type: string}, invert: boolean}}
  */
 
 export const defaultConfig = {
@@ -69,7 +69,7 @@ export const defaultConfig = {
     'lineColor' : 'black',
     'labelFace' : 'Nunito',
     'labelSize' : 12,
-    'labelPosition' : 'block',
+    'labelStyle' : 'block',
     'labelColor' : 'black',
     'filter' : []
   },
@@ -81,7 +81,7 @@ export const defaultConfig = {
     'lineColor':'black',
     'labelFace' : 'Nunito',
     'labelSize' : 10,
-    'labelPosition' : 'none',
+    'labelStyle' : 'none',
     'labelColor' : 'black',
     'displayWidth' : 50,
     'featureLineWeight' : 3,
@@ -99,7 +99,7 @@ export const defaultConfig = {
     'labelSize': 12,
     'labelFace': 'Nunito',
     'labelColor': 'black',
-    'labelPosition': 'block',
+    'labelStyle': 'block',
     'trackMinWidth' : 50,
     'internalPadding': 5,
     'position' : 1,
