@@ -17,6 +17,7 @@ export class BlockLabel extends SceneGraphNodeBase {
    * @param bioMap - map data
    * @param featureModel - feature data
    * @param config - base configuration
+   * @param tempCtx - temp canvas to measure display size for offsets
    */
 
   constructor({parent, bioMap, featureModel,config,tempCtx}) {
@@ -28,17 +29,17 @@ export class BlockLabel extends SceneGraphNodeBase {
     this.pixelScaleFactor = this.view.pixelScaleFactor;
     this.invert = bioMap.view.invert;
     this.start = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
+    this.labelPos = config.labelPos || config.position;
     let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.show = false;
     tempCtx.font = `${config.labelSize}px ${config.labelFace}`;
     let width = tempCtx.measureText(this.model.name).width;
-    console.log("width",width,tempCtx);
     if(width > this.parent.trackMaxWidth){this.parent.trackMaxWidth = width;}
     this.bounds = new Bounds({
       top:  y1 ,
+      bottom: y1 - config.labelSize,
       left: 0,
       width: width,
-      height: this.config.labelSize,
       allowSubpixel: false
     });
   }
@@ -55,17 +56,18 @@ export class BlockLabel extends SceneGraphNodeBase {
     let height = config.labelSize ;
     const width = this.bounds.width;
     this.bounds = new Bounds({
-        top: y1-height,
-        left:  this.parent.trackMaxWidth - width,
+        top: y1,
+        bottom: y1-height,
+        left:  this.labelPos > 0 ? 0 : this.parent.trackMaxWidth - width,
         width: width,
-        height : height ,
         allowSubpixel: false
     });
 
     if(!this.show) return;
+
     let gb = this.globalBounds || {};
     ctx.save();
-    ctx.translate(gb.left, gb.bottom);
+    ctx.translate(gb.left, gb.top);
     ctx.textAlign = 'left';
     ctx.fillStyle = config.labelColor;
     ctx.fillText(this.model.name,0, 0);

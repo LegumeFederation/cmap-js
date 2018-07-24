@@ -40,6 +40,7 @@ export class LabelTrack extends SceneGraphNodeTrack {
     this.locMap.clear();
     this.locMap.load(this.hitMap);
     this.children.forEach(child => {
+
       child.show = false;
       let b = child.globalBounds;
       let hits = this.locMap.search({
@@ -48,6 +49,8 @@ export class LabelTrack extends SceneGraphNodeTrack {
         maxX : b.right,
         minX : b.left
       });
+      const ht = hits;
+      const hl = hits.length;
 
       if(hits.length === 1) {
         child.show = true;
@@ -173,6 +176,7 @@ export class LabelTrack extends SceneGraphNodeTrack {
         fmData.push(loc);
          return fm;
        });
+
        this.locMap.clear();
        this.locMap.load(fmData);
   }
@@ -181,7 +185,8 @@ export class LabelTrack extends SceneGraphNodeTrack {
     this.filteredFeatures = [];
     this.trackMaxWidth = 10;
     let b = this.parent.bounds;
-    const startLeft = b.left;
+    let trackpos = params.config.labelPosition || params.config.position;
+    const startLeft = trackpos > 0 ? b.right : b.left;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
@@ -220,10 +225,10 @@ export class LabelTrack extends SceneGraphNodeTrack {
       this.addChild(fm);
       let gb = fm.globalBounds;
       let loc = {
-        minY: gb.top < gb.bottom ? gb.top : gb.bottom,
-        maxY: gb.top > gb.bottom ? gb.top : gb.bottom,
-        minX: gb.left,
-        maxX: gb.right,
+        minY: gb.top,
+        maxY: gb.bottom,
+        minX: this.globalBounds.left,
+        maxX: this.globalBounds.right,
         data:fm
       };
 
@@ -235,11 +240,11 @@ export class LabelTrack extends SceneGraphNodeTrack {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
-      left: - this.trackMaxWidth,
+      left: trackpos > 0 ? b.right : - this.trackMaxWidth,
       width: this.trackMaxWidth,
       height: b.height
     });
-    this.offset = -this.trackMaxWidth;
+    this.offset = trackpos > 0? this.trackMaxWidth : -this.trackMaxWidth;
     this.locMap.clear();
     this.locMap.load(fmData);
   }
