@@ -71,6 +71,7 @@ export const defaultConfig = {
     'labelSize' : 12,
     'labelStyle' : 'block',
     'labelColor' : 'black',
+    'labelPosition': 1,
     'filter' : []
   },
 

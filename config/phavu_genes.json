@@ -9,6 +9,9 @@
     },
     "qtl" : {
       "fillColor" : ["red"]
+    },
+    "marker" : {
+      "labelPosition" : 1
     }
   },
   "Pv02":{

@@ -22,14 +22,14 @@ export class Label extends SceneGraphNodeBase {
   constructor({parent, bioMap, featureModel,config}) {
     super({parent, tags: [featureModel.name]});
     this.config = config;
-    this.labelPos = config.labelPos || config.position;
+    this.labelPos = config.labelPosition || config.position;
     this.fm = featureModel;
     this.model = featureModel.model;
     this.view = bioMap.view;
     this.pixelScaleFactor = this.view.pixelScaleFactor;
     this.invert = bioMap.view.invert;
-    this.stop = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
-    let y1 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
+    this.position = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
+    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.show = true;
     let padding = 2;
     let width = config.labelSize + padding ;
@@ -53,7 +53,7 @@ export class Label extends SceneGraphNodeBase {
   draw(ctx) {
     let config = this.config;
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
-    let y1 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
+    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.bounds.top = y1;
     this.bounds.height = -ctx.measureText(this.model.name).width;
     if(!this.show) return;

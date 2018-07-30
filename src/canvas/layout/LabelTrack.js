@@ -39,34 +39,38 @@ export class LabelTrack extends SceneGraphNodeTrack {
   get visible() {
     this.locMap.clear();
     this.locMap.load(this.hitMap);
-    this.children.forEach(child => {
-
-      child.show = false;
-      let b = child.globalBounds;
-      let hits = this.locMap.search({
-        maxY: b.top > b.bottom ? b.top : b.bottom,
-        minY: b.top < b.bottom ? b.top : b.bottom,
-        maxX : b.right,
-        minX : b.left
-      });
-      const ht = hits;
-      const hl = hits.length;
-
-      if(hits.length === 1) {
-        child.show = true;
-      } else {
-       let visHits =  hits.filter(hit => {
-         return hit.data.show;
+    let view = this.parent.model.view;
+    let startY = view.inverse ? view.visible.stop : view.visible.start;
+    let stopY = view.inverse ? view.visible.start : view.visible.stop;
+    let vis = this.locMap.all().sort((a,b) => {return a.minY-b.minY;}).map(child => {
+      child.data.show = false;
+      if(!(child.data.position > stopY || child.data.position < startY )) {
+        let b = child.data.globalBounds;
+        let hits = this.locMap.search({
+          maxY: b.top > b.bottom ? b.top : b.bottom,
+          minY: b.top < b.bottom ? b.top : b.bottom,
+          maxX: b.right,
+          minX: b.left
         });
-       if(visHits.length === 0){
-         child.show = true;
-       }
+
+        if (hits.length === 1) {
+          child.data.show = true;
+        } else {
+          let visHits = hits.filter(hit => {
+            return hit.data.show;
+          });
+          if (visHits.length === 0) {
+            child.data.show = true;
+          }
+        }
       }
+      return child;
     });
    //
     //return visible;
-    return this.locMap.all();
-    //return this.locMap.all().concat([{data:this}]);
+    return vis;
+    //return this.locMap.all();
+    //return vis.concat([{data:this}]);
     //return [{data:this}];
     //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
@@ -185,8 +189,8 @@ export class LabelTrack extends SceneGraphNodeTrack {
     this.filteredFeatures = [];
     this.trackMaxWidth = 10;
     let b = this.parent.bounds;
-    let trackpos = params.config.labelPosition || params.config.position;
-    const startLeft = trackpos > 0 ? b.right : b.left;
+    let trackpos = params.config.labelPosition || params.config.position || 1;
+    const startLeft = trackpos >= 0 ? b.right : b.left;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,

@@ -25,7 +25,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
     const b = this.parent.bounds;
     this.trackPos = params.position || 1;
 
-    let left = this.trackPos < 0 ? 10 : this.parent.bbGroup.bounds.right;
+    let left = this.trackPos < 0 ? 10 : this.parent.backbone.globalBounds.right;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,

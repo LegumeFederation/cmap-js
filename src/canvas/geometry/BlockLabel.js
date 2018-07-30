@@ -28,18 +28,18 @@ export class BlockLabel extends SceneGraphNodeBase {
     this.view = bioMap.view;
     this.pixelScaleFactor = this.view.pixelScaleFactor;
     this.invert = bioMap.view.invert;
-    this.start = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
-    this.labelPos = config.labelPos || config.position;
-    let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
+    this.position = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
+    this.labelPos = config.labelPosition || config.position;
+    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.show = false;
     tempCtx.font = `${config.labelSize}px ${config.labelFace}`;
-    let width = tempCtx.measureText(this.model.name).width;
-    if(width > this.parent.trackMaxWidth){this.parent.trackMaxWidth = width;}
+    this.width = tempCtx.measureText(this.model.name).width;
+    if(this.width > this.parent.trackMaxWidth){this.parent.trackMaxWidth = this.width;}
     this.bounds = new Bounds({
       top:  y1 ,
       bottom: y1 - config.labelSize,
       left: 0,
-      width: width,
+      width: 0,
       allowSubpixel: false
     });
   }
@@ -52,18 +52,23 @@ export class BlockLabel extends SceneGraphNodeBase {
   draw(ctx) {
     let config = this.config;
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
-    let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
+    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     let height = config.labelSize ;
     const width = this.bounds.width;
-    this.bounds = new Bounds({
+    if(width === 0) {  // only need to do new bounds once as fully replacing takes longer than shifting.
+      this.bounds = new Bounds({
         top: y1,
-        bottom: y1-height,
-        left:  this.labelPos > 0 ? 0 : this.parent.trackMaxWidth - width,
-        width: width,
+        bottom: y1 - height,
+        left: this.labelPos >= 0 ? 0 : this.parent.trackMaxWidth - width,
+        width: this.width,
         allowSubpixel: false
-    });
-
+      });
+    } else {
+      this.bounds.top = y1;
+      this.bounds.bottom = y1-height;
+    }
     if(!this.show) return;
+
 
     let gb = this.globalBounds || {};
     ctx.save();
