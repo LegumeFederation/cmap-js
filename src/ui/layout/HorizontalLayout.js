@@ -17,6 +17,7 @@ import {FeatureMenu} from '../menus/FeatureMenu';
 import {RegisterComponentMixin} from '../RegisterComponentMixin';
 import {TitleComponent} from './components/TitleComponent';
 import {BioMapComponent as BioMapVnode} from './components/BioMapComponent';
+import Query from '../../util/QueryControl';
 
 export class HorizontalLayout
   extends mix(LayoutBase)
@@ -123,6 +124,7 @@ export class HorizontalLayout
     this._layoutCorrespondenceMaps();
     this._layoutPopovers();
     m.redraw();
+    Query.update(this.appState.bioMaps);
   }
 
   /**

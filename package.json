@@ -60,7 +60,7 @@
     "normalize.css": "^6.0.0",
     "papaparse": "^4.2.0",
     "pubsub-js": "^1.5.5",
-    "query-string": "^6.1.0",
+    "qs": "^6.5.2",
     "random-words": "0.0.1",
     "rbush": "^2.0.1",
     "rbush-knn": "^2.0.0",
