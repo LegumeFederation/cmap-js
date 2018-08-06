@@ -59,7 +59,7 @@ export class BlockLabel extends SceneGraphNodeBase {
       this.bounds = new Bounds({
         top: y1,
         bottom: y1 - height,
-        left: this.labelPos >= 0 ? 0 : this.parent.trackMaxWidth - width,
+        left: this.labelPos >= 0 ? 0 :this.parent.trackMaxWidth-this.width,
         width: this.width,
         allowSubpixel: false
       });

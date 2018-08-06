@@ -15,7 +15,8 @@
             "QTL_other-seed"
           ],
           "fillColor": ["yellow"],
-          "labelStyle": "block"
+          "labelStyle": "block",
+          "labelPosition" : -1
         },{
           "type": "qtl",
           "filters": [
