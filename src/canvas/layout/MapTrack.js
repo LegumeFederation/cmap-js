@@ -3,14 +3,14 @@
  * A SceneGraphNode representing a backbone, simply a rectangle representing
  * the background.
  */
-import knn from 'rbush-knn';
 
+import knn from 'rbush-knn';
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
 import {FeatureMark} from '../geometry/FeatureMark';
 import {MapBackbone} from '../geometry/MapBackbone';
-import {FeatureLabel} from '../geometry/FeatureLabel';
+import * as trackSelector from './TrackSelector';
 
 export class MapTrack extends SceneGraphNodeTrack {
 
@@ -47,15 +47,6 @@ export class MapTrack extends SceneGraphNodeTrack {
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
     this.addChild(markerGroup);
-    let labelGroup = new SceneGraphNodeGroup({parent: this});
-    this.addChild(labelGroup);
-    this.labelGroup = labelGroup;
-    labelGroup.bounds = new Bounds({
-      top: 0,
-      left: this.backbone.bounds.right + 1,
-      height: this.bounds.height,
-      width: 0
-    });
     // Filter features for drawing, if there is an array of tags to filter, use them, otherwise
     // use length of individual models.
     let filterArr = this.model.config.marker.filter;
@@ -73,7 +64,6 @@ export class MapTrack extends SceneGraphNodeTrack {
 
     //Place features and their labels, prepare to add to rtree
     let fmData = [];
-    let lmData = [];
     this.featureMarks = this.filteredFeatures.map(model => {
       let fm = new FeatureMark({
         featureModel: model,
@@ -82,14 +72,14 @@ export class MapTrack extends SceneGraphNodeTrack {
         config: this.model.config.marker
       });
 
-      let lm = new FeatureLabel({
-        featureModel: model,
-        parent: this.labelGroup,
-        bioMap: this.parent.model,
-        config: this.model.config.marker
-      });
+    //  let lm = new FeatureLabel({
+    //    featureModel: model,
+    //    parent: this.labelGroup,
+    //    bioMap: this.parent.model,
+    //    config: this.model.config.marker
+    //  });
       markerGroup.addChild(fm);
-      labelGroup.addChild(lm);
+    //  labelGroup.addChild(lm);
       fmData.push({
         minY: model.coordinates.start,
         maxY: model.coordinates.stop,
@@ -97,21 +87,46 @@ export class MapTrack extends SceneGraphNodeTrack {
         maxX: fm.globalBounds.right,
         data: fm
       });
-      lmData.push({
-        minY: model.coordinates.start,
-        maxY: model.coordinates.stop,
-        minX: lm.globalBounds.left,
-        maxX: lm.globalBounds.left + this.labelGroup.bounds.width,
-        data: lm
-      });
-      if (lm.bounds.right > this.labelGroup.bounds.right) this.labelGroup.bounds.right = lm.bounds.right;
-      return fm;
+     // lmData.push({
+     //   minY: model.coordinates.start,
+     //   maxY: model.coordinates.stop,
+     //   minX: lm.globalBounds.left,
+     //   maxX: lm.globalBounds.left + this.labelGroup.bounds.width,
+     //   data: lm
+     // });
+     // if (lm.bounds.right > this.labelGroup.bounds.right) this.labelGroup.bounds.right = lm.bounds.right;
+     // return fm;
     });
 
     // Load group rTrees for markers and labels
     markerGroup.locMap.load(fmData);
-    labelGroup.locMap.load(lmData);
-    // load this rtree with markers (elements that need hit detection)
+    //labelGroup.locMap.load(lmData);
+    this.featureData = markerGroup.children;
+    this.featureGroup = markerGroup;
+    let labelGroup = trackSelector.label({parent: this, config:this.model.config.marker});
+    ////this.addChild(labelGroup);
+    this.labelGroup = labelGroup;
+    if (this.labelGroup) { // chances are the label group is going to break the parent's bounds, so move things as needed.
+      let offset = this.labelGroup.offset || 0;
+      if(offset < 0) {
+        offset = -offset;
+        this.featureGroup.bounds.left += offset;
+        this.labelGroup.bounds.left += offset;
+        this.featureGroup.bounds.right += offset;
+        //this.bounds.left += offset;
+      }
+      //this.featureGroup.bounds.right += offset;
+      this.labelGroup.bounds.right += offset;
+      //this.parent.bounds.right += offset;//(this0.parent.globalBounds.right-featureGroup.globalBounds.right);
+      this.bounds.right += offset;
+    }
+    //labelGroup.bounds = new Bounds({
+    //  top: 0,
+    //  left: this.backbone.bounds.right + 1,
+    //  height: this.bounds.height,
+    //  width: 0
+    //});
+    //// load this rtree with markers (elements that need hit detection)
     this.locMap.load(fmData);
   }
 
@@ -137,24 +152,36 @@ export class MapTrack extends SceneGraphNodeTrack {
       minY: visc.start,
       maxY: visc.stop
     }));
-    let labels = [];
-    let start = visc.start;
-    let stop = visc.stop;
-    let psf = this.labelGroup.children[0].pixelScaleFactor;
-    let step = ((visc.start * (coord.stop * psf - 12) + visc.stop * (12 - coord.start * psf)) / (psf * (coord.stop - coord.start)) - start) - (coord.start * -1);
-    for (let i = start; i < stop; i += step) {
+   //vis = vis.concat([{data:this}]);
+  //  let labels = [];
+  //  let start = visc.start;
+  //  let stop = visc.stop;
+  //  let psf = this.labelGroup.children[0].pixelScaleFactor;
+  //  let step = ((visc.start * (coord.stop * psf - 12) + visc.stop * (12 - coord.start * psf)) / (psf * (coord.stop - coord.start)) - start) - (coord.start * -1);
+  //  for (let i = start; i < stop; i += step) {
 
-      let item = knn(this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left, i, 1)[0];
-      if (labels.length === 0) {
-        labels.push(item);
-        continue;
-      }
-      let last = labels[labels.length - 1];
-      if (item !== last && (item.minY > (last.maxY + step))) {
-        labels.push(item);
-      }
+  //    let item = knn(this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left, i, 1)[0];
+  //    if (labels.length === 0) {
+  //      labels.push(item);
+  //      continue;
+  //    }
+  //    let last = labels[labels.length - 1];
+  //    if (item !== last && (item.minY > (last.maxY + step))) {
+  //      labels.push(item);
+  //    }
+  //  }
+  //  vis = vis.concat(labels);
+  //  return vis;
+    //let visible = [];
+    //this.labelGroup.forEach(child => {
+    //  visible = visible.concat(child.visible);
+    //  if(child.labels){
+    //    visible = visible.concat(child.labels.visible);
+    //  }
+    //});
+    if(this.labelGroup) {
+      return this.labelGroup.visible.concat(vis);
     }
-    vis = vis.concat(labels);
     return vis;
   }
 
@@ -182,6 +209,8 @@ export class MapTrack extends SceneGraphNodeTrack {
 
   draw(ctx) {
     let gb = this.globalBounds || {};
+    ctx.save();
+    ctx.globalAlpha = .5;
     ctx.fillStyle = 'blue';
     // noinspection JSSuspiciousNameCombination
     // noinspection JSSuspiciousNameCombination
@@ -192,15 +221,16 @@ export class MapTrack extends SceneGraphNodeTrack {
       Math.floor(gb.height)
     );
     ctx.fillStyle = 'green';
-    gb = this.labelGroup.globalBounds || {};
-    // noinspection JSSuspiciousNameCombination
-    // noinspection JSSuspiciousNameCombination
-    ctx.fillRect(
-      Math.floor(gb.left),
-      Math.floor(gb.top),
-      Math.floor(gb.width),
-      Math.floor(gb.height)
-    );
+   // gb = this.labelGroup.globalBounds || {};
+   // // noinspection JSSuspiciousNameCombination
+   // // noinspection JSSuspiciousNameCombination
+   // ctx.fillRect(
+   //   Math.floor(gb.left),
+   //   Math.floor(gb.top),
+   //   Math.floor(gb.width),
+   //   Math.floor(gb.height)
+   // );
+    ctx.restore();
   }
 
   loadLabelMap() {

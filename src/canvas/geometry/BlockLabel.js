@@ -9,7 +9,7 @@ import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
 
-export class Label extends SceneGraphNodeBase {
+export class BlockLabel extends SceneGraphNodeBase {
   /**
    * Constructor
    *
@@ -17,30 +17,29 @@ export class Label extends SceneGraphNodeBase {
    * @param bioMap - map data
    * @param featureModel - feature data
    * @param config - base configuration
+   * @param tempCtx - temp canvas to measure display size for offsets
    */
 
-  constructor({parent, bioMap, featureModel,config}) {
+  constructor({parent, bioMap, featureModel,config,tempCtx}) {
     super({parent, tags: [featureModel.name]});
     this.config = config;
-    this.labelPos = config.labelPosition || config.position;
     this.fm = featureModel;
     this.model = featureModel.model;
     this.view = bioMap.view;
     this.pixelScaleFactor = this.view.pixelScaleFactor;
     this.invert = bioMap.view.invert;
-    this.position = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
+    this.position = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
+    this.labelPos = config.labelPosition || config.position;
     let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
-    this.show = true;
-    let padding = 2;
-    let width = config.labelSize + padding ;
-    this.offset = this.labelPos >= 0 ? 0 : padding;
-    let left = this.labelPos >= 0 ? this.fm.bounds.right  : this.fm.bounds.left-width;
-
+    this.show = false;
+    tempCtx.font = `${config.labelSize}px ${config.labelFace}`;
+    this.width = tempCtx.measureText(this.model.name).width;
+    if(this.width > this.parent.trackMaxWidth){this.parent.trackMaxWidth = this.width;}
     this.bounds = new Bounds({
-      top: y1,
-      left: left,
-      width: width,
-      height: -this.config.labelSize * this.model.name.length/2,
+      top:  y1 ,
+      bottom: y1 - config.labelSize,
+      left: 0,
+      width: 0,
       allowSubpixel: false
     });
   }
@@ -54,16 +53,29 @@ export class Label extends SceneGraphNodeBase {
     let config = this.config;
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
     let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
-    this.bounds.top = y1;
-    this.bounds.height = -ctx.measureText(this.model.name).width;
+    let height = config.labelSize ;
+    const width = this.bounds.width;
+    if(width === 0) {  // only need to do new bounds once as fully replacing takes longer than shifting.
+      this.bounds = new Bounds({
+        top: y1,
+        bottom: y1 - height,
+        left: this.labelPos >= 0 ? 0 :this.parent.trackMaxWidth-this.width,
+        width: this.width,
+        allowSubpixel: false
+      });
+    } else {
+      this.bounds.top = y1;
+      this.bounds.bottom = y1-height;
+    }
     if(!this.show) return;
+
+
     let gb = this.globalBounds || {};
     ctx.save();
-    ctx.translate(gb.right, gb.top);
+    ctx.translate(gb.left, gb.top);
     ctx.textAlign = 'left';
     ctx.fillStyle = config.labelColor;
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillText(this.model.name, 0, -this.offset); // config.labelSize-2);
+    ctx.fillText(this.model.name,0, 0);
     ctx.restore();
     // reset bounding box to fit the new stroke location/width
      }

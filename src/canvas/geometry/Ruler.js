@@ -36,10 +36,16 @@ export class Ruler extends SceneGraphNodeBase {
     this.innerColor = config.innerLineColor;
 
     const b = this.parent.backbone.bounds;
+    let leftloc;
+    if (config.side === 'left'){
+      leftloc = b.left - config.width - config.padding - config.lineWeight; //arbitrary spacing to look goo
+    } else {
+      leftloc = b.right + config.width + config.padding + config.lineWeight; //arbitrary spacing to look goo
+    }
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
-      left: b.left - config.width - config.padding - config.lineWeight, //arbitrary spacing to look goo
+      left: leftloc, //arbitrary spacing to look goo
       width: config.width,
       height: b.height
     });
@@ -56,8 +62,12 @@ export class Ruler extends SceneGraphNodeBase {
     let vStop = this.invert ? this.mapCoordinates.visible.start : this.mapCoordinates.visible.stop;
     let start = translateScale(vStart, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
     let stop = translateScale(vStop, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
-    let text = [this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(config.precision)];
-
+    let text;
+    if( config.side === 'left' ) {
+      text =[this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(config.precision)];
+    } else {
+      text = [this.mapCoordinates.visible.start.toFixed(config.precision), this.mapCoordinates.visible.stop.toFixed(config.precision)];
+    }
     this.textWidth = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
 
     let gb = this.globalBounds || {};
@@ -72,8 +82,13 @@ export class Ruler extends SceneGraphNodeBase {
       ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize / 2));
       ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize));
     }
+
     // Draw zoom position labels
-    text = [this.mapCoordinates.visible.start.toFixed(config.precision), this.mapCoordinates.visible.stop.toFixed(config.precision)];
+    if( config.side === 'left' ) {
+      text = [this.mapCoordinates.visible.start.toFixed(config.precision), this.mapCoordinates.visible.stop.toFixed(config.precision)];
+    } else {
+      text =[this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(config.precision)];
+    }
     if (this.invert) {
       ctx.fillText(text[1], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize / 2));
       ctx.fillText(text[0], gb.left + config.width + config.padding, (gb.bottom + config.labelSize));

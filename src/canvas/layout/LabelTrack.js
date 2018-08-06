@@ -7,6 +7,7 @@
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {Bounds} from '../../model/Bounds';
 import {Label} from '../geometry/Label';
+import{BlockLabel} from '../geometry/BlockLabel';
 
 export class LabelTrack extends SceneGraphNodeTrack {
 
@@ -15,70 +16,19 @@ export class LabelTrack extends SceneGraphNodeTrack {
    * @param params
    */
 
-  /**
-   * TODO: Allow for subtracks
-   */
-
   constructor(params) {
     super(params);
     this.dirty = true;
     this.trackPos = this.parent.trackPos;
     //don't draw labels if they aren't to be shown
-    let labelPosition = params.config.labelPosition;
-    if (labelPosition === 'none') return;
-    if(labelPosition === 'feature'){
-      this.filteredFeatures = [];
-      let b = this.parent.bounds;
-      this.bounds = new Bounds({
-        allowSubpixel: false,
-        top: 0,
-        left: 0,
-        width: this.parent.model.config.qtl.trackMinWidth,
-        height: b.height
-      });
-      let fmData = [];
-
-      this.maxLoc = 0;
-      let qtlConf = params.config;
-
-      for( let key in this.parent.model.config.qtl){
-        if(!qtlConf.hasOwnProperty(key)){
-          qtlConf[key] = this.parent.model.config.qtl[key];
-        }
-      }
-
-      this.qtlMarks = this.parent.featureData.map( model => {
-        let fm = new  Label({
-          featureModel: model,
-          parent: this,
-          bioMap: this.parent.model,
-          initialConfig: qtlConf,
-          config: qtlConf
-        });
-
-        this.addChild(fm);
-        let gb = fm.globalBounds;
-        let loc = {
-          minY: gb.top < gb.bottom ? gb.top : gb.bottom,
-          maxY: gb.top > gb.bottom ? gb.top : gb.bottom,
-          minX: gb.left,
-          maxX: gb.right,
-          data:fm
-        };
-
-        this.locMap.insert(loc);
-
-        fmData.push(loc);
-
-//        if(fm.globalBounds.right > this.globalBounds.right){
-//          this.bounds.right = fm.globalBounds.right - this.globalBounds.left;
-//        }
-
-        return fm;
-      });
-      this.locMap.clear();
-      this.locMap.load(fmData);
+    let labelStyle = params.config.labelStyle;
+    if (labelStyle === 'none') return;
+    if(labelStyle === 'feature'){
+      this.generateFeatureLabels(params);
+    } else if (labelStyle === 'block'){
+      this.generateBlockLabels(params);
     }
+
   }
 
   /**
@@ -89,30 +39,38 @@ export class LabelTrack extends SceneGraphNodeTrack {
   get visible() {
     this.locMap.clear();
     this.locMap.load(this.hitMap);
-    this.children.forEach(child => {
-      child.show = false;
-      let b = child.globalBounds;
-      let hits = this.locMap.search({
-        maxY: b.top > b.bottom ? b.top : b.bottom,
-        minY: b.top < b.bottom ? b.top : b.bottom,
-        maxX : b.right,
-        minX : b.left
-      });
-
-      if(hits.length === 1) {
-        child.show = true;
-      } else {
-       let visHits =  hits.filter(hit => {
-         return hit.data.show;
+    let view = this.parent.model.view;
+    let startY = view.inverse ? view.visible.stop : view.visible.start;
+    let stopY = view.inverse ? view.visible.start : view.visible.stop;
+    let vis = this.locMap.all().sort((a,b) => {return a.minY-b.minY;}).map(child => {
+      child.data.show = false;
+      if(!(child.data.position > stopY || child.data.position < startY )) {
+        let b = child.data.globalBounds;
+        let hits = this.locMap.search({
+          maxY: b.top > b.bottom ? b.top : b.bottom,
+          minY: b.top < b.bottom ? b.top : b.bottom,
+          maxX: b.right,
+          minX: b.left
         });
-       if(visHits.length === 0){
-         child.show = true;
-       }
+
+        if (hits.length === 1) {
+          child.data.show = true;
+        } else {
+          let visHits = hits.filter(hit => {
+            return hit.data.show;
+          });
+          if (visHits.length === 0) {
+            child.data.show = true;
+          }
+        }
       }
+      return child;
     });
    //
-   // return visible;
-    return this.locMap.all();
+    //return visible;
+    return vis;
+    //return this.locMap.all();
+    //return vis.concat([{data:this}]);
     //return [{data:this}];
     //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
@@ -125,7 +83,16 @@ export class LabelTrack extends SceneGraphNodeTrack {
   draw(ctx) {
     ctx.save();
     ctx.globalAlpha = .5;
-    ctx.fillStyle = '#ADD8E6';
+    ctx.fillStyle = 'green';
+
+    let gb = this.globalBounds;
+    ctx.fillRect(
+      Math.floor(gb.left),
+      Math.floor(gb.top),
+      Math.floor(gb.width),
+      Math.floor(gb.height)
+    );
+
     this.children.forEach(child => {
       let cb = child.globalBounds;
       // noinspection JSSuspiciousNameCombination
@@ -156,5 +123,133 @@ export class LabelTrack extends SceneGraphNodeTrack {
         data: child
       };
     });
+  }
+
+  generateFeatureLabels(params){
+
+     this.filteredFeatures = [];
+     let b = this.parent.bounds;
+     this.bounds = new Bounds({
+       allowSubpixel: false,
+       top: 0,
+       left: 0,
+       width: this.parent.bounds.width,
+       height: b.height
+     });
+     let fmData = [];
+     this.offset = 0;
+
+     this.maxLoc = 0;
+     let qtlConf = params.config;
+
+     for( let key in this.parent.model.config.qtl){
+       if(!qtlConf.hasOwnProperty(key)){
+         qtlConf[key] = this.parent.model.config.qtl[key];
+       }
+     }
+
+     this.qtlMarks = this.parent.featureData.map( model => {
+       let fm = new  Label({
+         featureModel: model,
+         parent: this,
+         bioMap: this.parent.model,
+         initialConfig: qtlConf,
+         config: qtlConf
+       });
+
+       this.addChild(fm);
+       let gb = fm.globalBounds;
+       let loc = {
+         minY: gb.top < gb.bottom ? gb.top : gb.bottom,
+         maxY: gb.top > gb.bottom ? gb.top : gb.bottom,
+         minX: gb.left,
+         maxX: gb.right,
+         data:fm
+       };
+
+       this.locMap.insert(loc);
+       if (fm.bounds.left < this.bounds.left && fm.bounds.left < this.offset) {
+         this.offset = -(fm.bounds.left);
+       }
+       if(fm.bounds.right > this.bounds.right && fm.bounds.right > this.offset){
+         this.offset = fm.bounds.right - this.bounds.right;
+       }
+       //if (gb.right > this.globalBounds.right) {
+       //  this.bounds.right += gb.right - this.globalBounds.right;
+       //}
+        fmData.push(loc);
+         return fm;
+       });
+
+       this.locMap.clear();
+       this.locMap.load(fmData);
+  }
+
+  generateBlockLabels(params){
+    this.filteredFeatures = [];
+    this.trackMaxWidth = 10;
+    let b = this.parent.bounds;
+    let trackpos = params.config.labelPosition || params.config.position || 1;
+    const startLeft = trackpos >= 0 ? b.right : b.left;
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: 0,
+      left : startLeft,
+      right: this.parent.featureGroup.bounds.right,
+      height: b.height
+    });
+    let fmData = [];
+
+    this.maxLoc = 0;
+    let qtlConf = params.config;
+    // create a temp canvas context to
+    let tempCanvas = document.createElement('canvas');
+    tempCanvas.setAttribute('width',1000);
+    tempCanvas.setAttribute('height',1000);
+    let tempCtx = tempCanvas.getContext('2d');
+    //for( let key in this.parent.model.config.qtl){
+    //  if(!qtlConf.hasOwnProperty(key)){
+    //    qtlConf[key] = this.parent.model.config.qtl[key];
+    //  }
+    //}
+    this.qtlMarks = this.parent.featureData.map( model => {
+      let fm = new  BlockLabel({
+        featureModel: model,
+        parent: this,
+        bioMap: this.parent.model,
+        initialConfig: qtlConf,
+        config: qtlConf,
+        tempCtx: tempCtx
+      });
+
+      //if(this.bounds.left+this.trackMaxWidth > this.bounds.right){
+      //  this.bounds.width = this.trackMaxWidth;
+      //}
+
+      this.addChild(fm);
+      let gb = fm.globalBounds;
+      let loc = {
+        minY: gb.top,
+        maxY: gb.bottom,
+        minX: this.globalBounds.left,
+        maxX: this.globalBounds.right,
+        data:fm
+      };
+
+      this.locMap.insert(loc);
+      fmData.push(loc);
+      return fm;
+    });
+
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: 0,
+      left: trackpos > 0 ? b.right : - this.trackMaxWidth,
+      width: this.trackMaxWidth,
+      height: b.height
+    });
+    this.offset = trackpos > 0? this.trackMaxWidth : -this.trackMaxWidth;
+    this.locMap.clear();
+    this.locMap.load(fmData);
   }
 }
