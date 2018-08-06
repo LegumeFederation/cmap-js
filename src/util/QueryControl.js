@@ -42,11 +42,8 @@ class QueryString {
       currentState.view.push(bioMap.name);
       currentState.mapSet.push(bioMap.source.id);
       if(bioMap.view && bioMap.view.base) {
-        if (bioMap.view.visible.start === bioMap.view.base.start && bioMap.view.visible.stop == bioMap.view.base.stop) {
-          currentState.zoom.push(bioMap.view.invert);
-        } else {
-          currentState.zoom.push([bioMap.view.visible.start, bioMap.view.visible.stop, bioMap.view.invert]);
-        }
+        let zoom = bioMap.view.invert ? `${bioMap.view.visible.stop}..${bioMap.view.visible.start}` : `${bioMap.view.visible.start}..${bioMap.view.visible.stop}`;
+        currentState.zoom.push(zoom);
       }
     });
     let newString = qs.stringify(currentState,{addQueryPrefix:true, encode:false, strictNullHandling:true });
@@ -74,17 +71,21 @@ class QueryString {
     }
     if(this.zoom){
      appState.bioMaps.forEach((map,index) => {
-       let zoomState = this.zoom[index];
+       let zoomState = this.zoom[index].split('..');
+       console.log('zs',zoomState);
        if(!map.view)  map.view = {};
-        if (typeof zoomState === 'string') {
-          map.view.visible = {};
-          map.view.invert = (zoomState == 'true');
+        if ( zoomState[0] < zoomState[1]) {
+          map.view.visible = {
+            start:zoomState[0],
+            stop:zoomState[1]
+          };
+          map.view.invert = false;
         } else {
           map.view.visible = {
-            start :zoomState[0],
-            stop: zoomState[1]
+            start :zoomState[1],
+            stop: zoomState[0]
           };
-          map.view.invert = (zoomState[2] == 'true');
+          map.view.invert = true;
         }
       });
      console.log('iv zoom', appState.bioMaps);
