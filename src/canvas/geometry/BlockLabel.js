@@ -36,8 +36,8 @@ export class BlockLabel extends SceneGraphNodeBase {
     this.width = tempCtx.measureText(this.model.name).width;
     if(this.width > this.parent.trackMaxWidth){this.parent.trackMaxWidth = this.width;}
     this.bounds = new Bounds({
-      top:  y1 ,
-      bottom: y1 - config.labelSize,
+      top:  y1 + (config.labelSize/2) ,
+      bottom: y1 - (config.labelSize/2),
       left: 0,
       width: 0,
       allowSubpixel: false
@@ -57,15 +57,15 @@ export class BlockLabel extends SceneGraphNodeBase {
     const width = this.bounds.width;
     if(width === 0) {  // only need to do new bounds once as fully replacing takes longer than shifting.
       this.bounds = new Bounds({
-        top: y1,
-        bottom: y1 - height,
+        top: y1+(height/2),
+        bottom: y1-(height/2),
         left: this.labelPos >= 0 ? 0 :this.parent.trackMaxWidth-this.width,
         width: this.width,
         allowSubpixel: false
       });
     } else {
-      this.bounds.top = y1;
-      this.bounds.bottom = y1-height;
+      this.bounds.top = y1+(height/2);
+      this.bounds.bottom = y1-(height/2);
     }
     if(!this.show) return;
 
