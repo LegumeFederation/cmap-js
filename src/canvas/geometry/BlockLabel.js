@@ -30,10 +30,11 @@ export class BlockLabel extends SceneGraphNodeBase {
     this.invert = bioMap.view.invert;
     this.position = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
     this.labelPos = config.labelPosition || config.position;
+    this.padding = config.labelPadding || 0;
     let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.show = false;
     tempCtx.font = `${config.labelSize}px ${config.labelFace}`;
-    this.width = tempCtx.measureText(this.model.name).width;
+    this.width = tempCtx.measureText(this.model.name).width + this.padding;
     if(this.width > this.parent.trackMaxWidth){this.parent.trackMaxWidth = this.width;}
     this.bounds = new Bounds({
       top:  y1 + (config.labelSize/2) ,
@@ -59,7 +60,7 @@ export class BlockLabel extends SceneGraphNodeBase {
       this.bounds = new Bounds({
         top: y1+(height/2),
         bottom: y1-(height/2),
-        left: this.labelPos >= 0 ? 0 :this.parent.trackMaxWidth-this.width,
+        left: this.labelPos >= 0 ? this.padding :this.parent.trackMaxWidth-this.width,
         width: this.width,
         allowSubpixel: false
       });

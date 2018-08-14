@@ -37,7 +37,7 @@ export class Ruler extends SceneGraphNodeBase {
 
     const b = this.parent.backbone.bounds;
     let leftloc;
-    if (config.side === 'left'){
+    if (config.position < 0){
       leftloc = b.left - config.width - config.padding - config.lineWeight; //arbitrary spacing to look goo
     } else {
       leftloc = b.right + config.width + config.padding + config.lineWeight; //arbitrary spacing to look goo
