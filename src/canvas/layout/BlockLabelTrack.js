@@ -1,15 +1,14 @@
 /**
- * LabelTrack
+ * BlockLabelTrack
  * A SceneGraphNode representing a collection of labels.
  *
  * @extends SceneGraphNodeTrack
  */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {Bounds} from '../../model/Bounds';
-import {Label} from '../geometry/Label';
 import{BlockLabel} from '../geometry/BlockLabel';
 
-export class LabelTrack extends SceneGraphNodeTrack {
+export class BlockLabelTrack extends SceneGraphNodeTrack {
 
   /**
    * Constructor - sets up a track that's a group labels for other features
@@ -21,14 +20,7 @@ export class LabelTrack extends SceneGraphNodeTrack {
     this.dirty = true;
     this.trackPos = this.parent.trackPos;
     //don't draw labels if they aren't to be shown
-    let labelStyle = params.config.labelStyle;
-    if (labelStyle === 'none') return;
-    if(labelStyle === 'feature'){
-      this.generateFeatureLabels(params);
-    } else if (labelStyle === 'block'){
-      this.generateBlockLabels(params);
-    }
-
+    this.generateBlockLabels(params);
   }
 
   /**
@@ -125,65 +117,6 @@ export class LabelTrack extends SceneGraphNodeTrack {
     });
   }
 
-  generateFeatureLabels(params){
-
-     this.filteredFeatures = [];
-     let b = this.parent.bounds;
-     this.bounds = new Bounds({
-       allowSubpixel: false,
-       top: 0,
-       left: 0,
-       width: this.parent.bounds.width,
-       height: b.height
-     });
-     let fmData = [];
-     this.offset = 0;
-
-     this.maxLoc = 0;
-     let qtlConf = params.config;
-
-     for( let key in this.parent.model.config.qtl){
-       if(!qtlConf.hasOwnProperty(key)){
-         qtlConf[key] = this.parent.model.config.qtl[key];
-       }
-     }
-
-     this.qtlMarks = this.parent.featureData.map( model => {
-       let fm = new  Label({
-         featureModel: model,
-         parent: this,
-         bioMap: this.parent.model,
-         initialConfig: qtlConf,
-         config: qtlConf
-       });
-
-       this.addChild(fm);
-       let gb = fm.globalBounds;
-       let loc = {
-         minY: gb.top < gb.bottom ? gb.top : gb.bottom,
-         maxY: gb.top > gb.bottom ? gb.top : gb.bottom,
-         minX: gb.left,
-         maxX: gb.right,
-         data:fm
-       };
-
-       this.locMap.insert(loc);
-       if (fm.bounds.left < this.bounds.left && fm.bounds.left < this.offset) {
-         this.offset = -(fm.bounds.left);
-       }
-       if(fm.bounds.right > this.bounds.right && fm.bounds.right > this.offset){
-         this.offset = fm.bounds.right - this.bounds.right;
-       }
-       //if (gb.right > this.globalBounds.right) {
-       //  this.bounds.right += gb.right - this.globalBounds.right;
-       //}
-        fmData.push(loc);
-         return fm;
-       });
-
-       this.locMap.clear();
-       this.locMap.load(fmData);
-  }
 
   generateBlockLabels(params){
     this.filteredFeatures = [];

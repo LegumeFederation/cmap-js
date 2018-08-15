@@ -4,7 +4,7 @@
  * the background.
  */
 
-import knn from 'rbush-knn';
+//import knn from 'rbush-knn';
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
@@ -12,6 +12,7 @@ import {Ruler} from '../geometry/Ruler';
 import {FeatureMark} from '../geometry/FeatureMark';
 import {MapBackbone} from '../geometry/MapBackbone';
 import * as trackSelector from './TrackSelector';
+
 
 export class MapTrack extends SceneGraphNodeTrack {
 
@@ -73,7 +74,7 @@ export class MapTrack extends SceneGraphNodeTrack {
         config: this.model.config.marker
       });
 
-    //  let lm = new FeatureLabel({
+    //  let lm = new OldFeatureLabel({
     //    featureModel: model,
     //    parent: this.labelGroup,
     //    bioMap: this.parent.model,
@@ -147,7 +148,7 @@ export class MapTrack extends SceneGraphNodeTrack {
 
   _addLabels(){
     let config = this.model.config;
-    let offsetRuler = this.ruler && ((config.ruler.position<0) === (config.marker.labelPosition<0))
+    let offsetRuler = this.ruler && ((config.ruler.position<0) === (config.marker.labelPosition<0));
     if(offsetRuler){
       config.marker.labelPadding += 2*(config.ruler.padding+ Math.abs(this.ruler.bounds.width));
     }
