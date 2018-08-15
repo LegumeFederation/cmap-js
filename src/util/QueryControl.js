@@ -72,9 +72,10 @@ class QueryString {
     if(this.zoom){
      appState.bioMaps.forEach((map,index) => {
        let zoomState = this.zoom[index].split('..');
-       console.log('zs',zoomState);
+       zoomState[0] = parseInt(zoomState[0]);
+       zoomState[1] = parseInt(zoomState[1]);
        if(!map.view)  map.view = {};
-        if ( zoomState[0] < zoomState[1]) {
+       if ( zoomState[0] < zoomState[1]) {
           map.view.visible = {
             start:zoomState[0],
             stop:zoomState[1]
@@ -82,13 +83,12 @@ class QueryString {
           map.view.invert = false;
         } else {
           map.view.visible = {
-            start :zoomState[1],
+            start : zoomState[1],
             stop: zoomState[0]
           };
           map.view.invert = true;
         }
       });
-     console.log('iv zoom', appState.bioMaps);
     }
     this.update(appState.bioMaps);
     return appState;
