@@ -38,7 +38,14 @@ class QueryString {
   update(appState){
     this._data.pop();
     let currentState = {view:[],mapSet:[],zoom:[]};
-    appState.forEach(bioMap => {
+    if(!appState.bioMapOrder){ //initialize default bioMapOrder
+      appState.bioMapOrder = [];
+      for(let i = 0; i < appState.bioMaps.length; i++){
+        appState.bioMapOrder[i] = i;
+      }
+    }
+    appState.bioMapOrder.forEach(bioMapIndex => {
+      let bioMap = appState.bioMaps[bioMapIndex];
       currentState.view.push(bioMap.name);
       currentState.mapSet.push(bioMap.source.id);
       if(bioMap.view && bioMap.view.base) {
@@ -90,7 +97,7 @@ class QueryString {
         }
       });
     }
-    this.update(appState.bioMaps);
+    this.update(appState);
     return appState;
   }
 }
