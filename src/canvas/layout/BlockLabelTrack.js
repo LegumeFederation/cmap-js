@@ -35,7 +35,10 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
     let startY = view.inverse ? view.visible.stop : view.visible.start;
     let stopY = view.inverse ? view.visible.start : view.visible.stop;
     let vis = this.locMap.all().sort((a,b) => {return a.minY-b.minY;}).map(child => {
-      child.data.show = false;
+      let modelBounds = child.data.model.coordinates;
+      if(modelBounds.start > stopY ||
+        modelBounds.stop < startY) return child;
+
       if(!(child.data.position > stopY || child.data.position < startY )) {
         let b = child.data.globalBounds;
         let hits = this.locMap.search({

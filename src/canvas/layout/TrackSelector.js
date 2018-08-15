@@ -26,5 +26,5 @@ export function label (params){
   } else if (labelStyle === 'block'){
     return new BlockLabelTrack(params);
   }
-  return null;
+  return undefined;
 }

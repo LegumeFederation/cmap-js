@@ -79,5 +79,6 @@ export class BlockLabel extends SceneGraphNodeBase {
     ctx.fillText(this.model.name,0, 0);
     ctx.restore();
     // reset bounding box to fit the new stroke location/width
-     }
+    this.show = false;
+  }
 }

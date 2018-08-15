@@ -67,6 +67,5 @@ export class FeatureLabel extends SceneGraphNodeBase {
     ctx.fillText(this.model.name, 0, -this.offset); // config.labelSize-2);
     ctx.restore();
     this.show = false; // reset show for next draw cycle
-    // reset bounding box to fit the new stroke location/width
-     }
+  }
 }

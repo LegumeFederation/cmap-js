@@ -19,7 +19,6 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
     super(params);
     this.dirty = true;
     this.trackPos = this.parent.trackPos;
-    //don't draw labels if they aren't to be shown
     this.generateFeatureLabels(params);
   }
 
