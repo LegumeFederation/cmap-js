@@ -65,8 +65,7 @@ export class BlockLabel extends SceneGraphNodeBase {
         allowSubpixel: false
       });
     } else {
-      this.bounds.top = y1+(height/2);
-      this.bounds.bottom = y1-(height/2);
+        this.bounds.translate(0, ((y1+height/2)-this.bounds.top));
     }
     if(!this.show) return;
 
