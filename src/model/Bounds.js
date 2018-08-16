@@ -211,13 +211,26 @@ export class Bounds {
    * Translates bounds by x and y
    */
   translate(x,y){
-    if(x !== 0) {
-      this._left += x;
-      this._right += x;
-    }
-    if(y!==0) {
-      this._top += y;
-      this._bottom += y;
+    if (this.allowSubpixel) {
+      if(x !== 0) {
+        this._left += x;
+        this._right += x;
+      }
+      if(y!==0) {
+        this._top += y;
+        this._bottom += y;
+      }
+    } else {
+      if(x !== 0) {
+        x = Math.floor(x);
+        this._left += x;
+        this._right += x;
+      }
+      if(y!==0) {
+        y = Math.floor(y);
+        this._top += y;
+        this._bottom += y;
+      }
     }
   }
 }
