@@ -134,8 +134,9 @@ export class MapTrack extends SceneGraphNodeTrack {
     if(this.labelGroup && ((config.ruler.position<0) === (config.marker.labelPosition<0)) ){
       const width = this.ruler.bounds.width;
       if(config.ruler.position >= 0) {
-        this.ruler.bounds.left = (this.labelGroup.offset + width + config.ruler.padding);
-        this.ruler.bounds.right = this.ruler.bounds.left + width;
+       // this.ruler.bounds.left = (this.labelGroup.offset + width + config.ruler.padding);
+       // this.ruler.bounds.right = this.ruler.bounds.left + width;
+        this.ruler.bounds.translate(this.labelGroup.offset + width + config.ruler.padding - this.ruler.bounds.left , 0);
         this.bounds.right += width + config.ruler.padding;
       } else {
         this.bounds.left +=  (width);
@@ -159,10 +160,12 @@ export class MapTrack extends SceneGraphNodeTrack {
     let offset = this.labelGroup.offset || 0;
     if(offset < 0) {
       offset = -offset;
-      this.featureGroup.bounds.left += offset;
+      this.featureGroup.bounds.translate(offset - this.featureGroup.bounds.left,0);
+      //this.featureGroup.bounds.left += offset;
       this.labelGroup.bounds.left += offset;
-      this.featureGroup.bounds.right += offset;
+      //this.featureGroup.bounds.right += offset;
       if(offsetRuler){
+        this.ruler.bounds.translate(offset - this.ruler.bounds.left,0);
         this.ruler.bounds.left += offset;
         this.ruler.bounds.right += offset;
       }

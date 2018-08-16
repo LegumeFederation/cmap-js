@@ -2,7 +2,8 @@
   "default":{
     "ruler" : {
       "width" : 10,
-      "fillColor" : "aqua"
+      "fillColor" : "aqua",
+      "position" : 1
     },
     "backbone":{
       "width":20
@@ -11,7 +12,7 @@
       "fillColor" : ["red"]
     },
     "marker" : {
-      "labelPosition" : 1
+      "labelPosition" : 2
     }
   },
   "Pv02":{

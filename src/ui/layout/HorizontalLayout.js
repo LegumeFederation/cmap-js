@@ -140,9 +140,10 @@ export class HorizontalLayout
     for (let i = 0; i < bmaps.length; i++) {
       let map = bmaps[sc[i]];
       //const mapC = bmaps[sc[i]].domBounds;
-      const mw = map.domBounds.width;
-      map.domBounds.left = left;
-      map.domBounds.right = left + mw;
+      map.domBounds.translate(left - map.domBounds.left,0);
+     // const mw = map.domBounds.width;
+     // map.domBounds.left = left;
+     // map.domBounds.right = left + mw;
       left = map.domBounds.right;
     }
     this._layoutCorrespondenceMaps();
