@@ -174,7 +174,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
         this.panLock = false;
       }
     }
-    Query.update(this.appState.bioMaps);
+    Query.update(this.appState);
 
   }
 

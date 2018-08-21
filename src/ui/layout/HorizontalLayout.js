@@ -123,8 +123,9 @@ export class HorizontalLayout
     this._layoutFeatureControls();
     this._layoutCorrespondenceMaps();
     this._layoutPopovers();
+    this.appState.bioMapOrder = this.bioMapOrder;
     m.redraw();
-    Query.update(this.appState.bioMaps);
+    Query.update(this.appState);
   }
 
   /**
