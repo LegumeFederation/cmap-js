@@ -106,9 +106,11 @@ export class MapTrack extends SceneGraphNodeTrack {
     this.featureData = markerGroup.children;
     this.featureGroup = markerGroup;
     if(Math.abs(this.model.config.ruler.position) < Math.abs(this.model.config.marker.labelPosition)) {
+      console.log('ruler first', this.model.config.ruler.position, this.model.config.marker.labelPosition);
       this._addRuler();
       this._addLabels();
     } else {
+      console.log('label first', this.model.config.ruler.position, this.model.config.marker.labelPosition);
       this._addLabels();
       this._addRuler();
     }
@@ -165,9 +167,7 @@ export class MapTrack extends SceneGraphNodeTrack {
       this.labelGroup.bounds.left += offset;
       //this.featureGroup.bounds.right += offset;
       if(offsetRuler){
-        this.ruler.bounds.translate(offset - this.ruler.bounds.left,0);
-        this.ruler.bounds.left += offset;
-        this.ruler.bounds.right += offset;
+        this.ruler.bounds.translate(offset,0);
       }
     }
     this.labelGroup.bounds.right += offset;
