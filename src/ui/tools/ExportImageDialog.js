@@ -18,7 +18,7 @@ export class ExportImageDialog {
     DownloadData.new = false;
     DownloadData.setName('');
     DownloadData.file = '';
-    this.selection = null;
+    this.selection = 'png';
   }
 
   /**
@@ -65,10 +65,17 @@ export class ExportImageDialog {
     });
 
     //open rendered image in newWindow
-    let image = tmpCvs.toDataURL('image/png');
-    window.open(image,'cmap.png','title=yes');
+    let dl = document.createElement('a');
+    let image = tmpCvs.toDataURL(`image/${DownloadData.format}`);
+    dl.setAttribute('href',image);
+    let name = DownloadData.newName || DownloadData.loc;
+    dl.setAttribute('download', `${name}.${DownloadData.format}`);
 
+    //window.open(image,'cmap.png','title=yes');
     evt.preventDefault();
+    document.body.appendChild(dl);
+    dl.click();
+    document.body.removeChild(dl);
     this.onDismiss(evt);
   }
 
@@ -79,9 +86,9 @@ export class ExportImageDialog {
    * @private
    */
 
-  _onSelection(evt, map) {
+  _onSelection(evt, format) {
     evt.preventDefault();
-    this.selection = map;
+    this.selection = format;
     DownloadData.setFormat(this.selection);
   }
 
@@ -112,11 +119,29 @@ export class ExportImageDialog {
                 m('label', [
                   m('input[type="radio"]', {
                     name: 'png',
-                    checked: true,
+                    checked: this.selection === 'png',
                     value: 'png',
-                    onchange: (evt) => this._onselection(evt, 'png')
+                    onchange: (evt) => this._onSelection(evt, 'png')
                   }),
                   m('span[class="label-body"]', 'png')
+                ]),
+                m('label', [
+                  m('input[type="radio"]', {
+                    name: 'tiff',
+                    checked: this.selection === 'tiff',
+                    value: 'tiff',
+                    onchange: (evt) => this._onSelection(evt, 'tiff')
+                  }),
+                  m('span[class="label-body"]', 'tiff')
+                ]),
+                m('label', [
+                  m('input[type="radio"]', {
+                    name: 'jpg',
+                    checked: this.selection === 'jpg',
+                    value: 'jpg',
+                    onchange: (evt) => this._onSelection(evt, 'jpg')
+                  }),
+                  m('span[class="label-body"]', 'jpg')
                 ])
               ])
             ])
