@@ -16,7 +16,6 @@ import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
 import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from '../layout/MapTrack';
 import {FeatureTrack} from '../layout/FeatureTrack';
-import {Ruler} from '../geometry/Ruler';
 
 export class BioMap extends SceneGraphNodeCanvas {
 
@@ -512,6 +511,10 @@ export class BioMap extends SceneGraphNodeCanvas {
 
     this.tracksRight =[];
     this.tracksLeft = [];
+    console.log('bm model',this.model);
+    if(!this.model.tracks && this.model.config.tracks){
+      this.model.tracks =this.model.config.tracks;
+    }
     if(this.model.tracks) {
       this.model.tracks.forEach((track,order) => {
         track.tracksIndex = order;

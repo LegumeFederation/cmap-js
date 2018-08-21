@@ -1,0 +1,47 @@
+{
+  "default":{
+    "ruler" : {
+      "width" : 5 ,
+      "fillColor" : "aqua",
+      "position" : 2
+    },
+    "backbone":{
+      "width":10
+    },
+    "qtl" : {
+      "fillColor" : ["red"],
+      "width" : 3,
+      "labelSize" : 10
+    },
+    "marker" : {
+      "labelPosition" : 1,
+      "labelSize" : 10
+    },
+    "tracks" : [{
+      "type" : "qtl",
+      "title" : "group 1",
+      "filters":["QTL_other-seed","QTL_oil","QTL_protein","QTL_reprod-period"],
+      "fillColor": ["pink","goldenrod","lightblue","blue"],
+      "position":1
+    },{
+      "type" : "qtl",
+      "title" : "group 2",
+      "filters":["QTL_nematode","QTL_insect","QTL_fungal","QTL_viral"],
+      "fillColor": ["fuchsia","orange","brown","black"],
+      "position":1
+    },{
+      "type" : "qtl",
+      "title" : "group 3",
+      "filters":["QTL_pod","QTL_leaf-stem","QTL_whole-plant","QTL_root"],
+      "fillColor": ["lightgreen","darkgreen","purple","mediumorchid"],
+      "position":1
+    },{
+      "type" : "qtl",
+      "title" : "group 4",
+      "filters":["QTL_misc"],
+      "fillColor": ["plum"],
+      "position":1
+    }
+    ]
+  }
+}

@@ -3,125 +3,22 @@
   "header" : ": soybean and common bean genomes and genetic maps",
   "attribution" : "data attribution: soybase, LIS",
   "initialView" : [ {
-     "source" : "pv_consensus",
-     "map" : "Pv02",
-     "tracks" :[
-        {
-          "type": "qtl",
-          "title": "seed 1",
-          "filters": [
-            "QTL_root",
-            "QTL_seed",
-            "QTL_other-seed"
-          ],
-          "fillColor": ["yellow"],
-          "labelStyle": "block",
-          "labelPosition" : -1
-        },{
-          "type": "qtl",
-          "filters": [
-            "QTL_seed",
-            "QTL_root"
-          ],
-          "fillColor": ["green","red"],
-          "labelStyle": "feature"
-        }
-      ]
-  },{
-     "source" : "pv_genome",
-     "map" : "phavu.Chr02",
-     "tracks" : [{
-       "type" : "manhattan",
-        "dataId" : "manhattan_test",
-        "displayWidth" : 50,
-        "maxValue" : 6,
-        "width" : 2,
-        "rulerMajorMark" : 10,
-        "rulerMinorMark" : 2,
-        "posField" :"Pos",
-        "targetField" : "Chr",
-        "pField" : "p",
-        "lines" : [
-          {
-            "value": 5,
-            "lineWeight": 3,
-            "lineColor": "red"
-          },
-          {
-            "value": 2,
-            "lineWeight": 3,
-            "lineColor": "blue"
-          }
-        ]
-      }]
-    }, {
-      "source" : "gm_genome",
-      "map" : "glyma.Chr01"
+      "source" : "gm_gwas",
+      "map" : "A1"
         
     }, {
      "source" : "gm_composite",
-     "map" : "D1a",
-     "tracks" : [{
-        "type" : "qtl",
-        "filters":["QTL_other-seed","QTL_root"],
-        "fillColor": ["orange","blue"],
-        "position":-1
-      },{
-        "type" : "qtl",
-        "filters":["QTL_root"],
-        "fillColor": ["red"],
-        "position":1
-      }
-     ]
+     "map" : "A1"
     }
   ],
   "sources" : [ {
-      "id" : "pv_consensus",
+      "id" : "gm_gwas",
       "method": "GET",
-      "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
-      "filters" : [],
-      "config": {
-        "url" : "config/phavu_genes.json",
-        "method":"GET",
-        "data":{}
-      },
-      "linkouts" : [
-        {
-            "featuretypePattern" : "QTL",
-            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/QTL/phavu.${item.id}",
-            "text" : "View QTL info at LIS"
-        },
-        {
-            "featuretypePattern" : "^(SSR|SNP|AFLP|STS|RAPD)$",
-            "url" : "https://legumeinfo.org/feature/Phaseolus/vulgaris/genetic_marker/${item.id}",
-            "text" : "View marker at LIS"
-        }
-      ]
-    }, {
-      "id" : "pv_genome",
-      "method": "GET",
-      "url": "data/phavu.collinearity+genes+markers.cmap",
-      "filters" : [],
-      "config": {
-        "url" : "config/phavu_genes.json",
-        "method":"GET",
-        "data":{}
-      },
-      "linkouts" : [
-        {
-            "featuretype" : "gene",
-            "url" : "https://legumeinfo.org/gene_links/${item.id}/json",
-            "isLinkingService" : true
-        }
-      ]
-    }, {
-      "id" : "gm_genome",
-      "method": "GET",
-      "url": "data/glyma.collinearity+genes+markers.cmap",
+      "url": "data/Soybean-GmGWAS.cmap",
       "filters" : [],
       "config": {
         "method" : "GET",
-        "url" : "config/phavu_genes.json"
+        "url" : "config/gm_gwas.json"
       },
       "linkouts" : [
         {
@@ -135,6 +32,10 @@
       "method": "GET",
       "url" : "data/Soybean-GmComposite2003.cmap",
       "filters" : [],
+      "config": {
+        "method" : "GET",
+        "url" : "config/gm_composite.json"
+      },
       "linkouts" : [
         {
             "featuretypePattern" : "QTL",
