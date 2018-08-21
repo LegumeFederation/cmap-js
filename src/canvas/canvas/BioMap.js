@@ -497,7 +497,8 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.backbone = new MapTrack({parent: this});
     this.bbGroup.addChild(this.backbone);
     this.model.view.backbone = this.backbone.backbone.globalBounds;
-    this.ruler = new Ruler({parent: this, bioMap: this.model, config: this.model.config.ruler});
+    this.ruler = this.backbone.ruler;
+    //this.ruler = new Ruler({parent: this, bioMap: this.model, config: this.model.config.ruler});
     this.bbGroup.addChild(this.ruler);
     this.backbone.children.forEach(child => {
       if (child.globalBounds.left < this.bbGroup.bounds.left) {

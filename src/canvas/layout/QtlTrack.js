@@ -5,11 +5,10 @@
  * @extends SceneGraphNodeTrack
  */
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {LabelTrack} from './LabelTrack';
 import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
-
+import * as trackSelector  from './TrackSelector';
 
 export class QtlTrack extends SceneGraphNodeTrack {
 
@@ -106,7 +105,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
     this.addChild(featureGroup);
     this.featureGroup = featureGroup;
     this.model = this.parent.model;
-    this.labelGroup = new LabelTrack({parent: this, config: params.config});
+    this.labelGroup = trackSelector.label({parent: this, config: params.config});
     this.parent.labels = this.labelGroup;
     if (this.labelGroup) { // chances are the label group is going to break the parent's bounds, so move things as needed.
 

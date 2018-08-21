@@ -51,7 +51,7 @@ export const defaultConfig = {
     'innerLineColor' : 'black',
     'precision' : 2,
     'steps' : 100,
-    'side': 'left'
+    'position': -1
   },
   'track' : {
     'width' : 5,
@@ -72,7 +72,8 @@ export const defaultConfig = {
     'labelStyle' : 'block',
     'labelColor' : 'black',
     'labelPosition': 1,
-    'filter' : []
+    'labelPadding' : 0,
+    'filter' : [],
   },
 
   'manhattan' :{

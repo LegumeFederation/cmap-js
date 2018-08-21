@@ -64,7 +64,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         //  newFeatureTrack.title = track.title || this.model.config.qtl.title || track.filters[0];
         //  featureData = new QtlTrack({parent:this , config: track});
         //  newFeatureTrack.featureData = featureData.children;
-        //  //newFeatureTrack.labels = new LabelTrack({parent:newFeatureTrack, config:track});
+        //  //newFeatureTrack.labels = new FeatureLabelTrack({parent:newFeatureTrack, config:track});
         //} else if( track.type === 'manhattan') {
         //  newFeatureTrack.sources = this.parent.appState.sources;
         //  newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';

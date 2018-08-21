@@ -10,7 +10,7 @@ import {isNil} from '../util/isNil';
 
 export class Bounds {
   /**
-   * Create a Bounds
+   * Create a Bounds, as is traditional must pass in at least top and left corners.
    *
    * @param {Object} params - having the following properties:
    * @param {Number} bottom
@@ -24,7 +24,7 @@ export class Bounds {
   constructor({top, left, bottom, right, width, height, allowSubpixel = true}) {
     this._bottom = bottom;
     this._left = left;
-    this._right = right;
+    this._right = right ;
     this._top = top;
     this._height = height;
     this._width = width;
@@ -205,6 +205,33 @@ export class Bounds {
    */
   areaEquals(otherBounds) {
     return Bounds.areaEquals(this, otherBounds);
+  }
+
+  /**
+   * Translates bounds by x and y
+   */
+  translate(x,y){
+    if (this.allowSubpixel) {
+      if(x !== 0) {
+        this._left += x;
+        this._right += x;
+      }
+      if(y!==0) {
+        this._top += y;
+        this._bottom += y;
+      }
+    } else {
+      if(x !== 0) {
+        x = Math.floor(x);
+        this._left += x;
+        this._right += x;
+      }
+      if(y!==0) {
+        y = Math.floor(y);
+        this._top += y;
+        this._bottom += y;
+      }
+    }
   }
 }
 

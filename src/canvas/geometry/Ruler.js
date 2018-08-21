@@ -37,7 +37,7 @@ export class Ruler extends SceneGraphNodeBase {
 
     const b = this.parent.backbone.bounds;
     let leftloc;
-    if (config.side === 'left'){
+    if (config.position < 0){
       leftloc = b.left - config.width - config.padding - config.lineWeight; //arbitrary spacing to look goo
     } else {
       leftloc = b.right + config.width + config.padding + config.lineWeight; //arbitrary spacing to look goo
@@ -77,10 +77,10 @@ export class Ruler extends SceneGraphNodeBase {
     ctx.textAlign = 'left';
     if (this.invert) {
       ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize));
+      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize + 2));
     } else {
       ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize));
+      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize +2));
     }
 
     // Draw zoom position labels
@@ -91,10 +91,10 @@ export class Ruler extends SceneGraphNodeBase {
     }
     if (this.invert) {
       ctx.fillText(text[1], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[0], gb.left + config.width + config.padding, (gb.bottom + config.labelSize));
+      ctx.fillText(text[0], gb.left + config.width + config.padding, (gb.bottom + config.labelSize+2));
     } else {
       ctx.fillText(text[0], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[1], gb.left + config.width + config.padding, (gb.bottom + config.labelSize));
+      ctx.fillText(text[1], gb.left + config.width + config.padding, (gb.bottom + config.labelSize+2));
     }
 
     //Draw baseline ruler

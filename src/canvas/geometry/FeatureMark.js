@@ -26,14 +26,13 @@ export class FeatureMark extends SceneGraphNodeBase {
     this.offset = this.featureMap.view.base.start * -1;
     this.invert = this.featureMap.view.invert;
     this.start = this.model.coordinates.start;
-
     this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
       left: 0,
       width: parent.bounds.width,
-      height: this.lineWeight
+      height: config.lineWeight
     });
   }
 
@@ -45,7 +44,7 @@ export class FeatureMark extends SceneGraphNodeBase {
   draw(ctx) {
     let config = this.config;
     let y = translateScale(this.start, this.featureMap.view.base, this.featureMap.view.visible, this.invert) * this.pixelScaleFactor;
-    this.bounds.top = y;
+    this.bounds.translate(0,y-this.bounds.top);
     let gb = this.globalBounds || {};
     ctx.beginPath();
     ctx.strokeStyle = config.lineColor;
@@ -57,7 +56,6 @@ export class FeatureMark extends SceneGraphNodeBase {
     ctx.stroke();
     // reset bounding box to fit the new stroke location/width
     // lineWidth adds equal percent of passed width above and below path
-    this.bounds.top = Math.floor(y - config.lineWeight / 2);
-    this.bounds.bottom = Math.floor(y + config.lineWeight / 2);
+    this.bounds.translate(0,-config.lineWeight/2);
   }
 }

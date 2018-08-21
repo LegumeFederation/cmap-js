@@ -7,7 +7,8 @@
 
 import {ManhattanPlot} from './ManhattanPlot';
 import {QtlTrack} from './QtlTrack';
-import {LabelTrack} from './LabelTrack';
+import {FeatureLabelTrack} from './FeatureLabelTrack';
+import {BlockLabelTrack} from './BlockLabelTrack';
 
 
 export function qtl(params){
@@ -19,5 +20,11 @@ export function  manhattan(params){
 }
 
 export function label (params){
-    return new LabelTrack(params);
+  let labelStyle = params.config.labelStyle;
+  if(labelStyle === 'feature'){
+    return new FeatureLabelTrack(params);
+  } else if (labelStyle === 'block'){
+    return new BlockLabelTrack(params);
+  }
+  return undefined;
 }

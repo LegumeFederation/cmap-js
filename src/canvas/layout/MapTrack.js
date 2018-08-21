@@ -4,13 +4,15 @@
  * the background.
  */
 
-import knn from 'rbush-knn';
+//import knn from 'rbush-knn';
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {Bounds} from '../../model/Bounds';
+import {Ruler} from '../geometry/Ruler';
 import {FeatureMark} from '../geometry/FeatureMark';
 import {MapBackbone} from '../geometry/MapBackbone';
 import * as trackSelector from './TrackSelector';
+
 
 export class MapTrack extends SceneGraphNodeTrack {
 
@@ -72,7 +74,7 @@ export class MapTrack extends SceneGraphNodeTrack {
         config: this.model.config.marker
       });
 
-    //  let lm = new FeatureLabel({
+    //  let lm = new OldFeatureLabel({
     //    featureModel: model,
     //    parent: this.labelGroup,
     //    bioMap: this.parent.model,
@@ -103,23 +105,16 @@ export class MapTrack extends SceneGraphNodeTrack {
     //labelGroup.locMap.load(lmData);
     this.featureData = markerGroup.children;
     this.featureGroup = markerGroup;
-    let labelGroup = trackSelector.label({parent: this, config:this.model.config.marker});
-    ////this.addChild(labelGroup);
-    this.labelGroup = labelGroup;
-    if (this.labelGroup) { // chances are the label group is going to break the parent's bounds, so move things as needed.
-      let offset = this.labelGroup.offset || 0;
-      if(offset < 0) {
-        offset = -offset;
-        this.featureGroup.bounds.left += offset;
-        this.labelGroup.bounds.left += offset;
-        this.featureGroup.bounds.right += offset;
-        //this.bounds.left += offset;
-      }
-      //this.featureGroup.bounds.right += offset;
-      this.labelGroup.bounds.right += offset;
-      //this.parent.bounds.right += offset;//(this0.parent.globalBounds.right-featureGroup.globalBounds.right);
-      this.bounds.right += offset;
+    if(Math.abs(this.model.config.ruler.position) < Math.abs(this.model.config.marker.labelPosition)) {
+      this._addRuler();
+      this._addLabels();
+    } else {
+      this._addLabels();
+      this._addRuler();
     }
+
+
+    //this.ruler = new Ruler({parent: this, bioMap: this.model, config: this.model.config.ruler});
     //labelGroup.bounds = new Bounds({
     //  top: 0,
     //  left: this.backbone.bounds.right + 1,
@@ -130,10 +125,66 @@ export class MapTrack extends SceneGraphNodeTrack {
     this.locMap.load(fmData);
   }
 
+
+  _addRuler(){
+    let config = this.model.config;
+    this.ruler = new Ruler({parent: this, bioMap: this.model, config: config.ruler});
+    //(reposition to outside the label group iff both are on the same side, and label group
+    // has already been drawn
+    if(this.labelGroup && ((config.ruler.position<0) === (config.marker.labelPosition<0)) ){
+      const width = this.ruler.bounds.width;
+      if(config.ruler.position >= 0) {
+       // this.ruler.bounds.left = (this.labelGroup.offset + width + config.ruler.padding);
+       // this.ruler.bounds.right = this.ruler.bounds.left + width;
+        this.ruler.bounds.translate(this.labelGroup.offset + width + config.ruler.padding - this.ruler.bounds.left , 0);
+        this.bounds.right += width + config.ruler.padding;
+      } else {
+        this.bounds.left +=  (width);
+        this.featureGroup.bounds.left += width;
+        this.ruler.bounds.right = 0;
+        this.ruler.bounds.left = (this.ruler.bounds.right-width);
+      }
+    }
+  }
+
+  _addLabels(){
+    let config = this.model.config;
+    let offsetRuler = this.ruler && ((config.ruler.position<0) === (config.marker.labelPosition<0));
+    if(offsetRuler){
+      config.marker.labelPadding += 2*(config.ruler.padding+ Math.abs(this.ruler.bounds.width));
+    }
+
+    // set up track bounds to recognise labels
+    this.labelGroup = trackSelector.label({parent: this, config:config.marker});
+    ////this.addChild(labelGroup);
+    let offset = this.labelGroup.offset || 0;
+    if(offset < 0) {
+      offset = -offset;
+      this.featureGroup.bounds.translate(offset - this.featureGroup.bounds.left,0);
+      //this.featureGroup.bounds.left += offset;
+      this.labelGroup.bounds.left += offset;
+      //this.featureGroup.bounds.right += offset;
+      if(offsetRuler){
+        this.ruler.bounds.translate(offset - this.ruler.bounds.left,0);
+        this.ruler.bounds.left += offset;
+        this.ruler.bounds.right += offset;
+      }
+    }
+    this.labelGroup.bounds.right += offset;
+    this.bounds.right += offset;
+
+    // Move labels if the ruler is on same side and placed before labels
+
+
+
+  }
+
+
   /**
    *
    * @returns {*[]}
    */
+
 
   get visible() {
     let coord = this.parent.model.view.base;
@@ -152,7 +203,7 @@ export class MapTrack extends SceneGraphNodeTrack {
       minY: visc.start,
       maxY: visc.stop
     }));
-   //vis = vis.concat([{data:this}]);
+  // vis = vis.concat([{data:this}]);
   //  let labels = [];
   //  let start = visc.start;
   //  let stop = visc.stop;

@@ -30,14 +30,15 @@ export class BlockLabel extends SceneGraphNodeBase {
     this.invert = bioMap.view.invert;
     this.position = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
     this.labelPos = config.labelPosition || config.position;
+    this.padding = config.labelPadding || 0;
     let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
     this.show = false;
     tempCtx.font = `${config.labelSize}px ${config.labelFace}`;
-    this.width = tempCtx.measureText(this.model.name).width;
+    this.width = tempCtx.measureText(this.model.name).width + this.padding;
     if(this.width > this.parent.trackMaxWidth){this.parent.trackMaxWidth = this.width;}
     this.bounds = new Bounds({
-      top:  y1 ,
-      bottom: y1 - config.labelSize,
+      top:  y1 + (config.labelSize/2) ,
+      bottom: y1 - (config.labelSize/2),
       left: 0,
       width: 0,
       allowSubpixel: false
@@ -57,15 +58,14 @@ export class BlockLabel extends SceneGraphNodeBase {
     const width = this.bounds.width;
     if(width === 0) {  // only need to do new bounds once as fully replacing takes longer than shifting.
       this.bounds = new Bounds({
-        top: y1,
-        bottom: y1 - height,
-        left: this.labelPos >= 0 ? 0 :this.parent.trackMaxWidth-this.width,
+        top: y1+(height/2),
+        bottom: y1-(height/2),
+        left: this.labelPos >= 0 ? this.padding :this.parent.trackMaxWidth-this.width,
         width: this.width,
         allowSubpixel: false
       });
     } else {
-      this.bounds.top = y1;
-      this.bounds.bottom = y1-height;
+        this.bounds.translate(0, ((y1+height/2)-this.bounds.top));
     }
     if(!this.show) return;
 
@@ -78,5 +78,6 @@ export class BlockLabel extends SceneGraphNodeBase {
     ctx.fillText(this.model.name,0, 0);
     ctx.restore();
     // reset bounding box to fit the new stroke location/width
-     }
+    this.show = false;
+  }
 }
