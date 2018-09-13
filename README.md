@@ -1,5 +1,12 @@
 # cmap-js
 ```
+Due to issues with mithril, preact is now being used instead.
+There are some pretty large changes to the underlying structure
+and components here, so be careful and you may need to reinstall
+the node packages.
+```
+
+```
 CMAP-JS IS SOFTWARE STILL IN DEVELOPMENT. FEATURES AND LAYOUT ARE SUBJECT
 TO CHANGE WITHOUT NOTICE. PLEASE LEAVE FEEDBACK WITH THE PROJECT IF YOU
 HAVE ANY REQUESTS FOR ADDED FEATURES OR INTERFACE CHANGES SO THAT THEY CAN
@@ -28,6 +35,8 @@ here.
     git submodule init
     git submodule update
     ```
+    NOTE this probaly will not be needed going forward.
+    
 - Install the required javascript packages listed in `package.json`
     ```
     npm install
