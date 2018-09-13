@@ -4,22 +4,20 @@
  *
  */
 
-import m from 'mithril';
-import PubSub from 'pubsub-js';
-import Hammer from 'hammerjs';
-
-import {mix} from '../../../mixwith.js/src/mixwith';
-
-import {DrawLazilyMixin} from '../DrawLazilyMixin';
-import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin';
+//import m from 'mithril';
+//import PubSub from 'pubsub-js';
+//import Hammer from 'hammerjs';
+//
+//import {mix} from '../../../mixwith.js/src/mixwith';
+//
+//import {DrawLazilyMixin} from '../DrawLazilyMixin';
+//import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin';
 import {selectedMap} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class SceneGraphNodeCanvas
-  extends mix(SceneGraphNodeBase)
-    .with(DrawLazilyMixin, RegisterComponentMixin) {
+export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
 
   /**
    * constructor
@@ -37,12 +35,6 @@ export class SceneGraphNodeCanvas
       top: 0,
       left: 0
     };
-    this._gestureRegex = {
-      pan: new RegExp('^pan'),
-      pinch: new RegExp('^pinch'),
-      tap: new RegExp('^tap'),
-      wheel: new RegExp('^wheel')
-    };
   }
 
   /**
@@ -54,33 +46,12 @@ export class SceneGraphNodeCanvas
     return this.appState.selection.bioMaps.indexOf(this) !== -1;
   }
 
-  /**
-   * mithril lifecycle method
-   * @param vnode
-   */
-
-  oncreate(vnode) {
-    super.oncreate(vnode);
-    this.canvas = this.el = vnode.dom;
+  setCanvas(canvas) {
+    this.canvas = canvas;
     this.context2d = this.canvas.getContext('2d');
-    this.drawLazily(this.domBounds);
+    //this.drawLazily(this.domBounds);
   }
 
-  /**
-   * mithril lifecycle method
-   * @param vnode - current virtual dom node
-   */
-
-  onupdate(vnode) {
-    // TODO: remove this development assistive method
-    console.assert(this.el === vnode.dom);
-    let b = new Bounds(this.el.getBoundingClientRect());
-    console.log('BioMap.onupdate', this.el.mithrilComponent, b);
-  }
-
-  /**
-   * mithril component render method
-   */
   view() {
     // store these bounds, for checking in drawLazily()
     if (this.domBounds && !this.domBounds.isEmptyArea) {
@@ -114,6 +85,35 @@ export class SceneGraphNodeCanvas
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
     this.dirty = false;
+  }
+
+  /**
+   * lazily draw on the canvas, because (p)react updates the dom asynchronously.
+   * The canvas will be cleared when the width and height are changed.
+   * So we cannot draw upon the canvas until after that.
+   */
+
+  drawLazily(wantedBounds) {
+    if (wantedBounds.area === 0) return;
+    if (this._drawLazilyTimeoutId) clearTimeout(this._drawLazilyTimeoutId);
+    if (!Bounds.areaEquals(this.lastDrawnBounds, wantedBounds)) {
+      console.log('waiting for wantedBounds from mithril: ',
+        wantedBounds.width, wantedBounds.height);
+      let tid1 = this._drawLazilyTimeoutId = setTimeout(() => {
+        if (tid1 !== this._drawLazilyTimeoutId) return;
+        this.drawLazily(wantedBounds);
+      });
+    }
+    else {
+      console.log('scheduling lazy draw for: ',
+        wantedBounds.width, wantedBounds.height);
+      let tid2 = this._drawLazilyTimeoutId = setTimeout(() => {
+        if (tid2 !== this._drawLazilyTimeoutId) return;
+        if (!Bounds.areaEquals(this.lastDrawnCanvasBounds, wantedBounds)) {
+          this.draw();
+        }
+      });
+    }
   }
 
   /**

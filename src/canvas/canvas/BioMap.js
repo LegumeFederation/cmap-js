@@ -5,7 +5,7 @@
  */
 
 
-import m from 'mithril';
+//import m from 'mithril';
 //import PubSub from 'pubsub-js';
 //import {featureUpdate, dataLoaded} from '../../topics';
 
@@ -17,7 +17,7 @@ import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from '../layout/MapTrack';
 import {FeatureTrack} from '../layout/FeatureTrack';
 
-export class BioMap extends SceneGraphNodeCanvas {
+export default class BioMap extends SceneGraphNodeCanvas {
 
   /**
    * Create a new bio map
@@ -29,8 +29,9 @@ export class BioMap extends SceneGraphNodeCanvas {
    * @param {object} initialView - bio map's original layout, used for resetting view
    */
 
-  constructor({bioMapModel, appState, layoutBounds, bioMapIndex, initialView}) {
+  constructor({bioMapModel, appState, layoutBounds, bioMapIndex, initialView, canvas}) {
     super({model: bioMapModel});
+    //this.setCanvas(canvas); //set canvas and rendering context
     this.initialView = initialView;
     this.bioMapIndex = bioMapIndex;
     this.model.visible = {
@@ -74,44 +75,27 @@ export class BioMap extends SceneGraphNodeCanvas {
       tap: new RegExp('^tap'),
       wheel: new RegExp('^wheel')
     };
-    this._layout(layoutBounds);
+   // this._layout(layoutBounds);
     this.dirty = true;
   }
 
-  /*
-   *  debug draw to test that the layer is positioned properly
-   */
-  /*
-    draw(ctx){
-   ctx = this.context2d;
-   this.children.forEach(child => child.draw(ctx));
-   ctx.save();
-   ctx.globalAlpha = .5;
-   ctx.fillStyle = '#f442e2';
-   this.children.forEach( child => {
-     let cb = child.globalBounds;
-     ctx.fillRect(
-       Math.floor(cb.left),
-       Math.floor(cb.top),
-       Math.floor(cb.width),
-       Math.floor(cb.height)
-     );
-   });
-   ctx.restore();
- }
-*/
-  /**
-   * Mithril lifecycle method on initial vnode creation.
-   * @param {object} vnode - node on mithril vnode representing this canvas item
-   */
-
-  oncreate(vnode) {
-    super.oncreate(vnode);
-//    PubSub.subscribe(featureUpdate, () => {
-//      this._layout(this.lb);
-//      this._redrawViewport(this.model.view.visible);
+//  draw(ctx){
+//    ctx = this.context2d;
+//    this.children.forEach(child => child.draw(ctx));
+//    ctx.save();
+//    ctx.globalAlpha = .5;
+//    ctx.fillStyle = '#f442e2';
+//    this.children.forEach( child => {
+//      let cb = child.globalBounds;
+//      ctx.fillRect(
+//        Math.floor(cb.left),
+//        Math.floor(cb.top),
+//        Math.floor(cb.width),
+//        Math.floor(cb.height)
+//      );
 //    });
-  }
+//    ctx.restore();
+//  }
 
   // getters and setters
 
@@ -140,301 +124,6 @@ export class BioMap extends SceneGraphNodeCanvas {
 
   get hitMap() {
     return this.locMap;
-  }
-
-  // Private functions
-
-  // gesture components
-
-  /**
-   * Handles mouse wheel zoom
-   * @param evt - zoom event
-   * @returns {boolean} returns true to stop event propagation further down layers
-   * @private
-   */
-
-  _onZoom(evt) {
-    // TODO: send zoom event to the scenegraph elements which compose the biomap
-    // (don't scale the canvas element itself)
-    console.warn('BioMap -> onZoom', evt);
-    // normalise scroll delta
-    this.verticalScale = evt.deltaY < 0 ? -this.zoomDelta : this.zoomDelta;
-    let mcv = this.model.view.base;
-    let zStart = (this.model.view.visible.start + this.verticalScale);
-    let zStop = (this.model.view.visible.stop - this.verticalScale);
-    if (zStop - zStart < .01) {
-      this.verticalScale -= 0.5;
-      return true;
-    }
-    if (zStart < mcv.start) {
-      zStart = mcv.start;
-    } else if (zStart > zStop) {
-      zStart = zStop;
-    }
-
-    if (zStop > mcv.stop) {
-      zStop = mcv.stop;
-    } else if (zStop < zStart) {
-      zStop = zStart;
-    }
-    this._redrawViewport({start: zStart, stop: zStop});
-    return true; // stop event propagation
-  }
-
-  /**
-   * Handles tap/click event on canvas
-   * @param evt - tap event
-   * @returns {boolean} return true to stop event prorogation further down layers
-   * @private
-   */
-
-  _onTap(evt) {
-    console.log('BioMap -> onTap', evt, this);
-    let globalPos = pageToCanvas(evt, this.canvas);
-    this._loadHitMap();
-    let hits = [];
-
-    this.hitMap.search({
-      minX: globalPos.x,
-      maxX: globalPos.x,
-      minY: globalPos.y - 2,
-      maxY: globalPos.y + 2
-    }).forEach(hit => {
-      // temp fix, find why hit map stopped updating properly
-      if ((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
-        (hit.data.model.coordinates.start <= this.model.view.visible.stop)) {
-        hits.push(hit.data);
-      } else if ((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
-        (hit.data.model.coordinates.stop <= this.model.view.visible.stop)) {
-        hits.push(hit.data);
-      }
-    });
-    if (hits.length > 0) {
-      hits.sort((a, b) => {
-        return a.model.coordinates.start - b.model.coordinates.start;
-      });
-      this.info.display = 'inline-block';
-      this.info.top = hits[0].globalBounds.top;
-      this.info.left = hits[0].globalBounds.right;
-      this.info.data = hits;
-      let names = hits.map(hit => {
-        return hit.model.name;
-      });
-      //@awilkey: is this obsolete?
-      //TODO: Revisit info popovers
-      this.info.innerHTML = `<p> ${names.join('\n')} </p>`;
-      m.redraw();
-    } else if (this.info.display !== 'none') {
-      this.info.display = 'none';
-      m.redraw();
-    }
-
-    return true;
-  }
-
-  /**
-   *  Handle start of pan events on canvas, box zooms if ruler is part of selected or
-   *  mass select if not.
-   *
-   * @param evt - tap event
-   * @returns {boolean} return true to stop event prorogation further down layers
-   * @private
-   */
-
-  _onPanStart(evt) {
-    // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (don't scale the canvas element itself)
-    this.zoomP = {
-      start: 0,
-      end: 0,
-      pStart: true,
-      ruler: false,
-      delta: 0,
-      corner: 0
-    };
-    this.zoomP.pStart = true;
-    console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
-    let globalPos = pageToCanvas(evt, this.canvas);
-    let left = this.ruler.globalBounds.left;
-    // scroll view vs box select
-    if (left < (globalPos.x - evt.deltaX) &&
-      (globalPos.x - evt.deltaX) < (left + this.ruler.bounds.width)) {
-      this.zoomP.ruler = true;
-      this._moveRuler(evt);
-    } else {
-      this.zoomP.ruler = false;
-      this.zoomP.start = this._pixelToCoordinate(globalPos.y - this.ruler.globalBounds.top - evt.deltaY);
-      if (this.zoomP.start < this.model.view.base.start) {
-        this.zoomP.start = this.model.view.base.start;
-      }
-      let ctx = this.context2d;
-      this.zoomP.corner = {top: globalPos.y - evt.deltaY, left: globalPos.x - evt.deltaX};
-      ctx.lineWidth = 1.0;
-      ctx.strokeStyle = 'black';
-      // noinspection JSSuspiciousNameCombination
-      ctx.strokeRect(
-        Math.floor(globalPos.x - evt.deltaX),
-        Math.floor(globalPos.y - evt.deltaY),
-        Math.floor(evt.deltaX),
-        Math.floor(evt.deltaY)
-      );
-    }
-    return true;
-  }
-
-  /**
-   * Pans ruler's position box on click-and-pan
-   *
-   * @param evt - pan event
-   * @private
-   */
-
-  _moveRuler(evt) {
-    if (this.model.config.invert) {
-      evt.deltaY = -evt.deltaY;
-    }
-
-    let delta = (evt.deltaY - this.zoomP.delta) / this.model.view.pixelScaleFactor;
-    if (this.model.view.visible.start + delta < this.model.view.base.start) {
-      delta = this.model.view.base.start - this.model.view.visible.start;
-    } else if (this.model.view.visible.stop + delta > this.model.view.base.stop) {
-      delta = this.model.view.base.stop - this.model.view.visible.stop;
-    }
-    this.model.view.visible.start += delta;
-    this.model.view.visible.stop += delta;
-    this._redrawViewport({start: this.model.view.visible.start, stop: this.model.view.visible.stop});
-    this.zoomP.delta = evt.deltaY;
-  }
-
-  /**
-   * Continue pre-exiting pan event
-   *
-   * @param evt - continuation of pan event
-   * @returns {boolean} return true to stop event prorogation further down layers
-   * @private
-   */
-
-  _onPan(evt) {
-    // block propagation if pan hasn't started
-    if (!this.zoomP || !this.zoomP.pStart) return true;
-    if (this.zoomP && this.zoomP.ruler) {
-      this._moveRuler(evt);
-    } else {
-      let globalPos = pageToCanvas(evt, this.canvas);
-      this.draw();
-      let ctx = this.context2d;
-      ctx.lineWidth = 1.0;
-      ctx.strokeStyle = 'black';
-      // noinspection JSSuspiciousNameCombination
-      ctx.strokeRect(
-        Math.floor(this.zoomP.corner.left),
-        Math.floor(this.zoomP.corner.top),
-        Math.floor(globalPos.x - this.zoomP.corner.left),
-        Math.floor(globalPos.y - this.zoomP.corner.top)
-      );
-    }
-    return true;
-  }
-
-  /**
-   * Finalize pan event
-   *
-   * @param evt - tap event
-   * @returns {boolean} return true to stop event propagation further down layers
-   * @private
-   */
-
-  _onPanEnd(evt) {
-    // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (don't scale the canvas element itself)
-    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt, this.model.view.base);
-    // block propagation if pan hasn't started
-    if (!this.zoomP || !this.zoomP.pStart) return true;
-    if (this.zoomP && this.zoomP.ruler) {
-      this._moveRuler(evt);
-    } else {
-      let globalPos = pageToCanvas(evt, this.canvas);
-
-      // test if any part of the box select is in the ruler zone
-      let rLeft = this.ruler.globalBounds.left;
-      let rRight = this.ruler.globalBounds.right;
-      let lCorner = this.zoomP.corner.left < globalPos.x ? this.zoomP.corner.left : globalPos.x;
-      let rCorner = lCorner === this.zoomP.corner.left ? globalPos.x : this.zoomP.corner.left;
-      // if zoom rectangle contains the ruler, zoom, else populate popover
-      if (((lCorner <= rLeft) && (rCorner >= rLeft)) || ((lCorner <= rRight && rCorner >= rRight))) {
-        this.model.view.visible = this.model.view.base;
-
-        this.zoomP.start = this._pixelToCoordinate(this.zoomP.corner.top - this.ruler.globalBounds.top);
-        this.zoomP.stop = this._pixelToCoordinate(globalPos.y - this.ruler.globalBounds.top);
-        let swap = this.zoomP.start < this.zoomP.stop;
-        let zStart = swap ? this.zoomP.start : this.zoomP.stop;
-        let zStop = swap ? this.zoomP.stop : this.zoomP.start;
-
-        if (zStart < this.model.view.base.start) {
-          zStart = this.model.view.base.start;
-        }
-        if (zStop > this.model.view.base.stop) {
-          zStop = this.model.view.base.stop;
-        }
-
-        this._redrawViewport({start: zStart, stop: zStop});
-      } else {
-
-        this._loadHitMap();
-        let hits = [];
-        let swap = this.zoomP.corner.left < globalPos.x;
-        let swapV = this.zoomP.corner.top < globalPos.y;
-        this.hitMap.search({
-          minX: swap ? this.zoomP.corner.left : globalPos.x,
-          maxX: swap ? globalPos.x : this.zoomP.corner.left,
-          minY: swapV ? this.zoomP.corner.top : globalPos.y,
-          maxY: swapV ? globalPos.y : this.zoomP.corner.top
-        }).forEach(hit => {
-          // temp fix, find why hit map stopped updating properly
-          if(!hit.data.model) return;
-          if ((hit.data.model.coordinates.start >= this.model.view.visible.start) &&
-            (hit.data.model.coordinates.start <= this.model.view.visible.stop)) {
-            hits.push(hit.data);
-          } else if ((hit.data.model.coordinates.stop >= this.model.view.visible.start) &&
-            (hit.data.model.coordinates.stop <= this.model.view.visible.stop)) {
-            hits.push(hit.data);
-          }
-        });
-        if (hits.length > 0) {
-          hits.sort((a, b) => {
-            return a.model.coordinates.start - b.model.coordinates.start;
-          });
-          this.info.display = 'inline-block';
-          this.info.top = this.ruler.globalBounds.top;
-          this.info.left = 0;
-          this.info.data = hits;
-          let names = hits.map(hit => {
-            return hit.model.name;
-          });
-          //@awilkey: is this obsolete?
-          this.info.innerHTML = `<p> ${names.join('\n')} </p>`;
-          m.redraw();
-        } else if (this.info.display !== 'none') {
-          this.info.display = 'none';
-          m.redraw();
-        }
-      }
-    }
-    this.draw();
-    this.zoomP = {
-      start: 0,
-      end: 0,
-      pStart: false,
-      ruler: false,
-      delta: 0,
-      corner: {
-        top: 0,
-        left: 0
-      }
-    };
-//    this.zoomP.ruler = false;
-//    this.zoomP.pStart = false;
-    return true; // do not stop propagation
   }
 
 
@@ -473,14 +162,16 @@ export class BioMap extends SceneGraphNodeCanvas {
     this.children = [];
     this.domBounds = this.domBounds || new Bounds({
       left: this.lb.left,
-      top: this.lb.top,
+      //top: this.lb.top,
+      top:0,
       width: width > 300 ? width : 300,
       height: this.lb.height
     });
 
+
     this.bounds = this.bounds || new Bounds({
       left: 0,
-      top: this.lb.top + 40,
+      top:  40,
       width: this.domBounds.width,
       height: Math.floor(this.domBounds.height - 140) // set to reasonably re-size for smaller windows
     });
@@ -507,6 +198,8 @@ export class BioMap extends SceneGraphNodeCanvas {
         this.bbGroup.bounds.right = child.globalBounds.right;
       }
     });
+
+    console.log('layout bm', this.domBounds,this.bbGroup);
     this.children.push(this.bbGroup);
 
     this.tracksRight =[];
@@ -551,7 +244,7 @@ export class BioMap extends SceneGraphNodeCanvas {
     this._loadHitMap();
     //let layout know that width has changed on an element;
     //m.redraw();
-    this.dirty = true;
+    this.dirty = false;
   }
 
   /**
@@ -595,6 +288,6 @@ export class BioMap extends SceneGraphNodeCanvas {
     if (this.info.display !== 'none') {
       this.info.top = this.info.data[0].globalBounds.top;
     }
-    m.redraw();
+    //m.redraw();
   }
 }

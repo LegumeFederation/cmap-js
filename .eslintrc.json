@@ -9,7 +9,7 @@
   "globals": {
     "ENV": true
   },
-  "extends": "eslint:recommended",
+  "extends":["eslint:recommended","standard-preact"],
   "parserOptions": {
     "sourceType": "module"
   },

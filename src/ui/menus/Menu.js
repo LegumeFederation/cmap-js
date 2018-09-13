@@ -7,7 +7,7 @@ import {Bounds} from '../../model/Bounds';
 
 export class Menu {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle callback

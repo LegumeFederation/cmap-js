@@ -11,7 +11,7 @@ import {CircosLayout} from '../../ui/layout/CircosLayout';
 
 export class LayoutPicker {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle method

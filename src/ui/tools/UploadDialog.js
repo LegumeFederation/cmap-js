@@ -2,11 +2,11 @@
  * A mithril component for map removal dialog
  */
 import m from 'mithril';
-import {DataSourceModel} from '../../model/DataSourceModel';
+import {DataSourceModel} from '../../model/dataSourceComponents/DataSourceModel';
 
 export class UploadDialog {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle method

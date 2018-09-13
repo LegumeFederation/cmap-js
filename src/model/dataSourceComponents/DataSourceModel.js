@@ -2,7 +2,7 @@
  * Data source model
  */
 
-import m from 'mithril';
+//import m from 'mithril';
 import parser from 'papaparse';
 
 import {BioMapModel} from './BioMapModel';
@@ -70,7 +70,10 @@ export class DataSourceModel {
    */
 
   load() {
-    return m.request(this);
+    console.log('loading', this);
+    return fetch(this.url,{method:this.method})
+      .then(r => r.text())
+      .then(data => this.deserialize(data)).finally(data => console.log('data test',data));
   }
 
   /**
@@ -164,7 +167,8 @@ export class DataSourceModel {
               name: d.feature_name,
               tags: [d[typeField] !== '' ? d[typeField] : null],
               aliases: d.feature_aliases && d.feature_aliases !== '' ?  d.feature_aliases.split(',') : [],
-              coordinates: { start: d.feature_start, stop: d.feature_stop }
+              coordinates: { start: d.feature_start, stop: d.feature_stop },
+              data : d
             })
           );
           if(d[typeField] !== '' && res[uniqueMapName].tags.indexOf(d[typeField]) === -1){
@@ -172,8 +176,8 @@ export class DataSourceModel {
        }
       });
     } catch (e) {
-      console.trace();
       console.error(e);
+      console.trace();
     }
     return res;
   }

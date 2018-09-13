@@ -7,7 +7,7 @@ import PubSub from 'pubsub-js';
 
 export class ConfigurationDialog {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle method

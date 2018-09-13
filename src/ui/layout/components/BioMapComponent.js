@@ -1,74 +1,59 @@
 /**
  *
- * Base Component, placeholder for other canvas components
+ * Base Component, placeholder for other canvas dataSourceComponents
  *
  */
 
-import m from 'mithril';
-//import {Bounds} from '../../../model/Bounds';
+import {h,Component} from 'preact';
+import {Bounds} from '../../../model/Bounds';
 
-export class BioMapComponent {
-  constructor(vnode) {
-    console.log(vnode);
+export default class BioMapComponent  extends Component {
+  constructor() {
+    super();
+    //this.setState({dirty:false});
+    this.setState({width:10});
   }
 
-  oncreate(vnode) {
-    //have state be tied to passed attributes
-    vnode.state = vnode.attrs;
-
-    //dom components and state
-    vnode.state.canvas = vnode.state.bioMap.canvas = vnode.dom;
-    vnode.state.domBounds = vnode.state.bioMap.domBounds;
-    vnode.state.context2d = vnode.state.bioMap.context2d = vnode.state.canvas.getContext('2d');
-    vnode.state.context2d.imageSmoothingEnabled = false;
-
-    //setup vnode.dom for ui gesture handling
-    vnode.dom.mithrilComponent = this;
-
-    //store vnode to be able to access state for non mithril lifecycle commands
-    this.vnode = vnode;
+  componentDidMount (){
+    console.log('bio mount',this.base);
+    let cvs = this.base.children[1];
+    //let ctx = cvs.getContext('2d');
+    //ctx.fillStyle = 'green';
+    //ctx.fillRect(10, 10, 100, 100);
+    this.props.bioMap.setCanvas(cvs);
+    this.props.bioMap._layout(new Bounds(cvs.getBoundingClientRect()));
+    console.log('lbm post lay',this.props.bioMap.bounds);
+    this.props.bioMap.draw();
+    console.log('lbm cdm', this.props.bioMap);
+    this.setState({width: this.props.bioMap.bounds.width});
+    this.setState({dirty:true});
   }
 
-  onupdate(vnode) {
-    //redraw biomap if dirty (drawing has changed, instead of just changing position)
-    if (vnode.state.bioMap && vnode.state.bioMap.dirty === true) {
-      vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
-      vnode.state.bioMap.draw();
+  updateCanvas(){
+    this.props.bioMap.draw();
+    this.setState({dirty:false});
+  }
+
+  componentWillUpdate(nextProps, nextState){
+    if(this.state.width != nextState.width){
+      this.updateCanvas();
+      console.log('redrawin!',this.state.dirty,this.props.bioMap.dirty);
     }
   }
 
-  view(vnode) {
+  componentWillReceiveProps(){
+
+  }
+
+  render({bioMap,bioIndex},{width}) {
     // store these bounds, for checking in drawLazily()
-    if(vnode.state.bioMap && vnode.state.bioMap.model !== vnode.attrs.bioMap.model){
-      vnode.attrs.bioMap.canvas = vnode.state.bioMap.canvas;
-      vnode.state.bioMap = vnode.attrs.bioMap;
-      vnode.state.domBounds = vnode.state.bioMap.domBounds;
-      vnode.state.context2d = vnode.state.bioMap.context2d = vnode.state.canvas.getContext('2d');
-      vnode.state.context2d.imageSmoothingEnabled = false;
-    }
-    let domBounds = vnode.state.domBounds || null;
-    if (domBounds && !domBounds.isEmptyArea) {
-      this.lastDrawnMithrilBounds = domBounds;
-    }
-    let b = domBounds || {};
-    let selectedClass = vnode.state.selected ? 'selected' : '';
-    return m('canvas', {
-      class: `cmap-canvas cmap-biomap ${selectedClass}`,
-      style: `left: ${b.left}px; top: ${b.top}px;
-               width: ${b.width}px; height: ${b.height}px;
-               transform: rotate(${vnode.state.rotation}deg);`,
-      width: b.width,
-      height: b.height
-    });
-  }
 
-  handleGesture(evt) {
-    let state = this.vnode.state;
-    if (state.bioMap.handleGesture(evt)) {
-      state.bioMap.dirty = true;
-      return true;
-    }
-    return false;
+    return (
+      <div style={{display:'table-cell', width:width}}>
+        <div class={'swap-div'} style={{width:width}}> Testing {bioIndex} </div>
+        <canvas id={`bioMap ${bioIndex}`} height={700} />
+      </div>
+    );
   }
 }
 

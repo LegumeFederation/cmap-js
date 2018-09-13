@@ -5,7 +5,6 @@
 
 import qs from 'qs';
 
-
 class QueryString {
   constructor(){
 

@@ -36,7 +36,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
     if(this.parent.model.tracks) {
       let tracks = this.trackPos >= 1 ? this.parent.tracksLeft : this.parent.tracksRight;
       tracks.forEach((track, order) => {
-        // newFeatureTrack is a group with two components, the feature data track, and the feature label track
+        // newFeatureTrack is a group with two dataSourceComponents, the feature data track, and the feature label track
         //track.appState = this.parent.appState;
         let newFeatureTrack = new SceneGraphNodeGroup({parent:this});
         newFeatureTrack.model = this.model;

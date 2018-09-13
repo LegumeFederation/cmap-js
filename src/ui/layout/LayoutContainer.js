@@ -18,7 +18,7 @@ const SCALE = Object.freeze({min: 0.05, max: 2});
 
 export class LayoutContainer extends mix().with(RegisterComponentMixin) {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle method

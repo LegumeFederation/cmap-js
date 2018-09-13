@@ -4,7 +4,6 @@
  */
 
 import rbush from 'rbush';
-
 import {Bounds} from '../../model/Bounds';
 
 export class SceneGraphNodeBase {
@@ -80,7 +79,6 @@ export class SceneGraphNodeBase {
    */
 
   get globalBounds() {
-    console.assert(this.bounds, 'bounds missing');
     if (!this.parent) return this.bounds;
     let gb = this.parent.globalBounds;
     return new Bounds({
@@ -206,7 +204,6 @@ export class SceneGraphNodeBase {
    **/
 
   removeChild(node) {
-    //TODO: May need to use a indexOf polyfill if targeting IE < 9
     let index = this._children.indexOf(node);
     if (index > -1) {
       this._children.splice(index, 1);

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Feature, featuresInCommon} from '../../src/model/Feature';
+import {Feature, featuresInCommon} from '../../src/model/dataSourceComponents/Feature';
 
 describe('Feature test', function () {
   let params = {

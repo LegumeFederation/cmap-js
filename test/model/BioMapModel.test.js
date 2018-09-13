@@ -1,6 +1,6 @@
 import {expect} from 'chai';
-import {BioMapModel} from '../../src/model/BioMapModel';
-import {DataSourceModel} from '../../src/model/DataSourceModel';
+import {BioMapModel} from '../../src/model/dataSourceComponents/BioMapModel';
+import {DataSourceModel} from '../../src/model/dataSourceComponents/DataSourceModel';
 
 let model;
 const params = {

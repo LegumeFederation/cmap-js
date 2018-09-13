@@ -1,6 +1,6 @@
 /**
  *
- * Base Component, placeholder for other canvas components
+ * Base Component, placeholder for other canvas dataSourceComponents
  *
  */
 

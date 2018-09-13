@@ -2,7 +2,7 @@
 // will use m.request() to fetch data files.
 import mq from '../ui/mithrilQuerySetup';
 import {expect} from 'chai';
-import {AppModel} from '../../src/model/AppModel';
+import {AppModel} from '../../src/model/dataSourceComponents/AppModel';
 
 const config = require('../../cmap.json');
 

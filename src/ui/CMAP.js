@@ -2,51 +2,59 @@
  * CMAP
  */
 
-import m from 'mithril';
+//import preact from 'preact';
+import {h, Component} from 'preact';
+//import GestureWrapper from './Gesture';
+//import LayoutBase from './layout/LayoutBase';
+import HorizontalLayout from './layout/HorizontalLayout';
+import {Bounds} from '../../oldSrc/model/Bounds';
 
-import {AppModel} from './../model/AppModel';
-import {UI} from './UI';
-import Query from './../util/QueryControl';
 
-/* istanbul ignore next: mithril-query does not work with m.mount, and dom id is hardcoded as well */
-export class CMAP {
+export default class CMAP extends Component{
+  constructor() {
+    super();
+    this.setState({viewPort:null});
+  }
 
-  /**
-   *
-   * @param configURL
-   */
+  componentDidMount(){
+    console.log("cmap start", this.base);
+    this.updateBounds();
+  }
 
-  load(configURL) {
-    this.rootElement = document.getElementById('cmap-ui');
-    this.appState = new AppModel({});
-    this.UI = new UI(this.appState);
-    m.mount(this.rootElement, this.UI);
+  componentWillReceiveProps(){
+    this.updateBounds();
+  }
 
-    if (configURL === null) {
-      configURL = 'cmap.json';
+  updateBounds(){
+    let bnds = new Bounds(this.base.getBoundingClientRect());
+    this.setState({viewPort:bnds });
+  }
+  dispatchGestureEvt(evt) {
+    console.log(evt.type);
+    if (evt.type === 'tap') {
+      console.log('butts', this);
     }
+  }
 
-    this.appState.status = 'loading configuration file...';
-    this.appState.busy = true;
-
-    m.request(configURL).then(config => {
-      let numSources = config.sources.length;
-      let plural = numSources > 1 ? 's' : '';
-
-      this.appState.status = `loading ${numSources} data file${plural}...`;
-
-      let promises = this.appState.load(config);
-      Promise.all(promises).then(() => {
-        let queryString = Query;
-        this.appState = queryString.stateFromQuery(this.appState);
-        this.appState.status = '';
-        this.appState.busy = false;
-      });
-    }).catch(err => {
-      // TODO: make a nice mithril component to display errors in the UI
-      console.error(err);
-      console.trace();
-      alert(`While fetching cmap.json config file, ${err}`);
-    });
+  render({appModel,maxHeight},{viewPort}) {
+    let b2 = this.base? this.base.getBoundingClientRect() : null;
+    console.log('cmap stt',maxHeight,viewPort,b2);
+    return (
+      <div id={'cmap-main-app'} class={'row'} style={{maxHeight:maxHeight||'100%', height: 10000, overflowY:'auto'}}  est={'moooo'} dispatchGesture={e => this.dispatchGestureEvt(e)}>
+        {viewPort
+        ?
+          <HorizontalLayout
+            appState={appModel}
+            bounds={b2}
+          />
+        :
+          null
+        }
+        <div class='row cmap' id='cmap-body'>
+          <button onClick={() => alert('hi!')}>Click Me</button>
+        </div>
+      </div>
+    );
   }
 }
+

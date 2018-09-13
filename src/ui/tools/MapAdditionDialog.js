@@ -5,7 +5,7 @@ import m from 'mithril';
 
 export class MapAdditionDialog {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle method

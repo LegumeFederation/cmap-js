@@ -17,7 +17,7 @@ export class CircosLayout
   extends mix(LayoutBase)
     .with(RegisterComponentMixin) {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
   /**
    *
    * @private

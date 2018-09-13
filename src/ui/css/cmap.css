@@ -6,18 +6,55 @@ html, body {
     font-family: Nunito, HelveticaNeue, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
-#cmap-ui {
+
+#cmap-div {
     width: calc(100% - 2rem);
     height: calc(100% - 2rem);
-    margin: 0 2rem 2rem;
+    margin: 0 auto;
+    max-width:95%;
+   /* max-height:50%; */
+}
+
+#cmap-app{
+    height:inherit;
+    max-height:100%;
+}
+
+#cmap-main-app {
+    width: calc(100% - 2rem);
+    height: 500000px;
+    margin: 0 auto;
+    /*
+    max-width:95%;
+    max-height:80%;
+    */
 }
 
 #cmap-disclaimer {
-    font-size: 20px;
+    font-size: 1.75rem;
     color: red;
     border: solid 2px black;
     border-radius: 8px;
     padding: 10px;
+}
+
+#horizontal-layout-container{
+    /* IE 9 */
+    display: table;
+    /* IE 10 and older 'evergreen' */
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: -o-flex;
+    /* modern browsers */
+    display: flex;
+
+    /* Direction defaults to 'row', so not really necessary to specify */
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    -o-flex-direction: row;
+    flex-direction: row;
 }
 
 .cmap-vbox {
@@ -224,3 +261,40 @@ span.cmap-map-name-chip {
 .cmap-correspondence-map {
     /*border:1px dashed aqua;*/
 }
+
+.alert {
+  border: 1px solid #59030B ;
+  border-radius: .5rem;
+  padding : 1.5rem;
+  background-color:  #D4707A;
+  color: #831A24;
+}
+
+.close-button {
+  position:absolute;
+  top:0px;
+  float:left;
+  border: none;
+}
+
+.loading-row {
+  height:inherit;
+}
+
+.loading-col {
+  height: 50%;
+  margin-top: 25%;
+  border: 4px solid black;
+  border-radius: 3rem;
+}
+
+.loading-spinner {
+  margin:25% auto;
+}
+
+.loading-element{
+  display:block;
+  margin: 0 auto;
+  text-align: center;
+}
+

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {DataSourceModel} from '../../src/model/DataSourceModel';
+import {DataSourceModel} from '../../src/model/dataSourceComponents/DataSourceModel';
 
 const config = require('../../cmap.json');
 

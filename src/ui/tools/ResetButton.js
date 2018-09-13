@@ -8,7 +8,7 @@ import {reset} from '../../topics';
 
 export class ResetButton {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril render callback

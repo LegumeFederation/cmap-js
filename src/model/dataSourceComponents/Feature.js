@@ -20,12 +20,14 @@ class Feature {
                 name,
                 tags = [],
                 aliases = [],
+                data
               }) {
     this.source = source;
     this.coordinates = Object.freeze(coordinates); // object w/ start and end props
     this.name = name;
     this.tags = tags;
     this.aliases = aliases;
+    this.data = data; //the entire feature data set returned for later use.
   }
 
   /**
@@ -72,7 +74,7 @@ class Feature {
  * Find the common features based on name and aliases.
  * @param features1
  * @param features2
- * @returns {any[]}
+ * @returns {*[][]}
  */
 
 // TODO: support more than two collections of features

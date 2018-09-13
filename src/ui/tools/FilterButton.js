@@ -5,7 +5,7 @@ import m from 'mithril';
 
 export class FilterButton {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril render callback

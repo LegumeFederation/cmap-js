@@ -18,7 +18,7 @@ import {UploadDialog} from './UploadDialog';
 
 export class Tools {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle method

@@ -3,19 +3,20 @@
  * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
  * CircosLayout.
  */
+import {h, Component} from 'preact';
 import {Bounds} from '../../model/Bounds';
 
-export class LayoutBase {
+export default class LayoutBase extends Component {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle callback
    * @param vnode
    */
 
-  oninit(vnode) {
-    this.appState = vnode.attrs.appState;
+  constructor() {
+    super();
   }
 
   /**
@@ -23,19 +24,14 @@ export class LayoutBase {
    * @param vnode
    */
 
-  oncreate(vnode) {
+  componentDidMount() {
     // save a reference to this component's dom element
-    this.el = vnode.dom;
-    this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
+    //this.bounds = new Bounds(this.base.getBoundingClientRect());
   }
 
-  /**
-   * mithril lifecycle method
-   * @param vnode
-   */
+  render(props, state){
+    console.log('testing lb', state);
+    return ( <div> buttslol</div>);
 
-  onupdate(vnode) {
-    this.bounds = new Bounds(vnode.dom.getBoundingClientRect());
   }
-
 }

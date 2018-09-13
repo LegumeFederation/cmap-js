@@ -1,29 +1,29 @@
 /**
  * Header
  */
-import m from 'mithril';
+import {h, Component} from 'preact';
+import {JSXTemplateTest } from './TemplateTest';
 
-export class Header {
-  // constructor() - prefer do not use in mithril components
-  /**
-   * mithril lifecycle method
-   * @param vnode
-   */
-
-  oninit(vnode) {
-    this.appState = vnode.attrs.appState;
+export default class Header extends Component {
+  constructor(){
+    super();
   }
 
-  /**
-   * Mithril lifecycle component
-   * @returns {*} cmap-header
-   */
+  componentWillReceiveProps(nextProps,nextState){
+    console.log('h wrp', nextProps);
+  }
 
-  view() {
-    return m('div.cmap-hbox',
-      m('h4.cmap-header', [
-        'cmap-js ',
-        m('span.cmap-header', this.appState.header)
-      ]));
+  render({header},{}) {
+    console.log('rendering header');
+    return(
+      <div class='row cmap' id='cmap-head'>
+        <div class='twelve columns'>
+          <p class='cmap-header'> cmap-js
+            <span class='cmap-header'>{header}</span >
+          </p>
+        </div>
+        <JSXTemplateTest />
+      </div>
+    );
   }
 }

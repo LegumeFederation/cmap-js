@@ -1,7 +1,7 @@
 /**
  * BioMapConfiguration data model
  */
-import m from 'mithril';
+import fetch from '../../util/fetch';
 
 export class BioMapConfigModel {
 
@@ -20,7 +20,7 @@ export class BioMapConfigModel {
    *
    */
   load() {
-    return m.request(this);
+    return fetch(this);
   }
 }
 

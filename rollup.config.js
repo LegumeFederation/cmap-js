@@ -8,6 +8,9 @@ import uglify from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+import builtins from 'rollup-plugin-node-builtins';
+import globals from 'rollup-plugin-node-globals';
+//import babelrc from 'babelrc-rollup';
 
 // PostCSS plugins
 import simplevars from 'postcss-simple-vars';
@@ -15,12 +18,16 @@ import nested from 'postcss-nested';
 import cssnext from 'postcss-cssnext';
 import cssnano from 'cssnano';
 
+let pkg = require('./package.json');
+
 export default {
   entry: 'src/main.js',
   dest: 'build/cmap.min.js',
   format: 'iife',
   sourceMap: true,
   plugins: [
+    builtins(),
+    globals(),
     // bundle css
     postcss({
       plugins: [
@@ -39,12 +46,16 @@ export default {
       ]
     }),
     // transpile es6
+    //babel(babelrc()),
     babel({
-      exclude: 'node_modules/**',
+      //ignore: /node_modules\/(?!ecma-proposal-math-extensions)/, //do it this way because this one node_module is in es6
+      ignore: 'node_modules/**',
       presets: [ 'es2015-rollup' ],
       babelrc: false,
       plugins: [
-        "external-helpers"
+        'external-helpers',
+        ['transform-react-jsx', { 'pragma':'h' }],
+        'array-includes'
       ]
     }),
     // find node_modules
@@ -71,4 +82,17 @@ export default {
     // uglify/minify only in production
     (process.env.NODE_ENV === 'production' && uglify()),
   ],
+  targets: [
+    {
+      dest: pkg.main,
+      format: 'umd',
+      moduleName: 'rollupStarterProject',
+      sourceMap: true
+    },
+    {
+      dest: pkg.module,
+      format: 'es',
+      sourceMap: true
+    }
+  ]
 };

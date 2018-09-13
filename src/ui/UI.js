@@ -160,7 +160,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
       let filtered = hitElements.filter(el => {
         return (el.mithrilComponent && el.mithrilComponent.handleGesture);
       });
-      // dispatch event to all the mithril components, until one returns true;
+      // dispatch event to all the mithril dataSourceComponents, until one returns true;
       // effectively the same as 'stopPropagation' on a normal event bubbling.
       filtered.some(el => {
         if (this.panLock) {

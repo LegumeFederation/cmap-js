@@ -7,7 +7,7 @@ import {mapRemoved} from '../../topics';
 
 export class MapRemovalDialog {
 
-  // constructor() - prefer do not use in mithril components
+  // constructor() - prefer do not use in mithril dataSourceComponents
 
   /**
    * mithril lifecycle method

@@ -71,7 +71,7 @@ export class FeatureMenu {
       trackGroups: trackGroups
     };
 
-    //Attach components to viewport, in general these are the close button (x in top
+    //Attach dataSourceComponents to viewport, in general these are the close button (x in top
     //right), the actual modal contents, and the apply/close/delete button bar
     let controls = [
       m(_applyButton, {
@@ -261,7 +261,7 @@ export let CloseButton = {
 
 /*
  * Mithril component
- * Div that contains the dropdowns and components for selecting track options
+ * Div that contains the dropdowns and dataSourceComponents for selecting track options
  * @type {{oninit: TrackMenu.oninit, view: TrackMenu.view}}
  */
 
