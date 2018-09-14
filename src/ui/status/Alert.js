@@ -17,14 +17,16 @@ export default class Alert extends Component{
 
   render({message},{visible}){
     if(!visible) return null;
-
+    console.log('error message', message);
     return (
-      <div class='container'>
+      <div class='container' style={{width: '100%'}}>
         <div class='row alert'>
           <div class='eleven columns'>
-            <h5>Error!</h5>{message}
+            {message}
           </div>
-          <div class='one column'> <button class='close-button' onClick={() =>this.close()}>x</button> </div>
+          <div class='one column'>
+            <button class='close-button' onClick={() => this.close()}>X</button>
+          </div>
         </div>
       </div>
     );

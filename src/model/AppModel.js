@@ -1,10 +1,9 @@
 /**
- *
+ * AppModel object to maintain state of the data used to generate cmap-js views
  *
  */
-import {loadDataSources} from './dataSourceComponents/AppModel';
-import PubSub from 'pubsub-js';
-import {dataLoaded} from '../../oldSrc/topics';
+import {loadDataSources} from './dataSourceComponents/DataLoader';
+import {checkStatus} from '../util/fetch';
 
 export default class AppModel {
   constructor(configURL,sub) {
@@ -20,75 +19,83 @@ export default class AppModel {
     this.onChanges = [sub];
     this.testString = 'mu';
     this.initialConfig = {};
+    this._loadDataFromConfig(configURL); //Set data from configuration file
 
-    fetch(configURL)   // load config files
-      .then(r => r.json())
-      .then(data => {
-        this.header = data.header || '';
-        this.attribution = data.attribution || '';
-        this.initialConfig = data;
-        let numSources = data.sources.length;
-        let plural = numSources > 1 ? 's' : '';
-        this.updateStatus(`loading ${numSources} data file${plural}...`); //update status and let index know about it.
-        this.initialView = data.initialView;
-
-        loadDataSources(data.sources)     //load all maps
-          .then(am => {
-            this.allMaps = am;
-            this.bioMaps.push(this.allMaps[0]);
-            this.setInitialView();
-            this.status = 'Maps Loaded';
-            //this.inform();
-            this.toggleBusy();
-          });
-      })
-      .then(stuff => console.log('test chain', stuff))
-      .catch( error => {
-        this.status = error;
-        this.error = true;
-      })
-      .finally(() => this.inform());
-              // load data sources
   }
 
+  // "reducers" for making model changes and informing Parent Component
+
+  /**
+   * Alerts parent component that there are changes to propegate
+   * this is why you need to pass the onChanges setState({}) callback
+   */
   inform(){
-    this.onChanges.forEach( callBack => callBack());
+    this.onChanges.forEach(callBack => callBack());
   }
 
-  updateTestString(string){
-    this.testString = string;
-    this.inform();
-  }
-
+  /**
+   * Update status message without changing busy or error state
+   * @param string
+   */
   updateStatus(string){
     this.status = string;
     this.inform();
   }
 
+  /**
+   * Adds BioMap to the active bioMap array
+   * @param map
+   */
   addBioMap(map){
     this.bioMaps.concat(map);
     this.inform();
   }
 
+  /**
+   * Removes BioMap from the active bioMap array
+   * @param map
+   */
+  removeBioMap(map) {
+    this.bioMaps.splice(this.bioMaps.indexOf(map), 1);
+    this.inform();
+  }
+
+  /**
+   * Toggles busy state
+   */
   toggleBusy(){
     this.busy = !this.busy;
     this.inform();
   }
 
-  setInitialView(){
+  /**
+   * Toggle error state
+   */
+  toggleError() {
+    this.error = !this.error;
+    this.inform();
+  }
+
+  // Private Functions
+
+  /**
+   * Sets the Initial View after successful loading of data maps
+   * @private
+   */
+  _setInitialView() {
     if (!this.initialView.length) {
-      this.defaultInitialView();
+      this._defaultInitialView();
     }
     else {
-      this.setupInitialView();
+      this._setupInitialView();
     }
   }
 
   /**
    * create this.bioMaps based on initialView of config file.
+   * @private
    */
-
-  setupInitialView() {
+  _setupInitialView() {
     this.bioMaps = this.initialView.map(viewConf => {
       const res = this.allMaps.filter(map => {
         return (viewConf.source === map.source.id &&
@@ -115,55 +122,51 @@ export default class AppModel {
   /**
    * create this.bioMaps based on first map from each datasource (e.g if
    * initialView was not defined in config file).
+   * @private
    */
-  defaultInitialView() {
+  _defaultInitialView() {
     this.bioMaps = this.sources.map(src => Object.values(src.bioMaps)[0]);
   }
 
-}
+  /**
+   * Request configuration file and map sets
+   * @param configURL
+   * @private
+   */
+  _loadDataFromConfig(configURL) {
+    fetch(configURL)
+      .then(r => checkStatus(r, configURL))// load config files
+      .then(r => r.json())
+      .then(data => {
+        this.header = data.header || '';
+        this.attribution = data.attribution || '';
+        this.initialConfig = data;
+        let numSources = data.sources.length;
+        let plural = numSources > 1 ? 's' : '';
+        this.updateStatus(`loading ${numSources} data file${plural}...`); //update status and let index know about it.
+        this.initialView = data.initialView;
 
-function setInitialView(){
-  console.log('set initial View',this);
-  if (!this.initialView.length) {
-    this.defaultInitialView();
+        // load config data sources as a set of promises to speed up process
+        // and make error catching smoother.
+        return loadDataSources(data.sources)
+          .then(am => {
+            this.allMaps = am;
+            this.bioMaps.push(this.allMaps[0]);
+            this._setInitialView();
+            this.status = 'Maps Loaded';
+            this.toggleBusy();
+          })
+          .catch((e) => {
+            throw e;
+          });
+      })
+      .catch(error => {
+        //by this point, error should let it be known where the error comes from.
+        this.status = error.toString();
+        this.toggleError();
+      })
+      .finally(() => this.inform());
   }
-  else {
-    this.setupInitialView();
-  }
 }
 
-/**
- * create this.bioMaps based on initialView of config file.
- */
 
-function setupInitialView() {
-  this.bioMaps = this.initialView.map(viewConf => {
-    const res = this.allMaps.filter(map => {
-      return (viewConf.source === map.source.id &&
-        viewConf.map === map.name);
-    });
-    if (res.length === 0) {
-      // TODO: make a nice mithril component to display errors in the UI
-      const info = JSON.stringify(viewConf);
-      const msg = `failed to resolve initialView entry: ${info}`;
-      console.error(msg);
-      console.trace();
-      alert(msg);
-    }
-    if(viewConf.tracks){
-      res[0].tracks = viewConf.tracks;
-    }
-    if (viewConf.qtl) {
-      res[0].qtlGroups = viewConf.qtl;
-    }
-    return res;
-  }).concatAll();
-}
-
-/**
- * create this.bioMaps based on first map from each datasource (e.g if
- * initialView was not defined in config file).
- */
-function defaultInitialView() {
-  this.bioMaps = this.sources.map(src => Object.values(src.bioMaps)[0]);
-}

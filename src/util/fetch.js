@@ -3,19 +3,17 @@
  */
 
 //import preact from 'preact';
-import fetch from 'unfetch';
+//import fetch from 'unfetch';
 
-function ffetch(toFetch){return fetch(toFetch).then(checkStatus)};
-
-function checkStatus(response){
+export function checkStatus(response, promiseStep) {
   if (response.ok){
     return response;
   } else {
-    var error = new Error(response.statusText);
+    console.log('new error', response, promiseStep);
+    var error = new Error(`While processing ${promiseStep}: ${response.statusText}`);
     error.response = response;
     return Promise.reject(error);
   }
 }
 
-export default ffetch
-
+export default checkStatus;

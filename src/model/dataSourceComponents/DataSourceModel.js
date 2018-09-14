@@ -8,6 +8,7 @@ import parser from 'papaparse';
 import {BioMapModel} from './BioMapModel';
 import {Feature} from './Feature';
 import {BioMapConfigModel, defaultConfig} from './BioMapConfigModel';
+import {checkStatus} from '../../util/fetch';
 
 // TODO: implement filtering at data loading time
 
@@ -72,6 +73,7 @@ export class DataSourceModel {
   load() {
     console.log('loading', this);
     return fetch(this.url,{method:this.method})
+      .then(r => checkStatus(r, this.url))
       .then(r => r.text())
       .then(data => this.deserialize(data)).finally(data => console.log('data test',data));
   }
@@ -91,7 +93,8 @@ export class DataSourceModel {
     });
     if (res.errors.length) {
       console.error(res.errors);
-      alert(`There were parsing errors in ${this.url}, please see console.`);
+      throw new Error(`There were parsing errors in ${this.url} please see console.`);
+      //alert(`There were parsing errors in ${this.url}, please see console.`);
     }
     // apply filters from config file
     res.data = res.data.filter(d => this.includeRecord(d));

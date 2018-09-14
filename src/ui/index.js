@@ -2,16 +2,13 @@
  * CMAP
  */
 
-//import preact from 'preact';
 import {h, Component} from 'preact';
-//import {AppModel} from './../model/AppModel';
 import AppModel from '../model/AppModel';
 import queryString from 'query-string';
-//import {dataLoaded} from '../topics';
 import CMAP from './CMAP';
 import Header from './Header';
 import StatusBar from './StatusBar';
-//import Alert from './status/Alert';
+import Alert from './status/Alert';
 import Loading from './status/Loading';
 
 
@@ -42,13 +39,18 @@ export default class UI extends Component{
     });
   }
 
-
   render(props, state){
     let canvasRegionMaxHeight = (state.windowHeight - state.headerHeight - state.footerHeight);
     canvasRegionMaxHeight = canvasRegionMaxHeight < 0 ? 1 : canvasRegionMaxHeight;
 
     return (
       <div class='cmap app-main' style={{height:state.windowHeight||0}} id='cmap-app'>
+        {this.model.error
+          ?
+          <Alert message={this.model.status}/>
+          :
+          null
+        }
         <Header header={this.model.header} />
         { this.model.allMaps.length > 0
           ?
@@ -59,7 +61,7 @@ export default class UI extends Component{
           :
             null
         }
-        { this.model.busy
+        {this.model.busy && !this.model.error
           ?
             <Loading
               status={this.model.status}
