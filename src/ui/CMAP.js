@@ -4,10 +4,10 @@
 
 //import preact from 'preact';
 import {h, Component} from 'preact';
-//import GestureWrapper from './Gesture';
+import GestureWrapper from './Gesture';
 //import LayoutBase from './layout/LayoutBase';
 import HorizontalLayout from './layout/HorizontalLayout';
-import {Bounds} from '../../oldSrc/model/Bounds';
+import {Bounds} from '../model/Bounds';
 
 
 export default class CMAP extends Component{
@@ -32,7 +32,7 @@ export default class CMAP extends Component{
   dispatchGestureEvt(evt) {
     console.log(evt.type);
     if (evt.type === 'tap') {
-      console.log('butts', this);
+      console.log('onTap dispatch', this, this.children);
     }
   }
 
@@ -43,10 +43,12 @@ export default class CMAP extends Component{
       <div id={'cmap-main-app'} class={'row'} style={{maxHeight:maxHeight||'100%', height: 10000, overflowY:'auto'}}  est={'moooo'} dispatchGesture={e => this.dispatchGestureEvt(e)}>
         {viewPort
         ?
-          <HorizontalLayout
-            appState={appModel}
-            bounds={b2}
-          />
+          <GestureWrapper dispatchGesture={(e) => this.dispatchGestureEvt(e)}>
+            <HorizontalLayout
+              appState={appModel}
+              bounds={b2}
+            />
+          </GestureWrapper>
         :
           null
         }
