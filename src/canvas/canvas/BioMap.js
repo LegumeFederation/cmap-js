@@ -10,12 +10,13 @@
 //import {featureUpdate, dataLoaded} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
-import {pageToCanvas} from '../../util/CanvasUtil';
+//import {pageToCanvas} from '../../util/CanvasUtil';
 
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
 import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from '../layout/MapTrack';
 import {FeatureTrack} from '../layout/FeatureTrack';
+import {testDot} from '../../canvas/geometry/testDot';
 
 export default class BioMap extends SceneGraphNodeCanvas {
 
@@ -29,8 +30,9 @@ export default class BioMap extends SceneGraphNodeCanvas {
    * @param {object} initialView - bio map's original layout, used for resetting view
    */
 
-  constructor({bioMapModel, appState, layoutBounds, bioMapIndex, initialView, canvas}) {
-    super({model: bioMapModel});
+  constructor({bioMapModel, appState, layoutBounds, bioMapIndex, initialView, canvas, sub}) {
+    super({model: bioMapModel, sub: sub});
+    console.log('constructing bioMap');
     //this.setCanvas(canvas); //set canvas and rendering context
     this.initialView = initialView;
     this.bioMapIndex = bioMapIndex;
@@ -52,6 +54,7 @@ export default class BioMap extends SceneGraphNodeCanvas {
       },
       invert : (typeof bm.invert === 'boolean') ? bm.invert :this.model.config.invert
     };
+    this.canvas = undefined;
 
     this.model.manhattanPlot = this.initialView.manhattan || null;
     this.zoomDelta = (this.model.view.base.stop - this.model.view.base.start) / this.model.config.ruler.steps;
@@ -79,24 +82,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
     this.dirty = true;
   }
 
-//  draw(ctx){
-//    ctx = this.context2d;
-//    this.children.forEach(child => child.draw(ctx));
-//    ctx.save();
-//    ctx.globalAlpha = .5;
-//    ctx.fillStyle = '#f442e2';
-//    this.children.forEach( child => {
-//      let cb = child.globalBounds;
-//      ctx.fillRect(
-//        Math.floor(cb.left),
-//        Math.floor(cb.top),
-//        Math.floor(cb.width),
-//        Math.floor(cb.height)
-//      );
-//    });
-//    ctx.restore();
-//  }
-
   // getters and setters
 
   /**
@@ -109,11 +94,14 @@ export default class BioMap extends SceneGraphNodeCanvas {
   get visible() {
     let vis = [];
     let cVis = this.children.map(child => {
+      console.log('cVis', child);
       return child.visible;
     });
     cVis.forEach(item => {
       vis = vis.concat(item);
     });
+    //if(this.circle) vis = vis.concat[{data:this.circle}];
+
     return vis;
   }
 
@@ -126,6 +114,50 @@ export default class BioMap extends SceneGraphNodeCanvas {
     return this.locMap;
   }
 
+  //public functions
+  /**
+   * Handles mouse wheel zoom
+   * @param delta - zoom event
+   * @returns {boolean} returns true to stop event propagation further down layers
+   *
+   */
+
+  zoomMap(delta) {
+    // TODO: send zoom event to the scenegraph elements which compose the biomap
+    // (don't scale the canvas element itself)
+    console.warn('BioMap -> onZoom', delta);
+
+    console.log('onZoom', this);
+    // normalise scroll delta
+    this.verticalScale = delta < 0 ? -this.zoomDelta : this.zoomDelta;
+    let mcv = this.model.view.base;
+    let zStart = (this.model.view.visible.start + this.verticalScale);
+    let zStop = (this.model.view.visible.stop - this.verticalScale);
+    if (zStop - zStart < .01) {
+      this.verticalScale -= 0.5;
+      return true;
+    }
+    if (zStart < mcv.start) {
+      zStart = mcv.start;
+    } else if (zStart > zStop) {
+      zStart = zStop;
+    }
+
+    if (zStop > mcv.stop) {
+      zStop = mcv.stop;
+    } else if (zStop < zStart) {
+      zStop = zStart;
+    }
+
+    this.model.view.visible = {
+      start: zStart,
+      stop: zStop
+    };
+
+    this.dirty = true;
+  }
+
+  //private functions
 
   /**
    *  Converts a pixel position to the  canvas' backbone coordinate system.
@@ -168,13 +200,13 @@ export default class BioMap extends SceneGraphNodeCanvas {
       height: this.lb.height
     });
 
-
     this.bounds = this.bounds || new Bounds({
       left: 0,
       top:  40,
       width: this.domBounds.width,
       height: Math.floor(this.domBounds.height - 140) // set to reasonably re-size for smaller windows
     });
+
     //Add children tracks
     this.bbGroup = new Group({parent: this});
     this.bbGroup.bounds = new Bounds({
@@ -245,6 +277,7 @@ export default class BioMap extends SceneGraphNodeCanvas {
     //let layout know that width has changed on an element;
     //m.redraw();
     this.dirty = false;
+    this.inform();
   }
 
   /**
@@ -265,29 +298,24 @@ export default class BioMap extends SceneGraphNodeCanvas {
     this.locMap.load(hits);
   }
 
-  /**
-   * Redraw restricted view
-   *
-   * @param coordinates
-   * @private
-   */
-
-  _redrawViewport(coordinates) {
-    this.model.view.visible = {
-      start: coordinates.start,
-      stop: coordinates.stop
-    };
-    this.backbone.loadLabelMap();
-    this.draw();
-
-    let cMaps = document.getElementsByClassName('cmap-correspondence-map');
-    [].forEach.call(cMaps, el => {
-      el.mithrilComponent.draw();
-    });
-    // move top of popover if currently visible
-    if (this.info.display !== 'none') {
-      this.info.top = this.info.data[0].globalBounds.top;
+  addCircle(position) {
+    if (!this.circle) {
+      this.circle = new testDot({parent: this, position: position});
+      this.addChild(this.circle);
+    } else {
+      this.circle.position = position;
     }
-    //m.redraw();
+
+    //draw:function(ctx){
+    //  console.log('try to draw', ctx);
+    //  ctx.beginPath();
+    //  ctx.fillStyle = 'red';
+    //  ctx.arc(10, 10, 20, 0, 2 * Math.PI, false);
+    //  ctx.fill();
+    //}
+    console.log('add circle', this.children, position);
+    this.dirty = true;
+    this.inform();
   }
+
 }

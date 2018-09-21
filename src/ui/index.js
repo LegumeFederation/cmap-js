@@ -4,7 +4,7 @@
 
 import {h, Component} from 'preact';
 import AppModel from '../model/AppModel';
-import queryString from 'query-string';
+//import queryString from 'query-string';
 import CMAP from './CMAP';
 import Header from './Header';
 import StatusBar from './StatusBar';
@@ -17,8 +17,9 @@ export default class UI extends Component{
   constructor(){
     super();
     //grab query string
-    let query = queryString.parse(location.search);
-    let configURL = query.config || 'cmap.json';
+    //let query = queryString.parse(location.search);
+    //let configURL = query.config || 'cmap.json';
+    let configURL = 'cmap.json';
     this.model = new AppModel(configURL, ()=>{this.setState({}); this.updateDimensions();} );
   }
 

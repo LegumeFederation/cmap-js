@@ -25,7 +25,7 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
    * @param appState - app state model
    */
 
-  constructor({model, appState}) {
+  constructor({model, appState, sub}) {
     super({});
     this.model = model;
     this.appState = appState;
@@ -35,21 +35,37 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
       top: 0,
       left: 0
     };
+    this.onChanges = [sub];
   }
+
 
   /**
    * Getter if canvas has focus
    * @returns {boolean}
    */
-
   get selected() {
     return this.appState.selection.bioMaps.indexOf(this) !== -1;
   }
 
-  setCanvas(canvas) {
-    this.canvas = canvas;
-    this.context2d = this.canvas.getContext('2d');
+  /**
+   *  informs parent context that canvas has updated property
+   */
+  inform() {
+    console.log('inform');
+    this.onChanges.forEach(callBack => callBack());
+  }
+
+  setCanvas(cvs) {
+    this.canvas = cvs;
+    this.context2d = cvs.getContext('2d');
+    this.dirty = true;
+    console.log('set canvas', cvs, this);
     //this.drawLazily(this.domBounds);
+  }
+
+  setDomBounds(bounds) {
+    console.log('setDomBounds', bounds);
+    this.domBounds = bounds;
   }
 
   view() {
@@ -74,17 +90,22 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
    */
 
   draw() {
+    console.log('update cvs', this.context2d, this.domBounds);
     let ctx = this.context2d;
     if (!ctx) return;
     if (!this.domBounds) return;
+    console.log('update cvs bounds');
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.visible.map(child => child && child.data.draw(ctx));
+    console.log('toDraw', this.visible);
+    this.visible.map(child => {
+      child && child.data.draw(ctx);
+    });
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
-    this.dirty = false;
+    //this.dirty = false;
   }
 
   /**
