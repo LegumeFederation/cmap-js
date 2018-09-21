@@ -174,9 +174,6 @@ export class MapTrack extends SceneGraphNodeTrack {
     this.bounds.right += offset;
 
     // Move labels if the ruler is on same side and placed before labels
-
-
-
   }
 
 

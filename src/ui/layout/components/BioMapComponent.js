@@ -65,14 +65,18 @@ export default class BioMapComponent  extends Component {
 
   onClick(evt) {
     console.log('click', evt);
-    this.props.bioMap.addCircle({x: evt.layerX, y: evt.layerY});
+    let hits = this.props.bioMap.addCircle({x: evt.layerX, y: evt.layerY});
+    this.setState({hits: hits, visible: hits.length > 0});
     this.updateCanvas();
   }
 
-
-  render({bioMap,bioIndex},{width}) {
+  render({bioMap, bioIndex}, {width, visible, hits}) {
     // store these bounds, for checking in drawLazily()
-
+    if (visible) {
+      let visItems = hits.map(hit => hit.data.model.name);
+      window.alert(visItems);
+      this.setState({visible: false});
+    }
     return (
       <div style={{display:'table-cell', width:width}}>
         <div class={'swap-div'} style={{width:width}}> Testing {bioIndex} </div>

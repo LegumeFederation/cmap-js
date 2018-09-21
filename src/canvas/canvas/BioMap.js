@@ -231,7 +231,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
       }
     });
 
-    console.log('layout bm', this.domBounds,this.bbGroup);
     this.children.push(this.bbGroup);
 
     this.tracksRight =[];
@@ -299,6 +298,7 @@ export default class BioMap extends SceneGraphNodeCanvas {
   }
 
   addCircle(position) {
+    this._loadHitMap();
     if (!this.circle) {
       this.circle = new testDot({parent: this, position: position});
       this.addChild(this.circle);
@@ -306,16 +306,19 @@ export default class BioMap extends SceneGraphNodeCanvas {
       this.circle.position = position;
     }
 
-    //draw:function(ctx){
-    //  console.log('try to draw', ctx);
-    //  ctx.beginPath();
-    //  ctx.fillStyle = 'red';
-    //  ctx.arc(10, 10, 20, 0, 2 * Math.PI, false);
-    //  ctx.fill();
-    //}
-    console.log('add circle', this.children, position);
     this.dirty = true;
     this.inform();
+
+    return this.hitMap.search(
+      {
+        minX: position.x - 3,
+        maxX: position.x + 3,
+        minY: position.y - 3,
+        maxY: position.y + 3
+      }
+    );
+
   }
+
 
 }
