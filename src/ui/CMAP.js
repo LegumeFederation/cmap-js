@@ -3,21 +3,27 @@
  */
 
 import {h, Component} from 'preact';
-import GestureWrapper from './Gesture';
 import HorizontalLayout from './layout/HorizontalLayout';
 import {Bounds} from '../model/Bounds';
-
+import AddMapComponent from './tools/AddMapComponent';
+import RemoveMapComponent from './tools/RemoveMapComponent';
+import ConfigureComponent from './tools/ConfigureComponent';
+import ExportComponent from './tools/ExportComponent';
+import MenuComponent from './tools/MenuComponent';
 
 export default class CMAP extends Component{
   constructor() {
     super();
     this.setState({viewPort:null});
+    this.setState({menuVisible: null});
+    this.setState({layoutMax: 0});
+    this.setMenuComponent = this.setMenuComponent.bind(this);
   }
 
-  componentDidMount(){
-    console.log("cmap start", this.base);
+  componentDidMount() {
     this.updateBounds();
   }
+
 
   componentWillReceiveProps(nextProps, nextState) {
     this.updateBounds();
@@ -28,24 +34,36 @@ export default class CMAP extends Component{
     this.setState({viewPort:bnds });
   }
 
-  render({appModel,maxHeight},{viewPort}) {
+  setMenuComponent(newComponent) {
+    this.setState({menuVisible: newComponent});
+  }
+
+  render({appModel, maxHeight}, {viewPort, menuVisible}) {
     let b2 = this.base? this.base.getBoundingClientRect() : null;
-    console.log('cmap stt',maxHeight,viewPort,b2);
+    let layoutMax = b2 ? maxHeight - this.base.childNodes[0].offsetHeight : maxHeight;
+
     return (
       <div id={'cmap-main-app'} class={'row'}
-           style={{maxHeight: maxHeight || '100%', height: 10000, overflowY: 'auto'}}>
+           style={{maxHeight: maxHeight || '100%', height: 10000}}>
+        <div class='row cmap' id='cmap-controls'>
+          <AddMapComponent set={this.setMenuComponent}/>
+          <RemoveMapComponent set={this.setMenuComponent}/>
+          <ConfigureComponent set={this.setMenuComponent}/>
+          <ExportComponent set={this.setMenuComponent}/>
+        </div>
+        <div>
+          <MenuComponent menu={menuVisible} appState={appModel} maxHeight={layoutMax}/>
+        </div>
         {viewPort
           ?
             <HorizontalLayout
               appState={appModel}
               bounds={b2}
+              maxHeight={layoutMax}
             />
           :
           null
         }
-        <div class='row cmap' id='cmap-body'>
-          <button onClick={() => alert('hi!')}>Click Me</button>
-        </div>
       </div>
     );
   }

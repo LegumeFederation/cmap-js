@@ -2,7 +2,7 @@
  * Header
  */
 import {h, Component} from 'preact';
-import {JSXTemplateTest } from './TemplateTest';
+//import {JSXTemplateTest } from './TemplateTest';
 
 export default class Header extends Component {
   constructor(){
@@ -22,7 +22,6 @@ export default class Header extends Component {
             <span class='cmap-header'>{header}</span >
           </p>
         </div>
-        <JSXTemplateTest />
       </div>
     );
   }

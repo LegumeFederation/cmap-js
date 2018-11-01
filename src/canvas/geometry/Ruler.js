@@ -19,7 +19,7 @@ export class Ruler extends SceneGraphNodeBase {
    */
 
   constructor({parent, bioMap, config}) {
-    super({parent});
+    super({parent: parent});
     this.config = config;
     this.mapCoordinates = bioMap.view;
     this.offset = this.mapCoordinates.base.start * -1;

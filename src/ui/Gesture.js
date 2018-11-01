@@ -1,10 +1,8 @@
 /**
- * Hammer
- * Allow syntheticEvents to work with touch events by passing as a property.
- * <div onClick={onClick}; />
+ * Gesture
+ * Allow preact syntheticEvents to work with touch events by passing as a property.
+ * i.e. <div onTap={onTap}; />
  *
- * Unlike (p)react native events, hammer uses bubbling events as opposed to
- * capture/trickle-down, so only suggest using when events won't overlap.
  */
 
 import {h, Component, cloneElement} from 'preact';
@@ -111,6 +109,12 @@ export default class GestureWrapper extends Component{
     hammerSetup(this.hammer, this.props);
   }
 
+  componentDidUpdate() {
+    if (this.hammer) {
+      hammerSetup(this.hammer, this.props);
+    }
+  }
+
   componentWillUnmount() {
     if (this.hammer) {
       this.hammer.stop();
@@ -126,7 +130,6 @@ export default class GestureWrapper extends Component{
         childProps[prop] = this.props[prop];
       }
     });
-
     //clone child passed and give it new props from the hammer stuff
     return cloneElement(props.children[0], childProps);
   }

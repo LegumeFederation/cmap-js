@@ -2,7 +2,7 @@
  * AppModel object to maintain state of the data used to generate cmap-js views
  *
  */
-import {loadDataSources} from './dataSourceComponents/DataLoader';
+import {loadDataSources, loadMaps} from './dataSourceComponents/DataLoader';
 import {checkStatus} from '../util/fetch';
 
 export default class AppModel {
@@ -43,20 +43,31 @@ export default class AppModel {
   }
 
   /**
-   * Adds BioMap to the active bioMap array
-   * @param map
+   * Adds BioMaps to the active bioMap array
+   * @param maps
+   * @param direction - 0 for add left, otherwise add right;
    */
-  addBioMap(map){
-    this.bioMaps.concat(map);
+  addBioMap(maps, direction = 0) {
+    //test if map is actually an array of maps
+    if (maps.constructor !== Array) maps = [maps];
+    if (direction === 0) {
+      this.bioMaps = maps.concat(this.bioMaps);
+    } else {
+      this.bioMaps = this.bioMaps.concat(maps);
+    }
+
     this.inform();
   }
 
   /**
-   * Removes BioMap from the active bioMap array
-   * @param map
+   * Removes BioMaps from the active bioMap array
+   * @param maps
    */
-  removeBioMap(map) {
-    this.bioMaps.splice(this.bioMaps.indexOf(map), 1);
+  removeBioMap(maps) {
+    if (maps.constructor !== Array) maps = [maps];
+    maps.forEach(map => {
+      this.bioMaps.splice(this.bioMaps.indexOf(map), 1);
+    });
     this.inform();
   }
 
@@ -149,14 +160,17 @@ export default class AppModel {
         // load config data sources as a set of promises to speed up process
         // and make error catching smoother.
         return loadDataSources(data.sources)
-          .then(am => {
-            this.allMaps = am;
+          .then(dataSources => {
+            console.log('load data sources', dataSources);
+            this.sources = dataSources;
+            this.allMaps = loadMaps(dataSources);
             this.bioMaps.push(this.allMaps[0]);
             this._setInitialView();
             this.status = 'Maps Loaded';
             this.toggleBusy();
           })
           .catch((e) => {
+            console.error(e);
             throw e;
           });
       })

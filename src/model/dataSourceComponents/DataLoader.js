@@ -14,14 +14,17 @@ export function loadDataSources(sources=[]){
     // wait for all data sources are loaded, then set this.bioMaps with
     // only the maps named in initialView
     //
-  return Promise.all(promises)
-    .then(() =>{
-      let am = maps.map(src => Object.values(src.bioMaps)).concatAll();
-      return am;
-    })
+  return Promise.all(promises).then(() => {
+    return maps;
+  })
     .catch(error => {
+      console.error('loadDataSources', error);
       throw error;
     });
+}
+
+export function loadMaps(maps = []) {
+  return maps.map(src => Object.values(src.bioMaps)).concatAll();
 }
 
 

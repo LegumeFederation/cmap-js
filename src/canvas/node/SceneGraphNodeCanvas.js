@@ -105,6 +105,7 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
     ctx.restore();
     // store these bounds, for checking in drawLazily()
     this.lastDrawnCanvasBounds = this.bounds;
+    this.inform();
     //this.dirty = false;
   }
 

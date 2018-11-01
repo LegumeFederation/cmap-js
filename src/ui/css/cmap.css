@@ -24,6 +24,7 @@ html, body {
     width: calc(100% - 2rem);
     height: 500000px;
     margin: 0 auto;
+    overflow: hidden;
     /*
     max-width:95%;
     max-height:80%;
@@ -55,6 +56,7 @@ html, body {
     -ms-flex-direction: row;
     -o-flex-direction: row;
     flex-direction: row;
+    overflow: auto;
 }
 
 .cmap-vbox {
@@ -133,17 +135,38 @@ span.cmap-header {
 .cmap-attribution {
 }
 
-.cmap-map-removal-dialog, .cmap-map-addition-dialog {
+.control-dialog {
+    overflow-y: hidden;
+}
+
+.cmap-modal-control {
+    text-align: center;
+}
+
+div.cmap-modal-control button {
+    margin-right: 1rem;
+    margin-left: 1rem;
+    text-align: center;
+}
+
+#cmap-map-removal-dialog, #cmap-map-addition-dialog {
     padding-left: 2rem;
     border-left: solid 4px grey;
 }
 
-.cmap-map-addition-dialog label {
+#cmap-map-addition-dialog label {
     display: inline-block;
     margin: 0 0.5rem 0 0.5rem;
 }
 
-button > i {
+#export-location-input {
+    width: 100%;
+    margin: auto;
+
+}
+
+.button i, button > i {
+    margin-right: 0.5em;
     vertical-align: -30%;
 }
 
@@ -199,6 +222,7 @@ span.cmap-map-name-chip {
     z-index: 10000;
     border: 1px solid #bbb;
     border-radius: 4px;
+    text-align: center;
 }
 
 .swap-map-order {

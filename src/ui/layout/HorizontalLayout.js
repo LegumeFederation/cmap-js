@@ -12,33 +12,49 @@ import BioMap from '../../canvas/canvas/BioMap';
 export default class HorizontalLayout extends LayoutBase {
   constructor(){
     super();
-    this.setState({bioMapComponents : []});
+    this.setState({bioMapComponents: [], bioMaps: []});
   }
+
 
   componentWillMount(){
-    this._layoutBioMaps();
+    let bioMapComponents = this._layoutBioMaps(this.props.appState);
+    this.setState({bioMapComponents: bioMapComponents, bioMaps: this.props.appState.bioMaps.length});
   }
 
-  _layoutBioMaps(){
-    let activeMaps = this.props.appState.bioMaps;
+  _layoutBioMaps(appState = this.props.appState) {
+    let activeMaps = appState.bioMaps;
     let bmbounds = new Bounds(this.props.bounds);
+    let minWidth = bmbounds.width / activeMaps.length;
     let bioMapComponents = activeMaps.map((model, mapIndex) => {
-      let BM = new BioMap({
-        bioMapModel:model,
-        appState:this.props.appState,
-        layoutBounds: bmbounds,
-        bioMapIndex : mapIndex,
-        initialView: this.props.appState.allMaps[0].config,
-        sub: () => this.setState({})
-      });
-      return <BioMapComponent bioMap={BM} bioIndex={mapIndex} class={'test-canvas'} style={'display:table-cell; width:400px;'} />;
+      //let BM = new BioMap({
+      //  bioMapModel:model,
+      //  appState: appState,
+      //  layoutBounds: bmbounds,
+      //  bioMapIndex : mapIndex,
+      //  initialView: appState.allMaps[0].config,
+      //  sub: () => this.setState({})
+      //});
+      return <BioMapComponent bioMap={model} appState={appState} bioIndex={mapIndex} minWidth={minWidth}
+                              class={'test-canvas'} style={'display:table-cell; width:400px;'}/>;
     });
-
-    this.setState({bioMapComponents: bioMapComponents});
+    // Add map controls
+    return bioMapComponents;
+    //this.setState({bioMapComponents: bioMapComponents, bioMaps:appState.bioMaps.length});
   }
 
   render(props, state) {
-    return ( <div class='twelve columns' id={'horizontal-layout-container'}> {this.state.bioMapComponents} </div> );
+    let bmc = null;
+    if (props.appState.bioMaps.length !== this.state.bioMaps) bmc = this._layoutBioMaps();
+    return (
+      <div class='twelve columns'
+           style={{maxHeight: props.maxHeight || '100%', overflow: 'auto'}}
+           id={'horizontal-layout-container'}
+      >
+        {bmc ?
+          bmc :
+          state.bioMapComponents}
+      </div>
+    );
   }
 
 }

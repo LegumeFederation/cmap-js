@@ -7,9 +7,8 @@
 
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
-import {translateScale} from '../../util/CanvasUtil';
 
-export class testDot extends SceneGraphNodeBase {
+export class SelectBox extends SceneGraphNodeBase {
   /**
    * Constructor
    *
@@ -21,38 +20,36 @@ export class testDot extends SceneGraphNodeBase {
 
   constructor({parent, position}) {
     super({parent});
-    //setup config
     this.position = position;
-    this.radius = 3;
     this.bounds = new Bounds({
-      top: 0,
-      left: 0,
-      width: 2 * this.radius, //this.fontSize*(this.model.name.length),
-      height: 2 * this.radius,
+      top: position.y,
+      left: position.x,
+      width: 0, //this.fontSize*(this.model.name.length),
+      height: 0,
       allowSubpixel: false
     });
+  }
+
+  updatePosition(position) {
+    this.bounds.right = position.x;
+    this.bounds.bottom = position.y;
   }
 
   /**
    * Draw label on cmap canvas context
    * @param ctx
    */
-
   draw(ctx) {
     //Setup a base offset based on parent track
-    let y = this.position.y;
-    let x = this.position.x;
-    // Draw dot
-    ctx.beginPath();
-    ctx.fillStyle = 'red';
-    ctx.arc(x, y, this.radius, 0, 2 * Math.PI, false);
-    ctx.fill();
-    //ctx.lineWidth = config.lineWeight;
-    //ctx.strokeStyle = config.lineColor;
-    //ctx.stroke();
-
-    //update bounding box
-    this.bounds.translate(x - this.radius - this.bounds.left, y - this.radius - this.bounds.top);
+    ctx.lineWidth = 1.0;
+    ctx.strokeStyle = 'black';
+    // noinspection JSSuspiciousNameCombination
+    ctx.strokeRect(
+      this.position.x,
+      this.position.y,
+      this.bounds.width,
+      this.bounds.height
+    );
   }
 
   get visible() {

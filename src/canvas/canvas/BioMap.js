@@ -4,19 +4,15 @@
  * @extends SceneGraphNodeCanvas
  */
 
-
-//import m from 'mithril';
-//import PubSub from 'pubsub-js';
-//import {featureUpdate, dataLoaded} from '../../topics';
-
 import {Bounds} from '../../model/Bounds';
-//import {pageToCanvas} from '../../util/CanvasUtil';
-
+// drawing layouts and geometry
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
 import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
 import {MapTrack} from '../layout/MapTrack';
 import {FeatureTrack} from '../layout/FeatureTrack';
-import {testDot} from '../../canvas/geometry/testDot';
+import {TestDot} from '../geometry/TestDot';
+import {SelectBox} from '../../canvas/geometry/SelectBox';
+
 
 export default class BioMap extends SceneGraphNodeCanvas {
 
@@ -71,15 +67,11 @@ export default class BioMap extends SceneGraphNodeCanvas {
 
     };
 
-    // create some regular expressions for faster dispatching of events
-    this._gestureRegex = {
-      pan: new RegExp('^pan'),
-      pinch: new RegExp('^pinch'),
-      tap: new RegExp('^tap'),
-      wheel: new RegExp('^wheel')
-    };
-   // this._layout(layoutBounds);
+    //display elements that can be added via mouse events
+    this.selectionBox = null;
+    this.clickPosition = null;
     this.dirty = true;
+    this._layout(layoutBounds);
   }
 
   // getters and setters
@@ -126,8 +118,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (don't scale the canvas element itself)
     console.warn('BioMap -> onZoom', delta);
-
-    console.log('onZoom', this);
     // normalise scroll delta
     this.verticalScale = delta < 0 ? -this.zoomDelta : this.zoomDelta;
     let mcv = this.model.view.base;
@@ -153,8 +143,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
       start: zStart,
       stop: zStop
     };
-
-    this.dirty = true;
   }
 
   //private functions
@@ -191,7 +179,9 @@ export default class BioMap extends SceneGraphNodeCanvas {
     this.lb = this.lb || layoutBounds;
     console.log('BioMap -> layout');
     const width = Math.floor(this.lb.width / this.appState.bioMaps.length);
+
     this.children = [];
+
     this.domBounds = this.domBounds || new Bounds({
       left: this.lb.left,
       //top: this.lb.top,
@@ -266,8 +256,8 @@ export default class BioMap extends SceneGraphNodeCanvas {
       qtlRight.bounds.left += qtlLeft.globalBounds.right;
       qtlRight.bounds.right = qtlRight.bounds.left + qrw;
     }
-    this.domBounds.width = width;
-    if (this.domBounds.width < qtlRight.globalBounds.right + 30) {
+    console.log('qtl right bounds', qtlRight.globalBounds.right);
+    if (this.domBounds.width < qtlRight.globalBounds.right) {
       this.domBounds.width = qtlRight.globalBounds.right + 50;
     }
 
@@ -275,7 +265,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
     this._loadHitMap();
     //let layout know that width has changed on an element;
     //m.redraw();
-    this.dirty = false;
     this.inform();
   }
 
@@ -297,28 +286,153 @@ export default class BioMap extends SceneGraphNodeCanvas {
     this.locMap.load(hits);
   }
 
+  // Event Behavior
   addCircle(position) {
-    this._loadHitMap();
-    if (!this.circle) {
-      this.circle = new testDot({parent: this, position: position});
-      this.addChild(this.circle);
+    let radius = 4;
+    if (!this.clickPosition) {
+      this.clickPosition = new TestDot({parent: this, position: position, radius: radius});
+      this.addChild(this.clickPosition);
     } else {
-      this.circle.position = position;
+      this.clickPosition.position = position;
     }
 
-    this.dirty = true;
-    this.inform();
+    this._loadHitMap();
 
-    return this.hitMap.search(
+    this.dirty = true;
+    //this.inform();
+
+    return this._calculateHits(
       {
-        minX: position.x - 3,
-        maxX: position.x + 3,
-        minY: position.y - 3,
-        maxY: position.y + 3
+        left: position.x - radius,
+        right: position.x + radius,
+        top: position.y - radius,
+        bottom: position.y + radius
       }
     );
 
   }
 
+  onPanStart(position) {
+    if (!this.ruler) this._layout(this.domBounds);
+    let rulerBounds = this.ruler.globalBounds;
+    let evtType = null;
+    let rbx = position.x >= rulerBounds.left && position.x <= rulerBounds.right;
+    let rby = position.y >= rulerBounds.top && position.y <= rulerBounds.bottom;
 
+    if (rbx && rby) {
+      evtType = 'panRuler';
+    } else {
+      evtType = 'boxSelect';
+      this._addSelectionBox(position);
+    }
+
+    if (this.clickPosition) this.removeChild(this.clickPosition);
+    this.clickPosition = new TestDot({parent: this, position: position, radius: 4});
+    this.addChild(this.clickPosition);
+    //this.inform();
+    return evtType;
+  }
+
+  onPan({position, delta = {x: 0, y: 0}, type}) {
+    console.log('on pan', position, delta, type);
+    if (type === 'boxSelect') {
+      this._updateSelectionBox(position);
+    }
+    if (type === 'panRuler') {
+      console.log('panRuler');
+      this._panRuler(delta);
+    }
+    // this.inform();
+  }
+
+  onPanEnd({position, type}) {
+    let hits = null;
+    if (type === 'boxSelect') {
+      this.onPan({position: position, type: type});
+      //Determine if select box or zoom box
+      let gb = this.ruler.globalBounds;
+      let sb = this.selectionBox.bounds;
+      let sgb = this.selectionBox.globalBounds;
+      let lCorner = sgb.left < sgb.right ? sgb.left : sgb.right;
+      let rCorner = sgb.right > sgb.left ? sgb.right : sgb.left;
+      // if zoom rectangle contains the ruler, zoom, else populate popover
+      if (((lCorner <= gb.left) && (rCorner >= gb.left)) || ((lCorner <= gb.right && rCorner >= gb.right))) {
+        let newStartPos = sb.top >= gb.top ? sb.top : gb.top;
+        let newStopPos = sb.bottom <= gb.bottom ? sb.bottom : gb.bottom;
+        this._updateRulerVisible({top: newStartPos, bottom: newStopPos});
+      } else {
+        hits = this._calculateHits(sb);
+      }
+      //Remove the box graphic
+      this._clearSelectionBox();
+      // this.inform();
+    }
+    return hits || [];
+  }
+
+  _addSelectionBox(position) {
+    this.selectionBox = new SelectBox({parent: this, position: position});
+    this.addChild(this.selectionBox);
+  }
+
+  _updateSelectionBox(position) {
+    this.selectionBox.updatePosition(position);
+  }
+
+  _clearSelectionBox() {
+    this.removeChild(this.selectionBox);
+    this.selectionBox = null;
+  }
+
+  _panRuler(delta) {
+    if (this.model.config.invert) {
+      delta.y = -delta.y;
+    }
+    let scaleDelta = (delta.y) / this.model.view.pixelScaleFactor;
+    // prevent moving off top/bottom of ruler range
+    if (this.model.view.visible.start + scaleDelta < this.model.view.base.start) {
+      scaleDelta = this.model.view.base.start - this.model.view.visible.start;
+    } else if (this.model.view.visible.stop + scaleDelta > this.model.view.base.stop) {
+      scaleDelta = this.model.view.base.stop - this.model.view.visible.stop;
+    }
+
+    this.model.view.visible = {
+      start: this.model.view.visible.start + scaleDelta,
+      stop: this.model.view.visible.stop + scaleDelta
+    };
+  }
+
+  _updateRulerVisible(bounds) {
+    this.model.view.visible = this.model.view.base;
+    let baseStart = this._pixelToCoordinate(bounds.top - this.ruler.globalBounds.top);
+    let baseStop = this._pixelToCoordinate(bounds.bottom - this.ruler.globalBounds.top);
+    let swap = baseStart < baseStop;
+    let zStart = swap ? baseStart : baseStop;
+    let zStop = swap ? baseStop : baseStart;
+
+    if (zStart < this.model.view.base.start) {
+      zStart = this.model.view.base.start;
+    }
+    if (zStop > this.model.view.base.stop) {
+      zStop = this.model.view.base.stop;
+    }
+
+    this.model.view.visible = {
+      start: zStart,
+      stop: zStop
+    };
+  }
+
+  _calculateHits(bounds) {
+    let left = bounds.left <= bounds.right;
+    let top = bounds.top <= bounds.bottom;
+    this._loadHitMap();
+    let hits = this.hitMap.search({
+      minX: left ? bounds.left : bounds.right,
+      maxX: left ? bounds.right : bounds.left,
+      minY: top ? bounds.top : bounds.bottom,
+      maxY: top ? bounds.bottom : bounds.top
+    });
+    return hits;
+  }
 }
