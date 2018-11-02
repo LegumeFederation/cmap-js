@@ -43,7 +43,8 @@ export class QtlTrack extends SceneGraphNodeTrack {
     }
     let filteredFeatures = [];
     qtlConf.filters.forEach((filter, order) => {
-      let test = this.parent.model.features.filter(model => {
+      let test;
+      test = this.parent.model.features.filter(model => {
         return model.tags[0].match(filter) !== null;
       });
       if (test.length === 0) {

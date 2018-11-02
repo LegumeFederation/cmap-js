@@ -17,7 +17,8 @@
         "fillColor": [
           "yellow"
         ],
-        "labelPosition": "feature"
+        "labelStyle": "feature",
+        "labelPosition": -1
       },
       {
         "type": "qtl",
@@ -29,7 +30,8 @@
           "green",
           "red"
         ],
-        "labelPosition": "feature"
+        "labelStyle": "feature",
+        "labelPosition": 1
       }
     ]
   },

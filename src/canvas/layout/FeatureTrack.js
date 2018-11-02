@@ -34,7 +34,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       height: b.height
     });
     if(this.parent.model.tracks) {
-      let tracks = this.trackPos >= 1 ? this.parent.tracksLeft : this.parent.tracksRight;
+      let tracks = this.trackPos < 1 ? this.parent.tracksLeft : this.parent.tracksRight;
       tracks.forEach((track, order) => {
         // newFeatureTrack is a group with two dataSourceComponents, the feature data track, and the feature label track
         //track.appState = this.parent.appState;
@@ -70,11 +70,21 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         //  newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
         //  featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
         //}
+        let trackType = track.type.toLowerCase();
+        featureData = trackSelector.feature({parent: newFeatureTrack, config: track, featureStyle: trackType});
+        if (featureData !== undefined) { //only add if valid track
+          newFeatureTrack.title = track.title || this.model.config[trackType].title || trackType;
+          newFeatureTrack.addChild(featureData);
+          if (newFeatureTrack.globalBounds.right > this.globalBounds.right) {
+            this.bounds.right = this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
+          }
+          //if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
+          //  this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
+          //}
 
-        newFeatureTrack.sources = this.parent.appState.sources;
-        newFeatureTrack.title = track.title || this.model.config[track.type].title || track.type;
-        featureData = trackSelector[track.type]({parent:newFeatureTrack, config: track});
-        newFeatureTrack.addChild(featureData);
+          this.addChild(newFeatureTrack);
+          newFeatureTrack.offset = newFeatureTrack.globalBounds.left;
+        }
 
        //Shift newFeature track bounds for wide feature glyphs
        // if(featureData.globalBounds.right > newFeatureTrack.globalBounds.right){
@@ -95,15 +105,6 @@ export class FeatureTrack extends SceneGraphNodeTrack {
        // }
 
         //shift this tracks's bounds so it still fits in the canvas
-        if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
-          this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
-        }
-        //if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
-        //  this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
-        //}
-
-        this.addChild(newFeatureTrack);
-
 
       });
     } else {

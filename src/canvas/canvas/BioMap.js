@@ -223,8 +223,8 @@ export default class BioMap extends SceneGraphNodeCanvas {
 
     this.children.push(this.bbGroup);
 
-    this.tracksRight =[];
     this.tracksLeft = [];
+    this.tracksRight =[];
     console.log('bm model',this.model);
     if(!this.model.tracks && this.model.config.tracks){
       this.model.tracks =this.model.config.tracks;
@@ -233,15 +233,15 @@ export default class BioMap extends SceneGraphNodeCanvas {
       this.model.tracks.forEach((track,order) => {
         track.tracksIndex = order;
         if (track.position === -1) {
-          this.tracksRight.push(track);
-        } else {
           this.tracksLeft.push(track);
+        } else {
+          this.tracksRight.push(track);
         }
       });
     }
 
+    let qtlLeft = new FeatureTrack({parent: this, position: -1});
     let qtlRight = new FeatureTrack({parent:this,position:1});
-    let qtlLeft = new FeatureTrack({parent:this,position:-1});
     // let qtlRight = {};
     //let qtlRight = new QtlTrack({parent: this , position: 1});
     //let qtlLeft = new QtlTrack({parent: this, position: -1});

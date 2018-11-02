@@ -10,13 +10,14 @@ import {QtlTrack} from './QtlTrack';
 import {FeatureLabelTrack} from './FeatureLabelTrack';
 import {BlockLabelTrack} from './BlockLabelTrack';
 
-
-export function qtl(params){
+export function feature(params) {
+  let featureStyle = params.featureStyle;
+  if (featureStyle === 'qtl') {
     return new QtlTrack(params);
-}
-
-export function  manhattan(params){
+  } else if (featureStyle === 'manhattan') {
     return new ManhattanPlot(params);
+  }
+  return undefined;
 }
 
 export function label (params){
