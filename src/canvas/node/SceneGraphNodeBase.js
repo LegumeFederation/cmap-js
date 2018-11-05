@@ -78,9 +78,9 @@ export class SceneGraphNodeBase {
    * @returns {Object} - Bounds instance
    */
 
-  get globalBounds() {
+  get canvasBounds() {
     if (!this.parent) return this.bounds;
-    let gb = this.parent.globalBounds;
+    let gb = this.parent.canvasBounds;
     return new Bounds({
       top: this.bounds.top + gb.top,
       bottom: this.bounds.bottom + gb.top,
@@ -177,7 +177,7 @@ export class SceneGraphNodeBase {
    */
 
   translatePointToGlobal({x, y}) {
-    let gb = this.globalBounds;
+    let gb = this.canvasBounds;
     return {x: x + gb.left, y: y + gb.top};
   }
 

@@ -36,7 +36,7 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
     let vis = this.locMap.all().sort((a,b) => {return a.minY-b.minY;}).map(child => {
       child.data.show = false;
       if(!(child.data.position > stopY || child.data.position < startY )) {
-        let b = child.data.globalBounds;
+        let b = child.data.canvasBounds;
         let hits = this.locMap.search({
           maxY: b.top > b.bottom ? b.top : b.bottom,
           minY: b.top < b.bottom ? b.top : b.bottom,
@@ -76,7 +76,7 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
     ctx.globalAlpha = .5;
     ctx.fillStyle = 'green';
 
-    let gb = this.globalBounds;
+    let gb = this.canvasBounds;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
@@ -85,7 +85,7 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
     );
 
     this.children.forEach(child => {
-      let cb = child.globalBounds;
+      let cb = child.canvasBounds;
       // noinspection JSSuspiciousNameCombination
       // noinspection JSSuspiciousNameCombination
       ctx.fillRect(
@@ -107,10 +107,10 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
     //return this.locMap.all();
     return this.children.map(child => {
       return {
-        maxY: child.globalBounds.top,
-        minY: child.globalBounds.bottom,
-        minX: child.globalBounds.left,
-        maxX: child.globalBounds.right,
+        maxY: child.canvasBounds.top,
+        minY: child.canvasBounds.bottom,
+        minX: child.canvasBounds.left,
+        maxX: child.canvasBounds.right,
         data: child
       };
     });
@@ -149,7 +149,7 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
        });
 
        this.addChild(fm);
-       let gb = fm.globalBounds;
+       let gb = fm.canvasBounds;
        let loc = {
          minY: gb.top < gb.bottom ? gb.top : gb.bottom,
          maxY: gb.top > gb.bottom ? gb.top : gb.bottom,
@@ -165,8 +165,8 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
        if(fm.bounds.right > this.bounds.right && fm.bounds.right > this.offset){
          this.offset = fm.bounds.right - this.bounds.right;
        }
-       //if (gb.right > this.globalBounds.right) {
-       //  this.bounds.right += gb.right - this.globalBounds.right;
+       //if (gb.right > this.canvasBounds.right) {
+       //  this.bounds.right += gb.right - this.canvasBounds.right;
        //}
         fmData.push(loc);
          return fm;

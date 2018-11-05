@@ -84,8 +84,8 @@ export class QtlTrack extends SceneGraphNodeTrack {
       let loc = {
         minY: model.coordinates.start,
         maxY: model.coordinates.stop,
-        minX: fm.globalBounds.left,
-        maxX: fm.globalBounds.right,
+        minX: fm.canvasBounds.left,
+        maxX: fm.canvasBounds.right,
         data: fm
       };
 
@@ -94,10 +94,10 @@ export class QtlTrack extends SceneGraphNodeTrack {
 
       fmData.push(loc);
 
-      if (fm.globalBounds.right > this.globalBounds.right) {
-        this.bounds.right = fm.globalBounds.right - this.globalBounds.left;
-        featureGroup.bounds.right = fm.globalBounds.right - this.globalBounds.left;
-        this.parent.bounds.right += fm.globalBounds.right - this.parent.globalBounds.right;
+      if (fm.canvasBounds.right > this.canvasBounds.right) {
+        this.bounds.right = fm.canvasBounds.right - this.canvasBounds.left;
+        featureGroup.bounds.right = fm.canvasBounds.right - this.canvasBounds.left;
+        this.parent.bounds.right += fm.canvasBounds.right - this.parent.canvasBounds.right;
       }
 
       return fm;
@@ -119,7 +119,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
       }
         this.featureGroup.bounds.right += offset;
         this.labelGroup.bounds.right += offset;
-        this.parent.bounds.right += offset;//(this0.parent.globalBounds.right-featureGroup.globalBounds.right);
+      this.parent.bounds.right += offset;//(this0.parent.canvasBounds.right-featureGroup.canvasBounds.right);
         this.bounds.right += offset;
     }
     this.locMap.clear();
@@ -151,7 +151,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
     ctx.globalAlpha = .5;
     ctx.fillStyle = '#ADD8E6';
     this.children.forEach(child => {
-      let cb = child.globalBounds;
+      let cb = child.canvasBounds;
       // noinspection JSSuspiciousNameCombination
       // noinspection JSSuspiciousNameCombination
       ctx.fillRect(
@@ -173,10 +173,10 @@ export class QtlTrack extends SceneGraphNodeTrack {
     //return this.locMap.all();
     return this.featureGroup.children.map(child => {
       return {
-        minY: child.globalBounds.top,
-        maxY: child.globalBounds.bottom,
-        minX: child.globalBounds.left,
-        maxX: child.globalBounds.right,
+        minY: child.canvasBounds.top,
+        maxY: child.canvasBounds.bottom,
+        minX: child.canvasBounds.left,
+        maxX: child.canvasBounds.right,
         data: child
       };
     });

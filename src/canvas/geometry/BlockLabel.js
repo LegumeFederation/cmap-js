@@ -69,8 +69,7 @@ export class BlockLabel extends SceneGraphNodeBase {
     }
     if(!this.show) return;
 
-
-    let gb = this.globalBounds || {};
+    let gb = this.canvasBounds || {};
     ctx.save();
     ctx.translate(gb.left, gb.top);
     ctx.textAlign = 'left';

@@ -41,7 +41,7 @@ export class MapTrack extends SceneGraphNodeTrack {
 
     // calculate scale factor between backbone coordinates in pixels
     this.model.view.pixelScaleFactor = this.backbone.bounds.height / this.model.length;
-    this.model.view.backbone = this.globalBounds;
+    this.model.view.backbone = this.canvasBounds;
 
     // Setup groups for markers and labels
     let markerGroup = new SceneGraphNodeGroup({parent: this});
@@ -85,15 +85,15 @@ export class MapTrack extends SceneGraphNodeTrack {
       fmData.push({
         minY: model.coordinates.start,
         maxY: model.coordinates.stop,
-        minX: fm.globalBounds.left,
-        maxX: fm.globalBounds.right,
+        minX: fm.canvasBounds.left,
+        maxX: fm.canvasBounds.right,
         data: fm
       });
      // lmData.push({
      //   minY: model.coordinates.start,
      //   maxY: model.coordinates.stop,
-     //   minX: lm.globalBounds.left,
-     //   maxX: lm.globalBounds.left + this.labelGroup.bounds.width,
+      //   minX: lm.canvasBounds.left,
+      //   maxX: lm.canvasBounds.left + this.labelGroup.bounds.width,
      //   data: lm
      // });
      // if (lm.bounds.right > this.labelGroup.bounds.right) this.labelGroup.bounds.right = lm.bounds.right;
@@ -208,7 +208,7 @@ export class MapTrack extends SceneGraphNodeTrack {
   //  let step = ((visc.start * (coord.stop * psf - 12) + visc.stop * (12 - coord.start * psf)) / (psf * (coord.stop - coord.start)) - start) - (coord.start * -1);
   //  for (let i = start; i < stop; i += step) {
 
-  //    let item = knn(this.labelGroup.locMap, this.labelGroup.children[0].globalBounds.left, i, 1)[0];
+    //    let item = knn(this.labelGroup.locMap, this.labelGroup.children[0].canvasBounds.left, i, 1)[0];
   //    if (labels.length === 0) {
   //      labels.push(item);
   //      continue;
@@ -238,11 +238,11 @@ export class MapTrack extends SceneGraphNodeTrack {
    */
 
   get hitMap() {
-    let bbGb = this.backbone.globalBounds;
+    let bbGb = this.backbone.canvasBounds;
     return this.markerGroup.children.map(child => {
       return {
-        minY: child.globalBounds.bottom + 1,
-        maxY: child.globalBounds.top - 1,
+        minY: child.canvasBounds.bottom + 1,
+        maxY: child.canvasBounds.top - 1,
         minX: bbGb.left,
         maxX: bbGb.right,
         data: child
@@ -256,7 +256,7 @@ export class MapTrack extends SceneGraphNodeTrack {
    */
 
   draw(ctx) {
-    let gb = this.globalBounds || {};
+    let gb = this.canvasBounds || {};
     ctx.save();
     ctx.globalAlpha = .5;
     ctx.fillStyle = 'blue';
@@ -269,7 +269,7 @@ export class MapTrack extends SceneGraphNodeTrack {
       Math.floor(gb.height)
     );
     ctx.fillStyle = 'green';
-   // gb = this.labelGroup.globalBounds || {};
+    // gb = this.labelGroup.canvasBounds || {};
    // // noinspection JSSuspiciousNameCombination
    // // noinspection JSSuspiciousNameCombination
    // ctx.fillRect(

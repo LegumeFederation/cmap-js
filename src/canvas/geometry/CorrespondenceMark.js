@@ -81,7 +81,7 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
       // correspondence line
       this.bounds.top = leftYStart;
       this.bounds.bottom = rightYStart;
-      let gb = this.globalBounds || {};
+      let gb = this.canvasBounds || {};
       ctx.beginPath();
       ctx.lineWidth = this.lineWidth;
       ctx.strokeStyle = '#CAA91E';
@@ -107,12 +107,12 @@ export class CorrespondenceMark extends SceneGraphNodeBase {
 
       this.bounds.top = leftYStart;
       this.bounds.bottom = leftYStop;
-      let gbLeft = this.globalBounds || {};
+      let gbLeft = this.canvasBounds || {};
       //let leftTop = gbLeft.top;
       //let leftBot = gbLeft.bottom;
       this.bounds.top = rightYStart;
       this.bounds.bottom = rightYStop;
-      let gbRight = this.globalBounds || {};
+      let gbRight = this.canvasBounds || {};
       //let rightTop = gbRight.top;
       //let rightBot = gbRight.bottom;
 

@@ -30,7 +30,7 @@ export class MapBackbone extends SceneGraphNodeBase {
       width: backboneWidth + config.lineWeight,
       height: b.height
     });
-    bioMap.view.backbone = this.globalBounds;
+    bioMap.view.backbone = this.canvasBounds;
   }
 
   /**
@@ -40,7 +40,7 @@ export class MapBackbone extends SceneGraphNodeBase {
 
   draw(ctx) {
     let config = this.config;
-    let gb = this.globalBounds || {};
+    let gb = this.canvasBounds || {};
     ctx.fillStyle = config.fillColor;
     // noinspection JSSuspiciousNameCombination
     // noinspection JSSuspiciousNameCombination

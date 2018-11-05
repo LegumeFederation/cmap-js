@@ -41,7 +41,7 @@ export class manhattanRuler extends SceneGraphNodeBase {
     let config = this.config;
     ctx.save();
     ctx.globalAlpha = .5;
-    let cb = this.globalBounds;
+    let cb = this.canvasBounds;
     let depth = 0;
     if (this.manhattanPlot) {
       //Draw "ruler"

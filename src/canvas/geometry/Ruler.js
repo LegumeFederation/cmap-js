@@ -70,7 +70,7 @@ export class Ruler extends SceneGraphNodeBase {
     }
     this.textWidth = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
 
-    let gb = this.globalBounds || {};
+    let gb = this.canvasBounds || {};
     // draw baseline labels
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
     ctx.fillStyle = config.labelColor;

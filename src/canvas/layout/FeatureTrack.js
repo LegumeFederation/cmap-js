@@ -25,7 +25,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
     const b = this.parent.bounds;
     this.trackPos = params.position || 1;
 
-    let left = this.trackPos < 0 ? 10 : this.parent.backbone.globalBounds.right;
+    let left = this.trackPos < 0 ? 10 : this.parent.backbone.canvasBounds.right;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,
@@ -33,6 +33,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
       width: 0,
       height: b.height
     });
+
     if(this.parent.model.tracks) {
       let tracks = this.trackPos < 1 ? this.parent.tracksLeft : this.parent.tracksRight;
       tracks.forEach((track, order) => {
@@ -77,28 +78,27 @@ export class FeatureTrack extends SceneGraphNodeTrack {
           newFeatureTrack.title = track.title || this.model.config[trackType].title || trackType;
           this.addChild(newFeatureTrack);
           newFeatureTrack.addChild(featureData);
-          if (newFeatureTrack.globalBounds.right > this.globalBounds.right) {
-            this.bounds.right = this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
+          if (newFeatureTrack.canvasBounds.right > this.canvasBounds.right) {
+            this.bounds.right = this.bounds.left + (newFeatureTrack.canvasBounds.right - this.canvasBounds.left);
           }
-          //if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
-          //  this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
+          //if(newFeatureTrack.canvasBounds.right > this.canvasBounds.right){
+          //  this.bounds.right =  this.bounds.left + (newFeatureTrack.canvasBounds.right - this.canvasBounds.left);
           //}
-          const test = newFeatureTrack.globalBounds.left;
-          newFeatureTrack.offset = test;
+          newFeatureTrack.offset = newFeatureTrack.canvasBounds;
         }
 
        //Shift newFeature track bounds for wide feature glyphs
-       // if(featureData.globalBounds.right > newFeatureTrack.globalBounds.right){
+        // if(featureData.canvasBounds.right > newFeatureTrack.canvasBounds.right){
        //   newFeatureTrack.bounds.right += featureData.bounds.right;
        // }
         //Shift newFeature track bounds for wide labels
-        //if(newFeatureTrack.labels) console.log("labPost", newFeatureTrack.labels.globalBounds.left, newFeatureTrack.globalBounds.left);
-        //if(newFeatureTrack.labels && newFeatureTrack.labels.globalBounds.right > newFeatureTrack.globalBounds.right) {
+        //if(newFeatureTrack.labels) console.log("labPost", newFeatureTrack.labels.canvasBounds.left, newFeatureTrack.canvasBounds.left);
+        //if(newFeatureTrack.labels && newFeatureTrack.labels.canvasBounds.right > newFeatureTrack.canvasBounds.right) {
         //  newFeatureTrack.bounds.right = newFeatureTrack.bounds.right + newFeatureTrack.labels.bounds.right;
         //}
-        //if(newFeatureTrack.labels && newFeatureTrack.labels.globalBounds.left < newFeatureTrack.globalBounds.left){
+        //if(newFeatureTrack.labels && newFeatureTrack.labels.canvasBounds.left < newFeatureTrack.canvasBounds.left){
 
-        //  const offset = (newFeatureTrack.globalBounds.left - newFeatureTrack.labels.globalBounds.left);
+        //  const offset = (newFeatureTrack.canvasBounds.left - newFeatureTrack.labels.canvasBounds.left);
         //  this.bounds.left += offset;
         //  this.bounds.width += (offset);
         //  //newFeatureTrack.bounds.left += offset;
@@ -126,8 +126,8 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         visible = visible.concat(child.labels.visible);
       }
     });
-    return visible;
-    //return visible.concat([{data:this}]); // debugging statement to test track width bounds
+    //return visible;
+    return visible.concat([{data: this}]); // debugging statement to test track width bounds
   }
 
   /**
@@ -139,25 +139,26 @@ export class FeatureTrack extends SceneGraphNodeTrack {
     ctx.save();
     ctx.globalAlpha = .5;
     ctx.fillStyle = '#ADD8E6';
-    //this.children.forEach(child => {
-    //  let cb = child.globalBounds;
-    //  // noinspection JSSuspiciousNameCombination
-    //  // noinspection JSSuspiciousNameCombination
-    //  ctx.fillRect(
-    //    Math.floor(cb.left),
-    //    Math.floor(cb.top),
-    //    Math.floor(cb.width),
-    //    Math.floor(cb.height)
-    //  );
-    //});
-    ctx.fillStyle = 'red';
-    let cb = this.globalBounds;
-    ctx.fillRect(
-      Math.floor(cb.left),
-      Math.floor(cb.top),
-      Math.floor(cb.width),
-      Math.floor(cb.height)
-    );
+    this.children.forEach(child => {
+      console.log('ft draw', child.canvasBounds);
+      let cb = child.canvasBounds;
+      // noinspection JSSuspiciousNameCombination
+      // noinspection JSSuspiciousNameCombination
+      ctx.fillRect(
+        Math.floor(cb.left),
+        Math.floor(cb.top),
+        Math.floor(cb.width),
+        Math.floor(cb.height)
+      );
+    });
+    // ctx.fillStyle = 'red';
+    // let cb = this.canvasBounds;
+    // ctx.fillRect(
+    //   Math.floor(cb.left),
+    //   Math.floor(cb.top),
+    //   Math.floor(cb.width),
+    //   Math.floor(cb.height)
+    // );
     ctx.restore();
   }
 

@@ -104,8 +104,8 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
         let loc = {
           minY: model.coordinates.start,
           maxY: model.coordinates.start,
-          minX: fm.globalBounds.left,
-          maxX: fm.globalBounds.right,
+          minX: fm.canvasBounds.left,
+          maxX: fm.canvasBounds.right,
           data: fm
         };
 
@@ -116,8 +116,8 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
       this.ruler ={
         minY: 0,
         maxY: 100000000,
-        minX: this.globalBounds.left,
-        maxX: this.globalBounds.right,
+        minX: this.canvasBounds.left,
+        maxX: this.canvasBounds.right,
         data: new manhattanRuler({
           featureModel : manhattanInfo,
           parent: this,
@@ -147,7 +147,7 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
    // ctx.save();
    // ctx.globalAlpha = .5;
    // ctx.fillStyle = 'green';
-   // let cb = this.globalBounds;
+    // let cb = this.canvasBounds;
    // ctx.fillRect(cb.left,cb.top,cb.width,cb.height);
    // ctx.restore();
 
@@ -163,10 +163,10 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
     //return this.locMap.all();
     return this.children.map(child => {
       return {
-        minY: child.globalBounds.top,
-        maxY: child.globalBounds.bottom,
-        minX: child.globalBounds.left,
-        maxX: child.globalBounds.right,
+        minY: child.canvasBounds.top,
+        maxY: child.canvasBounds.bottom,
+        minX: child.canvasBounds.left,
+        maxX: child.canvasBounds.right,
         data: child
       };
     });

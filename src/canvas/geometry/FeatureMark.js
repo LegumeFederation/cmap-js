@@ -45,7 +45,7 @@ export class FeatureMark extends SceneGraphNodeBase {
     let config = this.config;
     let y = translateScale(this.start, this.featureMap.view.base, this.featureMap.view.visible, this.invert) * this.pixelScaleFactor;
     this.bounds.translate(0,y-this.bounds.top);
-    let gb = this.globalBounds || {};
+    let gb = this.canvasBounds || {};
     ctx.beginPath();
     ctx.strokeStyle = config.lineColor;
     ctx.lineWidth = config.lineWeight;

@@ -208,16 +208,16 @@ export default class BioMap extends SceneGraphNodeCanvas {
     this.bbGroup.model = this.model;
     this.backbone = new MapTrack({parent: this});
     this.bbGroup.addChild(this.backbone);
-    this.model.view.backbone = this.backbone.backbone.globalBounds;
+    this.model.view.backbone = this.backbone.backbone.canvasBounds;
     this.ruler = this.backbone.ruler;
     //this.ruler = new Ruler({parent: this, bioMap: this.model, config: this.model.config.ruler});
     this.bbGroup.addChild(this.ruler);
     this.backbone.children.forEach(child => {
-      if (child.globalBounds.left < this.bbGroup.bounds.left) {
-        this.bbGroup.bounds.left = child.globalBounds.left;
+      if (child.canvasBounds.left < this.bbGroup.bounds.left) {
+        this.bbGroup.bounds.left = child.canvasBounds.left;
       }
-      if (child.globalBounds.right > this.bbGroup.bounds.right) {
-        this.bbGroup.bounds.right = child.globalBounds.right;
+      if (child.canvasBounds.right > this.bbGroup.bounds.right) {
+        this.bbGroup.bounds.right = child.canvasBounds.right;
       }
     });
 
@@ -245,20 +245,20 @@ export default class BioMap extends SceneGraphNodeCanvas {
     // let qtlRight = {};
     //let qtlRight = new QtlTrack({parent: this , position: 1});
     //let qtlLeft = new QtlTrack({parent: this, position: -1});
-    this.addChild(qtlRight);
     this.addChild(qtlLeft);
+    this.addChild(qtlRight);
 
     if (qtlLeft && qtlLeft.bounds.right > this.bbGroup.bounds.left) {
       const bbw = this.bbGroup.bounds.width;
-      this.bbGroup.bounds.left = qtlLeft.globalBounds.right + 100;
+      this.bbGroup.bounds.left = qtlLeft.canvasBounds.right + 100;
       this.bbGroup.bounds.width = bbw;
       const qrw = qtlRight.bounds.width;
-      qtlRight.bounds.left += qtlLeft.globalBounds.right;
+      qtlRight.bounds.left += qtlLeft.canvasBounds.right;
       qtlRight.bounds.right = qtlRight.bounds.left + qrw;
     }
-    console.log('qtl right bounds', qtlRight.globalBounds.right);
-    if (this.domBounds.width < qtlRight.globalBounds.right) {
-      this.domBounds.width = qtlRight.globalBounds.right + 50;
+    console.log('qtl right bounds', qtlRight.canvasBounds.right);
+    if (this.domBounds.width < qtlRight.canvasBounds.right) {
+      this.domBounds.width = qtlRight.canvasBounds.right + 50;
     }
 
     //load local rBush tree for hit detection
@@ -314,7 +314,7 @@ export default class BioMap extends SceneGraphNodeCanvas {
 
   onPanStart(position) {
     if (!this.ruler) this._layout(this.domBounds);
-    let rulerBounds = this.ruler.globalBounds;
+    let rulerBounds = this.ruler.canvasBounds;
     let evtType = null;
     let rbx = position.x >= rulerBounds.left && position.x <= rulerBounds.right;
     let rby = position.y >= rulerBounds.top && position.y <= rulerBounds.bottom;
@@ -350,9 +350,9 @@ export default class BioMap extends SceneGraphNodeCanvas {
     if (type === 'boxSelect') {
       this.onPan({position: position, type: type});
       //Determine if select box or zoom box
-      let gb = this.ruler.globalBounds;
+      let gb = this.ruler.canvasBounds;
       let sb = this.selectionBox.bounds;
-      let sgb = this.selectionBox.globalBounds;
+      let sgb = this.selectionBox.canvasBounds;
       let lCorner = sgb.left < sgb.right ? sgb.left : sgb.right;
       let rCorner = sgb.right > sgb.left ? sgb.right : sgb.left;
       // if zoom rectangle contains the ruler, zoom, else populate popover
@@ -404,8 +404,8 @@ export default class BioMap extends SceneGraphNodeCanvas {
 
   _updateRulerVisible(bounds) {
     this.model.view.visible = this.model.view.base;
-    let baseStart = this._pixelToCoordinate(bounds.top - this.ruler.globalBounds.top);
-    let baseStop = this._pixelToCoordinate(bounds.bottom - this.ruler.globalBounds.top);
+    let baseStart = this._pixelToCoordinate(bounds.top - this.ruler.canvasBounds.top);
+    let baseStop = this._pixelToCoordinate(bounds.bottom - this.ruler.canvasBounds.top);
     let swap = baseStart < baseStop;
     let zStart = swap ? baseStart : baseStop;
     let zStop = swap ? baseStop : baseStart;

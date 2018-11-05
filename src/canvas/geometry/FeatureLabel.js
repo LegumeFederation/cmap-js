@@ -58,7 +58,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
     this.bounds.top = y1;
     this.bounds.height = -ctx.measureText(this.model.name).width;
     if(!this.show) return;
-    let gb = this.globalBounds || {};
+    let gb = this.canvasBounds || {};
     ctx.save();
     ctx.translate(gb.right, gb.top);
     ctx.textAlign = 'left';

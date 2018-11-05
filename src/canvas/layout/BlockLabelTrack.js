@@ -40,7 +40,7 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
         modelBounds.stop < startY) return child;
 
       if(!(child.data.position > stopY || child.data.position < startY )) {
-        let b = child.data.globalBounds;
+        let b = child.data.canvasBounds;
         let hits = this.locMap.search({
           maxY: b.top > b.bottom ? b.top : b.bottom,
           minY: b.top < b.bottom ? b.top : b.bottom,
@@ -80,7 +80,7 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
     ctx.globalAlpha = .5;
     ctx.fillStyle = 'green';
 
-    let gb = this.globalBounds;
+    let gb = this.canvasBounds;
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
@@ -89,7 +89,7 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
     );
 
     this.children.forEach(child => {
-      let cb = child.globalBounds;
+      let cb = child.canvasBounds;
       // noinspection JSSuspiciousNameCombination
       // noinspection JSSuspiciousNameCombination
       ctx.fillRect(
@@ -111,10 +111,10 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
     //return this.locMap.all();
     return this.children.map(child => {
       return {
-        maxY: child.globalBounds.top,
-        minY: child.globalBounds.bottom,
-        minX: child.globalBounds.left,
-        maxX: child.globalBounds.right,
+        maxY: child.canvasBounds.top,
+        minY: child.canvasBounds.bottom,
+        minX: child.canvasBounds.left,
+        maxX: child.canvasBounds.right,
         data: child
       };
     });
@@ -163,12 +163,12 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
       //}
 
       this.addChild(fm);
-      let gb = fm.globalBounds;
+      let gb = fm.canvasBounds;
       let loc = {
         minY: gb.top,
         maxY: gb.bottom,
-        minX: this.globalBounds.left,
-        maxX: this.globalBounds.right,
+        minX: this.canvasBounds.left,
+        maxX: this.canvasBounds.right,
         data:fm
       };
 

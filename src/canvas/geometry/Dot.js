@@ -56,8 +56,8 @@ export class Dot extends SceneGraphNodeBase {
     //Setup a base offset based on parent track
     if (this.start < this.view.visible.start || this.start > this.view.visible.stop) return;
     if (!this.offset) {
-      const left = this.globalBounds.left;
-      const top = this.globalBounds.top;
+      const left = this.canvasBounds.left;
+      const top = this.canvasBounds.top;
       this.offset = {top: top, left: left};
     }
     let config = this.config;

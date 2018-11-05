@@ -110,7 +110,7 @@ export class QTL extends SceneGraphNodeBase {
       left: this.bounds.left,
       width: this.width
     });
-    let gb = this.globalBounds || {};
+    let gb = this.canvasBounds || {};
     let qtlHeight = gb.height > 1 ? gb.height : 1;
     ctx.fillStyle = this.fill;
     // noinspection JSSuspiciousNameCombination
