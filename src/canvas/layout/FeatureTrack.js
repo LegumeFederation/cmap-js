@@ -84,7 +84,6 @@ export class FeatureTrack extends SceneGraphNodeTrack {
           //if(newFeatureTrack.canvasBounds.right > this.canvasBounds.right){
           //  this.bounds.right =  this.bounds.left + (newFeatureTrack.canvasBounds.right - this.canvasBounds.left);
           //}
-          newFeatureTrack.offset = newFeatureTrack.canvasBounds;
         }
 
        //Shift newFeature track bounds for wide feature glyphs
@@ -126,8 +125,8 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         visible = visible.concat(child.labels.visible);
       }
     });
-    //return visible;
-    return visible.concat([{data: this}]); // debugging statement to test track width bounds
+    return visible;
+    //return visible.concat([{data: this}]); // debugging statement to test track width bounds
   }
 
   /**
