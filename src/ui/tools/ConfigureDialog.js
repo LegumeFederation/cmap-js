@@ -16,11 +16,11 @@ export default class ConfigureDialog extends Component {
     this.setState({visible: false});
   }
 
-  render({direction}, {width, visible, hits}) {
+  render({direction, setVis}, {width, visible, hits}) {
     // store these bounds, for checking in drawLazily()
 
     return (
-      <div class={'twelve columns'}> Configure Maps </div>
+      <div onClick-={setVis('hidden')} class={'twelve columns'}> Configure Maps </div>
     );
   }
 }

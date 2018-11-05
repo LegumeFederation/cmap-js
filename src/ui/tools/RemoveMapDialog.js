@@ -52,6 +52,9 @@ export default class RemoveMapDialog extends Component {
   }
 
   toggleOpen() {
+    if (this.state.isOpen) {
+      this.props.toggleVis('hidden');
+    }
     this.setState({
       isOpen: !this.state.isOpen
     });
@@ -91,6 +94,7 @@ export default class RemoveMapDialog extends Component {
           <thead>
           <tr>
             <th> Available Maps</th>
+            <th/>
           </tr>
           </thead>
           <tbody>
@@ -106,7 +110,8 @@ export default class RemoveMapDialog extends Component {
               this.setState({selection: []});
             }}
           >
-            Remove Maps
+            <i class={'material-icons'}> remove_circle_outline </i>
+            <span>Remove Maps</span>
           </button>
           <button
             class={'button'}
@@ -114,7 +119,8 @@ export default class RemoveMapDialog extends Component {
               this.toggleOpen();
             }}
           >
-            Close Menu
+            <i class={'material-icons'}> cancel </i>
+            <span> Close Menu </span>
           </button>
         </div>
       </div>

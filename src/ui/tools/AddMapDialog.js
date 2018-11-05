@@ -5,7 +5,6 @@
  */
 
 import {h, Component} from 'preact';
-import GestureWrapper from '../Gesture';
 
 export default class AddMapDialog extends Component {
 
@@ -54,6 +53,9 @@ export default class AddMapDialog extends Component {
   }
 
   toggleOpen() {
+    if (this.state.isOpen) {
+      this.props.toggleVis('hidden');
+    }
     this.setState({
       isOpen: !this.state.isOpen
     });
@@ -102,7 +104,8 @@ export default class AddMapDialog extends Component {
               this.setState({selection: null});
             }}
           >
-            Add Map On Left
+            <i class={'material-icons'}> keyboard_arrow_left </i>
+            <span> Add Map On Left </span>
           </button>
           <button
             disabled={!selection}
@@ -112,7 +115,8 @@ export default class AddMapDialog extends Component {
               this.setState({selection: null});
             }}
           >
-            Add Map On Right
+            <i class={'material-icons'}> keyboard_arrow_right </i>
+            <span> Add Map On Right </span>
           </button>
           <button
             class={'button'}
@@ -120,7 +124,8 @@ export default class AddMapDialog extends Component {
               this.toggleOpen();
             }}
           >
-            Close Menu
+            <i class={'material-icons'}> cancel </i>
+            <span> Close Menu </span>
           </button>
         </div>
       </div>

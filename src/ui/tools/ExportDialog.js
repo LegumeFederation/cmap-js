@@ -5,7 +5,6 @@
  */
 
 import {h, Component} from 'preact';
-import GestureWrapper from '../Gesture';
 
 export default class ExportDialog extends Component {
 
@@ -42,6 +41,9 @@ export default class ExportDialog extends Component {
   }
 
   toggleOpen() {
+    if (this.state.isOpen) {
+      this.props.toggleVis('hidden');
+    }
     this.setState({
       isOpen: !this.state.isOpen
     });
@@ -106,7 +108,7 @@ export default class ExportDialog extends Component {
           <thead>
           <tr>
             <th> Export as Image</th>
-            <th></th>
+            <th/>
           </tr>
           </thead>
           <tbody>

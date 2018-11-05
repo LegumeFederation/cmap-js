@@ -5,11 +5,8 @@
 import {h, Component} from 'preact';
 import HorizontalLayout from './layout/HorizontalLayout';
 import {Bounds} from '../model/Bounds';
-import AddMapComponent from './tools/AddMapComponent';
-import RemoveMapComponent from './tools/RemoveMapComponent';
-import ConfigureComponent from './tools/ConfigureComponent';
-import ExportComponent from './tools/ExportComponent';
 import MenuComponent from './tools/MenuComponent';
+import DialogSelectButton from './tools/DialogSelectButton';
 
 export default class CMAP extends Component{
   constructor() {
@@ -35,6 +32,7 @@ export default class CMAP extends Component{
   }
 
   setMenuComponent(newComponent) {
+    console.log('cmap smc', newComponent);
     this.setState({menuVisible: newComponent});
   }
 
@@ -43,16 +41,42 @@ export default class CMAP extends Component{
     let layoutMax = b2 ? maxHeight - this.base.childNodes[0].offsetHeight : maxHeight;
 
     return (
-      <div id={'cmap-main-app'} class={'row'}
-           style={{maxHeight: maxHeight || '100%', height: 10000}}>
+      <div
+        id={'cmap-main-app'}
+        class={'row'}
+        style={{maxHeight: maxHeight || '100%', height: 10000}}
+      >
         <div class='row cmap' id='cmap-controls'>
-          <AddMapComponent set={this.setMenuComponent}/>
-          <RemoveMapComponent set={this.setMenuComponent}/>
-          <ConfigureComponent set={this.setMenuComponent}/>
-          <ExportComponent set={this.setMenuComponent}/>
+          <DialogSelectButton
+            text={'Add Map'}
+            icon={'add_circle_outline'}
+            dialog={'add'}
+            visible={menuVisible}
+            set={this.setMenuComponent}
+          />
+          <DialogSelectButton
+            text={'Remove Maps'}
+            icon={'remove_circle_outline'}
+            dialog={'remove'}
+            visible={menuVisible}
+            set={this.setMenuComponent}
+          />
+          <DialogSelectButton
+            text={'Configuration'}
+            icon={'mode_edit'}
+            dialog={'configure'}
+            visible={menuVisible}
+            set={this.setMenuComponent}
+          />
+          <DialogSelectButton
+            text={'Export Image'}
+            icon={'get_app'}
+            dialog={'export'}
+            visible={menuVisible}
+            set={this.setMenuComponent}/>
         </div>
         <div>
-          <MenuComponent menu={menuVisible} appState={appModel} maxHeight={layoutMax}/>
+          <MenuComponent set={this.setMenuComponent} menu={menuVisible} appState={appModel} maxHeight={layoutMax}/>
         </div>
         {viewPort
           ?
