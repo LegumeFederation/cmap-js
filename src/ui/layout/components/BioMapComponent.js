@@ -8,6 +8,8 @@ import {h,Component} from 'preact';
 import {Bounds} from '../../../model/Bounds';
 import GestureWrapper from '../../Gesture';
 import BioMap from '../../../canvas/canvas/BioMap';
+import {FeatureTrack} from '../../../canvas/layout/FeatureTrack';
+import FeatureControlComponent from './FeatureControlComponent';
 
 export default class BioMapComponent  extends Component {
 
@@ -42,17 +44,37 @@ export default class BioMapComponent  extends Component {
     BM.setCanvas(cvs);
     cvs.width = BM.domBounds.width;// this.bioMap.domBounds.width;
     let cvsWidth = this.props.minWidth > cvs.width ? this.props.minWidth : cvs.width;
-    this.setState({layout: BM, width: cvsWidth, dirty: true});
+    let featureCtrl = this.layoutFeatureButtons(BM);
+    this.setState({layout: BM, width: cvsWidth, dirty: true, buttons: featureCtrl});
+  }
+
+  layoutFeatureButtons(layout) {
+    let buttons = [];
+    let rem = parseFloat(getComputedStyle(document.getElementById('cmap-app')).fontSize);
+    console.log('bmc lfb', rem);
+    buttons.push(<FeatureControlComponent featureTrack={{bounds: {width: '2em'}, title: '+'}} leftBound={rem}/>);
+    layout.children.forEach(child => {
+      if (child instanceof FeatureTrack) {
+        child.children.forEach(featureTrack => {
+          buttons.push(<FeatureControlComponent featureTrack={featureTrack}
+                                                leftBound={featureTrack.canvasBounds.left}/>);
+        });
+      }
+    });
+    buttons.push(<FeatureControlComponent featureTrack={{bounds: {width: '3rem'}, title: '+'}}
+                                          leftBound={layout.domBounds.width - (3 * rem)}/>);
+    return buttons;
   }
 
   componentDidMount() {
-    this.layoutBioMap(this.base.children[1], this.props.bioMap);
+    this.layoutBioMap(this.base.children[2], this.props.bioMap);
     this.updateCanvas();
+    console.log('bmc cdm', this.state.buttons);
     this.setState({dirty:false});
   }
 
   updateCanvas() {
-    let cvs = this.base.children[1];
+    let cvs = this.base.children[2];
     let bioMap = this.state.layout;
     bioMap.setCanvas(cvs);
     bioMap.draw();
@@ -64,7 +86,7 @@ export default class BioMapComponent  extends Component {
       this.setState({dirty: true});
     }
     if (nextProps.bioMap !== this.state.layout.model) {
-      this.layoutBioMap(this.base.children[1], nextProps.bioMap);
+      this.layoutBioMap(this.base.children[2], nextProps.bioMap);
     }
   }
 
@@ -129,7 +151,7 @@ export default class BioMapComponent  extends Component {
     this.updateCanvas();
   }
 
-  render({bioMap, bioIndex, minWidth}, {visible, hits, width}) {
+  render({bioMap, bioIndex, minWidth}, {visible, hits, width, buttons}) {
     // store these bounds, for checking in drawLazily()
     //let width = bioMap.domBounds ? bioMap.domBounds.width : 500;
     let eleWidth = minWidth > width ? minWidth : width;
@@ -149,6 +171,9 @@ export default class BioMapComponent  extends Component {
     return (
       <div style={{display: 'table-cell', width: eleWidth}}>
         <div class={'swap-div'} style={{width: eleWidth}}> {bioMap.name} <br/> {bioMap.source.id} </div>
+        <div>
+          {buttons}
+        </div>
         <GestureWrapper
           onTap={this.onClick} //doubles as onClick
           onPanStart={this.onPanStart}
@@ -164,7 +189,6 @@ export default class BioMapComponent  extends Component {
             onWheel={this.handleWheel}
           />
         </GestureWrapper>
-
       </div>
     );
   }

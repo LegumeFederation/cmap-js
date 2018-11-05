@@ -257,8 +257,12 @@ span.cmap-map-name-chip {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: inline-block;
 }
 
+.feature-title.add-new {
+    width: 3rem;
+}
 .feature-menu {
     z-index: 10000;
     background: white;
