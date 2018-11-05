@@ -10,6 +10,7 @@ import GestureWrapper from '../../Gesture';
 import BioMap from '../../../canvas/canvas/BioMap';
 import {FeatureTrack} from '../../../canvas/layout/FeatureTrack';
 import FeatureControlComponent from './FeatureControlComponent';
+import {remToPix} from '../../../util/CanvasUtil';
 
 export default class BioMapComponent  extends Component {
 
@@ -50,9 +51,8 @@ export default class BioMapComponent  extends Component {
 
   layoutFeatureButtons(layout) {
     let buttons = [];
-    let rem = parseFloat(getComputedStyle(document.getElementById('cmap-app')).fontSize);
-    console.log('bmc lfb', rem);
-    buttons.push(<FeatureControlComponent featureTrack={{bounds: {width: '2em'}, title: '+'}} leftBound={rem}/>);
+    buttons.push(<FeatureControlComponent featureTrack={{bounds: {width: '2em'}, title: '+'}}
+                                          leftBound={remToPix(1)}/>);
     layout.children.forEach(child => {
       if (child instanceof FeatureTrack) {
         child.children.forEach(featureTrack => {
@@ -62,7 +62,7 @@ export default class BioMapComponent  extends Component {
       }
     });
     buttons.push(<FeatureControlComponent featureTrack={{bounds: {width: '3rem'}, title: '+'}}
-                                          leftBound={layout.domBounds.width - (3 * rem)}/>);
+                                          leftBound={layout.domBounds.width - (remToPix(3))}/>);
     return buttons;
   }
 

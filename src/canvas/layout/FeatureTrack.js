@@ -9,7 +9,7 @@ import {Bounds} from '../../model/Bounds';
 
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-
+import {remToPix} from '../../util/CanvasUtil';
 import * as trackSelector from './TrackSelector';
 
 export class FeatureTrack extends SceneGraphNodeTrack {
@@ -25,7 +25,7 @@ export class FeatureTrack extends SceneGraphNodeTrack {
     const b = this.parent.bounds;
     this.trackPos = params.position || 1;
 
-    let left = this.trackPos < 0 ? 10 : this.parent.backbone.canvasBounds.right;
+    let left = this.trackPos < 0 ? remToPix(3) : this.parent.backbone.canvasBounds.right;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: b.top,

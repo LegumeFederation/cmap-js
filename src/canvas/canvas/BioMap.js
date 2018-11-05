@@ -12,6 +12,7 @@ import {MapTrack} from '../layout/MapTrack';
 import {FeatureTrack} from '../layout/FeatureTrack';
 import {TestDot} from '../geometry/TestDot';
 import {SelectBox} from '../../canvas/geometry/SelectBox';
+import {remToPix} from '../../util/CanvasUtil';
 
 
 export default class BioMap extends SceneGraphNodeCanvas {
@@ -250,15 +251,15 @@ export default class BioMap extends SceneGraphNodeCanvas {
 
     if (qtlLeft && qtlLeft.bounds.right > this.bbGroup.bounds.left) {
       const bbw = this.bbGroup.bounds.width;
-      this.bbGroup.bounds.left = qtlLeft.canvasBounds.right + 100;
+      this.bbGroup.bounds.left = qtlLeft.canvasBounds.right + remToPix(1);
       this.bbGroup.bounds.width = bbw;
       const qrw = qtlRight.bounds.width;
       qtlRight.bounds.left += qtlLeft.canvasBounds.right;
       qtlRight.bounds.right = qtlRight.bounds.left + qrw;
     }
     console.log('qtl right bounds', qtlRight.canvasBounds.right);
-    if (this.domBounds.width < qtlRight.canvasBounds.right) {
-      this.domBounds.width = qtlRight.canvasBounds.right + 50;
+    if (this.domBounds.width < qtlRight.canvasBounds.right + remToPix(4)) {
+      this.domBounds.width = qtlRight.canvasBounds.right + remToPix(4);
     }
 
     //load local rBush tree for hit detection

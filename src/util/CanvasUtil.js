@@ -47,3 +47,7 @@ export function pageToCanvas(evt, canvas) {
     'y': evt.srcEvent.pageY - pageOffset.top
   };
 }
+
+export function remToPix(rem) {
+  return rem * parseFloat(getComputedStyle(document.getElementById('cmap-app')).fontSize);
+}
