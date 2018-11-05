@@ -3,25 +3,59 @@
  * Base Component, placeholder for other canvas dataSourceComponents
  *
  */
-
 import {h, Component} from 'preact';
-import GestureWrapper from '../Gesture';
 
-export default class ConfigureDialog extends Component {
+export default class ExportDialog extends Component {
 
   constructor() {
     super();
-    //this.setState({dirty:false});
-    //bind eventHandlers to this
-    this.setState({visible: false});
+    this.state = {
+      isOpen: true
+    };
   }
 
-  render({direction, setVis}, {width, visible, hits}) {
+  componentWillReceiveProps() {
+    if (!this.state.isOpen) this.toggleOpen();
+  }
+
+  toggleOpen() {
+    if (this.state.isOpen) {
+      this.props.toggleVis('hidden');
+    }
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  render({appState, maxHeight}, {isOpen}) {
     // store these bounds, for checking in drawLazily()
 
-    return (
-      <div onClick-={setVis('hidden')} class={'twelve columns'}> Configure Maps </div>
+    let configureModal = (
+      <div class={'twelve columns control-dialog'} id={'cmap-map-addition-dialog'} style={{maxHeight: (maxHeight)}}>
+        <h5> Configure Maps</h5>
+        <p> Options to configure current view will go here. </p>
+        <form class={'twelve-columns'} style={{maxHeight: maxHeight * .30, overflowY: 'auto'}}>
+          <thead>
+          <th> filler</th>
+          </thead>
+          <tbody>
+          <tr> more filler</tr>
+          </tbody>
+        </form>
+        <div class={'cmap-modal-control'}>
+          <button
+            class={'button'}
+            onClick={() => this.toggleOpen()}
+          >
+            <i class={'material-icons'}> cancel </i>
+            <span> Close Menu </span>
+          </button>
+        </div>
+      </div>
     );
+
+    return (isOpen && configureModal);
   }
 }
+
 

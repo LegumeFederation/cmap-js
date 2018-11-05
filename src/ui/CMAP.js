@@ -73,7 +73,8 @@ export default class CMAP extends Component{
             icon={'get_app'}
             dialog={'export'}
             visible={menuVisible}
-            set={this.setMenuComponent}/>
+            set={this.setMenuComponent}
+          />
         </div>
         <div>
           <MenuComponent set={this.setMenuComponent} menu={menuVisible} appState={appModel} maxHeight={layoutMax}/>
