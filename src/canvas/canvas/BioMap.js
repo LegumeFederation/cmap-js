@@ -26,7 +26,7 @@ export default class BioMap extends SceneGraphNodeCanvas {
    * @param {object} initialView - bio map's original layout, used for resetting view
    */
 
-  constructor({bioMapModel, appState, layoutBounds, bioMapIndex, initialView, canvas, sub}) {
+  constructor({bioMapModel, appState, layoutBounds, bioMapIndex, initialView, sub}) {
     super({model: bioMapModel, sub: sub});
     console.log('constructing bioMap');
     //this.setCanvas(canvas); //set canvas and rendering context

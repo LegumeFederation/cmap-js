@@ -70,10 +70,12 @@ export class FeatureTrack extends SceneGraphNodeTrack {
         //  newFeatureTrack.title = track.title || this.model.config.manhattan.title || 'Manhattan';
         //  featureData = new ManhattanPlot({parent:newFeatureTrack, config: track});
         //}
+        newFeatureTrack.sources = this.parent.appState.sources;
         let trackType = track.type.toLowerCase();
         featureData = trackSelector.feature({parent: newFeatureTrack, config: track, featureStyle: trackType});
         if (featureData !== undefined) { //only add if valid track
           newFeatureTrack.title = track.title || this.model.config[trackType].title || trackType;
+          this.addChild(newFeatureTrack);
           newFeatureTrack.addChild(featureData);
           if (newFeatureTrack.globalBounds.right > this.globalBounds.right) {
             this.bounds.right = this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
@@ -81,9 +83,8 @@ export class FeatureTrack extends SceneGraphNodeTrack {
           //if(newFeatureTrack.globalBounds.right > this.globalBounds.right){
           //  this.bounds.right =  this.bounds.left + (newFeatureTrack.globalBounds.right - this.globalBounds.left);
           //}
-
-          this.addChild(newFeatureTrack);
-          newFeatureTrack.offset = newFeatureTrack.globalBounds.left;
+          const test = newFeatureTrack.globalBounds.left;
+          newFeatureTrack.offset = test;
         }
 
        //Shift newFeature track bounds for wide feature glyphs
