@@ -58,6 +58,7 @@ export default class BioMapComponent  extends Component {
       bioIndex={this.props.bioIndex}
       modalToggle={this.props.modalToggle}
       modalData={layout}
+      newDirection={-1}
     />);
 
     layout.children.forEach(child => {
@@ -69,6 +70,7 @@ export default class BioMapComponent  extends Component {
             bioIndex={this.props.bioIndex}
             modalToggle={this.props.modalToggle}
             modalData={featureTrack}
+            newDirction={0}
           />);
         });
       }
@@ -80,6 +82,7 @@ export default class BioMapComponent  extends Component {
       bioIndex={this.props.bioIndex}
       modalToggle={this.props.modalToggle}
       modalData={layout}
+      newDirection={1}
     />);
     return buttons;
   }
@@ -104,7 +107,7 @@ export default class BioMapComponent  extends Component {
       this.updateCanvas();
       this.setState({dirty: true});
     }
-    if ((nextProps.bioMap !== this.state.layout.model)) {
+    if ((nextProps.bioMap !== this.state.layout.model) || (nextProps.bioMap.tracks !== this.state.layout.model.tracks)) {
       this.layoutBioMap(this.base.children[2], nextProps.bioMap);
     }
   }

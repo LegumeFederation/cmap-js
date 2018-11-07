@@ -87,6 +87,17 @@ export default class AppModel {
     this.inform();
   }
 
+  editFeatureTracks(baseMap, featureTracks) {
+    this.bioMaps.some(map => {
+      if (map === baseMap) {
+        map.tracks = featureTracks;
+        return true;
+      }
+      return false;
+    });
+    this.inform();
+  }
+
   // Private Functions
 
   /**

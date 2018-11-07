@@ -20,6 +20,9 @@ export default class FeatureModal extends Component {
     this.onTitleChange = this.onTitleChange.bind(this);
     this.configurationElements = this.configurationElements.bind(this);
     this.setFeature = this.setFeature.bind(this);
+    this.applySelection = this.applySelection.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
+    this.toggleOpen = this.toggleOpen.bind(this);
   }
 
   componentWillMount() {
@@ -83,6 +86,50 @@ export default class FeatureModal extends Component {
     this.setState({title: evt.srcElement.value});
   }
 
+  applySelection() {
+    let tracks = this.props.modalData.model.tracks.slice();
+    if (Math.abs(this.props.newDirection) === 1) {
+      let config = JSON.parse(JSON.stringify(this.props.modalData.model.config.qtl));
+      config.title = this.state.title;
+      config.filters = this.state.filters.slice();
+      config.fillColor = this.state.fillColor.slice();
+      config.position = this.props.newDirection;
+      if (this.props.newDirection === -1) {
+        tracks = [config].concat(tracks);
+      } else {
+        tracks = tracks.concat([config]);
+      }
+    } else {
+      tracks.some(track => {
+        if (track === this.props.modalData.config) {
+          track.title = this.state.title;
+          track.filters = this.state.filters.slice();
+          track.fillColor = this.state.fillColor.slice();
+          return true;
+        }
+        return false;
+      });
+    }
+    this.props.appState.editFeatureTracks(this.props.modalData.model, tracks);
+    this.toggleOpen();
+  }
+
+  removeTrack() {
+    if (!this.props.newDirection) {
+      let tracks = this.props.modalData.model.tracks.slice();
+      tracks.some((track, idx) => {
+        if (track === this.props.modalData.config) {
+          tracks.splice(idx, 1);
+          return true;
+        }
+        return false;
+      });
+      console.log('remove', tracks, this.props.modalData.tracks);
+      this.props.appState.editFeatureTracks(this.props.modalData.model, tracks);
+      this.toggleOpen();
+    }
+  }
+
   render(props, state) {
     // store these bounds, for checking in drawLazily()
     let featureModal = (
@@ -101,19 +148,24 @@ export default class FeatureModal extends Component {
           {this.configurationElements()}
         </div>
         <div class={'cmap-modal-control'}>
-          <button>
-            Apply Selection
+          <button
+            class={'button'}
+            onClick={this.applySelection}
+          >
+            <i class={'material-icons'}> done </i>
+            <span> Apply </span>
           </button>
           <button
             class={'button'}
-            onClick={() => this.toggleOpen()}
+            onClick={this.toggleOpen}
+            style={{marginLeft: '0rem'}}
           >
             <i class={'material-icons'}> cancel </i>
             <span> Close Menu </span>
           </button>
           <button
             class={'button'}
-            onClick={() => this.toggleOpen()}
+            onClick={this.removeTrack}
             style={{background: '#DA2C43', marginLeft: '2rem'}}
           >
             <i class={'material-icons'}> remove_circle_outline </i>

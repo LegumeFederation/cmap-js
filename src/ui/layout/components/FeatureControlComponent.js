@@ -45,7 +45,7 @@ export default class FeatureControlComponent extends Component {
 
   onClick() {
     console.log('fcc oc', this.props);
-    this.props.modalToggle('feature', this.props.modalData);
+    this.props.modalToggle('feature', this.props.modalData, this.props.newDirection);
   }
 
   render({featureTrack}, {offset}) {

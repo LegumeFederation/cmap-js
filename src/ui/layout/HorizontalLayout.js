@@ -38,9 +38,9 @@ export default class HorizontalLayout extends LayoutBase {
     console.log('hl cdu', this.base.offsetHeight, this.props.maxHeight);
   }
 
-  modalToggle(newMenu, menuTarget) {
+  modalToggle(newMenu, menuTarget, menuNew) {
     console.log('hl mt', newMenu, menuTarget);
-    this.setState({menuVis: newMenu, menuTarget: menuTarget});
+    this.setState({menuVis: newMenu, menuTarget: menuTarget, menuAdd: menuNew});
   }
 
   _layoutBioMaps(appState = this.props.appState) {
@@ -85,6 +85,8 @@ export default class HorizontalLayout extends LayoutBase {
             modalToggle={this.modalToggle}
             modalData={state.menuTarget}
             modalHeight={props.maxHeight}
+            appState={props.appState}
+            newDirection={state.menuAdd}
           />
           :
           state.bioMapComponents

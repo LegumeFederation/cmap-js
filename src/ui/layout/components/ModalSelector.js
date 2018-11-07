@@ -17,6 +17,8 @@ export default class ModalSelector extends Component {
           modalToggle={props.modalToggle}
           modalData={props.modalData}
           modalHeight={props.modalHeight}
+          appState={props.appState}
+          newDirection={props.newDirection}
         />;
       case 'hidden':
       default:
