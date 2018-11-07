@@ -51,26 +51,44 @@ export default class BioMapComponent  extends Component {
 
   layoutFeatureButtons(layout) {
     let buttons = [];
-    buttons.push(<FeatureControlComponent featureTrack={{bounds: {width: '2em'}, title: '+'}}
-                                          leftBound={remToPix(1)}/>);
+    console.log('bmc lfb', layout);
+    buttons.push(<FeatureControlComponent
+      featureTrack={{bounds: {width: '2em'}, title: '+'}}
+      leftBound={remToPix(1)}
+      bioIndex={this.props.bioIndex}
+      modalToggle={this.props.modalToggle}
+      modalData={layout}
+    />);
+
     layout.children.forEach(child => {
       if (child instanceof FeatureTrack) {
         child.children.forEach(featureTrack => {
-          buttons.push(<FeatureControlComponent featureTrack={featureTrack}
-                                                leftBound={featureTrack.canvasBounds.left}/>);
+          buttons.push(<FeatureControlComponent
+            featureTrack={featureTrack}
+            leftBound={featureTrack.canvasBounds.left}
+            bioIndex={this.props.bioIndex}
+            modalToggle={this.props.modalToggle}
+            modalData={featureTrack}
+          />);
         });
       }
     });
-    buttons.push(<FeatureControlComponent featureTrack={{bounds: {width: '3rem'}, title: '+'}}
-                                          leftBound={layout.domBounds.width - (remToPix(3))}/>);
+
+    buttons.push(<FeatureControlComponent
+      featureTrack={{bounds: {width: '3rem'}, title: '+'}}
+      leftBound={layout.domBounds.width - (remToPix(3))}
+      bioIndex={this.props.bioIndex}
+      modalToggle={this.props.modalToggle}
+      modalData={layout}
+    />);
     return buttons;
   }
 
   componentDidMount() {
     this.layoutBioMap(this.base.children[2], this.props.bioMap);
     this.updateCanvas();
-    console.log('bmc cdm', this.state.buttons);
-    this.setState({dirty:false});
+    //console.log('bmc cdm', this.state.buttons);
+    //this.setState({dirty:false});
   }
 
   updateCanvas() {
@@ -78,6 +96,7 @@ export default class BioMapComponent  extends Component {
     let bioMap = this.state.layout;
     bioMap.setCanvas(cvs);
     bioMap.draw();
+    this.setState({dirty: false});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -85,7 +104,7 @@ export default class BioMapComponent  extends Component {
       this.updateCanvas();
       this.setState({dirty: true});
     }
-    if (nextProps.bioMap !== this.state.layout.model) {
+    if ((nextProps.bioMap !== this.state.layout.model)) {
       this.layoutBioMap(this.base.children[2], nextProps.bioMap);
     }
   }
@@ -93,7 +112,6 @@ export default class BioMapComponent  extends Component {
   componentDidUpdate() {
     if (this.state.dirty) {
       this.updateCanvas();
-      this.setState({dirty: false}); //usually bad idea to set state in did update, but best way to make sure that canvas gets updated
     }
   }
 

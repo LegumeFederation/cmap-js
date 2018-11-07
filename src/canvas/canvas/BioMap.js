@@ -249,13 +249,11 @@ export default class BioMap extends SceneGraphNodeCanvas {
     this.addChild(qtlLeft);
     this.addChild(qtlRight);
 
-    if (qtlLeft && qtlLeft.bounds.right > this.bbGroup.bounds.left) {
+    if (qtlLeft && qtlLeft.canvasBounds.right > this.bbGroup.canvasBounds.left) {
       const bbw = this.bbGroup.bounds.width;
-      this.bbGroup.bounds.left = qtlLeft.canvasBounds.right + remToPix(1);
+      this.bbGroup.bounds.left = qtlLeft.canvasBounds.right + 100;
       this.bbGroup.bounds.width = bbw;
-      const qrw = qtlRight.bounds.width;
-      qtlRight.bounds.left += qtlLeft.canvasBounds.right;
-      qtlRight.bounds.right = qtlRight.bounds.left + qrw;
+      qtlRight.bounds.translate(qtlLeft.canvasBounds.right, 0);
     }
     console.log('qtl right bounds', qtlRight.canvasBounds.right);
     if (this.domBounds.width < qtlRight.canvasBounds.right + remToPix(4)) {

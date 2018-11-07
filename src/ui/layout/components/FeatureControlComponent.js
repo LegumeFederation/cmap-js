@@ -12,7 +12,8 @@ export default class FeatureControlComponent extends Component {
     super();
     this.state = {
       width: 10,
-      offset: 0
+      offset: 0,
+      refreshPosition: false
     };
     //bind eventHandlers to this
     this.onClick = this.onClick.bind(this);
@@ -22,20 +23,29 @@ export default class FeatureControlComponent extends Component {
     this.setDivOffset();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.leftBound !== nextProps.leftBound) {
+  componentDidUpdate() {
+    if (this.state.refreshPosition) {
       this.setDivOffset();
     }
   }
 
-  setDivOffset() {
-    const offset = this.props.leftBound - (this.base.offsetLeft - this.base.parentElement.offsetLeft);
-    this.setState({offset: offset});
+  componentWillReceiveProps(nextProps) {
+    if (this.props.leftBound !== nextProps.leftBound) {
+      this.setState({refreshPosition: true, offset: 0});
+    }
+    if (this.props.bioIndex !== nextProps.bioIndex) {
+      this.setState({refreshPosition: true, offset: 0});
+    }
   }
 
-  onClick(evt) {
-    if (evt.srcEvent) evt = evt.srcEvent;
-    console.log('fcc oc', 'yay!', this.state);
+  setDivOffset() {
+    let offset = this.props.leftBound - (this.base.offsetLeft - this.base.parentElement.offsetLeft);
+    this.setState({offset: offset, refreshPosition: false});
+  }
+
+  onClick() {
+    console.log('fcc oc', this.props);
+    this.props.modalToggle('feature', this.props.modalData);
   }
 
   render({featureTrack}, {offset}) {
