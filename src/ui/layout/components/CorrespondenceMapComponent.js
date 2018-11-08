@@ -47,7 +47,7 @@ export default class CorrespondenceMapComponent extends Component {
   }
 
   componentDidMount() {
-    console.log('cmc cdm', this.props.bioIndex, this.props.leftBM, this.props.rightBM);
+    console.log('cmc cdm', this.base.children[0].offsetParent);
     this.layoutCorrespondenceMap(this.base.children[0], this.props.leftBM, this.props.rightBM);
     this.setOffsets();
     //  this.updateCanvas();
