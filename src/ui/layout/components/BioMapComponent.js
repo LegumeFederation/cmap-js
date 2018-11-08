@@ -214,8 +214,8 @@ export default class BioMapComponent  extends Component {
     };
 
     return (
-      <div style={{display: 'table-cell', width: eleWidth}}>
-        <div class={'swap-div'} style={{width: eleWidth}}> {bioMap.name} <br/> {bioMap.source.id} </div>
+      <div style={{display: 'table-cell', width: width}}>
+        <div class={'swap-div'} style={{width: width}}> {bioMap.name} <br/> {bioMap.source.id} </div>
         <div>
           {buttons}
         </div>
