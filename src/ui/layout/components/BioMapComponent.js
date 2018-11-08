@@ -114,7 +114,9 @@ export default class BioMapComponent  extends Component {
       this.updateCanvas();
       this.setState({dirty: true});
     }
-    if ((nextProps.bioMap !== this.state.layout.model) || (nextProps.bioMap.tracks !== this.state.layout.model.tracks)) {
+    if ((nextProps.bioMap !== this.state.layout.model) ||
+      (nextProps.bioMap.tracks !== this.state.layout.model.tracks) ||
+      (this.props.minWidth !== nextProps.minWidth)) {
       this.layoutBioMap(this.base.children[2], nextProps.bioMap);
     }
   }
