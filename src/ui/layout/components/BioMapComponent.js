@@ -47,6 +47,9 @@ export default class BioMapComponent  extends Component {
     let cvsWidth = this.props.minWidth > cvs.width ? this.props.minWidth : cvs.width;
     let featureCtrl = this.layoutFeatureButtons(BM);
     this.setState({layout: BM, width: cvsWidth, dirty: true, buttons: featureCtrl});
+    BM.domBounds.width = cvs.width;
+    BM.offsetBounds = this.genOffsetBounds();
+    console.log('bmc lbm', mapBounds, BM.domBounds);
   }
 
   layoutFeatureButtons(layout) {
@@ -84,12 +87,14 @@ export default class BioMapComponent  extends Component {
       modalData={layout}
       newDirection={1}
     />);
+    this.setState({ditry: true});
     return buttons;
   }
 
   componentDidMount() {
     this.layoutBioMap(this.base.children[2], this.props.bioMap);
     this.updateCanvas();
+    this.state.layout.setDomBounds(new Bounds(this.base.children[2].getBoundingClientRect()));
     //console.log('bmc cdm', this.state.buttons);
     //this.setState({dirty:false});
   }
@@ -97,8 +102,10 @@ export default class BioMapComponent  extends Component {
   updateCanvas() {
     let cvs = this.base.children[2];
     let bioMap = this.state.layout;
+    bioMap.setDomBounds(new Bounds(cvs.getBoundingClientRect()));
     bioMap.setCanvas(cvs);
     bioMap.draw();
+    this.props.setLayout(this.state.layout, this.props.bioIndex);
     this.setState({dirty: false});
   }
 
@@ -112,7 +119,22 @@ export default class BioMapComponent  extends Component {
     }
   }
 
+  genOffsetBounds() {
+    let cvs = this.base.children[2];
+    return {
+      top: cvs.offsetTop,
+      bottom: cvs.offsetTop + cvs.offsetHeight,
+      left: cvs.offsetLeft,
+      right: cvs.offsetLeft + cvs.offsetWidth
+    };
+  }
+
   componentDidUpdate() {
+    let oB = this.state.layout.offsetBounds;
+    let cvs = this.base.children[2];
+    if (cvs.offsetTop !== oB.top || cvs.offsetLeft != oB.left || cvs.offsetWidth != oB.width) {
+      this.state.layout.offsetBounds = this.genOffsetBounds();
+    }
     if (this.state.dirty) {
       this.updateCanvas();
     }

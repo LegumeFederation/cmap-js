@@ -5,14 +5,13 @@
  * @extends SceneGraphNodeCanvas
  *
  */
-import m from 'mithril';
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
 import {CorrespondenceMark} from '../geometry/CorrespondenceMark';
-import {featuresInCommon} from '../../model/Feature';
+import {featuresInCommon} from '../../model/dataSourceComponents/Feature';
 
-export class CorrespondenceMap extends SceneGraphNodeCanvas {
+export default class CorrespondenceMap extends SceneGraphNodeCanvas {
   constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
     console.log('CorrespondenceMap -> constructor');
@@ -59,25 +58,6 @@ export class CorrespondenceMap extends SceneGraphNodeCanvas {
     //let rightFeatures = this.bioMapComponents[1].backbone.filteredFeat
     return featuresInCommon(leftFeatures, rightFeatures);
     //return common;
-  }
-
-  /**
-   * mithril component render callback
-   *
-   */
-
-  view() {
-    if (this.domBounds && !this.domBounds.isEmptyArea) {
-      this.lastDrawnMithrilBounds = this.domBounds;
-    }
-    let b = this.domBounds || {};
-    return m('canvas', {
-      class: 'cmap-canvas cmap-correspondence-map',
-      style: `left: ${b.left}px; top: ${b.top}px;
-      width: ${b.width}px; height: ${b.height}px;`,
-      width: b.width,
-      height: b.height
-    });
   }
 
   /**
