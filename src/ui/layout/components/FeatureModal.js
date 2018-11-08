@@ -20,8 +20,10 @@ export default class FeatureModal extends Component {
     this.onTitleChange = this.onTitleChange.bind(this);
     this.configurationElements = this.configurationElements.bind(this);
     this.setFeature = this.setFeature.bind(this);
+    this.removeFeature = this.removeFeature.bind(this);
     this.applySelection = this.applySelection.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
+    this.removeFeature = this.removeFeature.bind(this);
     this.toggleOpen = this.toggleOpen.bind(this);
   }
 
@@ -30,7 +32,7 @@ export default class FeatureModal extends Component {
     let model = modalData.model || modalData.component.model;
     let tagList = model.tags ? model.tags.sort() : [];
     let featureData = modalData.config || modalData.model.config.qtl;
-    let filters = featureData.filters || [tagList[0].slice];
+    let filters = featureData.filters || [];
     let fillColor = featureData.fillColor || model.config.qtl.fillColor;
     if (typeof fillColor === 'string') fillColor = [fillColor];
     this.setState({
@@ -42,6 +44,7 @@ export default class FeatureModal extends Component {
   }
 
   configurationElements() {
+    if (!this.state.filters.length) return null;
     return (
       <div
         id={'color-apply-controls'}
@@ -56,6 +59,7 @@ export default class FeatureModal extends Component {
               baseColor={bc}
               index={idx}
               setFeature={this.setFeature}
+              removeFeature={this.removeFeature}
             />
           );
         })}
@@ -130,6 +134,13 @@ export default class FeatureModal extends Component {
     }
   }
 
+  removeFeature(idx) {
+    let features = this.state.filters.slice().splice(idx, 1);
+    let colors = this.state.fillColor.slice();
+    if (colors[idx]) colors.splice(idx, 1);
+    this.setState({filters: features, fillColor: colors});
+  }
+
   render(props, state) {
     // store these bounds, for checking in drawLazily()
     let featureModal = (
@@ -146,6 +157,16 @@ export default class FeatureModal extends Component {
             value={state.title}
           />
           {this.configurationElements()}
+          <div class={'row'} style={{marginTop: '1rem'}}>
+            <button
+              class={'button'}
+              onClick={() => {
+                this.setFeature(state.tagList[0], state.fillColor[0], state.filters.length);
+              }}
+            >
+              <span> Add Feature </span>
+            </button>
+          </div>
         </div>
         <div class={'cmap-modal-control'}>
           <button

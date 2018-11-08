@@ -29,6 +29,7 @@ export default class FeatureEditorComponent extends Component {
     this.onManualColor = this.onManualColor.bind(this);
     this.resetColor = this.resetColor.bind(this);
     this.setFeature = this.setFeature.bind(this);
+    this.removeFeature = this.removeFeature.bind(this);
   }
 
   componentWillMount() {
@@ -454,9 +455,12 @@ export default class FeatureEditorComponent extends Component {
     this.props.setFeature(this.state.selected, this.state.newColor, this.props.index);
   }
 
+  removeFeature() {
+    this.props.removeFeature(this.props.index);
+  }
+
   render(props, state) {
     // store these bounds, for checking in drawLazily()
-    console.log('fec ren', state.newColor);
     return (
       <div class={'row'}>
         <select
@@ -497,6 +501,12 @@ export default class FeatureEditorComponent extends Component {
               onClick={this.resetColor}
             >
               Reset
+            </button>
+            <button
+              class={'color-select-ctrl'}
+              onClick={this.removeFeature}
+            >
+              Remove
             </button>
           </div>
         </div>
