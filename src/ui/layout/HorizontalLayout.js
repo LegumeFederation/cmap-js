@@ -110,7 +110,8 @@ export default class HorizontalLayout extends LayoutBase {
     //let bmc = null;
     //if (props.appState.bioMaps.length !== this.state.bioMaps) bmc = this._layoutBioMaps();
     return (
-      <div class={'container'} id={'layout-container'} style={{width: '100%', maxWidth: '100%', zIndex: -1}}>
+      //<div class={'container'} id={'layout-container'} style={{width:'100%', maxWidth:'100%'}} >
+      <div style={{position: 'relative', left: 0}}>
         <div
           class='twelve columns'
           style={{maxHeight: props.maxHeight || '100%', overflow: 'auto'}}
