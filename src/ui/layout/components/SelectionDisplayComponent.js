@@ -5,12 +5,6 @@
  */
 
 import {h, Component} from 'preact';
-import {Bounds} from '../../../model/Bounds';
-import GestureWrapper from '../../Gesture';
-import BioMap from '../../../canvas/canvas/BioMap';
-import {FeatureTrack} from '../../../canvas/layout/FeatureTrack';
-import FeatureControlComponent from './FeatureControlComponent';
-import {remToPix} from '../../../util/CanvasUtil';
 
 export default class SelectionDisplayComponent extends Component {
 
