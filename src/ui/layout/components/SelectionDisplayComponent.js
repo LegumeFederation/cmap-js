@@ -71,7 +71,7 @@ export default class SelectionDisplayComponent extends Component {
       );
     });
 
-    let offsetTop = Math.floor(offsetBounds.height - selections[0].minY);
+    let offsetTop = Math.floor(offsetBounds.height - selections[0].data.canvasBounds.top);
 
     return (
       <div class={'biomap-info'} style={{position: 'relative', left: selections[0].maxX, top: -offsetTop}}>
