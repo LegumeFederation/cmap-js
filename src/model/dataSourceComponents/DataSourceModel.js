@@ -71,11 +71,10 @@ export class DataSourceModel {
    */
 
   load() {
-    console.log('loading', this);
     return fetch(this.url,{method:this.method})
       .then(r => checkStatus(r, this.url))
       .then(r => r.text())
-      .then(data => this.deserialize(data)).finally(data => console.log('data test',data));
+      .then(data => this.deserialize(data));
   }
 
   /**

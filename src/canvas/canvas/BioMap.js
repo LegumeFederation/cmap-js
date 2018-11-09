@@ -87,7 +87,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
   get visible() {
     let vis = [];
     let cVis = this.children.map(child => {
-      console.log('cVis', child);
       return child.visible;
     });
     cVis.forEach(item => {
@@ -118,7 +117,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
   zoomMap(delta) {
     // TODO: send zoom event to the scenegraph elements which compose the biomap
     // (don't scale the canvas element itself)
-    console.warn('BioMap -> onZoom', delta);
     // normalise scroll delta
     this.verticalScale = delta < 0 ? -this.zoomDelta : this.zoomDelta;
     let mcv = this.model.view.base;
@@ -226,7 +224,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
 
     this.tracksLeft = [];
     this.tracksRight =[];
-    console.log('bm model',this.model);
     if(!this.model.tracks && this.model.config.tracks){
       this.model.tracks =this.model.config.tracks;
     }
@@ -255,7 +252,6 @@ export default class BioMap extends SceneGraphNodeCanvas {
       this.bbGroup.bounds.width = bbw;
       qtlRight.bounds.translate(qtlLeft.canvasBounds.right, 0);
     }
-    console.log('qtl right bounds', qtlRight.canvasBounds.right);
     if (this.domBounds.width < qtlRight.canvasBounds.right + remToPix(4)) {
       this.domBounds.width = qtlRight.canvasBounds.right + remToPix(4);
     }
@@ -333,12 +329,10 @@ export default class BioMap extends SceneGraphNodeCanvas {
   }
 
   onPan({position, delta = {x: 0, y: 0}, type}) {
-    console.log('on pan', position, delta, type);
     if (type === 'boxSelect') {
       this._updateSelectionBox(position);
     }
     if (type === 'panRuler') {
-      console.log('panRuler');
       this._panRuler(delta);
     }
     // this.inform();

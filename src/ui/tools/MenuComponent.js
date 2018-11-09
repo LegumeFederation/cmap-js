@@ -13,7 +13,6 @@ import ExportDialog from './ExportDialog';
 export default class MenuComponent extends Component {
   render(props, state) {
     // store these bounds, for checking in drawLazily()
-    console.log('menuComp', props.menu);
     switch (props.menu) {
       case 'add':
         return <AddMapDialog toggleVis={props.set} maxHeight={props.maxHeight} appState={props.appState}/>;

@@ -32,7 +32,6 @@ export default class CMAP extends Component{
   }
 
   setMenuComponent(newComponent) {
-    console.log('cmap smc', newComponent);
     this.setState({menuVisible: newComponent});
   }
 
@@ -76,7 +75,7 @@ export default class CMAP extends Component{
             set={this.setMenuComponent}
           />
         </div>
-        <div>
+        <div class={'row'}>
           <MenuComponent set={this.setMenuComponent} menu={menuVisible} appState={appModel} maxHeight={layoutMax}/>
         </div>
         {viewPort

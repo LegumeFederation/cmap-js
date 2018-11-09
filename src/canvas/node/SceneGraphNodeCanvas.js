@@ -12,7 +12,7 @@
 //
 //import {DrawLazilyMixin} from '../DrawLazilyMixin';
 //import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin';
-import {selectedMap} from '../../topics';
+//import {selectedMap} from '../../topics';
 
 import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
@@ -51,7 +51,6 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
    *  informs parent context that canvas has updated property
    */
   inform() {
-    console.log('inform');
     this.onChanges.forEach(callBack => callBack());
   }
 
@@ -64,7 +63,6 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
   }
 
   setDomBounds(bounds) {
-    console.log('setDomBounds', bounds);
     this.domBounds = bounds;
   }
 
@@ -90,15 +88,12 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
    */
 
   draw() {
-    console.log('update cvs', this.context2d, this.domBounds);
     let ctx = this.context2d;
     if (!ctx) return;
     if (!this.domBounds) return;
-    console.log('update cvs bounds');
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    console.log('toDraw', this.visible);
     this.visible.map(child => {
       child && child.data.draw(ctx);
     });
@@ -119,8 +114,6 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
     if (wantedBounds.area === 0) return;
     if (this._drawLazilyTimeoutId) clearTimeout(this._drawLazilyTimeoutId);
     if (!Bounds.areaEquals(this.lastDrawnBounds, wantedBounds)) {
-      console.log('waiting for wantedBounds from mithril: ',
-        wantedBounds.width, wantedBounds.height);
       let tid1 = this._drawLazilyTimeoutId = setTimeout(() => {
         if (tid1 !== this._drawLazilyTimeoutId) return;
         this.drawLazily(wantedBounds);
@@ -136,117 +129,5 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
         }
       });
     }
-  }
-
-  /**
-   * custom gesture event dispatch listener; see LayoutContainer
-   * @param evt
-   * @returns {boolean} Don't stop event propagation
-   */
-
-  handleGesture(evt) {
-    if (evt.type.match(this._gestureRegex.tap)) {
-      return this._onTap(evt);
-    }
-    else if (evt.type.match(this._gestureRegex.pinch)) {
-      return this._onZoom(evt);
-    }
-    else if (evt.type.match(this._gestureRegex.wheel)) {
-      return this._onZoom(evt);
-    }
-    else if (evt.type.match(this._gestureRegex.pan)) {
-      if (evt.type === 'panend') {
-        return this._onPanEnd(evt);
-      } else if (evt.type === 'panstart') {
-        return this._onPanStart(evt);
-      } else {
-        return this._onPan(evt);
-      }
-    }
-
-    return false; // don't stop evt propagation
-  }
-
-  /**
-   * Handle zoom event
-   * @param evt - zoom event (mousewheel or gesture)
-   * @returns {boolean} don't stop event propagation
-   * @private
-   */
-
-  _onZoom(evt) {
-    // TODO: send zoom event to the scenegraph elements which compose the biomap
-    // (don't scale the canvas element itself)
-    console.warn('BioMap -> onZoom -- implement me', evt);
-    return false; // stop event propagation
-  }
-
-  /**
-   * Tap/Click event
-   * @param evt
-   * @returns {boolean} Don't stop event propagation by default
-   * @private
-   */
-
-  _onTap(evt) {
-    let sel = this.appState.selection.bioMaps;
-    let i = sel.indexOf(this);
-    if (i === -1) {
-      sel.push(this);
-    }
-    else {
-      sel.splice(i, 1);
-    }
-    m.redraw();
-    PubSub.publish(selectedMap, {
-      evt: evt,
-      data: this.appState.selection.bioMaps
-    });
-    return false;
-  }
-
-  /**
-   * Pan event that isn't first or last in sequence
-   * @param evt
-   * @returns {boolean}
-   * @private
-   */
-
-  _onPan(evt) {
-    // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (don't scale the canvas element itself)
-    if (evt.direction && Hammer.DIRECTION_VERTICAL) {
-      console.warn('BioMap -> onPan -- vertically; implement me', evt);
-      return false; // stop event propagation
-    }
-    return false; // do not stop propagation
-  }
-
-  /**
-   * First pan event in sequence
-   * @param evt
-   * @returns {boolean}
-   * @private
-   */
-
-  _onPanStart(evt) {
-    // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (don't scale the canvas element itself)
-    console.warn('BioMap -> onPanStart -- vertically; implement me', evt);
-    return false;
-  }
-
-  /**
-   * Final pan event in sequence
-   * @param evt
-   * @returns {boolean}
-   * @private
-   */
-
-  _onPanEnd(evt) {
-    // TODO: send pan events to the scenegraph elements which compose the biomap
-    // (don't scale the canvas element itself)
-    console.warn('BioMap -> onPanEnd -- vertically; implement me', evt);
-    return false; // do not stop propagation
   }
 }

@@ -25,7 +25,6 @@ export default class CorrespondenceMapComponent extends Component {
   }
 
   layoutCorrespondenceMap(cvs, leftBM, rightBM) {
-    //   console.log('my base', this.base);
     let layoutBounds = new Bounds({
       top: 0,
       left: Math.floor(leftBM.offsetBounds.left + leftBM.bbGroup.bounds.right),
@@ -43,11 +42,9 @@ export default class CorrespondenceMapComponent extends Component {
     cvs.width = CM.domBounds.width;// this.bioMap.domBounds.width;
     //   let cvsWidth = this.props.minWidth > cvs.width ? this.props.minWidth : cvs.width;
     this.setState({layout: CM, width: cvs.width, dirty: true});
-    console.log('cmc cm', CM);
   }
 
   componentDidMount() {
-    console.log('cmc cdm', this.base.children[0].offsetParent);
     this.layoutCorrespondenceMap(this.base.children[0], this.props.leftBM, this.props.rightBM);
     this.setOffsets();
     //  this.updateCanvas();
@@ -59,14 +56,13 @@ export default class CorrespondenceMapComponent extends Component {
     let base = this.base.children[0];
     let leftOff = leftB.left + this.props.leftBM.backbone.backbone.canvasBounds.right;
 
-    console.log('cmc so', leftOff, base.offsetLeft);
     this.setState({top: leftB.top - base.offsetTop, left: leftOff - base.offsetLeft});
   }
 
   updateCanvas() {
-    let cvs = this.base.children[0];
+    //let cvs = this.base.children[0];
     let corrMap = this.state.layout;
-    corrMap.setCanvas(cvs);
+    //corrMap.setCanvas(cvs);
     corrMap.draw();
     this.setState({dirty: false});
   }

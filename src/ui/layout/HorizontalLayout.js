@@ -32,29 +32,24 @@ export default class HorizontalLayout extends LayoutBase {
   }
 
   componentDidMount() {
-    console.log('hl cdm', this.base.offsetHeight, this.props.maxHeight);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.appState.bioMaps.length !== this.state.bioMaps) this._layoutBioMaps();
   }
 
-  componentWillUpdate() {
-    console.log('hl cdu', this.base.offsetHeight, this.props.maxHeight);
-  }
+  //componentWillUpdate() {
+  //}
 
   modalToggle(newMenu, menuTarget, menuNew) {
-    console.log('hl mt', newMenu, menuTarget);
     this.setState({menuVis: newMenu, menuTarget: menuTarget, menuAdd: menuNew});
   }
 
   setBMLayout(layout, idx) {
     let layouts = this.state.layouts;
     layouts[idx] = layout;
-    console.log('hl sbml', layouts);
     this.setState({layouts: layouts});
-    if (layouts.indexOf(0) === -1) {
-      console.log('hl sbml post', layouts);
+    if ((layouts.indexOf(0) === -1) && (this.state.corrComponents.length !== layouts.length - 1)) {
       this.layoutCorrespondenceMaps();
     }
   }
@@ -90,7 +85,6 @@ export default class HorizontalLayout extends LayoutBase {
   }
 
   layoutCorrespondenceMaps() {
-    console.log('hl sbml lay', this.base.children);
     let layouts = this.state.layouts;
     let cmap = [];
     for (let i = 0; i < layouts.length - 1; i++) {
@@ -102,7 +96,6 @@ export default class HorizontalLayout extends LayoutBase {
         />
       );
     }
-    console.log('hl sbml cmc', cmap);
     this.setState({corrComponents: cmap});
   }
 
@@ -111,7 +104,7 @@ export default class HorizontalLayout extends LayoutBase {
     //if (props.appState.bioMaps.length !== this.state.bioMaps) bmc = this._layoutBioMaps();
     return (
       //<div class={'container'} id={'layout-container'} style={{width:'100%', maxWidth:'100%'}} >
-      <div style={{position: 'relative', left: 0}}>
+      <div class={'row'} style={{position: 'relative'}}>
         <div
           class='twelve columns'
           style={{maxHeight: props.maxHeight || '100%', overflow: 'auto'}}
@@ -131,6 +124,7 @@ export default class HorizontalLayout extends LayoutBase {
           }
         </div>
       </div>
+      //</div>
     );
   }
 

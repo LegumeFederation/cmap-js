@@ -14,7 +14,6 @@ import {featuresInCommon} from '../../model/dataSourceComponents/Feature';
 export default class CorrespondenceMap extends SceneGraphNodeCanvas {
   constructor({bioMapComponents, appState, layoutBounds}) {
     super({});
-    console.log('CorrespondenceMap -> constructor');
     this.bioMapComponents = bioMapComponents;
     this.appState = appState;
     this.verticalScale = 1;

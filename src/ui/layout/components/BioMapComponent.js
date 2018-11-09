@@ -32,7 +32,6 @@ export default class BioMapComponent  extends Component {
   }
 
   layoutBioMap(cvs, bioMap) {
-    console.log('bmc lbm layout');
     cvs.width = this.props.minWidth;
     let mapBounds = new Bounds(cvs.getBoundingClientRect());
     let BM = new BioMap({
@@ -53,7 +52,6 @@ export default class BioMapComponent  extends Component {
 
   layoutFeatureButtons(layout) {
     let buttons = [];
-    console.log('bmc lfb', layout);
     buttons.push(<FeatureControlComponent
       featureTrack={{bounds: {width: '2em'}, title: '+'}}
       leftBound={remToPix(1)}
@@ -95,7 +93,6 @@ export default class BioMapComponent  extends Component {
     this.updateCanvas();
     this.state.layout.setDomBounds(new Bounds(this.base.children[2].getBoundingClientRect()));
     //console.log('bmc cdm', this.state.buttons);
-    //this.setState({dirty:false});
   }
 
   updateCanvas() {
@@ -105,7 +102,7 @@ export default class BioMapComponent  extends Component {
     cvs.width = ww;
     bioMap.setDomBounds(new Bounds(cvs.getBoundingClientRect()));
     bioMap.width = ww;
-    bioMap.setCanvas(cvs);
+    //bioMap.setCanvas(cvs);
     bioMap.draw();
     this.props.setLayout(this.state.layout, this.props.bioIndex);
     this.setState({dirty: false, width: bioMap.width});
@@ -205,7 +202,6 @@ export default class BioMapComponent  extends Component {
     // store these bounds, for checking in drawLazily()
     //let width = bioMap.domBounds ? bioMap.domBounds.width : 500;
     let eleWidth = minWidth > width ? minWidth : width;
-    console.log('bmc rend', minWidth, width, eleWidth);
     if (visible) {
       let visItems = hits.map(hit => hit.data.model.name);
       window.alert(visItems);

@@ -292,7 +292,6 @@ export default class FeatureEditorComponent extends Component {
     let hvcolor = this.state.hueValColor;
     let yPos = evt.layerY <= 0 ? 0 : evt.layerY >= evt.target.offsetHeight ? evt.target.offsetHeight : evt.layerY;
     hvcolor[1] = this.satSFromPos(yPos, evt.target);
-    console.log('fec sc', evt.layerY, yPos);
     this.setState({
       satPos: yPos,
       hueValColor: hvcolor,
