@@ -34,69 +34,7 @@
         "labelPosition": 1
       }
     ]
-  },
-    {
-      "source": "pv_genome",
-      "map": "phavu.Chr02",
-      "tracks": [
-        {
-          "type": "manhattan",
-          "dataId": "manhattan_test",
-          "displayWidth": 50,
-          "maxValue": 6,
-          "width": 2,
-          "rulerMajorMark": 10,
-          "rulerMinorMark": 2,
-          "posField": "Pos",
-          "targetField": "Chr",
-          "pField": "p",
-          "lines": [
-            {
-              "value": 5,
-              "lineWeight": 3,
-              "lineColor": "red"
-            },
-            {
-              "value": 2,
-              "lineWeight": 3,
-              "lineColor": "blue"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "source": "gm_genome",
-      "map": "glyma.Chr01"
-    },
-    {
-      "source": "gm_composite",
-      "map": "D1a",
-      "tracks": [
-        {
-          "type": "qtl",
-          "filters": [
-            "QTL_other-seed",
-            "QTL_root"
-          ],
-          "fillColor": [
-            "orange",
-            "blue"
-          ],
-          "position": -1
-        },
-        {
-          "type": "qtl",
-          "filters": [
-            "QTL_root"
-          ],
-          "fillColor": [
-            "red"
-          ],
-          "position": 1
-        }
-      ]
-    }
+  }
   ],
   "sources" : [ {
     "id": "pv_consensus",

@@ -62,7 +62,7 @@ export default class HorizontalLayout extends LayoutBase {
   _layoutBioMaps(appState = this.props.appState) {
     let activeMaps = appState.bioMaps;
     let bmbounds = new Bounds(this.props.bounds);
-    let minWidth = bmbounds.width / activeMaps.length;
+    let minWidth = Math.floor(bmbounds.width / activeMaps.length) - 2;
     let lay = activeMaps.map(() => 0);
     this.setState({layouts: lay});
     let bioMapComponents = activeMaps.map((model, mapIndex) => {

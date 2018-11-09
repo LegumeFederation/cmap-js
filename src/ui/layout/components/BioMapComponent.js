@@ -32,6 +32,7 @@ export default class BioMapComponent  extends Component {
   }
 
   layoutBioMap(cvs, bioMap) {
+    console.log('bmc lbm layout');
     cvs.width = this.props.minWidth;
     let mapBounds = new Bounds(cvs.getBoundingClientRect());
     let BM = new BioMap({
@@ -43,13 +44,11 @@ export default class BioMapComponent  extends Component {
       sub: () => this.setState({})
     });
     BM.setCanvas(cvs);
-    cvs.width = BM.domBounds.width;// this.bioMap.domBounds.width;
-    let cvsWidth = this.props.minWidth > cvs.width ? this.props.minWidth : cvs.width;
+    let cvsWidth = this.props.minWidth > BM.domBounds.width ? this.props.minWidth : BM.domBounds.width;
+    cvs.width = cvsWidth;// this.bioMap.domBounds.width;
     let featureCtrl = this.layoutFeatureButtons(BM);
     this.setState({layout: BM, width: cvsWidth, dirty: true, buttons: featureCtrl});
-    BM.domBounds.width = cvs.width;
     BM.offsetBounds = this.genOffsetBounds();
-    console.log('bmc lbm', mapBounds, BM.domBounds);
   }
 
   layoutFeatureButtons(layout) {
@@ -102,11 +101,14 @@ export default class BioMapComponent  extends Component {
   updateCanvas() {
     let cvs = this.base.children[2];
     let bioMap = this.state.layout;
+    let ww = this.props.minWidth > bioMap.domBounds.width ? this.props.minWidth : bioMap.domBounds.width;
+    cvs.width = ww;
     bioMap.setDomBounds(new Bounds(cvs.getBoundingClientRect()));
+    bioMap.width = ww;
     bioMap.setCanvas(cvs);
     bioMap.draw();
     this.props.setLayout(this.state.layout, this.props.bioIndex);
-    this.setState({dirty: false});
+    this.setState({dirty: false, width: bioMap.width});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -123,18 +125,21 @@ export default class BioMapComponent  extends Component {
 
   genOffsetBounds() {
     let cvs = this.base.children[2];
-    return {
+    let bnds = {
       top: cvs.offsetTop,
       bottom: cvs.offsetTop + cvs.offsetHeight,
       left: cvs.offsetLeft,
-      right: cvs.offsetLeft + cvs.offsetWidth
+      right: cvs.offsetLeft + cvs.offsetWidth,
+      width: cvs.offsetWidth,
     };
+    this.setState({width: bnds.width});
+    return bnds;
   }
 
   componentDidUpdate() {
     let oB = this.state.layout.offsetBounds;
     let cvs = this.base.children[2];
-    if (cvs.offsetTop !== oB.top || cvs.offsetLeft != oB.left || cvs.offsetWidth != oB.width) {
+    if (cvs.offsetTop !== oB.top || cvs.offsetLeft !== oB.left || cvs.offsetWidth !== oB.width) {
       this.state.layout.offsetBounds = this.genOffsetBounds();
     }
     if (this.state.dirty) {
@@ -200,6 +205,7 @@ export default class BioMapComponent  extends Component {
     // store these bounds, for checking in drawLazily()
     //let width = bioMap.domBounds ? bioMap.domBounds.width : 500;
     let eleWidth = minWidth > width ? minWidth : width;
+    console.log('bmc rend', minWidth, width, eleWidth);
     if (visible) {
       let visItems = hits.map(hit => hit.data.model.name);
       window.alert(visItems);
@@ -216,6 +222,7 @@ export default class BioMapComponent  extends Component {
     return (
       <div style={{display: 'table-cell', width: width}}>
         <div class={'swap-div'} style={{width: width}}> {bioMap.name} <br/> {bioMap.source.id} </div>
+
         <div>
           {buttons}
         </div>
