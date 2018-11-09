@@ -11,6 +11,7 @@ import BioMap from '../../../canvas/canvas/BioMap';
 import {FeatureTrack} from '../../../canvas/layout/FeatureTrack';
 import FeatureControlComponent from './FeatureControlComponent';
 import {remToPix} from '../../../util/CanvasUtil';
+import SelectionDisplayComponent from './SelectionDisplayComponent';
 
 export default class BioMapComponent  extends Component {
 
@@ -21,7 +22,9 @@ export default class BioMapComponent  extends Component {
       layout: null,
       dirty: false,
       panEvent: null,
-      width: 0
+      width: 0,
+      hits: [],
+      visible: false
     };
     //bind eventHandlers to this
     this.handleWheel = this.handleWheel.bind(this);
@@ -29,6 +32,7 @@ export default class BioMapComponent  extends Component {
     this.onPanStart = this.onPanStart.bind(this);
     this.onPan = this.onPan.bind(this);
     this.onPanEnd = this.onPanEnd.bind(this);
+    this.closePopover = this.closePopover.bind(this);
   }
 
   layoutBioMap(cvs, bioMap) {
@@ -46,7 +50,7 @@ export default class BioMapComponent  extends Component {
     let cvsWidth = this.props.minWidth > BM.domBounds.width ? this.props.minWidth : BM.domBounds.width;
     cvs.width = cvsWidth;// this.bioMap.domBounds.width;
     let featureCtrl = this.layoutFeatureButtons(BM);
-    this.setState({layout: BM, width: cvsWidth, dirty: true, buttons: featureCtrl});
+    this.setState({hits: [], visible: false, layout: BM, width: cvsWidth, dirty: true, buttons: featureCtrl});
     BM.offsetBounds = this.genOffsetBounds();
   }
 
@@ -128,6 +132,7 @@ export default class BioMapComponent  extends Component {
       left: cvs.offsetLeft,
       right: cvs.offsetLeft + cvs.offsetWidth,
       width: cvs.offsetWidth,
+      height: cvs.offsetHeight
     };
     this.setState({width: bnds.width});
     return bnds;
@@ -154,7 +159,11 @@ export default class BioMapComponent  extends Component {
   onClick(evt) {
     if (evt.srcEvent) evt = evt.srcEvent;
     let hits = this.state.layout.addCircle({x: evt.layerX, y: evt.layerY});
-    this.setState({hits: hits, visible: hits.length > 0});
+    if (hits.length > 0) {
+      console.log('bmc oc', hits);
+      this.setState({hits: hits, visible: true});
+    }
+
     this.updateCanvas();
   }
 
@@ -189,24 +198,27 @@ export default class BioMapComponent  extends Component {
     if (evt.srcEvent) { //ignore hammer wrapper around normalised event
       evt = evt.srcEvent;
     }
+
     let hits = this.state.layout.onPanEnd({
       position: {x: evt.layerX, y: evt.layerY},
       delta: {x: evt.movementX, y: evt.movementY},
       type: this.state.panEvent
     });
-    this.setState({panEvent: null, hits: hits, visible: hits.length > 0});
+    if (hits.length > 0) {
+      this.setState({hits: hits, visible: true});
+    }
+    this.setState({panEvent: null});
     this.updateCanvas();
   }
 
-  render({bioMap, bioIndex, minWidth}, {visible, hits, width, buttons}) {
+  closePopover() {
+    this.setState({visible: false});
+  }
+
+  render({bioMap, bioIndex, minWidth}, {visible, hits, width, buttons, layout}) {
     // store these bounds, for checking in drawLazily()
     //let width = bioMap.domBounds ? bioMap.domBounds.width : 500;
     let eleWidth = minWidth > width ? minWidth : width;
-    if (visible) {
-      let visItems = hits.map(hit => hit.data.model.name);
-      window.alert(visItems);
-      this.setState({visible: false});
-    }
     let hOptions = {
       recognizers: {
         pan: {
@@ -237,6 +249,17 @@ export default class BioMapComponent  extends Component {
             onWheel={this.handleWheel}
           />
         </GestureWrapper>
+        {visible ?
+          <SelectionDisplayComponent
+            width={20}
+            height={20}
+            selections={hits}
+            onClose={this.closePopover}
+            offsetBounds={layout.offsetBounds}
+          />
+          :
+          null
+        }
       </div>
     );
   }
