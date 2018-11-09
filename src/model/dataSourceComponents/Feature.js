@@ -84,7 +84,7 @@ function featuresInCommon(features1, features2) {
     features.forEach(f => {
       dict[f.name] = f;
       f.aliases.forEach(a => {
-        if (a) dict[a] = f;
+        if (a && a !== 'NULL') dict[a] = f;
       });
     });
     return dict;
