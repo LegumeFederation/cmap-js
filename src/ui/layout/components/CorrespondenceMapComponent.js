@@ -16,12 +16,15 @@ export default class CorrespondenceMapComponent extends Component {
     this.state = {
       layout: null,
       dirty: false,
+      refreshOffset: false,
+      leftOffset: 0,
       panEvent: null,
       width: 0,
       top: 0,
       left: 0
     };
     //bind eventHandlers to this
+   
   }
 
   layoutCorrespondenceMap(cvs, leftBM, rightBM) {
@@ -55,8 +58,12 @@ export default class CorrespondenceMapComponent extends Component {
     let leftB = this.props.leftBM.offsetBounds;
     let base = this.base.children[0];
     let leftOff = leftB.left + this.props.leftBM.backbone.backbone.canvasBounds.right;
-
-    this.setState({top: leftB.top - base.offsetTop, left: leftOff - base.offsetLeft});
+    this.setState({
+      top: leftB.top - base.offsetTop,
+      left: leftOff - base.offsetLeft,
+      refreshOffset: false,
+      leftOff: base.offsetLeft
+    });
   }
 
   updateCanvas() {
@@ -67,17 +74,35 @@ export default class CorrespondenceMapComponent extends Component {
     this.setState({dirty: false});
   }
 
+  resetOffset() {
+    this.setState({top: 0, left: 0, refreshOffset: true});
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({dirty: true});
+    let lb = this.props.leftBM;
+    let rb = this.props.rightBM;
+    let nlb = nextProps.leftBM;
+    let nrb = nextProps.rightBM;
+    if (lb.model !== nlb.model || rb.model !== nrb.model || lb.backbone.backbone.canvasBounds.right !== nlb.backbone.backbone.canvasBounds.right) {
+      this.layoutCorrespondenceMap(this.base.children[0], nextProps.leftBM, nextProps.rightBM);
+      this.resetOffset();
+    }
+
   }
 
   componentDidUpdate() {
     if (this.state.dirty) {
       this.updateCanvas();
     }
+    if (this.state.refreshOffset) {
+      this.setOffsets();
+    } else if (this.base.children[0].offsetLeft !== (this.state.leftOff + this.state.left)) {
+      this.resetOffset();
+    }
   }
 
-  render({bioIndex}, {top, left, width}) {
+  render({bioIndex}, {top, left}) {
     // store these bounds, for checking in drawLazily()
     //let width = bioMap.domBounds ? bioMap.domBounds.width : 500;
     return (

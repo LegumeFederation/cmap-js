@@ -222,7 +222,7 @@ export default class BioMapComponent  extends Component {
     let hOptions = {
       recognizers: {
         pan: {
-          threshold: 1
+          threshold: 0
         }
       }
     };
