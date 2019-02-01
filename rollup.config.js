@@ -1,15 +1,16 @@
 // Rollup plugins
-import babel from 'rollup-plugin-babel';
-import eslint from 'rollup-plugin-eslint';
-import nodePackageResolve from 'rollup-plugin-node-resolve';
+import globals from 'rollup-plugin-node-globals';
+import builtins from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
+import babel from 'rollup-plugin-babel';
+import jsx from 'rollup-plugin-jsx';
 import replace from 'rollup-plugin-replace';
-import uglify from 'rollup-plugin-uglify';
+import {eslint}  from 'rollup-plugin-eslint';
 import postcss from 'rollup-plugin-postcss';
+import uglify from 'rollup-plugin-uglify';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import builtins from 'rollup-plugin-node-builtins';
-import globals from 'rollup-plugin-node-globals';
 //import babelrc from 'babelrc-rollup';
 
 // PostCSS plugins
@@ -21,10 +22,11 @@ import cssnano from 'cssnano';
 let pkg = require('./package.json');
 
 export default {
-  entry: 'src/main.js',
-  dest: 'build/cmap.min.js',
-  format: 'iife',
-  sourceMap: true,
+  input: 'src/main.js',
+  output: {
+    file: 'build/cmap.min.js',
+    format: 'iife'
+  },
   plugins: [
     builtins(),
     globals(),
@@ -38,6 +40,7 @@ export default {
       ],
       extensions: [ '.css' ],
     }),
+//    jsx( {factory: 'Preact.createElement'}),
     // linter (see .eslintrc.json)
     eslint({
       exclude: [
@@ -45,30 +48,32 @@ export default {
         'mixwith.js/**/*'
       ]
     }),
+    nodeResolve({
+      jsnext: false,
+      main: false,
+      browser: true,
+      preferBuiltins: true,
+      modulesOnly: false
+    }),
     // transpile es6
-    //babel(babelrc()),
     babel({
       //ignore: /node_modules\/(?!ecma-proposal-math-extensions)/, //do it this way because this one node_module is in es6
-      ignore: 'node_modules/**',
-      presets: [ 'es2015-rollup' ],
+      ignore: ['node_modules/**'],
       babelrc: false,
+      presets: [
+        ["@babel/preset-env",{ "modules":false}],
+        ["@babel/preset-react",{"pragma":"h"}]
+      ],
       plugins: [
-        'external-helpers',
-        ['transform-react-jsx', { 'pragma':'h' }],
         'array-includes'
       ]
     }),
+    commonjs({}),
     // find node_modules
-    nodePackageResolve({
-      jsnext: true,
-      main: true,
-      browser: true,
-    }),
     // import node_modules
-    commonjs(),
     // include the ENV so it can be evaluated at runtime
     replace({
-      exclude: 'node_modules/**',
+      exclude: ['node_modules/**'],
       ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
     (process.env.WATCH === 'yes' && serve({
@@ -82,17 +87,18 @@ export default {
     // uglify/minify only in production
     (process.env.NODE_ENV === 'production' && uglify()),
   ],
-  targets: [
-    {
-      dest: pkg.main,
-      format: 'umd',
-      moduleName: 'rollupStarterProject',
-      sourceMap: true
-    },
-    {
-      dest: pkg.module,
-      format: 'es',
-      sourceMap: true
-    }
-  ]
+  sourcemap : true
+//  targets: [
+//    {
+//      dest: pkg.main,
+//      format: 'umd',
+//      moduleName: 'rollupStarterProject',
+//      sourceMap: true
+//    },
+//    {
+//      dest: pkg.module,
+//      format: 'es',
+//      sourceMap: true
+//    }
+//  ]
 };
