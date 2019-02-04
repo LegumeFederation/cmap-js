@@ -25,7 +25,8 @@ export default {
   input: 'src/main.js',
   output: {
     file: 'build/cmap.min.js',
-    format: 'iife'
+    format: 'iife',
+    sourcemap: true
   },
   plugins: [
     builtins(),
@@ -58,7 +59,7 @@ export default {
     // transpile es6
     babel({
       //ignore: /node_modules\/(?!ecma-proposal-math-extensions)/, //do it this way because this one node_module is in es6
-      ignore: ['node_modules/**'],
+      ignore:[ /node_modules\/(?!unfetch)/], //do it this way because this one node_module is in es6
       babelrc: false,
       presets: [
         ["@babel/preset-env",{ "modules":false}],
@@ -86,19 +87,5 @@ export default {
     (process.env.WATCH === 'yes' && livereload()),
     // uglify/minify only in production
     (process.env.NODE_ENV === 'production' && uglify()),
-  ],
-  sourcemap : true
-//  targets: [
-//    {
-//      dest: pkg.main,
-//      format: 'umd',
-//      moduleName: 'rollupStarterProject',
-//      sourceMap: true
-//    },
-//    {
-//      dest: pkg.module,
-//      format: 'es',
-//      sourceMap: true
-//    }
-//  ]
+  ]
 };
