@@ -9,12 +9,7 @@ export default class Header extends Component {
     super();
   }
 
-  componentWillReceiveProps(nextProps,nextState){
-    console.log('h wrp', nextProps);
-  }
-
-  render({header},{}) {
-    console.log('rendering header');
+  render({header}) {
     return(
       <div class='row cmap' id='cmap-head'>
         <div class='twelve columns'>

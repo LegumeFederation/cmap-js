@@ -98,7 +98,6 @@ export default class CorrespondenceMapComponent extends Component {
     if (this.state.refreshOffset) {
       this.setOffsets();
     } else if (this.base.children[0].offsetLeft !== (this.state.leftOff + this.state.left)) {
-      console.log('resetOff');
       this.layoutCorrespondenceMap(this.base.children[0], this.props.leftBM, this.props.rightBM);
       this.resetOffset();
     }

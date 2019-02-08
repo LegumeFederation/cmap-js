@@ -10,7 +10,6 @@ import FeatureModal from './FeatureModal';
 export default class ModalSelector extends Component {
   render(props, state) {
     // store these bounds, for checking in drawLazily()
-    console.log('menuComp', props.menu);
     switch (props.menuType) {
       case 'feature':
         return <FeatureModal

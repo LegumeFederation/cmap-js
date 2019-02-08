@@ -7,7 +7,8 @@
 
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
-import {translateScale} from '../../util/CanvasUtil';
+
+//import {translateScale} from '../../util/CanvasUtil';
 
 export class TestDot extends SceneGraphNodeBase {
   /**

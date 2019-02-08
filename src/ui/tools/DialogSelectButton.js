@@ -18,7 +18,7 @@ export default class DialogSelectButton extends Component {
     this.props.set(visible);
   }
 
-  render({icon, text, dialog}, state) {
+  render({icon, text}) {
     // store these bounds, for checking in drawLazily()
 
     return (

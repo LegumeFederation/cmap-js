@@ -160,7 +160,6 @@ export default class BioMapComponent  extends Component {
     if (evt.srcEvent) evt = evt.srcEvent;
     let hits = this.state.layout.addCircle({x: evt.layerX, y: evt.layerY});
     if (hits.length > 0) {
-      console.log('bmc oc', hits);
       this.setState({hits: hits, visible: true});
     }
 
@@ -218,7 +217,7 @@ export default class BioMapComponent  extends Component {
   render({bioMap, bioIndex, minWidth}, {visible, hits, width, buttons, layout}) {
     // store these bounds, for checking in drawLazily()
     //let width = bioMap.domBounds ? bioMap.domBounds.width : 500;
-    let eleWidth = minWidth > width ? minWidth : width;
+    width = minWidth > width ? minWidth : width;
     let hOptions = {
       recognizers: {
         pan: {

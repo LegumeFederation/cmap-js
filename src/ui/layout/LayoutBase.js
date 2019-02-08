@@ -4,7 +4,7 @@
  * CircosLayout.
  */
 import {h, Component} from 'preact';
-import {Bounds} from '../../model/Bounds';
+//import {Bounds} from '../../model/Bounds';
 
 export default class LayoutBase extends Component {
 
@@ -29,9 +29,8 @@ export default class LayoutBase extends Component {
     //this.bounds = new Bounds(this.base.getBoundingClientRect());
   }
 
-  render(props, state){
-    console.log('testing lb', state);
-    return ( <div> buttslol</div>);
+  render() {
+    return (<div> Placeholder Div, Please Ignore </div>);
 
   }
 }

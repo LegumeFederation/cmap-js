@@ -27,8 +27,9 @@ export default class ExportDialog extends Component {
     });
   }
 
-  render({appState, maxHeight}, {isOpen}) {
+  render({maxHeight}, {isOpen}) {
     // store these bounds, for checking in drawLazily()
+
 
     let configureModal = (
       <div class={'twelve columns control-dialog'} id={'cmap-map-addition-dialog'} style={{maxHeight: (maxHeight)}}>

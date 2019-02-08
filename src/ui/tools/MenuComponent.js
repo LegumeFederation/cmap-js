@@ -11,17 +11,17 @@ import ConfigureDialog from './ConfigureDialog';
 import ExportDialog from './ExportDialog';
 
 export default class MenuComponent extends Component {
-  render(props, state) {
+  render({menu, set, maxHeight, appState}) {
     // store these bounds, for checking in drawLazily()
-    switch (props.menu) {
+    switch (menu) {
       case 'add':
-        return <AddMapDialog toggleVis={props.set} maxHeight={props.maxHeight} appState={props.appState}/>;
+        return <AddMapDialog toggleVis={set} maxHeight={maxHeight} appState={appState}/>;
       case 'remove':
-        return <RemoveMapDialog toggleVis={props.set} maxHeight={props.maxHeight} appState={props.appState}/>;
+        return <RemoveMapDialog toggleVis={set} maxHeight={maxHeight} appState={appState}/>;
       case 'configure':
-        return <ConfigureDialog toggleVis={props.set} maxHeight={props.maxHeight} appState={props.appState}/>;
+        return <ConfigureDialog toggleVis={set} maxHeight={maxHeight} appState={appState}/>;
       case 'export':
-        return <ExportDialog toggleVis={props.set} maxHeight={props.maxHeight} appState={props.appState}/>;
+        return <ExportDialog toggleVis={set} maxHeight={maxHeight} appState={appState}/>;
       case 'hidden':
       default:
         return null;

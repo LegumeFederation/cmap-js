@@ -17,7 +17,6 @@ export default class Alert extends Component{
 
   render({message},{visible}){
     if(!visible) return null;
-    console.log('error message', message);
     return (
       <div class='container' style={{width: '100%'}}>
         <div class='row alert'>

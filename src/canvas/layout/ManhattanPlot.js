@@ -19,7 +19,6 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params,);
-    console.log('manhattan -> constructor', params);
     let manhattanPlot = params.config;
     const b = this.parent.bounds;
     this.trackPos = params.position || 1;

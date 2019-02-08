@@ -38,7 +38,7 @@ export default class SelectionDisplayComponent extends Component {
     this.setState({visible: vis});
   }
 
-  render({width, height, onClose, selections, offsetBounds}, {visible}) {
+  render({onClose, selections, offsetBounds}, {visible}) {
     // store these bounds, for checking in drawLazily()
     //let width = bioMap.domBounds ? bioMap.domBounds.width : 500;
     let fc = selections.map((feature, idx) => {
@@ -53,7 +53,7 @@ export default class SelectionDisplayComponent extends Component {
         <div>
           <div
             class={'biomap-info-name'}
-            onClick={(evt) => this.updateVisible(idx)}
+            onClick={() => this.updateVisible(idx)}
           >
             {dm.name}
           </div>

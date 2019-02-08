@@ -22,7 +22,7 @@ export default class StatusBar extends Component{
  //  * @returns {*}
  //  */
 
-  render({attribution},{}) {
+  render({attribution}) {
     return(
       <div class='cmap' id={'cmap-foot'}>
         <div class='row'>

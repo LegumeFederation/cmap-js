@@ -9,7 +9,6 @@ export default class AppModel {
   constructor(configURL,sub) {
     this.key = 'moo';
     this.allMaps = [];
-    console.log('AM',this.key,this.allMaps.length);
     this.bioMaps = [];
     this.header = '';
     this.attribution = '';
@@ -156,7 +155,7 @@ export default class AppModel {
    * @private
    */
   _loadDataFromConfig(configURL) {
-    fetch(configURL)
+    fetch(configURL, {cache: 'no-cache'})
       .then(r => checkStatus(r, configURL))// load config files
       .then(r => r.json())
       .then(data => {
@@ -172,7 +171,6 @@ export default class AppModel {
         // and make error catching smoother.
         return loadDataSources(data.sources)
           .then(dataSources => {
-            console.log('load data sources', dataSources);
             this.sources = dataSources;
             this.allMaps = loadMaps(dataSources);
             this.bioMaps.push(this.allMaps[0]);

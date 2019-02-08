@@ -58,7 +58,6 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
     this.canvas = cvs;
     this.context2d = cvs.getContext('2d');
     this.dirty = true;
-    console.log('set canvas', cvs, this);
     //this.drawLazily(this.domBounds);
   }
 
@@ -66,22 +65,22 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
     this.domBounds = bounds;
   }
 
-  view() {
-    // store these bounds, for checking in drawLazily()
-    if (this.domBounds && !this.domBounds.isEmptyArea) {
-      this.lastDrawnMithrilBounds = this.domBounds;
-    }
-    let b = this.domBounds || {};
-    let selectedClass = this.selected ? 'selected' : '';
-    return m('canvas', {
-      class: `cmap-canvas cmap-biomap ${selectedClass}`,
-      style: `left: ${b.left}px; top: ${b.top}px;
-               width: ${b.width}px; height: ${b.height}px;
-               transform: rotate(${this.rotation}deg);`,
-      width: b.width,
-      height: b.height
-    });
-  }
+  //view() {
+  //  // store these bounds, for checking in drawLazily()
+  //  if (this.domBounds && !this.domBounds.isEmptyArea) {
+  //    this.lastDrawnMithrilBounds = this.domBounds;
+  //  }
+  //  let b = this.domBounds || {};
+  //  let selectedClass = this.selected ? 'selected' : '';
+  //  return m('canvas', {
+  //    class: `cmap-canvas cmap-biomap ${selectedClass}`,
+  //    style: `left: ${b.left}px; top: ${b.top}px;
+  //             width: ${b.width}px; height: ${b.height}px;
+  //             transform: rotate(${this.rotation}deg);`,
+  //    width: b.width,
+  //    height: b.height
+  //  });
+  //}
 
   /**
    * draw our scene graph children on canvas element

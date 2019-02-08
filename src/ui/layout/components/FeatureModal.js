@@ -128,7 +128,6 @@ export default class FeatureModal extends Component {
         }
         return false;
       });
-      console.log('remove', tracks, this.props.modalData.tracks);
       this.props.appState.editFeatureTracks(this.props.modalData.model, tracks);
       this.toggleOpen();
     }

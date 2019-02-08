@@ -96,7 +96,7 @@ export default class ExportDialog extends Component {
     document.body.removeChild(dl);
   }
 
-  render({appState, maxHeight}, {location, isOpen}) {
+  render({maxHeight}, {location, isOpen}) {
     // store these bounds, for checking in drawLazily()
     let formatSelector = this.genFormatSelection();
 

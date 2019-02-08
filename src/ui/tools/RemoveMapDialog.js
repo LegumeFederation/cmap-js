@@ -63,7 +63,6 @@ export default class RemoveMapDialog extends Component {
   onSelection(evt, map) {
     let selection = this.state.selection.slice();
     const i = selection.indexOf(map);
-    console.log('rmd sel pre', selection, map, i);
     if (i === -1) {
       selection.push(map);
     }
@@ -71,11 +70,9 @@ export default class RemoveMapDialog extends Component {
       selection.splice(i, 1);
     }
     this.setState({selection: selection});
-    console.log('rmd sel post', selection, map, i);
-
   }
 
-  render({appState, maxHeight}, {mapSources, selection, isOpen}) {
+  render({appState, maxHeight}, {selection, isOpen}) {
     // store these bounds, for checking in drawLazily()
 
     let selectable = (

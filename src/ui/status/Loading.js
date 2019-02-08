@@ -10,8 +10,6 @@ export default class Loading extends Component{
     super();
     this.setState({visible:true});
     this.setState({newit:true});
-    console.log('load const', this.props);
-
   }
 
   close(){
@@ -19,9 +17,7 @@ export default class Loading extends Component{
   }
 
   render({status},{visible}){
-    console.log('render loading');
     if(!visible) return null;
-
     return (
       <div class='row loading-row'>
         <div class='one column'> <p /> </div>

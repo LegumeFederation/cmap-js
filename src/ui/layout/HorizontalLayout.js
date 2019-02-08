@@ -34,7 +34,7 @@ export default class HorizontalLayout extends LayoutBase {
   componentDidMount() {
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     if (this.props.appState.bioMaps.length !== this.state.bioMaps) this._layoutBioMaps();
   }
 

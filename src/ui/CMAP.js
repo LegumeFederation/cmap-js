@@ -21,8 +21,7 @@ export default class CMAP extends Component{
     this.updateBounds();
   }
 
-
-  componentWillReceiveProps(nextProps, nextState) {
+  componentWillReceiveProps() {
     this.updateBounds();
   }
 
