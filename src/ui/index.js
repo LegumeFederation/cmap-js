@@ -1,11 +1,11 @@
 /**
- * CMAP
+ * OldCmap
  */
 
 import {h, Component} from 'preact';
 import AppModel from '../model/AppModel';
 //import queryString from 'query-string';
-import CMAP from './CMAP';
+import OldCmap from './oldCmap';
 import Header from './Header';
 import StatusBar from './StatusBar';
 import Alert from './status/Alert';
@@ -48,14 +48,14 @@ export default class UI extends Component{
       <div class='cmap app-main' style={{height:state.windowHeight||0}} id='cmap-app'>
         {this.model.error
           ?
-          <Alert message={this.model.status}/>
+            <Alert message={this.model.status} />
           :
           null
         }
         <Header header={this.model.header} />
         { this.model.allMaps.length > 0
           ?
-            <CMAP
+            <OldCmap
               appModel={this.model}
               maxHeight={canvasRegionMaxHeight}
             />

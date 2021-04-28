@@ -1,10 +1,8 @@
 // Rollup plugins
 import { babel } from '@rollup/plugin-babel';
 import builtins from 'rollup-plugin-node-builtins';
-import alias from '@rollup/plugin-alias';
 import commonjs  from '@rollup/plugin-commonjs';
-import  nodeResolve from '@rollup/plugin-node-resolve';
-import injectProcessEnv from 'rollup-plugin-inject-process-env';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
 import pkg from './package.json';
@@ -12,7 +10,7 @@ import pkg from './package.json';
 import simplevars from 'postcss-simple-vars';
 import nested from 'postcss-nested';
 import postcssEnv from 'postcss-preset-env';
-//import cssnano from 'cssnano';
+import cssnano from 'cssnano';
 
 const name = 'cmapjs';
 
@@ -21,21 +19,12 @@ const infile = 'src/main.js';
 const postcssOptions = () => {
     return {
         plugins: [
-            simplevars,
+            simplevars(),
             nested(),
             postcssEnv({ warnForDuplicates: false, }),
-           // cssnano(),
+            cssnano(),
         ],
         extensions: [ '.css' ],
-    };
-};
-
-const aliasOptions = () => {
-    return {
-        entries: [
-            { find: 'react', replacement: 'preact/compat' },
-            { find: 'react-dom', replacement: 'preact/compat' }
-        ]
     };
 };
 
@@ -57,28 +46,21 @@ const babelOptions = () => {
         ],
         plugins: [
             'array-includes',
-            '@babel/plugin-proposal-class-properties',
             [
                 '@babel/plugin-transform-react-jsx',
                 {'pragma':'h'}
             ]
-        ],
-        babelHelpers: 'bundled'
+        ]
     };
 };
 
 const cjsOptions = () => {
     return{
-        include: [
-          'node_modules/**',
-       ],
-       extensions: ['.js','.ts','.tsx'],
-       requireReturnsDefault: 'auto',
-       ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-//        namedExports: {
-//            'papaparse' : ['Papa'],
-//            'preact' : ['preact'],
-//        },
+        include: 'node_modules/**',
+        ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+        namedExports: {
+            'preact' : ['preact'],
+        },
     };
 };
 
@@ -98,15 +80,10 @@ export default [
             builtins(),
             // bundle css
             postcss(postcssOptions()),
-            alias(aliasOptions()),
             nodeResolve(resolveOptions()),
             // transpile es6
             commonjs(cjsOptions()),
             babel(babelOptions()),
-            injectProcessEnv({
-                NODE_ENV: process.env.NODE_ENV,
-                UNUSED: null
-            }),
             terser(),
         ]
     },
@@ -128,15 +105,10 @@ export default [
             builtins(),
             // bundle css
             postcss(postcssOptions()),
-            alias(aliasOptions()),
             nodeResolve(resolveOptions()),
             // transpile es6
             commonjs(cjsOptions()),
             babel(babelOptions()),
-            injectProcessEnv({
-                NODE_ENV: process.env.NODE_ENV,
-                UNUSED: null
-            }),
         ]
     },
     {
@@ -154,15 +126,10 @@ export default [
             builtins(),
             // bundle css
             postcss(postcssOptions()),
-            alias(aliasOptions()),
             nodeResolve(resolveOptions()),
             // transpile es6
             commonjs(cjsOptions()),
             babel(babelOptions()),
-            injectProcessEnv({
-                NODE_ENV: process.env.NODE_ENV,
-                UNUSED: null
-            }),
             terser(),
         ]
     },

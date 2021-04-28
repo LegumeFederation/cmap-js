@@ -1,10 +1,10 @@
 /**
- * FeatureMarker
- * A SceneGraphNode representing a feature on a Map with a line or hash mark.
+ * SceneGraphNodeFeature
+ * A SceneGraphNode representing a non-specific feature to be drawn.
  */
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
 
-export class SceneGraphNodeGroup extends SceneGraphNodeBase {
+export class SceneGraphNodeFeature extends SceneGraphNodeBase {
 
   /**
    * constructor
@@ -13,8 +13,9 @@ export class SceneGraphNodeGroup extends SceneGraphNodeBase {
 
   constructor(params) {
     super(params);
-    if(params.bounds){this.bounds = params.bounds;}
   }
+
+
 
   /**
    * Return visible children elements
@@ -35,12 +36,12 @@ export class SceneGraphNodeGroup extends SceneGraphNodeBase {
   draw(ctx) {
     // for debugging use only
    // let gb = this.canvasBounds || {};
-   // if(!gb){ return;}
+   // console.log('sgn-g', this.bounds, this.canvasBounds, this.parent.bounds);
    // ctx.save();
    // ctx.globalAlpha = .5;
    // ctx.fillStyle = 'red';
-   //// // noinspection JSSuspiciousNameCombination
-   //// // noinspection JSSuspiciousNameCombination
+   // // noinspection JSSuspiciousNameCombination
+   // // noinspection JSSuspiciousNameCombination
    // ctx.fillRect(
    //   Math.floor(gb.left),
    //   Math.floor(gb.top),
@@ -48,7 +49,14 @@ export class SceneGraphNodeGroup extends SceneGraphNodeBase {
    //   Math.floor(gb.height)
    // );
    // ctx.restore();
-    //this.visible.forEach(child => child.data.draw(ctx));
     this.children.forEach(child => child.draw(ctx));
+  }
+  layout() {
+    //layout children
+    this.children.forEach(child => child.layout());
+    //update bounds if this width < parent width (widen canvas as needed)
+    if(this.parent && this.canvasBounds.right > this.parent.canvasBounds.right){
+      this.updateWidth({width: this.canvasBounds.right});
+    }
   }
 }

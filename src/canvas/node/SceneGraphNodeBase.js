@@ -19,16 +19,20 @@ export class SceneGraphNodeBase {
    * @param {Object} bounds - local Canvas bounds, relative to our parent.
    * This is not the same as DOM bounds of the canvas element!
    * @param {Number} rotation - degrees, default 0.
+   * @param {Object} base and active zoom of the view
    */
 
-  constructor({parent, bounds, rotation = 0, tags = []}) {
+  constructor({parent: parent, bounds: bounds, rotation: rotation = 0, tags: tags = [], view: view}) {
     this.parent = parent;
     this._rotation = rotation;
     this._tags = tags;
     this.bounds = bounds;
     this._children = []; // note: subclasses implement own children data structure
-    this.locMap = rbush();
+    this._namedChildren ={};
+    this.locMap = new rbush();
     this._visble = [];
+    this.view = this.parent ? this.parent.view : view;
+    this.pixelScaleFactor = this.parent ? this.parent.pixelScaleFactor : 1;
   }
 
   /* getters and setters */
@@ -100,14 +104,9 @@ export class SceneGraphNodeBase {
    */
 
   get visible() {
-    let vis = [];
-    let childVisible = this.children.map(child => {
-      return child.locMap.all();
+    return this.children.map(child => {
+      return child.visible;
     });
-    childVisible.forEach(item => {
-      vis = vis.concat(item);
-    });
-    return vis;
   }
 
   /**
@@ -116,14 +115,9 @@ export class SceneGraphNodeBase {
    */
 
   get hitMap() {
-    let hits = [];
-    let childMap = this.children.map(child => {
+    return this.children.map(child => {
       return child.hitMap;
     });
-    childMap.forEach(item => {
-      hits = hits.concat(item);
-    });
-    return hits;
   }
 
   /* setters */
@@ -186,14 +180,18 @@ export class SceneGraphNodeBase {
    * and changes child node's parent to this node
    *
    * @param {object} node - SceneGraphNode derived item to insert as a child
+   * @param name
    **/
 
-  addChild(node) {
-    if (node.parent) {
-      node.parent.removeChild(node);
+  addChild(node, name='') {
+    if(node.parent !== this) {
+      if (node.parent) {
+        node.parent.removeChild(node, name);
+      }
+      node.parent = this;
     }
-    node.parent = this;
     if (this._children.indexOf(node) === -1) this._children.push(node);
+    if (name) this._namedChildren[name] = node;
   }
 
   /**
@@ -201,14 +199,23 @@ export class SceneGraphNodeBase {
    * and changes child node's parent to undefined
    *
    * @param {object} node - SceneGraphNode derived node to remove
+   * @param name
    **/
 
-  removeChild(node) {
+  removeChild(node,name='') {
     let index = this._children.indexOf(node);
     if (index > -1) {
       this._children.splice(index, 1);
     }
+    // eslint-disable-next-line no-prototype-builtins
+    if(name && this._namedChildren.hasOwnProperty(name)){
+      delete this._namedChildren[name];
+    }
     node.parent = null;
+  }
+
+  get namedChildren(){
+    return this._namedChildren;
   }
 
   /**
@@ -219,5 +226,72 @@ export class SceneGraphNodeBase {
 
   draw(ctx) {
     this.children.forEach(child => child.draw(ctx));
+  }
+
+  layout() {
+    //layout children
+
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: this.bounds ? this.bounds.top : 0 ,
+      left: this.bounds && this.bounds.left ? this.bounds.left : 0,
+      height: this.bounds ? this.bounds.height : this.parent.bounds.height,
+      width: this.bounds && this.bounds.width ? this.bounds.width : this.parent.bounds.width,
+    });
+
+    this.children.forEach(child => child.layout());
+    //update bounds if this width < parent width (widen canvas as needed)
+    if(this.parent && this.canvasBounds.right > this.parent.canvasBounds.right){
+      this.updateWidth({width: this.canvasBounds.right});
+    }
+  }
+
+  updateWidth(childRight){
+    this.bounds.right = this.bounds.right + (childRight - this.canvasBounds.right);
+    if(this.parent && this.canvasBounds.right > this.parent.canvasBounds.right){
+      this.parent.updateWidth(this.canvasBounds.right);
+    }
+  }
+
+  updateView(view= undefined){
+    if(view){
+      this.view = view;
+    } else {
+      this.view = this.parent.view;
+    }
+    this.children.forEach(child => child.updateView());
+  }
+
+  updatePSF(pixelScaleFactor){
+    this.parent.updatePSF(pixelScaleFactor);
+  }
+
+  /**
+   * translate Y point to current view.
+   * @param pointY
+   * @returns {number}
+   */
+  pixelToCoordinate(pointY) {
+    let coord = this.view.base;
+    let visc = this.view.visible;
+    let psf = this.view.pixelScaleFactor;
+    return ((visc.start * (coord.stop * psf - pointY) + visc.stop * (pointY - coord.start * psf)) / (psf * (coord.stop - coord.start))) - (coord.start * -1);
+  }
+
+  calculateHitmap(){
+    let hitMap = [];
+    if(this.children.length){
+      this.children.forEach((child) => hitMap = hitMap.concat(child.calculateHitmap()));
+    } else {
+      let cb = this.canvasBounds;
+      hitMap.push({
+        minX: cb.left,
+        maxX: cb.right,
+        minY: cb.top,
+        maxY: cb.bottom,
+        data: this,
+      });
+    }
+   return hitMap;
   }
 }

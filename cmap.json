@@ -1,6 +1,6 @@
 {
   "#": "cmap-js example configuration file (json format)",
-  "header" : ": soybean and common bean genomes and genetic maps",
+  "header" : "soybean and common bean genomes and genetic maps",
   "attribution" : "data attribution: soybase, LIS",
   "initialView" : [ {
     "source": "pv_consensus",
@@ -39,7 +39,7 @@
   "sources" : [ {
     "id": "pv_consensus",
     "method": "GET",
-    "url": "data/PvConsensus_GaleanoFernandez2011_a.cmap",
+    "url": "data/test_PvConsensus_GaleanoFernandez2011_a.cmap",
     "filters": [],
     "config": {
       "url": "config/phavu_genes.json",
@@ -119,6 +119,7 @@
     },
     {
       "id": "manhattan_test",
+      "type": "manhattan",
       "method": "GET",
       "url": "data/sample2.txt",
       "filters": []

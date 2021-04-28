@@ -7,8 +7,9 @@
 import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
+import {SceneGraphNodeFeature} from '../node/SceneGraphNodeFeature';
 
-export class FeatureMark extends SceneGraphNodeBase {
+export class FeatureMark extends SceneGraphNodeFeature {
 
   /**
    * Constructor
@@ -17,22 +18,17 @@ export class FeatureMark extends SceneGraphNodeBase {
    * @param featureModel - feature data
    */
 
-  constructor({parent, bioMap, featureModel,config}) {
-    super({parent, tags: [featureModel.name]});
-    this.model = featureModel;
-    this.featureMap = bioMap;
+  constructor({parent:parent, data:data, config: config}) {
+    super({parent, tags: [data.name]});
+    this.model = data;
     this.config = config;
-
-    this.offset = this.featureMap.view.base.start * -1;
-    this.invert = this.featureMap.view.invert;
     this.start = this.model.coordinates.start;
-    this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
       left: 0,
       width: parent.bounds.width,
-      height: config.lineWeight
+      height: config.lineWeight,
     });
   }
 
@@ -42,8 +38,11 @@ export class FeatureMark extends SceneGraphNodeBase {
    */
 
   draw(ctx) {
+    if(this.start < this.view.visible.start || this.start > this.view.visible.stop){ // don't draw if out of view
+      return;
+    }
     let config = this.config;
-    let y = translateScale(this.start, this.featureMap.view.base, this.featureMap.view.visible, this.invert) * this.pixelScaleFactor;
+    let y = translateScale(this.start, this.view.base, this.view.visible, this.view.invert) * this.view.pixelScaleFactor;
     this.bounds.translate(0,y-this.bounds.top);
     let gb = this.canvasBounds || {};
     ctx.beginPath();

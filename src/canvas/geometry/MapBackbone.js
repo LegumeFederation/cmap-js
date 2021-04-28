@@ -15,22 +15,34 @@ export class MapBackbone extends SceneGraphNodeBase {
   /**
    * Constructor
    * @param parent - Parent scene graph node
-   * @param bioMap - Map data
+   * @param data - Map data
+   * @param config - configuration object
    */
 
-  constructor({parent, bioMap,config}) {
-    super({parent});
+  // eslint-disable-next-line no-unused-vars
+  constructor({parent:parent, data: data, config: config}) {
+    super({parent:parent});
     this.config = config;
-    const b = parent.bounds;
-    const backboneWidth = config.width;
+    this.layout();
+  }
+
+  layout(){
+    const backboneWidth = this.config.width || 50;
+    const b = this.parent.bounds;
     this.bounds = new Bounds({
       allowSubpixel: false,
-      top: 0,
-      left: b.width * 0.5 - backboneWidth * 0.5,
-      width: backboneWidth + config.lineWeight,
+      top: this.bounds ? this.bounds.top : 0,
+      left: this.bounds  ? this.bounds.left : b.width * 0.5 - backboneWidth * 0.5,
+      width: this.bounds ? this.bounds.width : backboneWidth + this.config.lineWeight,
       height: b.height
     });
-    bioMap.view.backbone = this.canvasBounds;
+
+    //layout children
+    this.children.forEach(child => child.layout());
+    //update bounds if this width < parent width (widen canvas as needed)
+    if(this.parent && this.canvasBounds.right > this.parent.canvasBounds.right){
+      this.updateWidth({width: this.canvasBounds.right});
+    }
   }
 
   /**
@@ -41,9 +53,10 @@ export class MapBackbone extends SceneGraphNodeBase {
   draw(ctx) {
     let config = this.config;
     let gb = this.canvasBounds || {};
+
+    ctx.save();
+    ctx.globalAlpha = .5;
     ctx.fillStyle = config.fillColor;
-    // noinspection JSSuspiciousNameCombination
-    // noinspection JSSuspiciousNameCombination
     ctx.fillRect(
       Math.floor(gb.left),
       Math.floor(gb.top),
@@ -61,7 +74,7 @@ export class MapBackbone extends SceneGraphNodeBase {
         Math.floor(gb.height)
       );
     }
-
+    ctx.restore();
     this.children.forEach(child => child.draw(ctx));
   }
 }

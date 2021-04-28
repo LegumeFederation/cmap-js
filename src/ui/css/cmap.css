@@ -143,11 +143,6 @@ span.cmap-header {
     text-align: center;
 }
 
-div.cmap-modal-control button {
-    margin-right: 1rem;
-    margin-left: 1rem;
-    text-align: center;
-}
 
 #cmap-map-removal-dialog, #cmap-map-addition-dialog {
     padding-left: 2rem;
@@ -163,23 +158,6 @@ div.cmap-modal-control button {
     width: 100%;
     margin: auto;
 
-}
-
-.button i, button > i {
-    margin-right: 0.5em;
-    vertical-align: -30%;
-}
-
-div.cmap-tools button {
-    margin-right: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-button[disabled] {
-    background: #ccc;
-    border-color: #ccc;
-    text-shadow: none;
 }
 
 span.cmap-map-name-chip {
@@ -213,14 +191,6 @@ span.cmap-map-name-chip {
 
 .biomap-info-data {
     margin: 5px 20px 5px 20px;
-}
-
-.swap-div {
-    opacity: 0.6;
-    z-index: 10000;
-    border: 1px solid #bbb;
-    border-radius: 4px;
-    text-align: center;
 }
 
 .swap-map-order {
@@ -304,24 +274,22 @@ span.cmap-map-name-chip {
 }
 
 .loading-row {
-  height:inherit;
-}
-
-.loading-col {
-  height: 50%;
-  margin-top: 25%;
-  border: 4px solid black;
-  border-radius: 3rem;
+  border:3px solid black;
+  border-radius: 1rem;
+    padding: 3rem;
 }
 
 .loading-spinner {
-  margin:25% auto;
+  margin: auto;
 }
 
 .loading-element{
-  display:block;
+  display: block;
   margin: 0 auto;
   text-align: center;
+}
+.loading-img{
+    text-align:center;
 }
 
 .color-select-ctrl {
@@ -330,3 +298,4 @@ span.cmap-map-name-chip {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+

@@ -7,7 +7,7 @@ the node packages.
 ```
 
 ```
-CMAP-JS IS SOFTWARE STILL IN DEVELOPMENT. FEATURES AND LAYOUT ARE SUBJECT
+OldCmap-JS IS SOFTWARE STILL IN DEVELOPMENT. FEATURES AND LAYOUT ARE SUBJECT
 TO CHANGE WITHOUT NOTICE. PLEASE LEAVE FEEDBACK WITH THE PROJECT IF YOU
 HAVE ANY REQUESTS FOR ADDED FEATURES OR INTERFACE CHANGES SO THAT THEY CAN
 BE CONSIDERED.
@@ -72,7 +72,7 @@ from the root of the server. The format of `cmap.json` is specified in
 npm run validate-config  # run ajv to validate cmap-schema.json with cmap.json
 ```
 
-## Using CMAP-JS
+## Using OldCmap-JS
 Clicking on a marker or a QTL region will bring up a popup with more 
 information about whatever is clicked on. This may have one-or-more features
 if density is high enough.

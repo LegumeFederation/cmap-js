@@ -17,10 +17,21 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
 
   constructor(params) {
     super(params);
-    this.dirty = true;
-    this.trackPos = this.parent.trackPos;
-    //don't draw labels if they aren't to be shown
+    this.config = params.config;
+    this.data = params.data;
+    this.trackMaxWidth = 40;
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: 0,
+      left : 0,
+      height: this.parent.bounds.height,
+      width: this.trackMaxWidth
+    });
     this.generateBlockLabels(params);
+    this.bounds.right = this.bounds.left + this.trackMaxWidth;
+    this.bounds.width = this.trackMaxWidth;
+    this.updateLocMap();
+    this.labelsScaled = false;
   }
 
   /**
@@ -29,45 +40,39 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
    */
 
   get visible() {
-    this.locMap.clear();
-    this.locMap.load(this.hitMap);
-    let view = this.parent.model.view;
-    let startY = view.inverse ? view.visible.stop : view.visible.start;
-    let stopY = view.inverse ? view.visible.start : view.visible.stop;
-    let vis = this.locMap.all().sort((a,b) => {return a.minY-b.minY;}).map(child => {
-      let modelBounds = child.data.model.coordinates;
-      if(modelBounds.start > stopY ||
-        modelBounds.stop < startY) return child;
-
-      if(!(child.data.position > stopY || child.data.position < startY )) {
-        let b = child.data.canvasBounds;
-        let hits = this.locMap.search({
-          maxY: b.top > b.bottom ? b.top : b.bottom,
-          minY: b.top < b.bottom ? b.top : b.bottom,
-          maxX: b.right,
-          minX: b.left
-        });
-
-        if (hits.length === 1) {
-          child.data.show = true;
-        } else {
-          let visHits = hits.filter(hit => {
-            return hit.data.show;
-          });
-          if (visHits.length === 0) {
-            child.data.show = true;
+    let vis = [];
+    this.children.forEach(child => child.updateBounds());
+    this.updateLocMap();
+    let overlappingLabels = [];
+    let labels = this.locMap.all();
+    labels.sort((a,b) => {return a.minY-b.minY;}).forEach(child => {
+      if(overlappingLabels.indexOf(child) !== -1){
+        return;
+      }
+      let cb = child.data.bounds;
+      overlappingLabels = this.locMap.search({
+        maxY: cb.bottom+1,
+        minY: cb.top-1,
+        minX: cb.left,
+        maxX: cb.right,
+      });
+      //overlappingLabels.sort((a,b) => {return a.minY - b.minY;});
+      if(overlappingLabels.length > 1){
+        let landmarks = overlappingLabels.filter(label => {
+          if(label.data.show){
+            vis.push(label);
+            return true;
           }
+          return false;
+        });
+        if(landmarks.length){
+          return;
         }
       }
-      return child;
+      child.data.show = true;
+      vis.push(child);
     });
-   //
-    //return visible;
     return vis;
-    //return this.locMap.all();
-    //return vis.concat([{data:this}]);
-    //return [{data:this}];
-    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
 
   /**
@@ -78,28 +83,30 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
   draw(ctx) {
     ctx.save();
     ctx.globalAlpha = .5;
-    ctx.fillStyle = 'green';
+    //ctx.fillStyle = 'green';
 
-    let gb = this.canvasBounds;
-    ctx.fillRect(
-      Math.floor(gb.left),
-      Math.floor(gb.top),
-      Math.floor(gb.width),
-      Math.floor(gb.height)
-    );
+   // let gb = this.canvasBounds;
+   // ctx.fillRect(
+   //   Math.floor(gb.left),
+   //   Math.floor(gb.top),
+   //   Math.floor(gb.width),
+   //   Math.floor(gb.height)
+   // );
 
-    this.children.forEach(child => {
-      let cb = child.canvasBounds;
-      // noinspection JSSuspiciousNameCombination
-      // noinspection JSSuspiciousNameCombination
-      ctx.fillRect(
-        Math.floor(cb.left),
-        Math.floor(cb.top),
-        Math.floor(cb.width),
-        Math.floor(cb.height)
-      );
-    });
-    ctx.restore();
+  //  ctx.fillStyle = 'gray';
+  //  this.children.forEach(child => {
+  //    let cb = child.canvasBounds;
+  //    // noinspection JSSuspiciousNameCombination
+  //    // noinspection JSSuspiciousNameCombination
+  //    ctx.fillRect(
+  //      Math.floor(cb.left),
+  //      Math.floor(cb.top),
+  //      Math.floor(cb.width),
+  //      Math.floor(cb.height)
+  //    );
+  //  });
+   ctx.restore();
+   this.children.forEach(child => child.draw(ctx));
   }
 
   /**
@@ -107,85 +114,74 @@ export class BlockLabelTrack extends SceneGraphNodeTrack {
    * @returns {Array}
    */
 
-  get hitMap() {
-    //return this.locMap.all();
-    return this.children.map(child => {
+  updateLocMap() {
+    const updated =  this.locMap.all().map(child => {
       return {
-        maxY: child.canvasBounds.top,
-        minY: child.canvasBounds.bottom,
-        minX: child.canvasBounds.left,
-        maxX: child.canvasBounds.right,
-        data: child
+        maxY: child.data.bounds.bottom,
+        minY: child.data.bounds.top,
+        minX: child.data.bounds.left,
+        maxX: child.data.bounds.right,
+        data: child.data
       };
     });
+    this.locMap.clear();
+    this.locMap.load(updated);
   }
 
-
-  generateBlockLabels(params){
-    this.filteredFeatures = [];
-    this.trackMaxWidth = 10;
+  layout() {
     let b = this.parent.bounds;
-    let trackpos = params.config.labelPosition || params.config.position || 1;
-    const startLeft = trackpos >= 0 ? b.right : b.left;
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
-      left : startLeft,
-      right: this.parent.featureGroup.bounds.right,
+      left: this.bounds ? this.bounds.left :  0,
+      width: this.bounds ? this.bounds.width : this.trackMaxWidth,
       height: b.height
     });
-    let fmData = [];
+    this.updateLocMap();
+  }
+
+  generateBlockLabels(params){
+    this.filteredFeatures = [];
+
+    let labels = [];
 
     this.maxLoc = 0;
     let qtlConf = params.config;
+
     // create a temp canvas context to
     let tempCanvas = document.createElement('canvas');
     tempCanvas.setAttribute('width',1000);
     tempCanvas.setAttribute('height',1000);
-    let tempCtx = tempCanvas.getContext('2d');
-    //for( let key in this.parent.model.config.qtl){
-    //  if(!qtlConf.hasOwnProperty(key)){
-    //    qtlConf[key] = this.parent.model.config.qtl[key];
-    //  }
-    //}
-    this.qtlMarks = this.parent.featureData.map( model => {
+    const tmpCtx = tempCanvas.getContext('2d');
+    this.qtlMarks = this.data.map( d => {
       let fm = new  BlockLabel({
-        featureModel: model,
         parent: this,
-        bioMap: this.parent.model,
-        initialConfig: qtlConf,
+        data: d.model,
         config: qtlConf,
-        tempCtx: tempCtx
+        tmpCtx: tmpCtx,
       });
-
-      //if(this.bounds.left+this.trackMaxWidth > this.bounds.right){
-      //  this.bounds.width = this.trackMaxWidth;
-      //}
-
       this.addChild(fm);
+
       let gb = fm.canvasBounds;
       let loc = {
         minY: gb.top,
         maxY: gb.bottom,
-        minX: this.canvasBounds.left,
-        maxX: this.canvasBounds.right,
+        minX: gb.left,
+        maxX: gb.right,
         data:fm
       };
 
-      this.locMap.insert(loc);
-      fmData.push(loc);
+      labels.push(loc);
       return fm;
     });
 
-    this.bounds = new Bounds({
-      allowSubpixel: false,
-      top: 0,
-      left: trackpos > 0 ? b.right : - this.trackMaxWidth,
-      width: this.trackMaxWidth,
-      height: b.height
-    });
-    this.offset = trackpos > 0? this.trackMaxWidth : -this.trackMaxWidth;
+    this.offset = params.config.labelPosition || params.config.position || 1;
+
     this.locMap.clear();
-    this.locMap.load(fmData);
+    this.locMap.load(labels);
+  }
+
+  calculateHits(point){
+    return [];
   }
 }

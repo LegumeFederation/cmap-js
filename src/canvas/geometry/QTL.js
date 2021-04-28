@@ -5,11 +5,11 @@
  * @extends SceneGraphNodeBase
  */
 
-import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
+import {SceneGraphNodeFeature} from '../node/SceneGraphNodeFeature';
 
-export class QTL extends SceneGraphNodeBase {
+export class QTL extends SceneGraphNodeFeature {
 
   /**
    * Construct the QTL feature
@@ -23,10 +23,7 @@ export class QTL extends SceneGraphNodeBase {
     super({parent, tags: [featureModel.name]});
     this.model = featureModel;
     this.featureMap = bioMap;
-    this.view = this.featureMap.view;
     this.lineWidth = 1.0;
-    //min and max location in pixels
-    this.pixelScaleFactor = this.featureMap.view.pixelScaleFactor;
     this.fill = config.fillColor;
     if(initialConfig.fillColor) {
       this.fill = initialConfig.fillColor[initialConfig.filters.indexOf(this.model.tags[0])] || initialConfig.fillColor[0];
@@ -49,8 +46,8 @@ export class QTL extends SceneGraphNodeBase {
     // Calculate start/end position, then
     // Iterate across QTLs in group and try to place QTL region where it can
     // minimize stack width in parent group 
-    let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
-    let y2 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
+    let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.view.pixelScaleFactor;
+    let y2 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.view.pixelScaleFactor;
     let leftLoc = 0;
     let leftArr;
     leftArr = this.parent.locMap.search({
@@ -100,8 +97,8 @@ export class QTL extends SceneGraphNodeBase {
       this.stop = y1pos;
     }
 
-    let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
-    let y2 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
+    let y1 = translateScale(this.start, this.view.base, this.view.visible, this.invert) * this.view.pixelScaleFactor;
+    let y2 = translateScale(this.stop, this.view.base, this.view.visible, this.invert) * this.view.pixelScaleFactor;
 
     //setup bounds and draw
     this.bounds = new Bounds({

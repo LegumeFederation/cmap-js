@@ -5,8 +5,9 @@
  *
  */
 
-import {h, Component, cloneElement} from 'preact';
+import {h, Component, cloneElement } from 'preact';
 import Hammer from 'hammerjs';
+import {Children} from 'preact/compat';
 
 
 /**
@@ -124,14 +125,13 @@ export default class GestureWrapper extends Component{
   }
 
   render(props) {
-    let childProps = {};
-    Object.keys(props).forEach(prop => {
+    let childProps = Object.keys(props).forEach(prop => {
       if (!hammerProps[prop]) {
         childProps[prop] = this.props[prop];
       }
     });
     //clone child passed and give it new props from the hammer stuff
-    return cloneElement(props.children[0], childProps);
+    return cloneElement(  Children.only(this.props.children), childProps);
   }
 }
 

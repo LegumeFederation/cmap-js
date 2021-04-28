@@ -5,11 +5,11 @@
  * @extends SceneGraphNodeBase
  */
 
-import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
+import {SceneGraphNodeFeature} from '../node/SceneGraphNodeFeature';
 
-export class Dot extends SceneGraphNodeBase {
+export class Dot extends SceneGraphNodeFeature {
   /**
    * Constructor
    *

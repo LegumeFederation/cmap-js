@@ -1,0 +1,10 @@
+version: '2.3'
+
+services:
+  ui:
+    build:
+      context: .
+      target: full
+    ports:
+      - "8080:80"
+    stdin_open: true

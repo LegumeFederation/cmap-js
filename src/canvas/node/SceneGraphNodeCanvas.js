@@ -14,73 +14,60 @@
 //import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin';
 //import {selectedMap} from '../../topics';
 
-import {Bounds} from '../../model/Bounds';
 import {SceneGraphNodeBase} from './SceneGraphNodeBase';
-
+import {observe} from 'mobx';
+import RBush from 'rbush';
 export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
 
   /**
-   * constructor
-   * @param model - data model for canvas
-   * @param appState - app state model
+   *
+   * @param bounds
+   * @param canvas
+   * @param rotation
+   * @param tags
+   * @param data
+   * @param config
+   * @param view
    */
 
-  constructor({model, appState, sub}) {
-    super({});
-    this.model = model;
-    this.appState = appState;
+  constructor({ stateStore: stateStore, rotation: rotation = 0, tags: tags = [],} ) {
+    super({
+      parent:undefined,
+      bounds: stateStore.bounds,
+      rotation:rotation,
+      tags:tags,
+      view: stateStore.view
+    });
+    this.stateStore = stateStore;
+    this.setCanvas(stateStore.canvas);
+    this.config = stateStore.config;
     this.verticalScale = 1;
-    this.info = {
-      visible: false,
-      top: 0,
-      left: 0
-    };
-    this.onChanges = [sub];
-  }
-
-
-  /**
-   * Getter if canvas has focus
-   * @returns {boolean}
-   */
-  get selected() {
-    return this.appState.selection.bioMaps.indexOf(this) !== -1;
-  }
-
-  /**
-   *  informs parent context that canvas has updated property
-   */
-  inform() {
-    this.onChanges.forEach(callBack => callBack());
+    this.data = stateStore.bioMap.features;
+    this.view = stateStore.view;
+    this.updateBounds(stateStore.bounds);
+    // setup observers to update properties in BioMapState
+    observe( stateStore, 'view', change =>{ this.updateView(change.newValue);});
+    observe( stateStore, 'bounds', change=>{this.updateBounds(change.newValue);});
   }
 
   setCanvas(cvs) {
     this.canvas = cvs;
     this.context2d = cvs.getContext('2d');
-    this.dirty = true;
-    //this.drawLazily(this.domBounds);
   }
 
   setDomBounds(bounds) {
     this.domBounds = bounds;
+    this.layout();
   }
 
-  //view() {
-  //  // store these bounds, for checking in drawLazily()
-  //  if (this.domBounds && !this.domBounds.isEmptyArea) {
-  //    this.lastDrawnMithrilBounds = this.domBounds;
-  //  }
-  //  let b = this.domBounds || {};
-  //  let selectedClass = this.selected ? 'selected' : '';
-  //  return m('canvas', {
-  //    class: `cmap-canvas cmap-biomap ${selectedClass}`,
-  //    style: `left: ${b.left}px; top: ${b.top}px;
-  //             width: ${b.width}px; height: ${b.height}px;
-  //             transform: rotate(${this.rotation}deg);`,
-  //    width: b.width,
-  //    height: b.height
-  //  });
-  //}
+  updateBounds(bounds){
+    this.bounds = bounds;
+    this.layout();
+  }
+
+  updateBoundsWidth(width){
+    this.bounds.width = width;
+  }
 
   /**
    * draw our scene graph children on canvas element
@@ -89,44 +76,38 @@ export class SceneGraphNodeCanvas extends SceneGraphNodeBase {
   draw() {
     let ctx = this.context2d;
     if (!ctx) return;
-    if (!this.domBounds) return;
+    if (!this.canvasBounds) return;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
-    this.visible.map(child => {
-      child && child.data.draw(ctx);
+    this.children.map(child => {
+      child && child.draw(ctx);
     });
     ctx.restore();
     // store these bounds, for checking in drawLazily()
-    this.lastDrawnCanvasBounds = this.bounds;
-    this.inform();
     //this.dirty = false;
   }
 
-  /**
-   * lazily draw on the canvas, because (p)react updates the dom asynchronously.
-   * The canvas will be cleared when the width and height are changed.
-   * So we cannot draw upon the canvas until after that.
-   */
-
-  drawLazily(wantedBounds) {
-    if (wantedBounds.area === 0) return;
-    if (this._drawLazilyTimeoutId) clearTimeout(this._drawLazilyTimeoutId);
-    if (!Bounds.areaEquals(this.lastDrawnBounds, wantedBounds)) {
-      let tid1 = this._drawLazilyTimeoutId = setTimeout(() => {
-        if (tid1 !== this._drawLazilyTimeoutId) return;
-        this.drawLazily(wantedBounds);
-      });
-    }
-    else {
-      console.log('scheduling lazy draw for: ',
-        wantedBounds.width, wantedBounds.height);
-      let tid2 = this._drawLazilyTimeoutId = setTimeout(() => {
-        if (tid2 !== this._drawLazilyTimeoutId) return;
-        if (!Bounds.areaEquals(this.lastDrawnCanvasBounds, wantedBounds)) {
-          this.draw();
-        }
-      });
-    }
+  updateWidth(childRight){
+    this.bounds.right = this.bounds.right + (childRight - this.canvasBounds.right);
+    this.canvas.width = this.canvasBounds.width + 10;
   }
+
+  updatePSF(pixelScaleFactor) {
+    this.stateStore.setPixelScaleFactor(pixelScaleFactor);
+    //this.children.forEach(child=> child.updateView());
+  }
+
+  calculateHits(bounds){
+    let hits = [];
+    this.children.forEach(child => hits = child.calculateHitmap().concat(hits));
+    let hm = new RBush();
+    hm.load(hits);
+    console.log('sgnc-ch',hm.all(), bounds);
+    let found = hm.search(bounds);
+    console.log('sgnc-ch',found, bounds);
+    return found;
+  }
+
+
 }

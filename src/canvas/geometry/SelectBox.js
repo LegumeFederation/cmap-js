@@ -55,4 +55,8 @@ export class SelectBox extends SceneGraphNodeBase {
   get visible() {
     return {data: this};
   }
+
+  calculateHitmap() {
+    return [];
+  }
 }

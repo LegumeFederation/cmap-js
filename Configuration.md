@@ -180,9 +180,10 @@ The default title for a `manhattan` track is 'manhattan'
 Both track types also may be passed in any of the configuration elements supported by the track style.
 
 
-####Sources
+### Sources
+
 ---
-Sources are the data models for displaying data. Currently only CMAP format data is officially supported
+Sources are the data models for displaying data. Currently only OldCmap format data is officially supported
 
 | Setting | Description |
 |---------|-------------|
@@ -251,6 +252,7 @@ The default configuration object is:
     'labelFace' : 'Nunito',
     'labelSize' : 12,
     'labelColor' : 'black',
+    'labelPosition' : 1,
     'internalPadding' : '5'
   },
   'marker':{
@@ -259,6 +261,7 @@ The default configuration object is:
     'labelFace' : 'Nunito',
     'labelSize' : 12,
     'labelColor' : 'black',
+    'labelPosition': 1, 
     'filter' : []
   },
 
@@ -287,6 +290,7 @@ The default configuration object is:
     'labelFace': 'Nunito',
     'labelColor': 'black',
     'labelStyle': 'feature',
+    'labelPosition: 1,
     'trackMinWidth' : 50,
     'internalPadding': 5,
     'position' : 1,
@@ -308,6 +312,7 @@ Options are defined as:
 | labelColor | color of label |
 | labelSize | fontsize of label |
 | labelStyle | where to draw the label ['none' or 'feature'] |
+| labelPosition| draw the label to the right or left of the feature, default right(1)|
 | padding | left/right spacing of whole track |
 | innerLineWeight | weight of the inner ruler line |
 | innerLineColor | color of the inner ruler line |

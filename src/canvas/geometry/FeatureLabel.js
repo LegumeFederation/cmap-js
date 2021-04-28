@@ -5,11 +5,11 @@
  * @extends SceneGraphNodeBase
  */
 
-import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
 import {Bounds} from '../../model/Bounds';
 import {translateScale} from '../../util/CanvasUtil';
+import {SceneGraphNodeFeature} from '../node/SceneGraphNodeFeature';
 
-export class FeatureLabel extends SceneGraphNodeBase {
+export class FeatureLabel extends SceneGraphNodeFeature {
   /**
    * Constructor
    *
@@ -19,18 +19,13 @@ export class FeatureLabel extends SceneGraphNodeBase {
    * @param config - base configuration
    */
 
-  constructor({parent, bioMap, featureModel,config}) {
-    super({parent, tags: [featureModel.name]});
+  constructor({parent, data, config}) {
+    super({parent, tags: [data.name]});
     this.config = config;
     this.labelPos = config.labelPosition || config.position;
-    this.fm = featureModel;
-    this.model = featureModel.model;
-    this.view = bioMap.view;
-    this.pixelScaleFactor = this.view.pixelScaleFactor;
-    this.invert = bioMap.view.invert;
-    this.position = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
-    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
-    this.show = true;
+    this.data = data;
+    this.position = this.invert ? this.data.coordinates.start : this.data.coordinates.stop;
+    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.view.invert) * this.view.pixelScaleFactor;
     let padding = 2;
     let width = config.labelSize + padding ;
     this.offset = this.labelPos >= 0 ? 0 : padding;
@@ -41,7 +36,7 @@ export class FeatureLabel extends SceneGraphNodeBase {
       top: y1,
       left: left,
       width: width,
-      height: -this.config.labelSize * this.model.name.length/2,
+      height: -this.config.labelSize * this.data.name.length/2,
       allowSubpixel: false
     });
   }
@@ -54,17 +49,17 @@ export class FeatureLabel extends SceneGraphNodeBase {
   draw(ctx) {
     let config = this.config;
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
-    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.invert) * this.pixelScaleFactor;
+    let y1 = translateScale(this.position, this.view.base, this.view.visible, this.view.invert) * this.view.pixelScaleFactor;
     this.bounds.top = y1;
-    this.bounds.height = -ctx.measureText(this.model.name).width;
-    if(!this.show) return;
+    this.bounds.height = -ctx.measureText(this.data.name).width;
+    if(!this.show) return; // return here, because it's still good to make sure that the label width is known
     let gb = this.canvasBounds || {};
     ctx.save();
     ctx.translate(gb.right, gb.top);
     ctx.textAlign = 'left';
     ctx.fillStyle = config.labelColor;
     ctx.rotate(-Math.PI / 2);
-    ctx.fillText(this.model.name, 0, -this.offset); // config.labelSize-2);
+    ctx.fillText(this.data.name, 0, -this.offset); // config.labelSize-2);
     ctx.restore();
     this.show = false; // reset show for next draw cycle
   }

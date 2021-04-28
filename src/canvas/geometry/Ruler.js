@@ -18,13 +18,11 @@ export class Ruler extends SceneGraphNodeBase {
    * @param config - ruler configuration object
    */
 
-  constructor({parent, bioMap, config}) {
+  constructor({parent:parent, config: config}) {
     super({parent: parent});
     this.config = config;
-    this.mapCoordinates = bioMap.view;
-    this.offset = this.mapCoordinates.base.start * -1;
-    this.pixelScaleFactor = this.mapCoordinates.pixelScaleFactor;
-    this.invert = this.mapCoordinates.invert;
+    this.offset = this.view.base.start * -1;
+    this.invert = this.view.invert;
     this.fillColor = config.fillColor;
     this.textFace = config.labelFace;
     this.textSize = config.labelSize;
@@ -34,9 +32,13 @@ export class Ruler extends SceneGraphNodeBase {
     this.rulerPadding = config.padding;
     this.innerSize = config.innerLineWeight;
     this.innerColor = config.innerLineColor;
+    this.layout();
+  }
 
-    const b = this.parent.backbone.bounds;
+  layout(){
+    const b = this.parent.namedChildren['features'].bounds;
     let leftloc;
+    let config = this.config;
     if (config.position < 0){
       leftloc = b.left - config.width - config.padding - config.lineWeight; //arbitrary spacing to look goo
     } else {
@@ -45,8 +47,8 @@ export class Ruler extends SceneGraphNodeBase {
     this.bounds = new Bounds({
       allowSubpixel: false,
       top: 0,
-      left: leftloc, //arbitrary spacing to look goo
-      width: config.width,
+      left: this.bounds ? this.bounds.left : leftloc, //arbitrary spacing to look goo
+      width: this.bounds ? this.bounds.width : config.width,
       height: b.height
     });
   }
@@ -58,43 +60,45 @@ export class Ruler extends SceneGraphNodeBase {
 
   draw(ctx) {
     let config = this.config;
-    let vStart = this.invert ? this.mapCoordinates.visible.stop : this.mapCoordinates.visible.start;
-    let vStop = this.invert ? this.mapCoordinates.visible.start : this.mapCoordinates.visible.stop;
-    let start = translateScale(vStart, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
-    let stop = translateScale(vStop, this.mapCoordinates.base, this.mapCoordinates.base, this.invert) * this.pixelScaleFactor;
+    let vStart = this.invert ? this.view.visible.stop : this.view.visible.start;
+    let vStop = this.invert ? this.view.visible.start : this.view.visible.stop;
+    let start = translateScale(vStart, this.view.base, this.view.base, this.invert) * this.view.pixelScaleFactor;
+    let stop = translateScale(vStop, this.view.base, this.view.base, this.invert) * this.view.pixelScaleFactor;
     let text;
+
     if( config.side === 'left' ) {
-      text =[this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(config.precision)];
+      text =[this.view.base.start.toFixed(config.precision), this.view.base.stop.toFixed(config.precision)];
     } else {
-      text = [this.mapCoordinates.visible.start.toFixed(config.precision), this.mapCoordinates.visible.stop.toFixed(config.precision)];
+      text = [this.view.visible.start.toFixed(config.precision), this.view.visible.stop.toFixed(config.precision)];
     }
     this.textWidth = ctx.measureText(text[0]).width > ctx.measureText(text[1]).width ? ctx.measureText(text[0]).width : ctx.measureText(text[1]).width;
 
     let gb = this.canvasBounds || {};
+
     // draw baseline labels
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
     ctx.fillStyle = config.labelColor;
     ctx.textAlign = 'left';
     if (this.invert) {
-      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize + 2));
+      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize*.75));
+      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize + 5));
     } else {
-      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + config.labelSize +2));
+      ctx.fillText(text[0], gb.left - ctx.measureText(text[0]).width - (gb.width / 2), Math.floor(gb.top - config.labelSize*.75));
+      ctx.fillText(text[1], gb.left - ctx.measureText(text[1]).width - (gb.width / 2), Math.floor(gb.bottom + (config.labelSize*1.5)));
     }
 
     // Draw zoom position labels
     if( config.side === 'left' ) {
-      text = [this.mapCoordinates.visible.start.toFixed(config.precision), this.mapCoordinates.visible.stop.toFixed(config.precision)];
+      text = [this.view.visible.start.toFixed(config.precision), this.view.visible.stop.toFixed(config.precision)];
     } else {
-      text =[this.mapCoordinates.base.start.toFixed(config.precision), this.mapCoordinates.base.stop.toFixed(config.precision)];
+      text =[this.view.base.start.toFixed(config.precision), this.view.base.stop.toFixed(config.precision)];
     }
     if (this.invert) {
-      ctx.fillText(text[1], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[0], gb.left + config.width + config.padding, (gb.bottom + config.labelSize+2));
+      ctx.fillText(text[1], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize*.75));
+      ctx.fillText(text[0], gb.left + config.width + config.padding, (gb.bottom + config.labelSize + 5));
     } else {
-      ctx.fillText(text[0], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize / 2));
-      ctx.fillText(text[1], gb.left + config.width + config.padding, (gb.bottom + config.labelSize+2));
+      ctx.fillText(text[0], gb.left + config.width + config.padding, Math.floor(gb.top - config.labelSize*.75));
+      ctx.fillText(text[1], gb.left + config.width + config.padding, (gb.bottom + (config.labelSize*1.5)));
     }
 
     //Draw baseline ruler
