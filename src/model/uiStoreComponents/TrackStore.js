@@ -28,6 +28,7 @@ export default class TrackStore {
       updateFilters: action,
       updateTitle: action,
       editSettings:action,
+      removeTrack: action,
     });
   }
 
@@ -76,11 +77,18 @@ export default class TrackStore {
     const sg = this.bioMap.sceneGraph;
     if(Object.keys(sg.namedChildren['lhst'].namedChildren).indexOf(this.key) !== -1){
       sg.namedChildren['lhst'].namedChildren[this.key].updateTrack(this.config);
-
-
     } else {
       sg.namedChildren['rhst'].namedChildren[this.key].updateTrack(this.config);
     }
     this.bioMap.updateTracks(this.key,this);
+  }
+
+  removeTrack(){
+    const sg = this.bioMap.sceneGraph;
+    if(Object.keys(sg.namedChildren['lhst'].namedChildren).indexOf(this.key) !== -1){
+      this.bioMap.removeTrack(this.key,0);
+    } else {
+      this.bioMap.removeTrack(this.key,1);
+    }
   }
 }

@@ -64,7 +64,7 @@ export default class BioMapStore {
       addTrack: action,
       shiftMajorGroups: action,
       updateTracks: action,
-
+      removeTrack: action,
     });
   }
 
@@ -463,6 +463,24 @@ export default class BioMapStore {
 
   updateTracks(key,track){
     this.tracks[key] = track;
+    this.shiftMajorGroups();
+    this.draw();
+  }
+
+  removeTrack(key,direction){
+    if(direction){
+      let side = this.sceneGraph.namedChildren['rhst'];
+      side.removeChild(side.namedChildren[key],key);
+      let idx = this.trackOrder.right.indexOf(key);
+      this.trackOrder.right.splice(idx,1);
+    } else {
+      let side = this.sceneGraph.namedChildren['lhst'];
+      side.removeChild(side.namedChildren[key],key);
+      let idx = this.trackOrder.left.indexOf(key);
+      this.trackOrder.left.splice(idx,1);
+    }
+    delete this.tracks[key];
+   //redraw
     this.shiftMajorGroups();
     this.draw();
   }
