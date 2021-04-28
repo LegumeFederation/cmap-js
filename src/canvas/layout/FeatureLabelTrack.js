@@ -7,19 +7,22 @@
 import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {Bounds} from '../../model/Bounds';
 import {FeatureLabel} from '../geometry/FeatureLabel';
+import {BlockLabel} from '../geometry/BlockLabel';
 
 export class FeatureLabelTrack extends SceneGraphNodeTrack {
-
-  /**
-   * Constructor - sets up a track that's a group labels for other features
-   * @param params
-   */
-
   constructor(params) {
     super(params);
-    this.dirty = true;
-    this.trackPos = this.parent.trackPos;
-    this.generateFeatureLabels(params);
+    this.config = params.config;
+    this.data = params.data;
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: 0,
+      left : 0,
+      height: this.parent.bounds.height,
+      width: this.parent.bounds.width,
+    });
+    this.generateFeatureLabels();
+    this.labelsScaled = false;
   }
 
   /**
@@ -28,42 +31,7 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
    */
 
   get visible() {
-    this.locMap.clear();
-    this.locMap.load(this.hitMap);
-    let view = this.parent.model.view;
-    let startY = view.inverse ? view.visible.stop : view.visible.start;
-    let stopY = view.inverse ? view.visible.start : view.visible.stop;
-    let vis = this.locMap.all().sort((a,b) => {return a.minY-b.minY;}).map(child => {
-      child.data.show = false;
-      if(!(child.data.position > stopY || child.data.position < startY )) {
-        let b = child.data.canvasBounds;
-        let hits = this.locMap.search({
-          maxY: b.top > b.bottom ? b.top : b.bottom,
-          minY: b.top < b.bottom ? b.top : b.bottom,
-          maxX: b.right,
-          minX: b.left
-        });
-
-        if (hits.length === 1) {
-          child.data.show = true;
-        } else {
-          let visHits = hits.filter(hit => {
-            return hit.data.show;
-          });
-          if (visHits.length === 0) {
-            child.data.show = true;
-          }
-        }
-      }
-      return child;
-    });
-   //
-    //return visible;
-    return vis;
-    //return this.locMap.all();
-    //return vis.concat([{data:this}]);
-    //return [{data:this}];
-    //return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
+    return this.locMap.all();
   }
 
   /**
@@ -76,26 +44,15 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
     ctx.globalAlpha = .5;
     ctx.fillStyle = 'green';
 
-    let gb = this.canvasBounds;
-    ctx.fillRect(
-      Math.floor(gb.left),
-      Math.floor(gb.top),
-      Math.floor(gb.width),
-      Math.floor(gb.height)
-    );
-
-    this.children.forEach(child => {
-      let cb = child.canvasBounds;
-      // noinspection JSSuspiciousNameCombination
-      // noinspection JSSuspiciousNameCombination
-      ctx.fillRect(
-        Math.floor(cb.left),
-        Math.floor(cb.top),
-        Math.floor(cb.width),
-        Math.floor(cb.height)
-      );
-    });
+     let gb = this.canvasBounds;
+     ctx.fillRect(
+       Math.floor(gb.left),
+       Math.floor(gb.top),
+       Math.floor(gb.width),
+       Math.floor(gb.height)
+     );
     ctx.restore();
+    this.children.forEach(child => child.draw(ctx));
   }
 
   /**
@@ -103,76 +60,66 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
    * @returns {Array}
    */
 
-  get hitMap() {
-    //return this.locMap.all();
-    return this.children.map(child => {
+  updateLocMap() {
+    const updated =  this.locMap.all().map(child => {
       return {
-        maxY: child.canvasBounds.top,
-        minY: child.canvasBounds.bottom,
-        minX: child.canvasBounds.left,
-        maxX: child.canvasBounds.right,
-        data: child
+        maxY: child.data.bounds.bottom,
+        minY: child.data.bounds.top,
+        minX: child.data.bounds.left,
+        maxX: child.data.bounds.right,
+        data: child.data
       };
     });
+    this.locMap.clear();
+    this.locMap.load(updated);
   }
 
-  generateFeatureLabels(params){
+  layout() {
+    let b = this.parent.bounds;
+    this.bounds = new Bounds({
+      allowSubpixel: false,
+      top: 0,
+      left: this.bounds ? this.bounds.left :  0,
+      width: this.bounds ? this.bounds.width : b.width,
+      height: b.height
+    });
+    this.updateLocMap();
+  }
 
-     this.filteredFeatures = [];
-     let b = this.parent.bounds;
-     this.bounds = new Bounds({
-       allowSubpixel: false,
-       top: 0,
-       left: 0,
-       width: this.parent.bounds.width,
-       height: b.height
-     });
-     let fmData = [];
-     this.offset = 0;
+  generateFeatureLabels(){
+    let labels = [];
+    this.maxLoc = 0;
 
-     this.maxLoc = 0;
-     let qtlConf = params.config;
+    // create a temp canvas context to
+    let tempCanvas = document.createElement('canvas');
+    tempCanvas.setAttribute('width',1000);
+    tempCanvas.setAttribute('height',1000);
+    const tmpCtx = tempCanvas.getContext('2d');
+    this.data.forEach( d => {
+        let fm = new  FeatureLabel({
+          parent: this,
+          data: d.data,
+          config: this.config,
+          tmpCtx: tmpCtx,
+        });
+        this.addChild(fm);
 
-     for( let key in this.parent.config.qtl){
-       if(!qtlConf.hasOwnProperty(key)){
-         qtlConf[key] = this.parent.config.qtl[key];
-       }
-     }
+        let gb = fm.canvasBounds;
+        let loc = {
+          minY: gb.top,
+          maxY: gb.bottom,
+          minX: gb.left,
+          maxX: gb.right,
+          data:fm
+        };
 
-     this.qtlMarks = this.parent.featureData.map( model => {
-       let fm = new  FeatureLabel({
-         featureModel: model,
-         parent: this,
-         data: this.parent.data,
-         initialConfig: qtlConf,
-         config: qtlConf
-       });
+        labels.push(loc);
+      });
 
-       this.addChild(fm);
-       let gb = fm.canvasBounds;
-       let loc = {
-         minY: gb.top < gb.bottom ? gb.top : gb.bottom,
-         maxY: gb.top > gb.bottom ? gb.top : gb.bottom,
-         minX: gb.left,
-         maxX: gb.right,
-         data:fm
-       };
-
-       this.locMap.insert(loc);
-       if (fm.bounds.left < this.bounds.left && fm.bounds.left < this.offset) {
-         this.offset = -(fm.bounds.left);
-       }
-       if(fm.bounds.right > this.bounds.right && fm.bounds.right > this.offset){
-         this.offset = fm.bounds.right - this.bounds.right;
-       }
-       //if (gb.right > this.canvasBounds.right) {
-       //  this.bounds.right += gb.right - this.canvasBounds.right;
-       //}
-        fmData.push(loc);
-         return fm;
-       });
-
-       this.locMap.clear();
-       this.locMap.load(fmData);
+      this.locMap.clear();
+      this.locMap.load(labels);
+  }
+  calculateHits(point){
+    return [];
   }
 }

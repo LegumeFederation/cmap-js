@@ -369,7 +369,6 @@ export default class ColorPicker extends Component {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
     let grad = ctx.createLinearGradient(0, 0, 0, cvs.height);
     let hueValueColor = this.state.hueValColor;
-    console.log('drawSCanvas',hueValueColor);
     let rgbStart = this.hsvToRgb([hueValueColor[0], 100, hueValueColor[2]]).map(color => {
       return Math.floor(color);
     });
@@ -458,7 +457,6 @@ export default class ColorPicker extends Component {
 
   render(props, state) {
     const {baseColor, hueValCanvas, satCanvas, previewCanvas, newColor} = this.state;
-    console.log('cp-r', this.props);
     // store these bounds, for checking in drawLazily()
     return (
       <div class={'pure-control-group'}>

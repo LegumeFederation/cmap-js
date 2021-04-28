@@ -19,24 +19,24 @@ export class FeatureLabel extends SceneGraphNodeFeature {
    * @param config - base configuration
    */
 
-  constructor({parent, data, config}) {
+  constructor({parent:parent, data: data, config:config}) {
     super({parent, tags: [data.name]});
     this.config = config;
-    this.labelPos = config.labelPosition || config.position;
+    this.labelPos = 1; //config.labelPosition || config.position;
     this.data = data;
-    this.position = this.invert ? this.data.coordinates.start : this.data.coordinates.stop;
+    this.position = this.view.invert ? this.data.model.coordinates.start : this.data.model.coordinates.stop;
     let y1 = translateScale(this.position, this.view.base, this.view.visible, this.view.invert) * this.view.pixelScaleFactor;
     let padding = 2;
     let width = config.labelSize + padding ;
     this.offset = this.labelPos >= 0 ? 0 : padding;
-    let left = this.labelPos >= 0 ? this.fm.bounds.right  : this.fm.bounds.left-width;
-    this.show = false;
+    let left = this.labelPos >= 0 ? this.data.bounds.right  : this.data.bounds.left-width;
+    this.show = true;
 
     this.bounds = new Bounds({
-      top: y1,
+      top: 0,
       left: left,
-      width: width,
-      height: -this.config.labelSize * this.data.name.length/2,
+      width: 10,
+      height:  10, //-this.config.labelSize * this.data.model.name.length/2,
       allowSubpixel: false
     });
   }
@@ -47,20 +47,24 @@ export class FeatureLabel extends SceneGraphNodeFeature {
    */
 
   draw(ctx) {
+    if(this.position < this.view.visible.start || this.position > this.view.visible.stop){ // don't draw if out of view
+      return;
+    }
     let config = this.config;
+    if(!config.labelSize) config.labelSize = 12;
     ctx.font = `${config.labelSize}px ${config.labelFace}`;
     let y1 = translateScale(this.position, this.view.base, this.view.visible, this.view.invert) * this.view.pixelScaleFactor;
     this.bounds.top = y1;
     this.bounds.height = -ctx.measureText(this.data.name).width;
-    if(!this.show) return; // return here, because it's still good to make sure that the label width is known
+ //   if(!this.show) return; // return here, because it's still good to make sure that the label width is known
     let gb = this.canvasBounds || {};
     ctx.save();
     ctx.translate(gb.right, gb.top);
     ctx.textAlign = 'left';
-    ctx.fillStyle = config.labelColor;
+    ctx.fillStyle = 'black'; //config.labelColor;
     ctx.rotate(-Math.PI / 2);
-    ctx.fillText(this.data.name, 0, -this.offset); // config.labelSize-2);
+    ctx.fillText(this.data.model.name, 0, -this.offset); // config.labelSize-2);
     ctx.restore();
-    this.show = false; // reset show for next draw cycle
+    //this.show = false; // reset show for next draw cycle
   }
 }

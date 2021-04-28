@@ -8,6 +8,7 @@ import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
 import {Bounds} from '../../model/Bounds';
 import {QTL} from '../geometry/QTL';
 import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
+import {label} from './LabelSelector';
 //import * as trackSelector  from './TrackSelector';
 
 export class QtlTrack extends SceneGraphNodeTrack {
@@ -78,7 +79,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
       let hits = this.locMap.search(loc);
       if(hits.length){
         hits.sort((a,b)=>{return a.maxX + b.maxX;});
-        fm.bounds.translate(hits[0].maxX-loc.minX + fm.width,0);
+        fm.bounds.translate(hits[0].maxX-loc.minX + this.config.padding,0);
       }
 
       loc.minX = fm.canvasBounds.left;
@@ -93,7 +94,15 @@ export class QtlTrack extends SceneGraphNodeTrack {
     });
     this.locMap.clear();
     this.locMap.load(fmData);
-    //TODO: fix labels
+    let labelGroup =  undefined;
+    if(this.config.labelStyle !== '' || this.config.labelStyle !== 'none') {
+      labelGroup = label({parent: this, config: this.config, data: this.locMap.all()});
+      this.addChild(labelGroup, 'labels');
+    }
+
+
+      this.parent.updateWidth(this.canvasBounds.right+this.parent.config.track.padding);
+      //TODO: fix labels
 
   }
 
@@ -102,13 +111,16 @@ export class QtlTrack extends SceneGraphNodeTrack {
    */
 
   get visible() {
-     let visible = [];
+     let visible = this.locMap.all();
+     if(this.namedChildren['labels']){
+       visible = visible.concat(this.namedChildren['labels'].visible);
+     }
    //  this.children.forEach(child => {
    //    visible = visible.concat(child.locMap.all());
    //  });
    // //
    // // return visible;
-   return this.locMap.all();
+   return visible;
     // return this.locMap.all().concat([{data:this}]); // debugging statement to test track width bounds
   }
 
@@ -118,21 +130,21 @@ export class QtlTrack extends SceneGraphNodeTrack {
    */
 
   draw(ctx) {
-    ctx.save();
-    ctx.globalAlpha = .5;
-    ctx.fillStyle = '#ADD8E6';
-    this.children.forEach(child => {
-      let cb = child.canvasBounds;
-      // noinspection JSSuspiciousNameCombination
-      // noinspection JSSuspiciousNameCombination
-      ctx.fillRect(
-        Math.floor(cb.left),
-        Math.floor(cb.top),
-        Math.floor(cb.width),
-        Math.floor(cb.height)
-      );
-    });
-    ctx.restore();
+    //ctx.save();
+    //ctx.globalAlpha = .5;
+    //ctx.fillStyle = '#ADD8E6';
+    //this.children.forEach(child => {
+    //  let cb = child.canvasBounds;
+    //  // noinspection JSSuspiciousNameCombination
+    //  // noinspection JSSuspiciousNameCombination
+    //  ctx.fillRect(
+    //    Math.floor(cb.left),
+    //    Math.floor(cb.top),
+    //    Math.floor(cb.width),
+    //    Math.floor(cb.height)
+    //  );
+    //});
+    //ctx.restore();
   }
 
   /**

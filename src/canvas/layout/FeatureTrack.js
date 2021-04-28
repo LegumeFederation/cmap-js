@@ -126,18 +126,18 @@ export class FeatureTrack extends SceneGraphNodeGroup {
    */
 
   draw(ctx) {
-    ctx.save();
-    ctx.globalAlpha = .5;
-    ctx.fillStyle = '#ADD8E6';
-    let cb = this.canvasBounds;
-      // noinspection JSSuspiciousNameCombination
-      // noinspection JSSuspiciousNameCombination
-    ctx.fillRect(
-      Math.floor(cb.left),
-      Math.floor(cb.top),
-      Math.floor(cb.width),
-      Math.floor(cb.height)
-    );
+   // ctx.save();
+   // ctx.globalAlpha = .5;
+   // ctx.fillStyle = '#ADD8E6';
+   // let cb = this.canvasBounds;
+   //   // noinspection JSSuspiciousNameCombination
+   //   // noinspection JSSuspiciousNameCombination
+   // ctx.fillRect(
+   //   Math.floor(cb.left),
+   //   Math.floor(cb.top),
+   //   Math.floor(cb.width),
+   //   Math.floor(cb.height)
+   // );
     // ctx.fillStyle = 'red';
     // let cb = this.canvasBounds;
     // ctx.fillRect(
@@ -146,7 +146,7 @@ export class FeatureTrack extends SceneGraphNodeGroup {
     //   Math.floor(cb.width),
     //   Math.floor(cb.height)
     // );
-    ctx.restore();
+    //ctx.restore();
     this.visible.forEach(child =>{
       child.data.draw(ctx);
     });

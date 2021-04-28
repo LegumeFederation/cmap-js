@@ -43,11 +43,9 @@ export default class UIStore {
   offsetWidth = 0;
   updateMainWindow(elements){
     if(elements){
-      let w = 0;
-      console.log(elements);
       if(elements && elements[1]) {
-        let mult = elements[1].children.length >= 3 ? elements[1].children.length+1 : 3;
-        this.offsetWidth = elements[0].offsetWidth*(mult);
+        let multi = elements[1].children.length >= 3 ? elements[1].children.length+1 : 3;
+        this.offsetWidth = elements[0].offsetWidth*(multi);
       }
     }
 
