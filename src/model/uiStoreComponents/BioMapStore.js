@@ -419,12 +419,12 @@ export default class BioMapStore {
     const leftTrackGroup = this.sceneGraph.namedChildren['lhst'];
     const rightTrackGroup = this.sceneGraph.namedChildren['rhst'];
     const track = new TrackStore(this, title, filters, colors);
-    this.tracks[title] = track;
+    this.tracks[track.key] = track;
     let canvasGroup = rightTrackGroup;
     if(direction){
-      this.trackOrder.right.push(title);
+      this.trackOrder.right.push(track.key);
     } else {
-      this.trackOrder.left.push(title);
+      this.trackOrder.left.push(track.key);
       canvasGroup = leftTrackGroup;
     }
     const canvasTrack = new FeatureTrack({parent:canvasGroup, trackInfo: track, direction: direction, model:this.bioMap});
@@ -445,17 +445,17 @@ export default class BioMapStore {
     const rightTrackGroup = this.sceneGraph.namedChildren['rhst'] || undefined;
     const backbone = this.sceneGraph.namedChildren['backbone'];
     const padding = this.config.track.padding;
-    if(leftTrackGroup !== undefined && ((leftTrackGroup.canvasBounds.right +padding) >= backbone.canvasBounds.left)){
+    if(leftTrackGroup !== undefined){// && ((leftTrackGroup.canvasBounds.right +padding) >= backbone.canvasBounds.left)){
       const offset = (leftTrackGroup.canvasBounds.right + padding) - backbone.canvasBounds.left;
       backbone.bounds.translate(offset,0);
       leftTrackGroup.bounds.height = backbone.bounds.height;
     }
     if(rightTrackGroup !== undefined) {
-      if ((backbone.canvasBounds.right + padding) >= rightTrackGroup.canvasBounds.left) {
+      //if ((backbone.canvasBounds.right + padding) >= rightTrackGroup.canvasBounds.left) {
         const offset = (backbone.canvasBounds.right + padding) - rightTrackGroup.canvasBounds.left;
         rightTrackGroup.bounds.translate(offset, 0);
         rightTrackGroup.bounds.height = backbone.bounds.height;
-      }
+      //}
       this.sceneGraph.updateWidth(rightTrackGroup.canvasBounds.right + padding);
     }
     this.uiStore.updateWidth();
@@ -473,11 +473,30 @@ export default class BioMapStore {
       side.removeChild(side.namedChildren[key],key);
       let idx = this.trackOrder.right.indexOf(key);
       this.trackOrder.right.splice(idx,1);
+      this.trackOrder.right.forEach((track,idx) => {
+        if(idx === 0){
+         side.namedChildren[track].bounds.translate(-side.namedChildren[track].bounds.left ,0);
+        } else {
+          side.namedChildren[track].bounds.translate(side.namedChildren[this.trackOrder.right[idx-1]].canvasBounds.right - side.namedChildren[track].canvasBounds.left,0);
+        }
+      });
+      if(this.trackOrder.right.length)
+      side.bounds.width = side.namedChildren[this.trackOrder.right[this.trackOrder.right.length-1]].bounds.right + this.config.track.padding;
     } else {
       let side = this.sceneGraph.namedChildren['lhst'];
       side.removeChild(side.namedChildren[key],key);
       let idx = this.trackOrder.left.indexOf(key);
       this.trackOrder.left.splice(idx,1);
+      this.trackOrder.left.forEach((track,idx) => {
+        console.log(track);
+        if(idx === 0){
+          side.namedChildren[track].bounds.translate(-side.namedChildren[track].bounds.left ,0);
+        } else {
+          side.namedChildren[track].bounds.translate(side.namedChildren[this.trackOrder.left[idx-1]].canvasBounds.right - side.namedChildren[track].canvasBounds.left,0);
+        }
+      });
+      if(this.trackOrder.left.length)
+      side.bounds.width = side.namedChildren[this.trackOrder.left[this.trackOrder.left.length-1]].bounds.right + this.config.track.padding;
     }
     delete this.tracks[key];
    //redraw
