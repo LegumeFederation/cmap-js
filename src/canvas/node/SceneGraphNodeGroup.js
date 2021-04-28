@@ -34,20 +34,20 @@ export class SceneGraphNodeGroup extends SceneGraphNodeBase {
 
   draw(ctx) {
     // for debugging use only
-   // let gb = this.canvasBounds || {};
-   // if(!gb){ return;}
-   // ctx.save();
-   // ctx.globalAlpha = .5;
-   // ctx.fillStyle = 'red';
-   //// // noinspection JSSuspiciousNameCombination
-   //// // noinspection JSSuspiciousNameCombination
-   // ctx.fillRect(
-   //   Math.floor(gb.left),
-   //   Math.floor(gb.top),
-   //   Math.floor(gb.width),
-   //   Math.floor(gb.height)
-   // );
-   // ctx.restore();
+    //let gb = this.canvasBounds || {};
+    //if(!gb){ return;}
+    //ctx.save();
+    //ctx.globalAlpha = .5;
+    //ctx.fillStyle = 'red';
+    //noinspection JSSuspiciousNameCombination
+    //noinspection JSSuspiciousNameCombination
+    //ctx.fillRect(
+    //  Math.floor(gb.left),
+    //  Math.floor(gb.top),
+    //  Math.floor(gb.width),
+    //  Math.floor(gb.height)
+    //);
+    //ctx.restore();
     //this.visible.forEach(child => child.data.draw(ctx));
     this.children.forEach(child => child.draw(ctx));
   }

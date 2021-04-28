@@ -5,7 +5,6 @@
 
 import { makeObservable, observable, computed, action} from 'mobx';
 import mergeObjects from '../../util/mergeObjects';
-import {FeatureTrack} from '../../canvas/layout/FeatureTrack';
 
 export default class TrackStore {
   constructor(bioMap,title = '', filters =[], colors=[]) {
@@ -75,15 +74,13 @@ export default class TrackStore {
     this.filters = filters;
     this.colors = colors;
     const sg = this.bioMap.sceneGraph;
-    this.bioMap.updateTracks(this.key,this);
-    console.log('sg',sg.namedChildren['lhst']);
     if(Object.keys(sg.namedChildren['lhst'].namedChildren).indexOf(this.key) !== -1){
       sg.namedChildren['lhst'].namedChildren[this.key].updateTrack(this.config);
+
 
     } else {
       sg.namedChildren['rhst'].namedChildren[this.key].updateTrack(this.config);
     }
-
-    this.bioMap.draw();
+    this.bioMap.updateTracks(this.key,this);
   }
 }

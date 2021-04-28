@@ -463,6 +463,8 @@ export default class BioMapStore {
 
   updateTracks(key,track){
     this.tracks[key] = track;
+    this.shiftMajorGroups();
+    this.draw();
   }
 }
 

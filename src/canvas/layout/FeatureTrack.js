@@ -26,7 +26,7 @@ export class FeatureTrack extends SceneGraphNodeGroup {
     const b = this.parent.bounds;
     this.trackPos = params.direction || 1;
     this.config = params.trackInfo.config;
-
+    this.parent = params.parent;
     let left =  this.parent.children && this.parent.children.length ?
       this.parent.children[this.parent.children.length-1].bounds.right+this.config.track.padding : 0;
     this.bounds = new Bounds({
@@ -126,18 +126,18 @@ export class FeatureTrack extends SceneGraphNodeGroup {
    */
 
   draw(ctx) {
-   // ctx.save();
-   // ctx.globalAlpha = .5;
-   // ctx.fillStyle = '#ADD8E6';
-   // let cb = this.canvasBounds;
-   //   // noinspection JSSuspiciousNameCombination
-   //   // noinspection JSSuspiciousNameCombination
-   // ctx.fillRect(
-   //   Math.floor(cb.left),
-   //   Math.floor(cb.top),
-   //   Math.floor(cb.width),
-   //   Math.floor(cb.height)
-   // );
+    //ctx.save();
+    //ctx.globalAlpha = .5;
+    //ctx.fillStyle = '#ADD8E6';
+    //let cb = this.canvasBounds;
+    //  // noinspection JSSuspiciousNameCombination
+    //  // noinspection JSSuspiciousNameCombination
+    //ctx.fillRect(
+    //  Math.floor(cb.left),
+    //  Math.floor(cb.top),
+    //  Math.floor(cb.width),
+    //  Math.floor(cb.height)
+    //);
     // ctx.fillStyle = 'red';
     // let cb = this.canvasBounds;
     // ctx.fillRect(
@@ -173,6 +173,8 @@ export class FeatureTrack extends SceneGraphNodeGroup {
     this.config = config;
     this.removeChild(this.namedChildren['features'],'features');
     const featureData = new QtlTrack({parent:this , config: this.config.qtl, model: this.model});
+    featureData.parent = this;
     this.addChild(featureData,'features');
+    this.parent.updateWidth(this.canvasBounds.right + this.config.track.padding);
   }
 }
