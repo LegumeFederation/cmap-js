@@ -15,7 +15,6 @@ export const App = observer(class App extends Component {
     const {uiStore} = this.props;
     return (
       <div id={'cmap-app'}>
-        <h1 onClick={()=> uiStore.setMainWindowStatus('default')}>{'Hello World'}</h1>
         <Header uiStore={uiStore} />
         {uiStore.mainWindowStatus === 'default' ?
           <CMAP uiStore={uiStore} />
