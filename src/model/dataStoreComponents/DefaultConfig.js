@@ -75,7 +75,7 @@ export const defaultConfig = {
     'labelSize': 12,
     'labelFace': 'Nunito',
     'labelColor': 'black',
-    'labelStyle': 'block',
+    'labelStyle': 'feature',
     'labelPosition': 1,
     'trackMinWidth' : 50,
     'internalPadding': 5,
