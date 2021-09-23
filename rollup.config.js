@@ -3,6 +3,7 @@ import { babel } from '@rollup/plugin-babel';
 import builtins from 'rollup-plugin-node-builtins';
 import alias from '@rollup/plugin-alias';
 import commonjs  from '@rollup/plugin-commonjs';
+import dev from 'rollup-plugin-dev';
 import  nodeResolve from '@rollup/plugin-node-resolve';
 import injectProcessEnv from 'rollup-plugin-inject-process-env';
 import { terser } from 'rollup-plugin-terser';
@@ -99,6 +100,7 @@ export default [
             // bundle css
             postcss(postcssOptions()),
             alias(aliasOptions()),
+            dev(),
             nodeResolve(resolveOptions()),
             // transpile es6
             commonjs(cjsOptions()),

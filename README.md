@@ -22,21 +22,27 @@ If you find any issues, please check out the develop branch and see if the error
 persists before opening an issue. 
 ```
 
-## Setup
+- Clone the project and initialize git submodule(s):
+   ```    
+    git clone --recursive-submodules https://github.com/ncgr/cmap-js.git
+    cd cmap-js
+    ```
+    NOTE this probaly will not be needed going forward.
+
+## Docker Setup (recommended)
+
+```
+docker compose up -d --build
+```
+
+Point your web browser at http://localhost:8080
+
+## Manual installation
 
 Prerequisite: `npm` is required so install [NodeJs](https://nodejs.org) if you
 do not have it. `npm` is used as javascript package manager and task runner
 here.
 
-- Clone the project and initialize git submodule(s):
-   ```    
-    git clone https://github.com/ncgr/cmap-js.git
-    cd cmap-js
-    git submodule init
-    git submodule update
-    ```
-    NOTE this probaly will not be needed going forward.
-    
 - Install the required javascript packages listed in `package.json`
     ```
     npm install
