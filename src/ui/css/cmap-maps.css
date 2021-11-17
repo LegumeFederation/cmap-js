@@ -1,0 +1,32 @@
+ #cmap-maps-active{
+     min-width: 2em;
+     display:inline-block;
+ }
+
+ .biomap-group{
+     margin:0;
+     display:inline-block;
+ }
+
+ .map-header-div{
+     padding: 1em;
+     display: block;
+     opacity: 0.6;
+     z-index: 10000;
+     border: 1px solid #bbb;
+     border-radius: 4px;
+     text-align: center;
+ }
+
+ .add-map-button{
+     vertical-align: top;
+ }
+
+ .biomap-group{
+     border: 1px solid #bbb;
+     border-radius:4px;
+ }
+
+ #cmap-content{
+     overflow-x: auto;
+ }
