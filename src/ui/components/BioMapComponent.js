@@ -2,7 +2,7 @@ import {h, Component} from 'preact';
 import {observer} from 'mobx-react';
 import GestureWrapper from '../Gesture';
 import BioMapPopover from './BioMapPopover';
-import {AddTrack} from './buttons/addTrack';
+import {AddTrack} from './buttons/AddTrack';
 import {AddFeatureTrackModal} from './modals/AddFeatureTrackModal';
 import {remToPix} from '../../util/CanvasUtil';
 import {EditTrack} from './buttons/EditTrack';
