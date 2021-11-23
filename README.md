@@ -32,10 +32,11 @@ persists before opening an issue.
 ## Docker Setup (recommended)
 
 ```
+gzip -d data/*.gz
 docker compose up -d --build
 ```
 
-Point your web browser at http://localhost:8080
+Point your web browser at http://localhost:10001
 
 ## Manual installation
 

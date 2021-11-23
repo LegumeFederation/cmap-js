@@ -9,6 +9,7 @@ import injectProcessEnv from 'rollup-plugin-inject-process-env';
 import { terser } from 'rollup-plugin-terser';
 import postcss from 'rollup-plugin-postcss';
 import pkg from './package.json';
+import serve from 'rollup-plugin-serve';
 //PostCSS plugins
 import simplevars from 'postcss-simple-vars';
 import nested from 'postcss-nested';
@@ -110,6 +111,9 @@ export default [
                 UNUSED: null
             }),
             terser(),
+            serve({
+                historyApiFallback: true,
+            }),
         ]
     },
     {

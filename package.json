@@ -64,6 +64,7 @@
     "rollup-plugin-inject-process-env": "^1.3.1",
     "rollup-plugin-node-builtins": "*",
     "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-serve": "*",
     "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
