@@ -1,6 +1,6 @@
 {
-  "name": "cmap-js",
-  "version": "0.0.1",
+  "name": "@LegumeFederation/cmap-js",
+  "version": "v1.0.0-alpha.0",
   "description": "Display and compare biological maps (genetic, physical, cytogenetic, genomic, linkage groups, chromosomes, scaffolds).",
   "main": "build/cmap.min.js",
   "module": "build/cmap.mjs",
