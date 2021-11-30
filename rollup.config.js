@@ -111,9 +111,11 @@ export default [
                 UNUSED: null
             }),
             terser(),
-            serve({
-                historyApiFallback: true,
-            }),
+            process.env.WATCH === 'yes' && (
+              serve({
+                  historyApiFallback: true,
+              })
+            )
         ]
     },
     {
