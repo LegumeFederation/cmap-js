@@ -1,6 +1,6 @@
 {
-  "name": "cmap-js",
-  "version": "0.0.1",
+  "name": "@LegumeFederation/cmap-js",
+  "version": "v1.0.0-alpha.0",
   "description": "Display and compare biological maps (genetic, physical, cytogenetic, genomic, linkage groups, chromosomes, scaffolds).",
   "main": "build/cmap.min.js",
   "module": "build/cmap.mjs",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ncgr/cmap-js.git"
+    "url": "git+https://github.com/LegumeFederation/cmap-js.git"
   },
   "author": "Andrew Wilkey <awilkey@iastate.edu>, Alex G Rice <agr@ncgr.org>",
   "license": "GPL-3.0",
