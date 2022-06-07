@@ -8,7 +8,7 @@ import jsx from 'rollup-plugin-jsx';
 import replace from 'rollup-plugin-replace';
 import {eslint}  from 'rollup-plugin-eslint';
 import postcss from 'rollup-plugin-postcss';
-import uglify from 'rollup-plugin-uglify';
+import {uglify} from 'rollup-plugin-uglify';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 //import babelrc from 'babelrc-rollup';
@@ -86,6 +86,6 @@ export default {
     })),
     (process.env.WATCH === 'yes' && livereload()),
     // uglify/minify only in production
-    (process.env.NODE_ENV === 'production' && uglify()),
+    (process.env.NODE_ENV === 'production' && [uglify()]),
   ]
 };
