@@ -13,6 +13,7 @@
     "pretest": "npm run build",
     "test": "mocha",
     "coverage": "nyc npm test",
+    "start": "npx -y http-server -d false",
     "watch": "rollup -c -w --environment WATCH:yes",
     "validate-config": "ajv -s cmap-schema.json -d cmap.json",
     "postinstall": "for f in data/*.gz; do gzip -dc $f > `echo $f | sed s/\\.gz//`; done",
