@@ -3,7 +3,6 @@
  */
 
 //import preact from 'preact';
-//import fetch from 'unfetch';
 
 export function checkStatus(response, promiseStep) {
   if (response.ok){

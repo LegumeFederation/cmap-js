@@ -12,9 +12,6 @@ import './elementsFromPoint';
 // add support for promises
 import 'promise-polyfill/src/polyfill';
 
-//add support for fetch
-import 'unfetch/polyfill';
-
 //add support for Object.values
 import 'mdn-polyfills/Object.values';
 //add support for Array.forEach

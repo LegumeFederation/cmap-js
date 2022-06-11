@@ -81,10 +81,7 @@
     "rollup-watch": "*"
   },
   "dependencies": {
-    "a-csv": "*",
     "core-js": "*",
-    "csvtojson": "*",
-    "ecma-proposal-math-extensions": "*",
     "eslint": "*",
     "hammerjs": "*",
     "hamsterjs": "*",
@@ -93,11 +90,8 @@
     "preact": "*",
     "preact-router": "*",
     "pubsub-js": "*",
-    "random-words": "*",
     "rbush": "*",
-    "rbush-knn": "*",
-    "skeleton-css": "*",
-    "unfetch": "*"
+    "skeleton-css": "*"
   },
   "nyc": {
     "exclude": [

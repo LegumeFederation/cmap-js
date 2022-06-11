@@ -58,7 +58,6 @@ export default {
     }),
     // transpile es6
     babel({
-      //ignore: /node_modules\/(?!ecma-proposal-math-extensions)/, //do it this way because this one node_module is in es6
       ignore:[ /node_modules\/(?!unfetch)/], //do it this way because this one node_module is in es6
       babelrc: false,
       presets: [
