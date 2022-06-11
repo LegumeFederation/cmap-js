@@ -23,6 +23,10 @@
     "url": "https://github.com/ncgr/cmap-js/issues"
   },
   "homepage": "https://github.com/ncgr/cmap-js#readme",
+  "engines": {
+    "node": "8.*",
+    "npm": ">=4.0.0"
+  },
   "devDependencies": {
     "ajv": "^5.0.1",
     "ajv-cli": "^2.1.0",
