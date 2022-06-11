@@ -1,10 +1,6 @@
 # cmap-js
-```
-Due to issues with mithril, preact is now being used instead.
-There are some pretty large changes to the underlying structure
-and components here, so be careful and you may need to reinstall
-the node packages.
-```
+
+See demo at https://legumefederation.github.io/cmap-js
 
 ```
 CMAP-JS IS SOFTWARE STILL IN DEVELOPMENT. FEATURES AND LAYOUT ARE SUBJECT
@@ -41,9 +37,6 @@ here.
     ```
     npm install
     ```
-### Potential Issues
-There has been a report of node getting stuck during install on macOS. This is
-not a cmap-js issue, but should be fixable following the directions found [here](http://osxdaily.com/2016/07/26/fix-stuck-pkg-verifying-installer-mac-os-x/).
 
 ## Build and Tests
 
