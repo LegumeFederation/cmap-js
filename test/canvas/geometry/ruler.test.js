@@ -79,13 +79,6 @@ describe('Ruler test', function () {
     parent.backbone = {};
     parent.backbone.bounds = bounds;
     let ruler = new Ruler({parent, bioMap: model, config: {}});
-    let rulerBounds = new Bounds({
-      top: parent.bounds.top,
-      left: bounds.left - 15,
-      width: 10,
-      height: bounds.height,
-      allowSubpixel: false
-    });
     expect(ruler.visible).to.eql({data: ruler});
   });
 
