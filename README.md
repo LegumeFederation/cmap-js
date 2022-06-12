@@ -20,15 +20,6 @@ persists before opening an issue.
 
 ## Setup
 
-```
-IMPORTANT NOTE:
-The build process used to build cmap-js has been known to fail under node v9.x.x.
-It is suggested that until the problem is fixed, to use the current LTS branch, 
-v8.11.3 when building the software. If you haven't already, a version manager such 
-as nvm (https://github.com/creationix/nvm) or n (https://www.npmjs.com/package/n) 
-is highly recommended when working with node.
-```
-
 Prerequisite: `npm` is required so install [NodeJs](https://nodejs.org) if you
 do not have it. `npm` is used as javascript package manager and task runner
 here.

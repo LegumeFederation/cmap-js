@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/ncgr/cmap-js#readme",
   "engines": {
-    "node": "8.*",
+    "node": ">=8.0.0",
     "npm": ">=4.0.0"
   },
   "devDependencies": {
