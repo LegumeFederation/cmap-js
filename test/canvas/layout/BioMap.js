@@ -294,10 +294,13 @@ const baseParams = function () {
         stop: 100
       },
       config: {
-        rulerSteps: 100
+        ruler: {
+          steps: 100
+        }
       }
     },
     appState: {},
-    layoutBounds: bounds
+    layoutBounds: bounds,
+    initialView: []
   };
 };

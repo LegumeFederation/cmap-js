@@ -59,7 +59,7 @@ export class ConfigurationDialog {
     this.model.allMaps.forEach(map => {
       for (let name in newConfig) {
         if (newConfig.hasOwnProperty(name) && name === map.name && newConfig[name].source === map.source.id) {
-          console.log()
+          console.log();
           let item = map;
           item.config = newConfig[name].config;
           if(newConfig[name].config.tracks) {
