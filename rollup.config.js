@@ -1,5 +1,4 @@
 // Rollup plugins
-import babel from 'rollup-plugin-babel';
 import eslint from 'rollup-plugin-eslint';
 import nodePackageResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
@@ -36,15 +35,6 @@ export default {
       exclude: [
         'src/**/*.css',
         'mixwith.js/**/*'
-      ]
-    }),
-    // transpile es6
-    babel({
-      exclude: 'node_modules/**',
-      presets: [ 'es2015-rollup' ],
-      babelrc: false,
-      plugins: [
-        "external-helpers"
       ]
     }),
     // find node_modules
