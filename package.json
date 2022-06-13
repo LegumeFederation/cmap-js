@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ncgr/cmap-js.git"
+    "url": "git+https://github.com/LegumeFederation/cmap-js.git"
   },
   "author": "Andrew Wilkey <awilkey@iastate.edu>, Alex G Rice <agr@ncgr.org>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/ncgr/cmap-js/issues"
+    "url": "https://github.com/LegumeFederation/cmap-js/issues"
   },
-  "homepage": "https://github.com/ncgr/cmap-js#readme",
+  "homepage": "https://github.com/LegumeFederation/cmap-js#readme",
   "engines": {
     "node": ">=8.0.0",
     "npm": ">=4.0.0"
