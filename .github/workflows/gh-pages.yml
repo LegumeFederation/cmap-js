@@ -2,6 +2,13 @@ on:
   push:
     branches:
       - 'master'
+    paths-ignore:
+      - '*.md'
+      - '.git**'
+      - '!.github/workflows/gh-pages.yml'
+      - '.nycrc'
+      - 'LICENSE'
+      - 'test'
 
 jobs:
   github-pages:
@@ -23,4 +30,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          publish_branch: 'legumfederation.github.io/cmap-js'
