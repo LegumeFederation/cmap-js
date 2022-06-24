@@ -10,7 +10,6 @@ import PubSub from 'pubsub-js';
 
 import {Tools} from './tools/Tools';
 import {Header} from './Header';
-import {StatusBar} from './StatusBar';
 import {LayoutContainer} from './layout/LayoutContainer';
 import {RegisterComponentMixin} from './RegisterComponentMixin';
 import {reset} from '../topics';
@@ -61,7 +60,6 @@ export class UI extends mix().with(RegisterComponentMixin) {
             registerComponentCallback: (comp) => this._layoutContainer = comp
           })
         )],
-      m(StatusBar, childAttrs)
     ]);
   }
 
