@@ -7,7 +7,7 @@
     "lint": "eslint src test",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "mocha",
+    "test": "mocha --recursive --require esm",
     "coverage": "nyc npm test",
     "watch": "rollup -c -w --environment WATCH:yes",
     "validate-config": "ajv -s cmap-schema.json -d cmap.json",
@@ -15,40 +15,42 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ncgr/cmap-js.git"
+    "url": "git+https://github.com/LegumeFederation/cmap-js.git"
   },
   "author": "Andrew Wilkey <awilkey@iastate.edu>, Alex G Rice <agr@ncgr.org>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/ncgr/cmap-js/issues"
+    "url": "https://github.com/LegumeFederation/cmap-js/issues"
   },
-  "homepage": "https://github.com/ncgr/cmap-js#readme",
+  "homepage": "https://github.com/LegumeFederation/cmap-js#readme",
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=4.0.0"
+  },
   "devDependencies": {
     "ajv": "^5.0.1",
     "ajv-cli": "^2.1.0",
     "babel-eslint": "^7.2.1",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-es2015-rollup": "^3.0.0",
     "babel-register": "^6.24.0",
     "chai": "^3.5.0",
     "cssnano": "^3.9.1",
+    "esm": "^3.2.25",
     "livereload": "^0.6.0",
     "mithril-query": "^2.1.1",
-    "mocha": "^3.2.0",
+    "mocha": "^7.2.0",
     "npm-run-all": "^3.1.2",
-    "nyc": "^10.2.0",
+    "nyc": "^15.1.0",
     "postcss-cssnext": "^2.9.0",
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^3.0.0",
     "rollup": "^0.39.0",
-    "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^7.0.0",
     "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-livereload": "^0.4.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-postcss": "^0.2.0",
     "rollup-plugin-replace": "^1.1.1",
-    "rollup-plugin-serve": "^0.3.0",
+    "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.0.0"
   },
