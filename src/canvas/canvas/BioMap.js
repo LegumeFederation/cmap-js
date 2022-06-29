@@ -39,7 +39,7 @@ export class BioMap extends SceneGraphNodeCanvas {
       stop: this.model.coordinates.stop
     };
     let bm =appState.bioMaps[bioMapIndex].view; //in case the view was altered by the querystring to start
-    if(bm === undefined) bm = {};
+    if(bm === null) bm = {};
     bm.visible = bm.visible || {};
     this.model.view = {
       base: {
