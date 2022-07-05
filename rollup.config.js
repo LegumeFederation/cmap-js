@@ -1,5 +1,4 @@
 // Rollup plugins
-import babel from 'rollup-plugin-babel';
 import eslint from 'rollup-plugin-eslint';
 import nodePackageResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
@@ -21,6 +20,8 @@ export default {
   format: 'iife',
   sourceMap: true,
   plugins: [
+    // https://github.com/rollup/rollup/issues/1782#issuecomment-403465311
+    commonjs(),
     // bundle css
     postcss({
       plugins: [
@@ -38,23 +39,12 @@ export default {
         'mixwith.js/**/*'
       ]
     }),
-    // transpile es6
-    babel({
-      exclude: 'node_modules/**',
-      presets: [ 'es2015-rollup' ],
-      babelrc: false,
-      plugins: [
-        "external-helpers"
-      ]
-    }),
     // find node_modules
     nodePackageResolve({
       jsnext: true,
       main: true,
       browser: true,
     }),
-    // import node_modules
-    commonjs(),
     // include the ENV so it can be evaluated at runtime
     replace({
       exclude: 'node_modules/**',

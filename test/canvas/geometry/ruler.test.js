@@ -15,11 +15,6 @@ describe('Ruler test', function () {
     });
     let parent = {};
     let bioMap = {
-      config: {
-        rulerColor: 'blue',
-        rulerWidth: 10,
-        rulerSpacing: 5
-      },
       view: {
         base: {
           start: 0,
@@ -33,10 +28,17 @@ describe('Ruler test', function () {
         pixelScaleFactor: 1
       }
     };
+    // cannot import defaultConfig from BioMapConfigModel due to mithril;
+    // hard-coding relevant 'ruler' property defaults here
+    let config = {
+      lineWeight: 0,
+      padding: 5,
+      width: 10
+    };
     parent.bounds = new Bounds({top: 0, left: 0, width: 20, height: 20});
     parent.backbone = {};
     parent.backbone.bounds = bounds;
-    let ruler = new Ruler({parent, bioMap: bioMap});
+    let ruler = new Ruler({parent, bioMap: bioMap, config: config});
     let rulerBounds = new Bounds({
       top: parent.bounds.top,
       left: bounds.left - 15,
@@ -60,11 +62,6 @@ describe('Ruler test', function () {
     });
     let parent = {};
     let model = {
-      config: {
-        rulerColor: 'blue',
-        rulerWidth: 10,
-        rulerSpacing: 5
-      },
       view: {
         base: {
           start: 0,
@@ -81,14 +78,7 @@ describe('Ruler test', function () {
     parent.bounds = new Bounds({top: 0, left: 0, width: 20, height: 20});
     parent.backbone = {};
     parent.backbone.bounds = bounds;
-    let ruler = new Ruler({parent, bioMap: model});
-    let rulerBounds = new Bounds({
-      top: parent.bounds.top,
-      left: bounds.left - 15,
-      width: 10,
-      height: bounds.height,
-      allowSubpixel: false
-    });
+    let ruler = new Ruler({parent, bioMap: model, config: {}});
     expect(ruler.visible).to.eql({data: ruler});
   });
 
