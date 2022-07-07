@@ -69,7 +69,8 @@ export const defaultConfig = {
     'labelFace' : 'Nunito',
     'labelSize' : 12,
     'labelPosition' : 'column',
-    'labelColor' : 'black'
+    'labelColor' : 'black',
+    'filter' : []
   },
 
   'manhattan' :{

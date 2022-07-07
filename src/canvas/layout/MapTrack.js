@@ -56,11 +56,20 @@ export class MapTrack extends SceneGraphNodeTrack {
       height: this.bounds.height,
       width: 0
     });
-
-    // Filter features for drawing
-    this.filteredFeatures = this.model.features.filter(model => {
-      return model.length <= 0.00001;
-    });
+    // Filter features for drawing, if there is an array of tags to filter, use them, otherwise
+    // use length of individual models.
+    let filterArr = this.model.config.marker.filter;
+    if(filterArr.length > 0) {
+      this.filteredFeatures = this.model.features.filter(model => {
+        return filterArr.some(tag => {
+          return model.tags.indexOf(tag) !== -1;
+        });
+      });
+    } else {
+      this.filteredFeatures = this.model.features.filter(model => {
+        return model.length <= 0.00001;
+      });
+    }
 
     //Place features and their labels, prepare to add to rtree
     let fmData = [];
