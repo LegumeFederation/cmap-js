@@ -170,7 +170,6 @@ describe('SceneGraphNodeBase test', function () {
     describe('draw(ctx)', function () {
       it('should not throw an error when invoked', function () {
         let p1 = baseParams('parent');
-        let p2 = baseParams('child');
         let parentNode = new SceneGraphNodeBase(p1);
         let childNode = {
           draw: function () {

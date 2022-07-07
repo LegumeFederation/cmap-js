@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - 'master'
+    paths-ignore:
+      - '*.md'
+      - '.git**'
+      - '!.github/workflows/gh-pages.yml'
+      - '.nycrc'
+      - 'LICENSE'
+      - 'test'
+
+jobs:
+  github-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - run: npm ci
+      - run: npm run build
+      - run: mkdir public && mv build cmap.json config data images index.html public/
+
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

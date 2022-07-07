@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import mq from '../../ui/mithrilQuerySetup';
+import mq from '../../ui/mithrilQuerySetup'; // eslint-disable-line no-unused-vars
 import {Bounds} from '../../../src/model/Bounds';
 import {BioMap} from '../../../src/canvas/canvas/BioMap';
 
@@ -16,7 +16,7 @@ describe('BioMap test', function () {
       // mock up test constructor to prevent _layout propegation blocking
       // tests
       let testBioMap = BioMap;
-      testBioMap.prototype._layout = function (layoutBounds) {
+      testBioMap.prototype._layout = function (layoutBounds) { // eslint-disable-line no-unused-vars
         return true;
       };
       let node = new testBioMap(params);
@@ -38,7 +38,7 @@ describe('BioMap test', function () {
       it('should return visible noded if children have visible', function () {
         let p1 = baseParams();
         let testBioMap = BioMap;
-        testBioMap.prototype._layout = function (layoutBounds) {
+        testBioMap.prototype._layout = function (layoutBounds) { // eslint-disable-line no-unused-vars
           return true;
         };
         let node = new testBioMap(p1);
@@ -48,7 +48,7 @@ describe('BioMap test', function () {
       it('should return nothing if no children are visible', function () {
         let p1 = baseParams();
         let testBioMap = BioMap;
-        testBioMap.prototype._layout = function (layoutBounds) {
+        testBioMap.prototype._layout = function (layoutBounds) { // eslint-disable-line no-unused-vars
           return true;
         };
         let node = new testBioMap(p1);
@@ -59,7 +59,7 @@ describe('BioMap test', function () {
       it('should return rbush tree of visible objects', function () {
         let p1 = baseParams();
         let testBioMap = BioMap;
-        testBioMap.prototype._layout = function (layoutBounds) {
+        testBioMap.prototype._layout = function (layoutBounds) { // eslint-disable-line no-unused-vars
           return true;
         };
         let node = new testBioMap(p1);
@@ -236,10 +236,10 @@ describe('BioMap test', function () {
       it('should be able to calculate a tap event', function () {
         let p1 = baseParams();
         let testBioMap = BioMap;
-        testBioMap.prototype._layout = function (layoutBounds) {
+        testBioMap.prototype._layout = function (layoutBounds) { // eslint-disable-line no-unused-vars
           return true;
         };
-        testBioMap.prototype._draw = function (layoutBounds) {
+        testBioMap.prototype._draw = function (layoutBounds) { // eslint-disable-line no-unused-vars
           return true;
         };
         let node = new testBioMap(p1);
@@ -262,10 +262,10 @@ describe('BioMap test', function () {
       it('should load a new hit map', function () {
         let p1 = baseParams();
         let testBioMap = BioMap;
-        testBioMap.prototype._layout = function (layoutBounds) {
+        testBioMap.prototype._layout = function (layoutBounds) { // eslint-disable-line no-unused-vars
           return true;
         };
-        testBioMap.prototype._draw = function (layoutBounds) {
+        testBioMap.prototype._draw = function (layoutBounds) { // eslint-disable-line no-unused-vars
           return true;
         };
         let node = new testBioMap(p1);
@@ -294,10 +294,13 @@ const baseParams = function () {
         stop: 100
       },
       config: {
-        rulerSteps: 100
+        ruler: {
+          steps: 100
+        }
       }
     },
     appState: {},
-    layoutBounds: bounds
+    layoutBounds: bounds,
+    initialView: []
   };
 };
