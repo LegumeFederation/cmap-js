@@ -2,12 +2,6 @@
 
 See demo at https://legumefederation.github.io/cmap-js
 
-```
-CMAP-JS IS SOFTWARE STILL IN DEVELOPMENT. FEATURES AND LAYOUT ARE SUBJECT
-TO CHANGE WITHOUT NOTICE. PLEASE LEAVE FEEDBACK WITH THE PROJECT IF YOU
-HAVE ANY REQUESTS FOR ADDED FEATURES OR INTERFACE CHANGES SO THAT THEY CAN
-BE CONSIDERED.
-```
 
 Display and compare biological maps (genetic, physical, cytogenetic, genomic;
 linkage groups, chromosomes, scaffolds).
