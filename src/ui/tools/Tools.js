@@ -8,6 +8,8 @@ import {RemoveMapButton} from './RemoveMapButton';
 import {AddMapButton} from './AddMapButton';
 import {ConfigurationButton} from './ConfigurationButton';
 import {UploadButton} from './UploadButton';
+import {ExportImageButton} from './ExportImageButton';
+import {ExportImageDialog} from './ExportImageDialog';
 //import {FilterButton} from './FilterButton';
 import {MapRemovalDialog} from './MapRemovalDialog';
 import {MapAdditionDialog} from './MapAdditionDialog';
@@ -49,6 +51,9 @@ export class Tools {
         }),
         m(UploadButton, {
           onclick: () => this.currentDialog = UploadDialog
+        }),
+        m(ExportImageButton, {
+          onclick: () => this.currentDialog = ExportImageDialog
         })
       ]),
       this.currentDialog && m(this.currentDialog, {

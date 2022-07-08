@@ -37,7 +37,8 @@ export class CMAP {
 
       let promises = this.appState.load(config);
       Promise.all(promises).then(() => {
-        if ('view' in viewOverride && viewOverride.view.length){
+        if (viewOverride.view && viewOverride.view.length){
+
           let overrideInitialView = [];
           if( typeof viewOverride.view === 'string'){ viewOverride.view = [viewOverride.view];}
           viewOverride.view.forEach( (view) =>{

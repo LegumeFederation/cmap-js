@@ -49,6 +49,15 @@ export class MapTrack extends SceneGraphNodeTrack {
     this.markerGroup = markerGroup;
     markerGroup.bounds = this.backbone.bounds;
     this.addChild(markerGroup);
+    let labelGroup = new SceneGraphNodeGroup({parent: this});
+    this.addChild(labelGroup);
+    this.labelGroup = labelGroup;
+    labelGroup.bounds = new Bounds({
+      top: 0,
+      left: this.backbone.bounds.right + 1,
+      height: this.bounds.height,
+      width: 0
+    });
     // Filter features for drawing, if there is an array of tags to filter, use them, otherwise
     // use length of individual models.
     let filterArr = this.model.config.marker.filter;

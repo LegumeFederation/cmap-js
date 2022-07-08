@@ -74,6 +74,9 @@ export const defaultConfig = {
     'labelPosition': 1,
     'labelPadding' : 0,
     'filter' : [],
+    'labelPosition' : 'column',
+    'labelColor' : 'black',
+    'filter' : []
   },
 
   'manhattan' :{
