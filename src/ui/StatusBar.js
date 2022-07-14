@@ -1,6 +1,6 @@
 /**
  * StatusBar
- * A mithril component of a status bar and/or footer.
+ * A mithril component of a status bar and/or footer. NOTE: currently unused
  */
 import m from 'mithril';
 

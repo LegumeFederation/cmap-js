@@ -37,8 +37,23 @@ export class CMAP {
 
       let promises = this.appState.load(config);
       Promise.all(promises).then(() => {
-        let queryString = Query;
-        this.appState = queryString.stateFromQuery(this.appState);
+
+      let queryString = Query;
+      this.appState = queryString.stateFromQuery(this.appState);
+        
+        if (viewOverride.view && viewOverride.view.length){
+
+          let overrideInitialView = [];
+          if( typeof viewOverride.view === 'string'){ viewOverride.view = [viewOverride.view];}
+          viewOverride.view.forEach( (view) =>{
+            const filter = this.appState.allMaps.filter( map => map.name == view);
+            if(filter.length){
+              overrideInitialView.push(filter[0]);
+            }
+          });
+          this.appState.bioMaps = overrideInitialView;
+        }
+
         this.appState.status = '';
         this.appState.busy = false;
       });

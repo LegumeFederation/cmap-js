@@ -1,10 +1,10 @@
 // load mithrilQuery, because the AppModel is composed of DataSourceModel which
 // will use m.request() to fetch data files.
-import mq from '../ui/mithrilQuerySetup';
+import mq from '../ui/mithrilQuerySetup'; // eslint-disable-line no-unused-vars
 import {expect} from 'chai';
 import {AppModel} from '../../src/model/AppModel';
 
-const config = require('../../cmap.json');
+// const config = require('../../cmap.json');
 
 describe('AppModel test', function () {
 
