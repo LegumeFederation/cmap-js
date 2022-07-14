@@ -6,7 +6,8 @@ import m from 'mithril';
 
 import {AppModel} from './../model/AppModel';
 import {UI} from './UI';
-import queryString from 'query-string';
+import Query from './../util/QueryControl';
+
 /* istanbul ignore next: mithril-query does not work with m.mount, and dom id is hardcoded as well */
 export class CMAP {
 
@@ -33,10 +34,13 @@ export class CMAP {
       let plural = numSources > 1 ? 's' : '';
 
       this.appState.status = `loading ${numSources} data file${plural}...`;
-      let viewOverride = queryString.parse(location.search);
 
       let promises = this.appState.load(config);
       Promise.all(promises).then(() => {
+
+      let queryString = Query;
+      this.appState = queryString.stateFromQuery(this.appState);
+        
         if (viewOverride.view && viewOverride.view.length){
 
           let overrideInitialView = [];
@@ -49,6 +53,7 @@ export class CMAP {
           });
           this.appState.bioMaps = overrideInitialView;
         }
+
         this.appState.status = '';
         this.appState.busy = false;
       });

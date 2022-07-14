@@ -14,6 +14,8 @@ import {LayoutContainer} from './layout/LayoutContainer';
 import {RegisterComponentMixin} from './RegisterComponentMixin';
 import {reset} from '../topics';
 
+import Query from '../util/QueryControl';
+
 export class UI extends mix().with(RegisterComponentMixin) {
 
   /**
@@ -170,6 +172,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
         this.panLock = false;
       }
     }
+    Query.update(this.appState);
 
   }
 

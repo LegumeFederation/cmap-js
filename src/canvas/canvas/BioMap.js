@@ -38,16 +38,19 @@ export class BioMap extends SceneGraphNodeCanvas {
       start: this.model.coordinates.start,
       stop: this.model.coordinates.stop
     };
+    let bm =appState.bioMaps[bioMapIndex].view; //in case the view was altered by the querystring to start
+    if(bm === undefined) bm = {};
+    bm.visible = bm.visible || {};
     this.model.view = {
       base: {
         start: this.model.coordinates.start,
         stop: this.model.coordinates.stop
       },
       visible: {
-        start: this.model.coordinates.start,
-        stop: this.model.coordinates.stop
+        start: bm.visible.start ? bm.visible.start : this.model.coordinates.start,
+        stop: bm.visible.stop ? bm.visible.stop : this.model.coordinates.stop,
       },
-      invert : this.model.config.invert
+      invert : (typeof bm.invert === 'boolean') ? bm.invert :this.model.config.invert
     };
 
     this.model.manhattanPlot = this.initialView.manhattan || null;
