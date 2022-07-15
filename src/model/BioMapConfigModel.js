@@ -28,7 +28,7 @@ export class BioMapConfigModel {
  * Constant that defines the default configuration of cmap maps
  * when no other configuration information is present.
  *
- * @type {{backboneWidth: number, backboneColor: string, invert: boolean, markerColor: string, markerWeight: number, markerLabelSize: number, markerLabelFace: string, markerLabelColor: string, rulerWidth: number, rulerSpacing: number, rulerColor: string, rulerLabelFace: string, rulerLabelSize: number, rulerLabelColor: string, rulerPrecision: number, rulerSteps: number, trackWidth: number, trackSpacing: number, fillColor: string, trackLabelSize: number, trackLabelFace: string, trackLabelColor: string}}
+ * @type {{backbone: {width: number, fillColor: string, lineWeight: number, lineColor: string}, ruler: {width: number, padding: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelColor: string, innerLineWeight: number, innerLineColor: string, precision: number, steps: number, side: string}, track: {width: number, padding: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelColor: string, internalPadding: string}, marker: {lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelStyle: string, labelColor: string, filter: Array}, manhattan: {width: number, fillColor: string, lineWeight: number, lineColor: string, labelFace: string, labelSize: number, labelStyle: string, labelColor: string, displayWidth: number, featureLineWeight: number, featureLineColor: string, rulerWeight: number, rulerColor: string, rulerMajorMark: number, rulerMinorMark: number, type: string}, qtl: {padding: number, width: number, fillColor: string[], labelSize: number, labelFace: string, labelColor: string, labelStyle: string, trackMinWidth: number, internalPadding: number, position: number, type: string}, invert: boolean}}
  */
 
 export const defaultConfig = {
@@ -50,7 +50,8 @@ export const defaultConfig = {
     'innerLineWeight' : 1.0,
     'innerLineColor' : 'black',
     'precision' : 2,
-    'steps' : 100
+    'steps' : 100,
+    'position': -1
   },
   'track' : {
     'width' : 5,
@@ -68,6 +69,11 @@ export const defaultConfig = {
     'lineColor' : 'black',
     'labelFace' : 'Nunito',
     'labelSize' : 12,
+    'labelStyle' : 'block',
+    'labelColor' : 'black',
+    'labelPosition': 1,
+    'labelPadding' : 0,
+    'filter' : [],
     'labelPosition' : 'column',
     'labelColor' : 'black',
     'filter' : []
@@ -80,7 +86,7 @@ export const defaultConfig = {
     'lineColor':'black',
     'labelFace' : 'Nunito',
     'labelSize' : 10,
-    'labelPosition' : 'none',
+    'labelStyle' : 'none',
     'labelColor' : 'black',
     'displayWidth' : 50,
     'featureLineWeight' : 3,
@@ -98,7 +104,7 @@ export const defaultConfig = {
     'labelSize': 12,
     'labelFace': 'Nunito',
     'labelColor': 'black',
-    'labelPosition': 'feature',
+    'labelStyle': 'block',
     'trackMinWidth' : 50,
     'internalPadding': 5,
     'position' : 1,

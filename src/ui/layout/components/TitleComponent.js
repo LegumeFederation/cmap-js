@@ -135,11 +135,13 @@ export let TitleComponent = {
       }
 
       let shiftScale = this.bioMaps[this.order].domBounds.width / this.bioMaps[movedMap].domBounds.width;
-      this.bioMaps[this.order].domBounds.left += delta.x;
-      this.bioMaps[this.order].domBounds.right += delta.x;
+      this.bioMaps[this.order].domBounds.translate(delta.x,0);
+      //this.bioMaps[this.order].domBounds.left += delta.x;
+      //this.bioMaps[this.order].domBounds.right += delta.x;
       const mw = this.bioMaps[movedMap].domBounds.width;
-      this.bioMaps[movedMap].domBounds.left -= delta.x * shiftScale;
-      this.bioMaps[movedMap].domBounds.right = this.bioMaps[movedMap].domBounds.left + mw;
+      this.bioMaps[movedMap].domBounds.translate(-delta.x*shiftScale,0);
+//      this.bioMaps[movedMap].domBounds.left -= delta.x * shiftScale;
+//      this.bioMaps[movedMap].domBounds.right = this.bioMaps[movedMap].domBounds.left + mw;
 
     } else { // edge case don't move map
       this.left -= delta.x;

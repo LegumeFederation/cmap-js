@@ -39,11 +39,11 @@ export class QTL extends SceneGraphNodeBase {
     this.start = this.invert ? this.model.coordinates.stop : this.model.coordinates.start;
     this.stop = this.invert ? this.model.coordinates.start : this.model.coordinates.stop;
 
-    if(initialConfig.labelPosition !== 'none') {
+    if(initialConfig.labelStyle !== 'none') {
       this.labelColor = initialConfig.labelColor || config.labelColor;
       this.labelSize = initialConfig.labelSize || config.labelSize;
       this.labelFace = initialConfig.labelFace || config.labelFace;
-      if(initialConfig.labelPosition === 'feature') this.offset += this.labelSize;
+      if(initialConfig.labelStyle === 'feature') this.offset += this.labelSize;
     }
 
     // Calculate start/end position, then

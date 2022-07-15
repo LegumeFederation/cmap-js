@@ -74,9 +74,6 @@ export class Dot extends SceneGraphNodeBase {
     ctx.stroke();
 
     //update bounding box
-    this.bounds.top = y - this.radius;
-    this.bounds.left = x - this.radius;
-    this.bounds.width = 2 * this.radius;
-    this.bounds.height = 2 * this.radius;
+    this.bounds.translate(x-this.radius-this.bounds.left, y-this.radius-this.bounds.top);
   }
 }

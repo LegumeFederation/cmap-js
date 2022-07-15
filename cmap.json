@@ -15,7 +15,8 @@
             "QTL_other-seed"
           ],
           "fillColor": ["yellow"],
-          "labelPosition": "feature"
+          "labelStyle": "block",
+          "labelPosition" : -1
         },{
           "type": "qtl",
           "filters": [
@@ -23,7 +24,7 @@
             "QTL_root"
           ],
           "fillColor": ["green","red"],
-          "labelPosition": "feature"
+          "labelStyle": "feature"
         }
       ]
   },{
