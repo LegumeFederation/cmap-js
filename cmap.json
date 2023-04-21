@@ -133,7 +133,7 @@
     }, {
       "id" : "gm_composite",
       "method": "GET",
-      "url" : "data/Soybean-GmComposite2003.cmap",
+      "url" : "data/Soybean-GmComposite2003.cmap.gz",
       "filters" : [],
       "linkouts" : [
         {

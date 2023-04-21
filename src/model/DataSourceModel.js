@@ -27,7 +27,7 @@ export class DataSourceModel {
     this.method = method;
     this.data = data;
     this.url = url;
-    this.config = config || {};
+    this.config = config || ((url.endsWith('.gz')) ? function(xhr) { xhr.responseType = 'blob'; } : {});
     this.bioConfig = {'default': defaultConfig};
     // request bioconfig urlpage as a promise, if it is gettable, fill in all
     // default values that aren't defined using the base config, otherwise
@@ -95,6 +95,15 @@ export class DataSourceModel {
     this.parseResult = res;
   }
 
+  extract(xhr, options) {
+    if (xhr.responseType == 'blob') {
+      const ds = new DecompressionStream('gzip');
+      const response = new Response(xhr.response.stream().pipeThrough(ds));
+      response.text().then((responseText) => {return this.deserialize(responseText);});
+    } else {
+      return this.deserialize(xhr.responseText);
+    }
+  }
   /**
    * Check record against filters and return true for inclusion. All filters are
    * processed sequentially and the result is all or nothing, effectively like
