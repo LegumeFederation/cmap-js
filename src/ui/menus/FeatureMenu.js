@@ -326,15 +326,12 @@ export let TrackMenu = {
         }, '-'));
       }
       controls.push(m('button', {
-          
           onclick: () => {
             vnode.state.hidden[order] = vnode.state.hidden[order] === 'none' ? 'block' : 'none';
-          },
-          style: `background-color:${vnode.state.picker[order]}`
-        }
-        // , m('div',
-        // {style: `background-color:${vnode.state.picker[order]}`}
-        // , '■')
+          }
+        }, m('div',
+        {style: `color:${vnode.state.picker[order]}`}
+        , '■')
       ));
       return [m(Dropdown, {
         settings: dropSettings,
