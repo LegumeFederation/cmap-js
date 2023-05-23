@@ -316,21 +316,25 @@ export let TrackMenu = {
           onclick: () => {
             selected[selected.length] = {name: vnode.state.info.tagList[0], index: 0};
           }
-        }, '+')
+        }, m('div', {
+          style: 'font-size:25px;'
+        }, '+'))
       ];
       if (selected.length > 1) {
         controls.push(m('button', {
           onclick: () => {
             selected.splice(order, 1);
           }
-        }, '-'));
+        }, m('div', {
+          style: 'font-size:25px;'
+        }, '-')));
       }
       controls.push(m('button', {
           onclick: () => {
             vnode.state.hidden[order] = vnode.state.hidden[order] === 'none' ? 'block' : 'none';
           }
         }, m('div',
-        {style: `color:${vnode.state.picker[order]}`}
+        {style: `color:${vnode.state.picker[order]};font-size:25px;`}
         , '■')
       ));
       return [m(Dropdown, {
