@@ -103,9 +103,13 @@ export class FeatureMenu {
             m(CloseButton, {model: model, config: settings, order: order, reset: defaultSettings}),
          
             m(TitleBox, {settings: settings}),
-            m(Instruction),
+            
             m(TrackMenu, {info: trackConfig, count: 0}),
-            m('div', {style: 'text-align:center'}, controls)
+            m(Instruction),
+            m('br'),
+            //  m('br'),
+            m('div', { style: 'margin-bottom: 1px;' }), 
+            m('div', {style: ' text-align: center;'}, controls)
           ]
         );
       },
@@ -148,7 +152,7 @@ export let _removeButton = {
 //Instruction 
 export const Instruction = {
   view: function() {
-    return m('div', { style: 'float: right;' }, [
+    return m('div', { style: 'margin-left: 50%;' }, [
       m('p', 'To add or change a track to the map:'),
       m('ol', [
         m('li', 'Choose a marker type from the dropdown list.'),
