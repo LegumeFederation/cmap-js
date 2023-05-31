@@ -105,11 +105,8 @@ export class FeatureMenu {
             m(TitleBox, {settings: settings}),
             m(Instruction),
             m(TrackMenu, {info: trackConfig, count: 0}),
-            // m(Instruction),
             m('br', { style: 'clear:both;' }),
-            //  m('br'),
-            // m('div', { style: 'margin-bottom: 1px;' }), 
-            m('div', {style: ' text-align: center;'}, controls)
+            m('div', {style: 'margin-top: 25px; text-align: center;'}, controls)
           ]
         );
       },
@@ -154,24 +151,24 @@ export const Instruction = {
   view: function() {
    
       return m('div', { style: 'overflow:auto;float: right; width: 50%;height:60%;'  }, [
-      m('p',{style:'font-size: x-small; margin-bottom: 5px;'} ,'To add or change a track to the map:'),
-      m('ol', {style:'font-size: x-small; margin-bottom: 5px;'}, [
+      m('p',{style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'} ,'To add or change a track to the map:'),
+      m('ol', {style:'font-size: small; margin-bottom: 5px;'}, [
         m('li', 'Choose a marker type from the dropdown list.'),
         m('li', 'Change the Track title which will be present on the map.'),
         m('li', 'Click on the button with the colored square.'),
         m('li', 'Choose a color for the particular marker type.'),
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
-      m('p', {style:'font-size: x-small; margin-bottom: 5px;'}, 'To add more than one marker type to a track:'),
-      m('ol', {style:'font-size: x-small; margin-bottom: 5px;'}, [
+      m('p', {style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'}, 'To add more than one marker type to a track:'),
+      m('ol', {style:'font-size: small; margin-bottom: 5px;'}, [
         m('li', 'Click on the "+" button.'),
         m('li', 'Choose the marker type from the dropdown list.'),
         m('li', 'Click on the button with the colored square.'),
         m('li', 'Choose a color for the particular marker type.'),
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
-      m('p',{style:'font-size: x-small; margin-bottom: 5px;'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
-      m('p', {style:'font-size: x-small; margin-bottom: 5px;'},'The new configured track will be drawn on the map.')
+      m('p',{style:'font-size: small; margin-bottom: 5px;'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
+      m('p', {style:'font-size: small; margin-bottom: 5px;'},'The new configured track will be drawn on the map.')
     ]);
   }
 };
