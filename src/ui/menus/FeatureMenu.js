@@ -167,8 +167,8 @@ export const Instruction = {
         m('li', 'Choose a color for the particular marker type.'),
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
-      m('p',{style:'font-size: small; margin-bottom: 5px;'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
-      m('p', {style:'font-size: small; margin-bottom: 5px;'},'The new configured track will be drawn on the map.')
+      m('p',{style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
+      m('p', {style:'font-size: medium; margin-bottom: 5px;'},'The new configured track will be drawn on the map.')
     ]);
   }
 };
