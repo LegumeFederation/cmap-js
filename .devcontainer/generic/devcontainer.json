@@ -1,0 +1,12 @@
+{
+    "name": "Generic (VS Code) configuration",
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+	"onCreateCommand": "git config --global --add safe.directory /workspaces/cmap-js && git submodule update --init",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint"
+			]
+		}
+	}
+}

@@ -9,6 +9,7 @@ linkage groups, chromosomes, scaffolds).
 
 ## Setup
 
+### General Setup
 Prerequisite: `npm` is required so install [NodeJs](https://nodejs.org) if you
 do not have it. `npm` is used as javascript package manager and task runner
 here.
@@ -20,10 +21,18 @@ here.
     git submodule init
     git submodule update
     ```
-- Install the required javascript packages listed in `package.json`
+- Install the required javascript packages listed in `package.json` / `package-lock.json`
     ```
-    npm install
+    npm ci
     ```
+
+### Dev Container (VS Code and GitHub Codespaces)
+[VS Code](https://code.visualstudio.com/) or [GitHub Codespace](https://docs.github.com/en/codespaces/overview) users can use a [Dev Container](https://containers.dev/) to simplify setup for cmap-js (see additional instructions for [setting up VS Code](https://code.visualstudio.com/docs/devcontainers/containers) to use dev containers).
+
+After opening the respository in a dev container (VS Code: first run [Clone Repository](https://code.visualstudio.com/docs/sourcecontrol/github#_cloning-a-repository)), issue the following command to install required javascript packages:
+
+    npm ci
+
 ### Potential Issues
 There has been a report of node getting stuck during install on macOS. This is
 not a cmap-js issue, but should be fixable following the directions found [here](http://osxdaily.com/2016/07/26/fix-stuck-pkg-verifying-installer-mac-os-x/).
