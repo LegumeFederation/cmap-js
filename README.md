@@ -44,7 +44,7 @@ written into the `build/` directory. Here are some of the available scripts:
 
 ```
 npm run lint     # run linter only
-npm run build    # linter and rollup, babel
+npm run build    # linter and rollup, babel (set NODE_ENV=production to minify)
 npm run test     # mocha test runner
 npm run coverage # mocha and istanbul coverage report
 npm run watch    # build, watch and livereload

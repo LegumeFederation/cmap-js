@@ -24,6 +24,8 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+        env:
+          NODE_ENV: production
       - run: mkdir _site && mv build cmap.json config data images index.html _site
      
       # create artifact.tar from ./_site directory & upload as artifact named 'github-pages'
