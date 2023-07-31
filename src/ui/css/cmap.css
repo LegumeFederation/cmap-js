@@ -66,7 +66,9 @@ html, body {
     height: calc(100% - 2rem);
     position: relative;
 }
-
+#cmap-layout-titles {
+    display: inline-flex;
+}
 .cmap-correspondence-map {
     /* border: dashed 2px cyan; */
 }
@@ -106,6 +108,7 @@ span.cmap-header {
     margin: 0 0.5rem 0 0.5rem;
 }
 
+/* Button Styling */
 button > i {
     vertical-align: -30%;
 }
@@ -115,11 +118,27 @@ div.cmap-tools button {
     padding-left: 1rem;
     padding-right: 1rem;
 }
-
-button[disabled] {
+button[disabled], button:active, .feature-title:active {
     background: #ccc;
     border-color: #ccc;
     text-shadow: none;
+}
+.close-button {
+    width: fit-content;
+    display: flex;
+    margin-left: auto;
+}
+.close-button:hover {
+    cursor: pointer;
+    color: #3d3d3d;
+}
+.remove-button {
+    background-color: #dc3545;
+    color: black;
+}
+.remove-button:hover {
+    color: black;
+    background-color: #c32f3e;
 }
 
 span.cmap-map-name-chip {
@@ -190,12 +209,13 @@ span.cmap-map-name-chip {
     background: white;
     border: 1px solid black;
     border-radius: 4px;
-    padding: 5px 0 5px 0;
     margin: 5px 0 5px 0;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
+    padding: 0px;
 }
 
 .feature-menu {
@@ -223,4 +243,53 @@ span.cmap-map-name-chip {
 
 .cmap-correspondence-map {
     /*border:1px dashed aqua;*/
+}
+.track-select {
+    overflow:auto;
+    width:50%;
+    height:60%;
+    float:left
+}
+.title-box {
+    display:block;
+    width:10%;
+}
+.control-parent {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.cmap-instructions {
+    overflow:auto;
+    float: right;
+    width: 50%;
+    height:60%;
+}
+.cmap-instructions-text {
+    margin-bottom: 5px;
+}
+/* Modal Styling */
+.cmap-modal {
+    height: 100%;
+    width: 100%;
+}
+.cmap-modal-controls {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+/* Typography */
+.fs-25 {
+    font-size: 25px;
+}
+.fs-small {
+    font-size: small;
+}
+.fs-medium {
+    font-size: medium;
+}
+.bold {
+    font-weight: bold;
 }
