@@ -54,7 +54,7 @@ export default {
       open: true,
       verbose: true,
       contentBase: '',
-      host: 'localhost',
+      host: '0.0.0.0',
       port: 8888
     })),
     (process.env.WATCH === 'yes' && livereload()),
