@@ -44,7 +44,9 @@ html, body {
     flex: auto; /* expand to fill the vertical space allowed by flexbox */
     position: relative;
 }
-
+#cmap-layout-viewport {
+    position: relative;
+}
 .cmap-layout-container {
     position: absolute;;
     width: calc(100% - 2rem);
@@ -140,6 +142,10 @@ button[disabled], button:active, .feature-title:active {
     color: black;
     background-color: #c32f3e;
 }
+.color-canvas-button {
+    display:block;
+    width:100%;
+}
 
 span.cmap-map-name-chip {
     background: #eee;
@@ -181,6 +187,8 @@ span.cmap-map-name-chip {
     z-index: 10000;
     border: 1px solid #bbb;
     border-radius: 4px;
+    display:grid;
+    position:relative;
 }
 
 .swap-map-order {
@@ -205,6 +213,7 @@ span.cmap-map-name-chip {
 }
 
 .feature-title {
+    position:absolute;
     z-index: 1000;
     background: white;
     border: 1px solid black;
@@ -234,6 +243,27 @@ span.cmap-map-name-chip {
     border: 1px solid #bbb;
     border-radius: 4px;
     background: white;
+}
+.color-canvas-element {
+    margin-left:10px;
+    width: 20;
+    height: 100;
+}
+.color-apply-controls {
+    text-align:center;
+    margin-left:10px;
+    display:inline-block;
+    padding:auto;
+}
+.color-canvas-main {
+    width: 200;
+    height: 100;
+}
+.color-apply-buttons {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    gap: 10px;
 }
 
 .cmap-biomap {

@@ -89,7 +89,7 @@ export class ConfigurationDialog {
       m('h5', 'Configuration Details'),
       m('form', [
         m('textarea', {
-            style: 'width:50%;height:600%',
+            style: 'width:50%;height:40vh',
             value: ConfigData.updated,
             onchange: function (e) {
               e.preventDefault();

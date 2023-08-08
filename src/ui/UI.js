@@ -54,7 +54,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
       m(Tools, childAttrs),
       m('div#cmap-layout-titles'),
       [m('div.cmap-menu-viewport#cmap-menu-viewport', {style: 'display:none;'}),
-        m('div.cmap-layout-viewport.cmap-hbox', {id: 'cmap-layout-viewport', style: 'position:relative;'},
+        m('div.cmap-layout-viewport.cmap-hbox', {id: 'cmap-layout-viewport'},
           m(LayoutContainer, {
             appState: this.appState,
             registerComponentCallback: (comp) => this._layoutContainer = comp
