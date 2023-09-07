@@ -59,7 +59,7 @@
       "map" : "glyma.Chr01"
         
     }, {
-     "source" : "gm_composite",
+     "source" : "gm_composite2003",
      "map" : "D1a",
      "tracks" : [{
         "type" : "qtl",
@@ -131,7 +131,7 @@
         }
       ]
     }, {
-      "id" : "gm_composite",
+      "id" : "gm_composite2003",
       "method": "GET",
       "url" : "data/Soybean-GmComposite2003.cmap",
       "filters" : [],
