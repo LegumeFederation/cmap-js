@@ -181,21 +181,22 @@ export let TitleBox = {
    * @returns {*}
    */
   oninit: function (vnode) {
-    vnode.state.value = vnode.attrs.settings.title;
+    vnode.state.attrs = vnode.attrs;
+    vnode.state.value = vnode.state.attrs.settings.title;
   },
   view: function (vnode) {
     return m('div',{},'Track title: ',
       m('input[type=text].title-input', {
         style: 'display:block; width:10%;',
-        defaultValue : vnode.attrs.settings.title,
-        oninput: m.withAttr('value', function (value) {
+        defaultValue : vnode.state.attrs.settings.title,
+        oninput: function (e) {
           try {
-            vnode.attrs.settings.title = value;
+            vnode.state.attrs.settings.title = e.target.value;
           } catch (e) {
             // expect this to fail silently, as most typing will not actually give
             // a proper hex triplet/sextet
           }
-        })
+        }
       })
     );
   }
@@ -304,9 +305,9 @@ export let TrackMenu = {
    */
 
   oninit: function (vnode) {
-    vnode.state = vnode.attrs;
-    vnode.state.hidden = [];
-    vnode.state.picker = [];
+      vnode.state.attrs = vnode.attrs;
+      vnode.state.hidden = [];
+      vnode.state.picker = [];
   },
 
   /**
@@ -396,7 +397,7 @@ export let Dropdown = {
    */
 
   oninit: function (vnode) {
-    vnode.state = vnode.attrs;
+    vnode.state.attrs = vnode.attrs;
   },
   /**
    *
@@ -404,10 +405,10 @@ export let Dropdown = {
    */
 
   onbeforeupdate: function (vnode) {
-    if (vnode.state.count > vnode.attrs.parentDiv.count) {
-      vnode.attrs.parentDiv.count = vnode.state.count;
+    if (vnode.state.attrs.count > vnode.state.attrs.parentDiv.count) {
+      vnode.state.attrs.parentDiv.count = vnode.state.attrs.count;
     } else {
-      vnode.state.count = vnode.attrs.parentDiv.count;
+      vnode.state.attrs.count = vnode.state.attrs.parentDiv.count;
     }
   },
 
@@ -418,8 +419,8 @@ export let Dropdown = {
    */
 
   view: function (vnode) {
-    let order = vnode.state.order;
-    let settings = vnode.state.settings;
+    let order = vnode.state.attrs.order;
+    let settings = vnode.state.attrs.settings;
     return m('div', m('select', {
       id: `selector-${order}`,
       selectedIndex: settings.selected[order].index,
@@ -431,7 +432,7 @@ export let Dropdown = {
     }, [settings.tags.map(tag => {
       return m('option', tag);
     })
-    ]), m(ColorPicker, {settings: vnode.state.settings, order: order, hidden: vnode.state.hidden}));
+    ]), m(ColorPicker, {settings: vnode.state.attrs.settings, order: order, hidden: vnode.state.attrs.hidden}));
   }
 };
 
