@@ -19,9 +19,9 @@ export let ColorPicker = {
    */
 
   oninit: function (vnode) {
-    vnode.state = vnode.attrs;
+    vnode.state.attrs = vnode.attrs;
     vnode.state.colors = {
-      baseColor: vnode.attrs.settings.fillColor[vnode.attrs.order] || 'red',
+      baseColor: vnode.state.attrs.settings.fillColor[vnode.state.attrs.order] || 'red',
       currentColor: null,
       hueValueColor: null
     };
@@ -73,18 +73,18 @@ export let BaseSelector = {
   oncreate: function (vnode) {
     vnode.dom.mithrilComponent = this;
     this.vnode = vnode;
-    vnode.state = vnode.attrs;
+    vnode.state.attrs = vnode.attrs;
     vnode.state.canvas = this.el = vnode.dom;
     vnode.state.context2d = vnode.dom.getContext('2d');
-    if (!vnode.state.info.currentColor || !vnode.state.info.hueValueColor) {
-      vnode.state.context2d.fillStyle = vnode.state.info.colors.baseColor;
+    if (!vnode.state.attrs.info.currentColor || !vnode.state.attrs.info.hueValueColor) {
+      vnode.state.context2d.fillStyle = vnode.state.attrs.info.colors.baseColor;
       //use the context to convert the original color into a hex string
       //avoiding needing to parse html color words
-      vnode.state.info.colors.baseColor = vnode.state.context2d.fillStyle;
-      vnode.state.info.colors.currentColor = vnode.state.context2d.fillStyle;
-      vnode.state.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.state.context2d.fillStyle));
+      vnode.state.attrs.info.colors.baseColor = vnode.state.context2d.fillStyle;
+      vnode.state.attrs.info.colors.currentColor = vnode.state.context2d.fillStyle;
+      vnode.state.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.state.context2d.fillStyle));
     }
-    vnode.state.ptrPos = this._posFromHsv(vnode.state.info.colors.hueValueColor);
+    vnode.state.ptrPos = this._posFromHsv(vnode.state.attrs.info.colors.hueValueColor);
     this._gestureRegex = {
       pan: new RegExp('^pan'),
       tap: new RegExp('^tap')
@@ -278,22 +278,22 @@ export let SaturationSelector = {
   oncreate: function (vnode) {
     vnode.dom.mithrilComponent = this;
     this.vnode = vnode;
-    vnode.state = vnode.attrs;
+    vnode.state.attrs = vnode.attrs;
     vnode.state.canvas = this.el = vnode.dom;
     vnode.state.context2d = vnode.dom.getContext('2d');
-    if (!vnode.state.info.colors.hueValueColor[1]) {
-      vnode.context2d.fillStyle = vnode.state.info.colors.baseColor;
+    if (!vnode.state.attrs.info.colors.hueValueColor[1]) {
+      vnode.state.context2d.fillStyle = vnode.state.attrs.info.colors.baseColor;
       //use the context to convert the original color into a hex string
       //avoiding needing to parse html color words
-      vnode.state.info.colors.hueValueColor[1] = rgbToHsv(hexToRgb(vnode.state.context2d.fillStyle))[1];
+      vnode.state.attrs.info.colors.hueValueColor[1] = rgbToHsv(hexToRgb(vnode.state.context2d.fillStyle))[1];
     }
-    vnode.state.ptrPos = this._posFromHsv(vnode.state.info.colors.hueValueColor);
+    vnode.state.ptrPos = this._posFromHsv(vnode.state.attrs.info.colors.hueValueColor);
     this._gestureRegex = {
       pan: new RegExp('^pan'),
       tap: new RegExp('^tap')
     };
     PubSub.subscribe('hueValue', (msg, data) => {
-      if (data.order === vnode.state.info.order) this._hueUpdated(data.color);
+      if (data.order === vnode.state.attrs.info.order) this._hueUpdated(data.color);
     });
     this._gestureRegex = {
       pan: new RegExp('^pan'),
@@ -558,14 +558,14 @@ export let ColorBox = {
    */
 
   oninit: function (vnode) {
-    this.canvas = this.el = vnode.dom;
-    this.order = vnode.attrs.info.order;
-    vnode.state.value = vnode.attrs.info.colors.currentColor;
-    PubSub.subscribe('satUpdated', (msg, data) => {
-      if (this.order === data.order) {
-        vnode.dom.value = vnode.attrs.info.colors.currentColor;
-      }
-    });
+      vnode.state.attrs = vnode.attrs;
+      this.order = vnode.state.attrs.info.order;
+      vnode.state.value = vnode.state.attrs.info.colors.currentColor;
+      PubSub.subscribe('satUpdated', (msg, data) => {
+          if (this.order === data.order) {
+              vnode.state.value = vnode.state.attrs.info.colors.currentColor;
+          }
+      });
   },
 
   /**
@@ -578,8 +578,9 @@ export let ColorBox = {
     // store these bounds, for checking in drawLazily()
     return m('input[type=text].color-input', {
       style: 'display:block; width:100%;',
-      oninput: m.withAttr('value', function (value) {
+      oninput: function (e) {
         try {
+          let value = e.target.value;
           let code = value.match(/^#?([a-f\d]*)$/i);
           let str = code[1];
           if (code[1].length === 3) {
@@ -591,10 +592,9 @@ export let ColorBox = {
           // expect this to fail silently, as most typing will not actually give
           // a proper hex triplet/sextet
         }
-      })
+      }
     });
   },
-
   /**
    *
    * @returns {boolean}

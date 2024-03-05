@@ -11,17 +11,16 @@ import {mapReorder} from '../../../topics';
 
 export let TitleComponent = {
   oninit: function (vnode) {
-    vnode.state = vnode.attrs;
+    vnode.state.attrs = vnode.attrs;
     vnode.state.left = 0;
-    vnode.state.domOrder = vnode.state.titleOrder.indexOf(vnode.state.order);
-    vnode.state.leftBound = vnode.state.bioMaps[vnode.state.order].domBounds.left;
-    vnode.state.rightBound = vnode.state.bioMaps[vnode.state.order].domBounds.right;
-    vnode.state.leftStart = vnode.state.bioMaps[vnode.state.order].domBounds.left;
+    vnode.state.domOrder = vnode.state.attrs.titleOrder.indexOf(vnode.state.attrs.order);
+    vnode.state.leftBound = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.left;
+    vnode.state.rightBound = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.right;
+    vnode.state.leftStart = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.left;
     vnode.state._gestureRegex = {
       pan: new RegExp('^pan')
     };
   },
-
   oncreate: function (vnode) {
     // register mithrilComponent for gesture handling
     vnode.dom.mithrilComponent = this;
@@ -34,35 +33,35 @@ export let TitleComponent = {
 
   onbeforeupdate: function (vnode) {
     vnode.state.bioMaps = vnode.attrs.bioMaps;
-    vnode.state.domOrder = vnode.state.titleOrder.indexOf(vnode.state.order);
-    if (this.titleOrder[this.domOrder] !== this.order) {
-      this.domOrder = this.titleOrder.indexOf(this.order);
+    vnode.state.domOrder = vnode.state.attrs.titleOrder.indexOf(vnode.state.attrs.order);
+    if (vnode.state.attrs.titleOrder[vnode.state.domOrder] !== vnode.state.attrs.order) {
+      vnode.state.domOrder = vnode.state.attrs.titleOrder.indexOf(vnode.state.attrs.order);
     }
   },
 
   onupdate: function (vnode) {
-    let dispOffset = vnode.state.bioMaps[vnode.state.order].domBounds.left - vnode.state.leftStart;
+    let dispOffset = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.left - vnode.state.leftStart;
     if (vnode.state.left !== dispOffset && !vnode.state.swap) {
-      this.left = dispOffset;
-      this.dirty = true;
+      vnode.state.left = dispOffset;
+      vnode.state.dirty = true;
     }
     if (vnode.state.swap) {
-      this.left = 0;
-      this.swap = false;
-      this.dirty = true;
-      this.left = 0;
+      vnode.state.left = 0;
+      vnode.state.swap = false;
+      vnode.state.dirty = true;
+      vnode.state.left = 0;
     }
-    if (this.dirty) { // trigger redraw on changed canvas that has possibly edited bounds in process of view layout
-      this.dirty = false;
+    if (vnode.state.dirty) { // trigger redraw on changed canvas that has possibly edited bounds in process of view layout
+      vnode.state.dirty = false;
       m.redraw();
     }
   },
 
   view: function (vnode) {
-    if (!vnode.attrs || !vnode.state.contentBounds) return;
-    let bMap = vnode.state.bioMaps[vnode.state.order];
-    vnode.state.contentBounds.left = vnode.state.contentBounds.right - vnode.state.contentBounds.width;
-    let left = vnode.state.left + vnode.state.contentBounds.left;
+    if (!vnode.state.attrs || !vnode.state.attrs.contentBounds) return;
+    let bMap = vnode.state.attrs.bioMaps[vnode.state.attrs.order];
+    vnode.state.attrs.contentBounds.left = vnode.state.attrs.contentBounds.right - vnode.state.attrs.contentBounds.width;
+    let left = vnode.state.left + vnode.state.attrs.contentBounds.left;
     return m('div', {
         class: 'swap-div', id: `swap-${vnode.state.domOrder}`,
         style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.zIndex};`
@@ -73,8 +72,8 @@ export let TitleComponent = {
   },
 
   handleGesture: function (evt) {
-    if (evt.type.match(this._gestureRegex.pan)) {
-      return this._onPan(evt);
+    if (evt.type.match(this.vnode.state._gestureRegex.pan)) {
+      return this.vnode.state._onPan(evt);
     }
     return true;
   },
@@ -84,7 +83,7 @@ export let TitleComponent = {
     if (evt.type === 'panstart') {
       this.vnode.state.zIndex = 1000;
       this.lastPanEvent = null;
-      this.left = 0;
+      this.vnode.state.left = 0;
     }
     //End pan to set rearrangement
     if (evt.type === 'panend') {
