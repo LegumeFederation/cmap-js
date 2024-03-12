@@ -317,8 +317,8 @@ export let TrackMenu = {
    */
 
   view: function (vnode) {
-    let selected = vnode.state.info.selected;
-    let settings = vnode.state.info.settings;
+    let selected = vnode.state.attrs.info.selected;
+    let settings = vnode.state.attrs.info.settings;
     this.count = 0;
 
 
@@ -337,7 +337,7 @@ export let TrackMenu = {
         selected: selected,
         name: settings.filters[order],
         fillColor: settings.fillColor,
-        tags: vnode.state.info.tagList,
+        tags: vnode.state.attrs.info.tagList,
         nodeColor: vnode.state.picker
       };
       if (selected[order].index === -1) {
@@ -346,7 +346,7 @@ export let TrackMenu = {
       let controls = [
         m('button', {
           onclick: () => {
-            selected[selected.length] = {name: vnode.state.info.tagList[0], index: 0};
+            selected[selected.length] = {name: vnode.state.attrs.info.tagList[0], index: 0};
           }
         }, m('div', {
           style: 'font-size:25px;'
@@ -363,7 +363,7 @@ export let TrackMenu = {
       }
       controls.push(m('button', {
           onclick: () => {
-            vnode.state.hidden[order] = vnode.state.hidden[order] === 'none' ? 'block' : 'none';
+            vnode.statehidden[order] = vnode.state.hidden[order] === 'none' ? 'block' : 'none';
           }
         }, m('div',
         {style: `color:${vnode.state.picker[order]};font-size:25px;`}
@@ -432,7 +432,7 @@ export let Dropdown = {
     }, [settings.tags.map(tag => {
       return m('option', tag);
     })
-    ]), m(ColorPicker, {settings: vnode.state.attrs.settings, order: order, hidden: vnode.state.attrs.hidden}));
+    ]), m(ColorPicker, {settings: vnode.state.attrs.settings, order: order, hidden: vnode.state.hidden}));
   }
 };
 
