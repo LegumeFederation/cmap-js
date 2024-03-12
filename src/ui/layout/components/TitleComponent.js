@@ -11,60 +11,71 @@ import {mapReorder} from '../../../topics';
 
 export let TitleComponent = {
   oninit: function (vnode) {
-    vnode.state.attrs = vnode.attrs;
-    vnode.state.left = 0;
-    vnode.state.domOrder = vnode.state.attrs.titleOrder.indexOf(vnode.state.attrs.order);
-    vnode.state.leftBound = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.left;
-    vnode.state.rightBound = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.right;
-    vnode.state.leftStart = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.left;
-    vnode.state._gestureRegex = {
+    vnode.state.data = vnode.attrs;
+    vnode.state.data.left = 0;
+    vnode.state.data.domOrder = vnode.state.data.titleOrder.indexOf(vnode.state.data.order);
+    vnode.state.data.leftBound = vnode.state.data.bioMaps[vnode.state.data.order].domBounds.left;
+    vnode.state.data.rightBound = vnode.state.data.bioMaps[vnode.state.data.order].domBounds.right;
+    vnode.state.data.leftStart = vnode.state.data.bioMaps[vnode.state.data.order].domBounds.left;
+    vnode.state.data._gestureRegex = {
       pan: new RegExp('^pan')
     };
   },
+
   oncreate: function (vnode) {
     // register mithrilComponent for gesture handling
     vnode.dom.mithrilComponent = this;
     // register functions to state/dom for gesture handling
     vnode.dom.mithrilComponent.handleGesture = vnode.tag.handleGesture;
-    vnode.state._onPan = vnode.tag._onPan;
-    vnode.state.zIndex = 0;
+    vnode.state.data._onPan = vnode.tag._onPan;
+    vnode.state.data.zIndex = 0;
     this.vnode = vnode;
+    // set up initial state
+    this.titleOrder = vnode.state.data.titleOrder;
+    this.order = vnode.state.data.order;
+    this.domOrder = vnode.state.data.domOrder;
+    this.left = vnode.state.data.left;
+    this.leftBound = vnode.state.data.leftBound;
+    this.rightBound = vnode.state.data.rightBound;
+    this.leftStart = vnode.state.data.leftStart;
+    this.bioMaps = vnode.state.data.bioMaps;
+    this.dirty = false;
+    this._gestureRegex = vnode.state.data._gestureRegex;
   },
 
   onbeforeupdate: function (vnode) {
-    vnode.state.bioMaps = vnode.attrs.bioMaps;
-    vnode.state.domOrder = vnode.state.attrs.titleOrder.indexOf(vnode.state.attrs.order);
-    if (vnode.state.attrs.titleOrder[vnode.state.domOrder] !== vnode.state.attrs.order) {
-      vnode.state.domOrder = vnode.state.attrs.titleOrder.indexOf(vnode.state.attrs.order);
+    vnode.state.data.bioMaps = vnode.attrs.bioMaps;
+    vnode.state.data.domOrder = vnode.state.data.titleOrder.indexOf(vnode.state.data.order);
+    if (this.titleOrder[this.domOrder] !== this.order) {
+      this.domOrder = this.titleOrder.indexOf(this.order);
     }
   },
 
   onupdate: function (vnode) {
-    let dispOffset = vnode.state.attrs.bioMaps[vnode.state.attrs.order].domBounds.left - vnode.state.leftStart;
-    if (vnode.state.left !== dispOffset && !vnode.state.swap) {
-      vnode.state.left = dispOffset;
-      vnode.state.dirty = true;
+    let dispOffset = vnode.state.data.bioMaps[vnode.state.data.order].domBounds.left - vnode.state.data.leftStart;
+    if (vnode.state.data.left !== dispOffset && !vnode.state.data.swap) {
+      this.left = dispOffset;
+      this.dirty = true;
     }
-    if (vnode.state.swap) {
-      vnode.state.left = 0;
-      vnode.state.swap = false;
-      vnode.state.dirty = true;
-      vnode.state.left = 0;
+    if (vnode.state.data.swap) {
+      this.swap = false;
+      this.dirty = true;
+      this.left = 0;
     }
-    if (vnode.state.dirty) { // trigger redraw on changed canvas that has possibly edited bounds in process of view layout
-      vnode.state.dirty = false;
+    if (this.dirty) { // trigger redraw on changed canvas that has possibly edited bounds in process of view layout
+      this.dirty = false;
       m.redraw();
     }
   },
 
   view: function (vnode) {
-    if (!vnode.state.attrs || !vnode.state.attrs.contentBounds) return;
-    let bMap = vnode.state.attrs.bioMaps[vnode.state.attrs.order];
-    vnode.state.attrs.contentBounds.left = vnode.state.attrs.contentBounds.right - vnode.state.attrs.contentBounds.width;
-    let left = vnode.state.left + vnode.state.attrs.contentBounds.left;
+    if (!vnode.attrs || !vnode.state.data.contentBounds) return;
+    let bMap = vnode.state.data.bioMaps[vnode.state.data.order];
+    vnode.state.data.contentBounds.left = vnode.state.data.contentBounds.right - vnode.state.data.contentBounds.width;
+    let left = vnode.state.data.left + vnode.state.data.contentBounds.left;
     return m('div', {
-        class: 'swap-div', id: `swap-${vnode.state.domOrder}`,
-        style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.zIndex};`
+        class: 'swap-div', id: `swap-${vnode.state.data.domOrder}`,
+        style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.data.zIndex};`
       },
       [m('div', {class: 'map-title', style: 'display:inline-block;'}, [bMap.model.name, m('br'), bMap.model.source.id])
       ]
@@ -72,8 +83,8 @@ export let TitleComponent = {
   },
 
   handleGesture: function (evt) {
-    if (evt.type.match(this.vnode.state._gestureRegex.pan)) {
-      return this.vnode.state._onPan(evt);
+    if (evt.type.match(this._gestureRegex.pan)) {
+      return this._onPan(evt);
     }
     return true;
   },
@@ -81,13 +92,13 @@ export let TitleComponent = {
   _onPan: function (evt) {
     //Start pan move zIndex up to prevent interrupting pan early
     if (evt.type === 'panstart') {
-      this.vnode.state.zIndex = 1000;
+      this.vnode.state.data.zIndex = 1000;
       this.lastPanEvent = null;
-      this.vnode.state.left = 0;
+      this.left = 0;
     }
     //End pan to set rearrangement
     if (evt.type === 'panend') {
-      this.vnode.state.zIndex = 0;
+      this.vnode.state.data.zIndex = 0;
       PubSub.publish(mapReorder, null);
       return;
     }
