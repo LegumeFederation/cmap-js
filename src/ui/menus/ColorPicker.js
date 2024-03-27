@@ -21,7 +21,7 @@ export let ColorPicker = {
   oninit: function (vnode) {
     vnode.state.attrs = vnode.attrs;
     vnode.state.colors = {
-      baseColor: vnode.state.attrs.settings.fillColor[vnode.state.attrs.order] || 'red',
+      baseColor: vnode.attrs.settings.fillColor[vnode.attrs.order] || 'red',
       currentColor: null,
       hueValueColor: null
     };
@@ -44,13 +44,13 @@ export let ColorPicker = {
 
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
-    return [m('div.color-picker', {style: `display:${vnode.state.hidden[vnode.state.order]}`}, [
+    return [m('div.color-picker', {style: `display:${vnode.state.attrs.hidden[vnode.state.order]}`}, [
       m(BaseSelector, {info: vnode.state}),
       m(SaturationSelector, {info: vnode.state}),
       m(ColorPreview, {info: vnode.state}),
       m('div#color-apply-controls', {style: 'text-align:center; margin-left:10px; display:inline-block; padding:auto'},
         [m(ColorBox, {info: vnode.state}),//,settings:vnode.attrs.settings}),
-          m(ColorApplyButton, {info: vnode.state, settings: vnode.state.settings}),
+          m(ColorApplyButton, {info: vnode.state, settings: vnode.attrs.settings}),
           m(ColorResetButton, {info: vnode.state})
         ]
       )
@@ -98,7 +98,7 @@ export let BaseSelector = {
    */
 
   onupdate: function (vnode) {
-    vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.info.colors.hueValueColor);
+    vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.attrs.info.colors.hueValueColor);
     vnode.dom.mithrilComponent.draw();
   },
 
@@ -207,7 +207,7 @@ export let BaseSelector = {
    */
 
   _locationChange: function (evt) {
-    let hueValue = this.vnode.state.info.colors.hueValueColor;
+    let hueValue = this.vnode.state.attrs.info.colors.hueValueColor;
     this.vnode.state.ptrPos = {
       x: evt.x,
       y: evt.y
@@ -229,7 +229,7 @@ export let BaseSelector = {
     //PubSub to alert the Saturation slider that the position has changed
     //order is passed to not update *every* color selector
     //Can be removed, but using PubSub means dynamic response from other forms
-    PubSub.publish('hueValue', {color: this.vnode.state.colors, order: this.vnode.state.info.order});
+    PubSub.publish('hueValue', {color: this.vnode.state.attrs.info.colors, order: this.vnode.state.attrs.info.attrs.order});
     this.draw();
   },
 
@@ -293,7 +293,7 @@ export let SaturationSelector = {
       tap: new RegExp('^tap')
     };
     PubSub.subscribe('hueValue', (msg, data) => {
-      if (data.order === vnode.state.attrs.info.order) this._hueUpdated(data.color);
+      if (data.order === vnode.state.attrs.info.attrs.order) this._hueUpdated(data.color);
     });
     this._gestureRegex = {
       pan: new RegExp('^pan'),
@@ -308,8 +308,8 @@ export let SaturationSelector = {
    */
 
   onupdate: function (vnode) {
-    vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.info.colors.hueValueColor);
-    PubSub.publish('satUpdated', {order: vnode.state.info.order, currentColors: vnode.state.info.colors}); // keeps hex value in sync
+    vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.attrs.info.colors.hueValueColor);
+    PubSub.publish('satUpdated', {order: vnode.state.attrs.info.order, currentColors: vnode.state.attrs.info.colors}); // keeps hex value in sync
     vnode.dom.mithrilComponent.draw();
   },
 
@@ -338,7 +338,7 @@ export let SaturationSelector = {
     // clear and redraw gradient slider for current picked HueValue color;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    let hueValueColor = this.vnode.state.info.colors.hueValueColor;
+    let hueValueColor = this.vnode.state.attrs.info.colors.hueValueColor;
     let rgbStart = hsvToRgb([hueValueColor[0], 100, hueValueColor[2]]).map(color => {
       return Math.floor(color);
     });
@@ -388,8 +388,8 @@ export let SaturationSelector = {
 
   _changeColor: function (evt) {
     this.vnode.state.ptrPos = evt.y;
-    this.vnode.state.info.colors.hueValueColor[1] = this._sFromPos(this.vnode.state.ptrPos);
-    this._hueUpdated(this.vnode.state.info.colors);
+    this.vnode.state.attrs.info.colors.hueValueColor[1] = this._sFromPos(this.vnode.state.ptrPos);
+    this._hueUpdated(this.vnode.state.attrs.info.colors);
   },
 
   /**
@@ -398,7 +398,7 @@ export let SaturationSelector = {
    */
 
   _hueUpdated: function () {
-    PubSub.publish('satUpdated', {order: this.vnode.state.info.order, currentColors: this.vnode.state.info.colors});
+    PubSub.publish('satUpdated', {order: this.vnode.state.attrs.info.attrs.order, currentColors: this.vnode.state.attrs.info.colors});
     this.draw();
   },
 
@@ -438,7 +438,7 @@ export let ColorPreview = {
    */
 
   oncreate: function (vnode) {
-    this.order = vnode.attrs.info.order;
+    this.order = vnode.attrs.info.attrs.order;
     this.colors = vnode.attrs.info.colors;
     this.canvas = this.el = vnode.dom;
     this.context2d = this.canvas.getContext('2d');
@@ -559,11 +559,11 @@ export let ColorBox = {
 
   oninit: function (vnode) {
       vnode.state.attrs = vnode.attrs;
-      this.order = vnode.state.attrs.info.order;
-      vnode.state.value = vnode.state.attrs.info.colors.currentColor;
+      this.order = vnode.attrs.info.order;
+      vnode.state.value = vnode.attrs.info.colors.currentColor;
       PubSub.subscribe('satUpdated', (msg, data) => {
           if (this.order === data.order) {
-              vnode.state.value = vnode.state.attrs.info.colors.currentColor;
+              vnode.dom.value = vnode.attrs.info.colors.currentColor;
           }
       });
   },
