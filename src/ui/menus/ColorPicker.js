@@ -559,7 +559,7 @@ export let ColorBox = {
 
   oninit: function (vnode) {
       vnode.state.attrs = vnode.attrs;
-      this.order = vnode.attrs.info.order;
+      this.order = vnode.attrs.info.attrs.order;
       vnode.state.value = vnode.attrs.info.colors.currentColor;
       PubSub.subscribe('satUpdated', (msg, data) => {
           if (this.order === data.order) {
