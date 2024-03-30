@@ -44,7 +44,7 @@ export let ColorPicker = {
 
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
-    return [m('div.color-picker', {style: `display:${vnode.state.attrs.hidden[vnode.state.order]}`}, [
+    return [m('div.color-picker', {style: `display:${vnode.state.attrs.hidden[vnode.state.attrs.order]}`}, [
       m(BaseSelector, {info: vnode.state}),
       m(SaturationSelector, {info: vnode.state}),
       m(ColorPreview, {info: vnode.state}),
