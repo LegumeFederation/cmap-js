@@ -43,8 +43,8 @@ export let ColorPicker = {
    */
 
   view: function (vnode) {
-    // store these bounds, for checking in drawLazily()
-    return [m('div.color-picker', {style: `display:${vnode.state.attrs.hidden[vnode.state.attrs.order]}`}, [
+      // store these bounds, for checking in drawLazily()
+      return [m('div.color-picker', {style: `display:${vnode.state.attrs.hidden[vnode.state.attrs.order]}`}, [
       m(BaseSelector, {info: vnode.state}),
       m(SaturationSelector, {info: vnode.state}),
       m(ColorPreview, {info: vnode.state}),
@@ -76,7 +76,7 @@ export let BaseSelector = {
     vnode.state.attrs = vnode.attrs;
     vnode.state.canvas = this.el = vnode.dom;
     vnode.state.context2d = vnode.dom.getContext('2d');
-    if (!vnode.state.attrs.info.currentColor || !vnode.state.attrs.info.hueValueColor) {
+    if (!vnode.state.attrs.info.colors.currentColor || !vnode.state.attrs.info.colors.hueValueColor) {
       vnode.state.context2d.fillStyle = vnode.state.attrs.info.colors.baseColor;
       //use the context to convert the original color into a hex string
       //avoiding needing to parse html color words
@@ -309,7 +309,7 @@ export let SaturationSelector = {
 
   onupdate: function (vnode) {
     vnode.state.ptrPos = vnode.dom.mithrilComponent._posFromHsv(vnode.state.attrs.info.colors.hueValueColor);
-    PubSub.publish('satUpdated', {order: vnode.state.attrs.info.order, currentColors: vnode.state.attrs.info.colors}); // keeps hex value in sync
+    PubSub.publish('satUpdated', {order: vnode.state.attrs.info.attrs.order, currentColors: vnode.state.attrs.info.colors}); // keeps hex value in sync
     vnode.dom.mithrilComponent.draw();
   },
 
