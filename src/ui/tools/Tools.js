@@ -11,10 +11,12 @@ import {UploadButton} from './UploadButton';
 import {ExportImageButton} from './ExportImageButton';
 import {ExportImageDialog} from './ExportImageDialog';
 //import {FilterButton} from './FilterButton';
+import {HelpButton} from './HelpButton';
 import {MapRemovalDialog} from './MapRemovalDialog';
 import {MapAdditionDialog} from './MapAdditionDialog';
 import {ConfigurationDialog} from './ConfigurationDialog';
 import {UploadDialog} from './UploadDialog';
+import {HelpDialog} from './HelpDialog';
 
 export class Tools {
 
@@ -54,6 +56,9 @@ export class Tools {
         }),
         m(ExportImageButton, {
           onclick: () => this.currentDialog = ExportImageDialog
+        }),
+        m(HelpButton, {
+          onclick: () => this.currentDialog = HelpDialog
         })
       ]),
       this.currentDialog && m(this.currentDialog, {
