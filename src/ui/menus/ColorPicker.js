@@ -512,8 +512,8 @@ export let ColorApplyButton = {
       onclick: () => {
         vnode.attrs.info.colors.baseColor = vnode.attrs.info.colors.currentColor;
         vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.baseColor));
-        vnode.attrs.settings.nodeColor[vnode.attrs.info.order] = vnode.attrs.info.colors.baseColor;
-        PubSub.publish('satUpdated', {order: vnode.attrs.info.order, currentColors: vnode.attrs.info.colors});
+        vnode.attrs.settings.nodeColor[vnode.attrs.info.attrs.order] = vnode.attrs.info.colors.baseColor;
+        PubSub.publish('satUpdated', {order: vnode.attrs.info.attrs.order, currentColors: vnode.attrs.info.colors});
       }
     }, 'Apply');
   }
@@ -539,7 +539,7 @@ export let ColorResetButton = {
       onclick: () => {
         vnode.attrs.info.colors.currentColor = vnode.attrs.info.colors.baseColor;
         vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.baseColor));
-        PubSub.publish('satUpdated', {order: vnode.attrs.info.order, currentColors: vnode.attrs.info.colors});
+        PubSub.publish('satUpdated', {order: vnode.attrs.info.attrs.order, currentColors: vnode.attrs.info.colors});
       }
     }, 'Reset');
   }
