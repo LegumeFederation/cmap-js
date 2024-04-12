@@ -65,9 +65,9 @@ export let TitleComponent = {
     let left = vnode.state.left + vnode.state.contentBounds.left;
     return m('div', {
         class: 'swap-div', id: `swap-${vnode.state.domOrder}`,
-        style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.zIndex};`
+        style: `left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.zIndex};`
       },
-      [m('div', {class: 'map-title', style: 'display:inline-block;'}, [bMap.model.name, m('br'), bMap.model.source.id])
+      [m('div', {class: 'map-title'}, [bMap.model.name, m('br'), bMap.model.source.id])
       ]
     );
   },
@@ -138,7 +138,7 @@ export let TitleComponent = {
       this.bioMaps[this.order].domBounds.translate(delta.x,0);
       //this.bioMaps[this.order].domBounds.left += delta.x;
       //this.bioMaps[this.order].domBounds.right += delta.x;
-      const mw = this.bioMaps[movedMap].domBounds.width;
+      // const mw = this.bioMaps[movedMap].domBounds.width;
       this.bioMaps[movedMap].domBounds.translate(-delta.x*shiftScale,0);
 //      this.bioMaps[movedMap].domBounds.left -= delta.x * shiftScale;
 //      this.bioMaps[movedMap].domBounds.right = this.bioMaps[movedMap].domBounds.left + mw;
