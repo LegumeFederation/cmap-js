@@ -72,7 +72,7 @@ export let TitleComponent = {
     if (!vnode.attrs || !vnode.state.data.contentBounds) return;
     let bMap = vnode.state.data.bioMaps[vnode.state.data.order];
     vnode.state.data.contentBounds.left = vnode.state.data.contentBounds.right - vnode.state.data.contentBounds.width;
-    let left = vnode.state.data.left + vnode.state.data.contentBounds.left;
+    let left = vnode.state.left + vnode.state.data.contentBounds.left;
     return m('div', {
         class: 'swap-div', id: `swap-${vnode.state.data.domOrder}`,
         style: `display:grid; position:relative; left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.data.zIndex};`
@@ -162,4 +162,3 @@ export let TitleComponent = {
     return true;
   }
 };
-
