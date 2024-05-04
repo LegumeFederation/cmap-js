@@ -1,7 +1,7 @@
 /**
  * FeatureMenu
  * Mithril component for a modal dialog to edit track/subtrack settings
- **/
+ **/ 
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
@@ -99,14 +99,14 @@ export class FeatureMenu {
         vnode.dom.mithrilComponent = this; // Without this and handleGesture, clicks in modal will pass through to the underlying view
       },
       view: function () {
-        return m('div', {style: 'height:100%; width:100%'}, [
+        return m('div', {class: 'cmap-modal'}, [
             m(CloseButton, {model: model, config: settings, order: order, reset: defaultSettings}),
          
             m(TitleBox, {settings: settings}),
             m(Instruction),
             m(TrackMenu, {info: trackConfig, count: 0}),
             m('br', { style: 'clear:both;' }),
-            m('div', {style: 'margin-top: 25px; text-align: center;'}, controls)
+            m('div', {class: 'cmap-modal-controls'}, controls)
           ]
         );
       },
@@ -141,7 +141,7 @@ export let _removeButton = {
           m.redraw();
           closeModal();
         },
-      style: 'background:red'
+      class: 'remove-button'
     }, 'Remove Track');
   }
 };
@@ -150,25 +150,25 @@ export let _removeButton = {
 export const Instruction = {
   view: function() {
    
-      return m('div', { style: 'overflow:auto;float: right; width: 50%;height:60%;'  }, [
-      m('p',{style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'} ,'To add or change a track to the map:'),
-      m('ol', {style:'font-size: small; margin-bottom: 5px;'}, [
+      return m('div', { class: 'cmap-instructions'  }, [
+      m('p',{class:'cmap-instructions-text fs-medium bold'} ,'To add or change a track to the map:'),
+      m('ol', {class:'cmap-instructions-text fs-small'}, [
         m('li', 'Choose a marker type from the dropdown list.'),
         m('li', 'Change the Track title which will be present on the map.'),
         m('li', 'Click on the button with the colored square.'),
         m('li', 'Choose a color for the particular marker type.'),
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
-      m('p', {style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'}, 'To add more than one marker type to a track:'),
-      m('ol', {style:'font-size: small; margin-bottom: 5px;'}, [
+      m('p', {class:'cmap-instructions-text fs-medium bold'}, 'To add more than one marker type to a track:'),
+      m('ol', {class:'cmap-instructions-text fs-small'}, [
         m('li', 'Click on the "+" button.'),
         m('li', 'Choose the marker type from the dropdown list.'),
         m('li', 'Click on the button with the colored square.'),
         m('li', 'Choose a color for the particular marker type.'),
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
-      m('p',{style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
-      m('p', {style:'font-size: medium; margin-bottom: 5px;'},'The new configured track will be drawn on the map.')
+      m('p',{class:'cmap-instructions-text fs-medium bold'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
+      m('p', {class:'cmap-instructions-text fs-medium'},'The new configured track will be drawn on the map.')
     ]);
   }
 };
@@ -187,7 +187,7 @@ export let TitleBox = {
   view: function (vnode) {
     return m('div',{},'Track title: ',
       m('input[type=text].title-input', {
-        style: 'display:block; width:10%;',
+        class: 'title-box',
         defaultValue : vnode.state.attrs.settings.title,
         oninput: function (e) {
           try {
@@ -276,7 +276,7 @@ export let CloseButton = {
   view: function (vnode) {
     return m('div',
       {
-        style: 'text-align:right;',
+        class: 'close-button',
         onclick:
           () => {
             vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
@@ -349,7 +349,7 @@ export let TrackMenu = {
             selected[selected.length] = {name: vnode.state.attrs.info.tagList[0], index: 0};
           }
         }, m('div', {
-          style: 'font-size:25px;'
+          class: 'fs-25;'
         }, '+'))
       ];
       if (selected.length > 1) {
@@ -358,7 +358,7 @@ export let TrackMenu = {
             selected.splice(order, 1);
           }
         }, m('div', {
-          style: 'font-size:25px;'
+          class: 'fs-25'
         }, '-')));
       }
       controls.push(m('button', {
@@ -366,18 +366,24 @@ export let TrackMenu = {
             vnode.state.hidden[order] = vnode.state.hidden[order] === 'none' ? 'block' : 'none';
           }
         }, m('div',
-        {style: `color:${vnode.state.picker[order]};font-size:25px;`}
+        {
+          style: `color:${vnode.state.picker[order]};`,
+          class: 'fs-25'
+        }
         , '■')
       ));
+      let controlParent = m('div', {
+        class: 'control-parent'
+      }, controls);
       return [m(Dropdown, {
         settings: dropSettings,
         order: order,
         parentDiv: this,
         hidden: vnode.state.hidden
-      }), controls];
+      }), controlParent];
     });
     return m('div#track-select-div', {
-      style: 'overflow:auto;width:50%;height:60%;float:left'
+      class: 'track-select'
     }, dropdowns);
   }
 };

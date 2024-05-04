@@ -199,9 +199,9 @@ export class HorizontalLayout
               let featureGroup = child.children[i];
               this.featureControls.push(
                 m('div', {
-                  class: 'feature-title',
+                  class: 'button feature-title',
                   id: `feature-${component.model.name}-${i}`,
-                  style: `position:absolute; left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
+                  style: `left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
                       top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
                   onclick: function () {
                     let info = child.children[i];
@@ -215,10 +215,10 @@ export class HorizontalLayout
           // push controller to add new track
           this.featureControls.push(
             m('div', {
-              class: 'feature-title',
+              class: 'button feature-title',
               id: `feature-${component.model.name}-new`,
-              style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
-                      top: ${component.domBounds.top}px; width: 20px;`,
+              style: `left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
+                      top: ${component.domBounds.top}px; padding: 0px 10px;`,
               onclick: function () {
                 let info = component.model;
                 info.position = child.trackPos;

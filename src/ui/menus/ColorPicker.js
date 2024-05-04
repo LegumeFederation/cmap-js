@@ -48,10 +48,12 @@ export let ColorPicker = {
       m(BaseSelector, {info: vnode.state}),
       m(SaturationSelector, {info: vnode.state}),
       m(ColorPreview, {info: vnode.state}),
-      m('div#color-apply-controls', {style: 'text-align:center; margin-left:10px; display:inline-block; padding:auto'},
+      m('div#color-apply-controls', {class: 'color-apply-controls'},
         [m(ColorBox, {info: vnode.state}),//,settings:vnode.attrs.settings}),
-          m(ColorApplyButton, {info: vnode.state, settings: vnode.attrs.settings}),
-          m(ColorResetButton, {info: vnode.state})
+          m('div', {class: 'color-apply-buttons'}, 
+            m(ColorApplyButton, {info: vnode.state, settings: vnode.state.settings}),
+            m(ColorResetButton, {info: vnode.state})
+          )
         ]
       )
     ])
@@ -111,7 +113,6 @@ export let BaseSelector = {
     // store these bounds, for checking in drawLazily()
     return m('canvas', {
       class: 'color-canvas-main',
-      style: 'width: 200; height: 100;',
       width: 200,
       height: 100
     });
@@ -321,7 +322,7 @@ export let SaturationSelector = {
   view: function () {
     // store these bounds, for checking in drawLazily()
     return m('canvas#color-canvas-sat', {
-      style: 'margin-left:10px; width: 20; height: 100;',
+      class: 'color-canvas-element',
       width: 20,
       height: 100
     });
@@ -335,7 +336,7 @@ export let SaturationSelector = {
     let canvas = this.vnode.state.canvas;
     let ctx = this.vnode.state.context2d;
     let ptrPos = this.vnode.state.ptrPos;
-    // clear and redraw gradient slider for current picked HueValue color;
+    // clear and redraw gradient slider for current picked HueValumargin-left:10px; width: 20; height: 100;e color;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
     let hueValueColor = this.vnode.state.attrs.info.colors.hueValueColor;
@@ -471,7 +472,7 @@ export let ColorPreview = {
 
   view: function () {
     return m('canvas#color-canvas-preview', {
-      style: 'margin-left:10px; width: 20; height: 100;',
+      class: 'color-canvas-element',
       width: 20,
       height: 100
     });
@@ -508,7 +509,7 @@ export let ColorApplyButton = {
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
     return m('button.approve-button', {
-      style: 'display:block; width:100%;',
+      class: 'color-picker-button',
       onclick: () => {
         vnode.attrs.info.colors.baseColor = vnode.attrs.info.colors.currentColor;
         vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.baseColor));
@@ -535,7 +536,7 @@ export let ColorResetButton = {
   view: function (vnode) {
     // store these bounds, for checking in drawLazily()
     return m('button.reset-button', {
-      style: 'display:block; width:100%',
+      class: 'color-picker-button',
       onclick: () => {
         vnode.attrs.info.colors.currentColor = vnode.attrs.info.colors.baseColor;
         vnode.attrs.info.colors.hueValueColor = rgbToHsv(hexToRgb(vnode.attrs.info.colors.baseColor));
