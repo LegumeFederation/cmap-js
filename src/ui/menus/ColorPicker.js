@@ -51,7 +51,7 @@ export let ColorPicker = {
       m('div#color-apply-controls', {class: 'color-apply-controls'},
         [m(ColorBox, {info: vnode.state}),//,settings:vnode.attrs.settings}),
           m('div', {class: 'color-apply-buttons'}, 
-            m(ColorApplyButton, {info: vnode.state, settings: vnode.state.settings}),
+            m(ColorApplyButton, {info: vnode.state, settings: vnode.attrs.settings}),
             m(ColorResetButton, {info: vnode.state})
           )
         ]

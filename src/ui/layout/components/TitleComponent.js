@@ -74,8 +74,8 @@ export let TitleComponent = {
     vnode.state.data.contentBounds.left = vnode.state.data.contentBounds.right - vnode.state.data.contentBounds.width;
     let left = vnode.state.left + vnode.state.data.contentBounds.left;
     return m('div', {
-        class: 'swap-div', id: `swap-${vnode.state.domOrder}`,
-        style: `left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.zIndex};`
+        class: 'swap-div', id: `swap-${vnode.state.data.domOrder}`,
+        style: `left:${left}px; min-width:${bMap.domBounds.width}px; z-index:${vnode.state.data.zIndex};`
       },
       [m('div', {class: 'map-title'}, [bMap.model.name, m('br'), bMap.model.source.id])
       ]
