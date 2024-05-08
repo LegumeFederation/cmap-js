@@ -91,10 +91,10 @@ export class SceneGraphNodeCanvas
     return m('canvas', {
       class: `cmap-canvas cmap-biomap ${selectedClass}`,
       style: `left: ${b.left}px; top: ${b.top}px;
-               width: ${b.width}px; height: ${b.height}px;
+               width: ${b.width}px; height: ${b.height-4}px;
                transform: rotate(${this.rotation}deg);`,
       width: b.width,
-      height: b.height
+      height: b.height-4
     });
   }
 
