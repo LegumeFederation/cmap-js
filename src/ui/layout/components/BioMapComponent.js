@@ -43,7 +43,7 @@ export class BioMapComponent {
     const selectedClass = this.attrs.selected ? 'selected' : '';
 
     return m('canvas.cmap-canvas.cmap-biomap', { // Render the canvas element
-      class: selectedClass,
+      class: `cmap-canvas cmap-biomap ${selectedClass}`,
       style: {
         left: `${left}px`,
         top: `${top}px`,
