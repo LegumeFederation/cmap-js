@@ -1,3 +1,9 @@
+/**
+ *
+ * Base Component, placeholder for other canvas components
+ *
+ */
+
 import m from 'mithril';
 
 export class BioMapComponent {
