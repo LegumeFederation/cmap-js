@@ -1,0 +1,1270 @@
+map_acc	map_name	map_start	map_stop	feature_acc	feature_name	feature_aliases	feature_start	feature_stop	feature_type_acc	is_landmark
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1952	g1952		0	0	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2162	g2162		7.62	7.62	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_AGTA05	AGTA05		14.67	14.67	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2647	g2647		18.6	18.6	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_AGTA04	AGTA04		18.74	18.74	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_SSR-IAC76	SSR-IAC76		24.26	24.26	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Leg763	Leg763		25.04	25.04	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMc224	BMc224		25.97	25.97	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_SSR-IAC28	SSR-IAC28		30.5	30.5	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1027	BMb1027		33.76	33.76	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_C1601	C1601		37.96	37.96	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2490	g2490		38.34	38.34	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb513	BMb513		41.56	41.56	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb290	BMb290		43.11	43.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMc232	BMc232		43.11	43.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMa241	BMa241		43.95	43.95	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb213	BMb213		44.14	44.14	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BM200	BM200		45.69	45.69	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BM53	BM53		46.04	46.04	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMa241b	BMa241b		47.16	47.16	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1410	g1410		50.79	50.79	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb256	BMb256		51	51	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g934	g934		55.72	55.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1162	BMb1162		57.86	57.86	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Bng48	Bng48		60.68	60.68	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb405	BMb405		67.1	67.1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb64	BMb64		71.94	71.94	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_PVBR107	PVBR107		72.75	72.75	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_PVBR54	PVBR54		73.45	73.45	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2266	g2266		75.3	75.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_First flower, bean 2-1	First flower, bean 2-1	df1.1	77.6	105.3	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Root weight 1-1	Root weight 1-1	Rdw1.1	79.8	91.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Root weight 1-2	Root weight 1-2	Rdw1.2	82	88	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g901	g901		84.06	84.06	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMc313	BMc313		84.42	84.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BSNP53	BSNP53		85.11	85.11	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BSNP55	BSNP55		85.44	85.44	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_CATA07	CATA07		86.28	86.28	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_PVBR233	PVBR233		89.54	89.54	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_7-Gm	7-Gm		90.97	90.97	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1645	g1645		100.93	100.93	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1795	g1795		101.27	101.27	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BSNP1	BSNP1		101.95	101.95	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2145	g2145		103.21	103.21	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_First flower, bean 3-1	First flower, bean 3-1	DF1	103.7	140	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1092	g1092		106.76	106.76	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1263	BMb1263		109.39	109.39	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Plant height 1-1	Plant height 1-1	ph1.1	111.1	153	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Leg192	Leg192		112.32	112.32	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Leg282	Leg282		115.25	115.25	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BM146	BM146		117.04	117.04	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g822	g822		117.56	117.56	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1067	BMb1067		118.56	118.56	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g794	g794		121.16	121.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Root hair length, basal 1-1	Root hair length, basal 1-1	Bhl1.1	123.4	129.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Root hair length, primary 1-1	Root hair length, primary 1-1	Thl1.1	124.3	128.4	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Leg709	Leg709		125.97	125.97	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1079	BMb1079		126.5	126.5	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g743	g743		127.89	127.89	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1737	g1737		131.44	131.44	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1200	BMb1200		132.46	132.46	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1189	BMb1189		134.38	134.38	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1771	g1771		134.42	134.42	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2580	g2580		136.25	136.25	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1959	g1959		136.69	136.69	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMa268	BMa268		137.79	137.79	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1287	BMb1287		137.79	137.79	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g724	g724		139.3	139.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Full maturity, bean 3-1	Full maturity, bean 3-1	DM1	142.1	160.9	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Last flower 1-1	Last flower 1-1	DE1	142.1	160.9	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb194	BMb194		144.07	144.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb83	BMb83		145.59	145.59	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMa4	BMa4		150.51	150.51	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMd45	BMd45		152.03	152.03	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1176	g1176		152.16	152.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BSn199	BSn199		153.03	153.03	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1954	g1954		153.7	153.7	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BSNP83	BSNP83		154.29	154.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1191	BMb1191		160.47	160.47	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2504	g2504		161.16	161.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMa3	BMa3		162.45	162.45	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1230	BMb1230		164.96	164.96	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1886	g1886		165.66	165.66	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g786	g786		166.1	166.1	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1024	BMb1024		166.79	166.79	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb1125	BMb1125		167.15	167.15	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_3-Gm	3-Gm		167.51	167.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Bng126	Bng126		171.29	171.29	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_PV-ag003	PV-ag003		173.48	173.48	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Bng122	Bng122		174.2	174.2	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1224	g1224		176.05	176.05	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMd10	BMd10		176.12	176.12	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Leg308	Leg308		177.46	177.46	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g499	g499		178.9	178.9	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_gCV542014	gCV542014		180.29	180.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Root length, specific 2-5	Root length, specific 2-5	Srl1.1	183.6	193	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Bng171a	Bng171a		185.21	185.21	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMe76	BMe76		188.24	188.24	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Bng173	Bng173		189.57	189.57	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g1367	g1367		191.74	191.74	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_BMb356	BMb356		191.9	191.9	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2562	g2562		193.42	193.42	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g683	g683		195.61	195.61	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_Bng83	Bng83		196.95	196.95	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g510	g510		198.28	198.28	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g523	g523		198.73	198.73	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv01	Pv01	0	202.52	PvConsensus_GaleanoFernandez2011_a_Pv01_g2132	g2132		202.52	202.52	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2127	g2127		0	0	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Full maturity, bean 1-5	Full maturity, bean 1-5	Dm2.1	5.7	17.8	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 3-2	Seed weight 3-2	sw2.2	6.9	45.8	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 1-4	Seed weight 1-4	Sw2.2	8.5	25.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1063	g1063		12.32	12.32	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg188	Leg188		20.91	20.91	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_SSR-IAC6	SSR-IAC6		22.52	22.52	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1773	g1773		27.3	27.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb365	BMb365		29.63	29.63	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg716	Leg716		30.49	30.49	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Bng11	Bng11		31.53	31.53	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVBR18	PVBR18		35.26	35.26	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_ACAG01	ACAG01		38.53	38.53	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM156	BM156		42.33	42.33	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM152	BM152		43.21	43.21	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM236	BM236		43.21	43.21	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed length 1-1	Seed length 1-1	SL2	44.4	60.3	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_TC570	TC570		46.85	46.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMd18	BMd18		48.58	48.58	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVBR94	PVBR94		50.41	50.41	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1515	g1515		51.01	51.01	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Full maturity, bean 3-4	Full maturity, bean 3-4	DM2.1	51.9	78.7	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg302	Leg302		51.95	51.95	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1163	BMb1163		52.23	52.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVBR78	PVBR78		54.92	54.92	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVBR243	PVBR243		55.34	55.34	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_GATS91	GATS91		56.58	56.58	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Pod, green harvest 1-1	Pod, green harvest 1-1	DG2.1	56.6	76.7	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_P702	P702		59.97	59.97	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg927	Leg927		60.04	60.04	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_P701	P701		60.63	60.63	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSNP41	BSNP41		61.1	61.1	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb527	BMb527		61.85	61.85	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1605	BMb1605		61.95	61.95	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMd47	BMd47		64.1	64.1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMd17	BMd17		64.9	64.9	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Bng117	Bng117		65.35	65.35	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1289	BMb1289		66.79	66.79	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb497	BMb497		67.65	67.65	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb259	BMb259		69.95	69.95	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Root length, adventitious specific 1-1	Root length, adventitious specific 1-1	HPSRL_AdvF.1	70.7	81.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa133	BMa133		71.99	71.99	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVBR25	PVBR25		72.39	72.39	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1137	BMb1137		73.11	73.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVBR15	PVBR15		80.1	80.1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Pod, green harvest 1-4	Pod, green harvest 1-4	DG2.2	81.9	99.6	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1131	BMb1131		85.17	85.17	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb712	BMb712		87.03	87.03	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb252	BMb252		89.76	89.76	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb420	BMb420		91.78	91.78	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb97	BMb97		92.52	92.52	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb80	BMb80		94.15	94.15	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_CATA09	CATA09		94.32	94.32	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_CATA08	CATA08		95.52	95.52	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa150b	BMa150b		96.31	96.31	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSn15	BSn15		98.26	98.26	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMe30	BMe30		98.38	98.38	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMe62	BMe62		98.8	98.8	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_First flower, bean 3-4	First flower, bean 3-4	DF2	98.9	141.2	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed yield 2-1	Seed yield 2-1	yld2.1	99.5	120.9	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_CA5	CA5		100.99	100.99	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_First flower, bean 2-2	First flower, bean 2-2	df2.1	101.1	113.7	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1194	BMb1194		102.19	102.19	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM142	BM142		103.05	103.05	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_A2002	A2002		103.86	103.86	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_V301	V301		104.22	104.22	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 1-1	Seed weight 1-1	Sw2.1	104.4	118.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_V302	V302		104.59	104.59	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 3-1	Seed weight 3-1	sw2.1	105.4	143.5	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_X303	X303		105.72	105.72	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM143	BM143		105.82	105.82	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 1-13	Seed weight 1-13	Sw2.4	106.6	130	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1148	g1148		108.29	108.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_O1601	O1601		110.08	110.08	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Root length, specific 1-1	Root length, specific 1-1	Srl2.1	110.2	129.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1801	g1801		110.21	110.21	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa150	BMa150		111.1	111.1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_H1201	H1201		111.23	111.23	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_A2001	A2001		111.96	111.96	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSn6	BSn6		112.73	112.73	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa7	BMa7		113.18	113.18	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 1-18	Seed weight 1-18	Sw2.5	114.4	131.8	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa170	BMa170		114.42	114.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMd2	BMd2		114.72	114.72	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PG02	PG02		114.72	114.72	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMd7	BMd7		115.12	115.12	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1192	BMb1192		115.49	115.49	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa180	BMa180		115.49	115.49	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa269	BMa269		115.87	115.87	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Last flower 1-5	Last flower 1-5	DE2	119.4	137.6	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_AB1003	AB1003		119.65	119.65	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2581	g2581		119.87	119.87	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2040	g2040		121.85	121.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g321	g321		123.27	123.27	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg231	Leg231		123.75	123.75	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1467	g1467		124.69	124.69	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g316	g316		125.12	125.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2247	g2247		125.57	125.57	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMd19	BMd19		125.57	125.57	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1126	BMb1126		126.12	126.12	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSNP85	BSNP85		126.51	126.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1556	g1556		128.98	128.98	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Full maturity, bean 3-7	Full maturity, bean 3-7	DM2.2	129	135.8	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Bng174	Bng174		129.47	129.47	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMa16	BMa16		129.56	129.56	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Plant P 2-3	Plant P 2-3	Pup2.1	130.8	175	QTL_inorganic	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1286	BMb1286		131.66	131.66	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2097	g2097		131.88	131.88	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g457	g457		132.82	132.82	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Root weight, adventitious 1-1	Root weight, adventitious 1-1	HPAdvDWF.1	133	197.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM221	BM221		133.29	133.29	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Root length, adventitious specific 1-6	Root length, adventitious specific 1-6	LPSRL_AdvF.1	135.8	171.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSn157	BSn157		135.86	135.86	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb495	BMb495		135.86	135.86	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_A1401	A1401		136.23	136.23	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Full maturity, bean 1-7	Full maturity, bean 1-7	Dm2.2	137.1	154.2	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 1-19	Seed weight 1-19	Sw2.6	137.1	154.5	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_P1602	P1602		138.5	138.5	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g849	g849		139.14	139.14	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_P902	P902		141.1	141.1	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1784	g1784		143.61	143.61	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2321	g2321		144.04	144.04	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg215	Leg215		145.42	145.42	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_V1701	V1701		145.94	145.94	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_TC987	TC987		147.12	147.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Seed weight 1-5	Seed weight 1-5	Sw2.3	147.8	165.5	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2113	g2113		148.01	148.01	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_4-Gm	4-Gm		148.95	148.95	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb638	BMb638		150.19	150.19	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMc280	BMc280		152.52	152.52	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMe46	BMe46		153.37	153.37	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Bng108	Bng108		156.51	156.51	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Root density, adventitious 1-3	Root density, adventitious 1-3	LPAdvNoF.1	157.5	182	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSn176	BSn176		157.95	157.95	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_AI1501	AI1501		158.39	158.39	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g893	g893		161.35	161.35	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Root length, adventitious 1-1	Root length, adventitious 1-1	HPAdv_LF.1	162.2	173.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSn152	BSn152		163.43	163.43	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg735	Leg735		166.17	166.17	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSNP6	BSNP6		167.39	167.39	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Z1901	Z1901		169.53	169.53	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1247	g1247		170.66	170.66	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVM49	PVM49		173.18	173.18	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1132	g1132		173.84	173.84	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM164	BM164		175.9	175.9	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2348	g2348		176.35	176.35	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSn160	BSn160		176.74	176.74	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg168	Leg168		180.7	180.7	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BM167	BM167		180.98	180.98	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2577	g2577		181.21	181.21	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2540	g2540		181.68	181.68	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_PVBR10	PVBR10		189.94	189.94	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_F603	F603		194.43	194.43	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BMb1939	BMb1939		197.55	197.55	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg318	Leg318		205.65	205.65	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg301	Leg301		205.65	205.65	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg120	Leg120		205.65	205.65	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g693	g693		206.09	206.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g774	g774		206.55	206.55	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g680	g680		207.92	207.92	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2427	g2427		210.33	210.33	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_mtmt_Gen_00003_01_1	mtmt_Gen_00003_01_1		213.51	213.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g364	g364		213.51	213.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g656	g656		214.93	214.93	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg435	Leg435		220.06	220.06	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg447	Leg447		221.29	221.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_BSNP4	BSNP4		226.29	226.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1194	g1194		231.74	231.74	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_G501	G501		233.46	233.46	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg458	Leg458		238.03	238.03	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g797	g797		256.51	256.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1307	g1307		259.99	259.99	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2020	g2020		262.73	262.73	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g2101	g2101		268.16	268.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg375	Leg375		272.72	272.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_Leg224	Leg224		274.31	274.31	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv02	Pv02	0	276.36	PvConsensus_GaleanoFernandez2011_a_Pv02_g1686	g1686		276.36	276.36	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g762	g762		0	0	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg187	Leg187		5.42	5.42	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1296	g1296		6.8	6.8	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield 2-2	Seed yield 2-2	yld3.1	8	45.5	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg310	Leg310		9.25	9.25	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1171	BMb1171		14.34	14.34	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg463	Leg463		19.85	19.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Bng32	Bng32		22.94	22.94	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root density 1-1	Root density 1-1	Nrt3.1	27.8	37.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb590	BMb590		28.7	28.7	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg213	Leg213		32.21	32.21	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1624	g1624		33.05	33.05	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2558	g2558		34.3	34.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2218	g2218		34.3	34.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BSNP56	BSNP56		34.3	34.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g664	g664		37.23	37.23	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BSNP59	BSNP59		39.84	39.84	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMd36	BMd36		41.86	41.86	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg169	Leg169		43.83	43.83	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2213	g2213		47.4	47.4	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb793	BMb793		47.56	47.56	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g665	g665		50.25	50.25	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed water absorption 1-1	Seed water absorption 1-1	WA3	50.7	68.3	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield 1-1	Seed yield 1-1	Yld3.1	51.4	83	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2341	g2341		54.14	54.14	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg83	Leg83		55.69	55.69	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield/Full maturity, bean 1-1	Seed yield/Full maturity, bean 1-1	Ypd3.1	57.2	82	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg175	Leg175		58.07	58.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield/Full maturity, bean 1-5	Seed yield/Full maturity, bean 1-5	Ypd3.2	58.2	82	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root length, specific 2-3	Root length, specific 2-3	Srl3.1	62.5	73.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1808	g1808		63.4	63.4	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g686	g686		65.83	65.83	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2409	g2409		68.71	68.71	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield 1-5	Seed yield 1-5	Yld3.2	68.9	92.2	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1388	g1388		69.32	69.32	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Bng3	Bng3		70.99	70.99	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Bng165	Bng165		72.52	72.52	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg462	Leg462		77.29	77.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BM98	BM98		78.23	78.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield/Full maturity, bean 1-6	Seed yield/Full maturity, bean 1-6	Ypd3.3	79.5	112.1	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BM159	BM159		79.66	79.66	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g117	g117		80.8	80.8	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2371	g2371		82.4	82.4	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1925	g1925		83.16	83.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMe196	BMe196		83.54	83.54	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield 1-6	Seed yield 1-6	Yld3.3	84.4	193.6	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield 1-7	Seed yield 1-7	Yld3.4	85.4	108.2	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed weight 3-4	Seed weight 3-4	sw3.1	85.6	113.8	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root hair density, basal 1-1	Root hair density, basal 1-1	Bhd3.1	91.9	120.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_X1901	X1901		93.6	93.6	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed yield 2-3	Seed yield 2-3	yld3.2	95.8	154.3	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Q1701	Q1701		95.96	95.96	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root length, basal 1-1	Root length, basal 1-1	Brl3.1	96.8	122.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root weight, basal 1-1	Root weight, basal 1-1	Brd3.1	97.1	117.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed weight 2-1	Seed weight 2-1	Swf3.1	97.4	117.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed width 1-1	Seed width 1-1	WI3	101.4	109.3	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed coat proportion 1-1	Seed coat proportion 1-1	CP3	101.4	109.7	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb477	BMb477		101.68	101.68	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed length 1-5	Seed length 1-5	SL3	104.1	133.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_AE103	AE103		104.57	104.57	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg178	Leg178		106.71	106.71	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_SSR-IAC98	SSR-IAC98		109.36	109.36	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g125	g125		109.66	109.66	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2654	g2654		111.92	111.92	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Q1001	Q1001		112.37	112.37	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BM181	BM181		114.8	114.8	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_SSR-IAC32	SSR-IAC32		115.21	115.21	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_AD1801	AD1801		116.95	116.95	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BM197	BM197		120.56	120.56	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMa26	BMa26		120.91	120.91	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_X901	X901		121.19	121.19	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BSn229	BSn229		121.24	121.24	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1259	BMb1259		121.24	121.24	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g417	g417		122.66	122.66	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1656	g1656		122.66	122.66	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2548	g2548		123.05	123.05	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMa173	BMa173		123.23	123.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMe42	BMe42		123.39	123.39	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1188	BMb1188		124.75	124.75	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1203	BMb1203		126.4	126.4	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg226	Leg226		126.81	126.81	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_AG1	AG1		127.53	127.53	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1215	BMb1215		128.13	128.13	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1008	BMb1008		129.55	129.55	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1520	g1520		130.68	130.68	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1010	BMb1010		130.84	130.84	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb4	BMb4		132.42	132.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb506	BMb506		134.23	134.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb2	BMb2		135.31	135.31	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1113	BMb1113		135.67	135.67	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb508	BMb508		137.08	137.08	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_OAM10	OAM10		138.48	138.48	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed coat tannin, soluble 1-1	Seed coat tannin, soluble 1-1	Cst3	138.5	145.2	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed coat tannin 1-1	Seed coat tannin 1-1	Ctt3a	139.2	167.2	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb247	BMb247		139.55	139.55	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BSNP61	BSNP61		139.94	139.94	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Bng75	Bng75		140.33	140.33	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb37	BMb37		142.42	142.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb339	BMb339		145.45	145.45	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb521	BMb521		149.87	149.87	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Bng16	Bng16		156.99	156.99	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Bng12	Bng12		158.1	158.1	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg237	Leg237		160.96	160.96	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root length, primary 1-1	Root length, primary 1-1	Trl3.1	161.9	174.2	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2493	g2493		163.19	163.19	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1805	g1805		163.59	163.59	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BSNP28	BSNP28		164.93	164.93	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g1830	g1830		167.54	167.54	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Seed coat tannin 1-2	Seed coat tannin 1-2	Ctt3b	171.8	176.3	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_SSR-IAC34	SSR-IAC34		172.94	172.94	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Internode length 1-1	Internode length 1-1	Int1	173.3	200.2	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2108	g2108		175.66	175.66	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Leg128	Leg128		180.34	180.34	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_PVBR169	PVBR169		181.38	181.38	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_PVBR16	PVBR16		181.38	181.38	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_PVBR77	PVBR77		181.7	181.7	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_M502	M502		182.02	182.02	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2274	g2274		184.21	184.21	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g2068	g2068		187.43	187.43	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root hair length, primary 1-2	Root hair length, primary 1-2	Thl3.1	187.6	189.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BSn116	BSn116		190.07	190.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g964	g964		199.24	199.24	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Plant height 2-1	Plant height 2-1	Plh1-1	199.8	215.1	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_Root proton exudation rate 1-1	Root proton exudation rate 1-1	Her3.1	204.2	207	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb57	BMb57		204.72	204.72	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_g586	g586		207.44	207.44	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMd1	BMd1		217.68	217.68	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb1195	BMb1195		226.9	226.9	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv03	Pv03	0	235.77	PvConsensus_GaleanoFernandez2011_a_Pv03_BMb581	BMb581		235.77	235.77	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb717	BMb717		0	0	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed water absorption 1-3	Seed water absorption 1-3	WA4	20.1	31.3	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_AI1402	AI1402		21.85	21.85	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_AI1401	AI1401		23.57	23.57	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_SSR-IAC52	SSR-IAC52		28.34	28.34	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g968	g968		28.53	28.53	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PV-ag004	PV-ag004		35.03	35.03	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g118	g118		36.1	36.1	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMd9	BMd9		37.08	37.08	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Leg423	Leg423		41.39	41.39	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMd15	BMd15		42.78	42.78	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Bng224	Bng224		46.29	46.29	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Internode length 1-6	Internode length 1-6	Int4	47.2	68.6	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g755	g755		47.94	47.94	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMa12	BMa12		50.18	50.18	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield 2-4	Seed yield 2-4	yld4.1	52.4	78.3	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMa112	BMa112		53.93	53.93	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Leg214	Leg214		55.57	55.57	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_O701	O701		56.06	56.06	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Plant height 2-6	Plant height 2-6	Plh2-2	56.2	86.6	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Plant height 2-2	Plant height 2-2	Plh1-2	59.2	90	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Leg442	Leg442		59.9	59.9	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMa288	BMa288		61.85	61.85	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g1564	g1564		67.12	67.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Y502	Y502		67.68	67.68	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Internode length 1-2	Internode length 1-2	Int2	75.8	89.6	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PVBR128	PVBR128		76.38	76.38	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Root length, adventitious specific 1-7	Root length, adventitious specific 1-7	LPSRL_AdvGH.1	78.6	90	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield/Full maturity, bean 1-7	Seed yield/Full maturity, bean 1-7	Ypd4.2	78.7	87.7	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Climbing 1-3	Climbing 1-3	Cab1-2	79.5	87	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_X301	X301		81.16	81.16	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_P1601	P1601		81.16	81.16	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield 2-5	Seed yield 2-5	yld4.2	81.5	143.6	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMd26	BMd26		82.71	82.71	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield 2-6	Seed yield 2-6	yld4.3	83.4	109.3	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb1527	BMb1527		84.86	84.86	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Leg88	Leg88		84.87	84.87	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield/Full maturity, bean 1-8	Seed yield/Full maturity, bean 1-8	Ypd4.3	85.3	92.5	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSn191	BSn191		86.34	86.34	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield/Full maturity, bean 1-9	Seed yield/Full maturity, bean 1-9	Ypd4.4	88.3	96.2	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSNP14	BSNP14		89.11	89.11	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSn154	BSn154		92.06	92.06	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g2595	g2595		92.68	92.68	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb136	BMb136		93.23	93.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_H1202	H1202		94.04	94.04	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMa2	BMa2		94.85	94.85	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PV-at001	PV-at001		95.79	95.79	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g128	g128		98.68	98.68	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BM149	BM149		99.16	99.16	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb571	BMb571		100.28	100.28	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSNP35	BSNP35		100.75	100.75	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Leg36	Leg36		101.18	101.18	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb353	BMb353		101.18	101.18	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSNP68	BSNP68		101.49	101.49	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb66	BMb66		104.05	104.05	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PVBR182	PVBR182		105.82	105.82	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_First flower, bean 1-2	First flower, bean 1-2	Df4.2	107.2	114.4	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_First flower, bean 1-8	First flower, bean 1-8	Df4.3	107.2	114.6	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb133	BMb133		120.81	120.81	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g483	g483		131.07	131.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_U1302	U1302		132.59	132.59	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_N1801	N1801		133.37	133.37	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_First flower, bean 1-1	First flower, bean 1-1	Df4.1	133.8	141.5	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed weight 2-2	Seed weight 2-2	Swf4.1	134.1	141.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_U1002	U1002		134.56	134.56	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PVBR112	PVBR112		135.73	135.73	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSn262	BSn262		135.73	135.73	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield 1-3	Seed yield 1-3	Yld4.1	136.9	150.9	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_SSR-IAC25	SSR-IAC25		137.98	137.98	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSNP62	BSNP62		140.46	140.46	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb354	BMb354		140.46	140.46	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMd8	BMd8		141.94	141.94	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMa20	BMa20		143.08	143.08	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSNP88	BSNP88		145.01	145.01	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PV-gaat001	PV-gaat001		145.42	145.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PV-at003	PV-at003		145.42	145.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_X701	X701		145.63	145.63	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BM140	BM140		146.01	146.01	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield/Full maturity, bean 1-3	Seed yield/Full maturity, bean 1-3	Ypd4.1	146.1	156.6	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSNP80	BSNP80		146.83	146.83	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMa143	BMa143		147.23	147.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_S1301	S1301		147.9	147.9	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_OU14	OU14		148.38	148.38	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Root length 2-1	Root length 2-1	Rlf4.1	149.2	173.5	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g2685	g2685		150.37	150.37	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BSNP89	BSNP89		150.37	150.37	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_V101	V101		150.67	150.67	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_P1101	P1101		153.62	153.62	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_N1001	N1001		154.84	154.84	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb1160	BMb1160		154.85	154.85	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_G1001	G1001		155.34	155.34	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_AH2001	AH2001		155.34	155.34	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_M503	M503		156.13	156.13	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_O1602	O1602		157.73	157.73	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb1244	BMb1244		157.9	157.9	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BM68	BM68		158.25	158.25	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BM199	BM199		158.25	158.25	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_ACAT01	ACAT01		159.24	159.24	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_AGTA01	AGTA01		159.66	159.66	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Climbing 1-1	Climbing 1-1	Cab1-1	159.7	187.1	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Plant height 2-5	Plant height 2-5	Plh2-1	159.7	187.5	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Climbing 1-8	Climbing 1-8	Cab2-1	159.7	187.9	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_CATA04	CATA04		160.08	160.08	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Plant P 2-1	Plant P 2-1	Pup4.1	160.4	177.1	QTL_inorganic	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Plant P 1-1	Plant P 1-1	Pup4.1	160.7	177.5	QTL_inorganic	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb1101	BMb1101		161.13	161.13	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Internode length 1-4	Internode length 1-4	Int3	161.3	181.9	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Branching 1-1	Branching 1-1	Brn1	162	187.9	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Seed yield 2-7	Seed yield 2-7	yld4.4	164	194.4	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMc284	BMc284		164.23	164.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Root length 2-5	Root length 2-5	Rlf4.2	166	180.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_AGTA03	AGTA03		169.96	169.96	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Bng71	Bng71		172.08	172.08	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_SSR-IAC67	SSR-IAC67		173.02	173.02	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g2303	g2303		174.58	174.58	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb548	BMb548		174.62	174.62	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Plant height 2-3	Plant height 2-3	Plh1-3	174.7	187.1	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb488	BMb488		175.07	175.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Root organic acid exudation 1-1	Root organic acid exudation 1-1	Tae4.1	177.5	195.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g1375	g1375		177.57	177.57	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Root proton exudation 1-1	Root proton exudation 1-1	Hex4.1	183.1	187.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_SSR-IAC66	SSR-IAC66		183.78	183.78	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Leg76	Leg76		184.46	184.46	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMc255	BMc255		189.61	189.61	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_g2467	g2467		190.06	190.06	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_PV-ctt001	PV-ctt001		190.81	190.81	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BM161	BM161		191.3	191.3	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_Bng160	Bng160		193.18	193.18	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv04	Pv04	0	199.87	PvConsensus_GaleanoFernandez2011_a_Pv04_BMb1102	BMb1102		199.87	199.87	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g564	g564		0	0	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g136	g136		2.09	2.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1188	g1188		2.09	2.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g985	g985		6.29	6.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Seed weight 1-20	Seed weight 1-20	Sw5.3	7.7	19.7	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Full maturity, bean 1-4	Full maturity, bean 1-4	Dm5.1	7.7	22.5	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_17M-Gm	17M-Gm		12.89	12.89	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Root length, specific 1-2	Root length, specific 1-2	Srl5.1	13.4	30.2	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Seed weight 1-14	Seed weight 1-14	Sw5.2	14.1	34.5	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Bng49	Bng49		15.31	15.31	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1395	g1395		18.53	18.53	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g292	g292		19.65	19.65	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g2507	g2507		20	20	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g2596	g2596		21.45	21.45	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1676	g1676		21.45	21.45	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_First flower, bean 1-9	First flower, bean 1-9	Df5.3	21.8	38.7	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1226	g1226		21.85	21.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Leg729	Leg729		23.21	23.21	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g2410	g2410		26.39	26.39	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BM175	BM175		29.13	29.13	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1968	g1968		30.4	30.4	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Leg209	Leg209		31.47	31.47	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g34	g34		34.53	34.53	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMd50	BMd50		41.02	41.02	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BSn223	BSn223		45.92	45.92	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g174	g174		46.7	46.7	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1883	g1883		50.86	50.86	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb1071	BMb1071		50.86	50.86	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb560	BMb560		51.84	51.84	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Root density 1-2	Root density 1-2	Nrt5.1	52.9	65.4	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb250	BMb250		53.75	53.75	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb742	BMb742		54.51	54.51	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_U1305	U1305		56.36	56.36	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_First flower, bean 1-4	First flower, bean 1-4	Df5.1	57.7	74.9	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb1843	BMb1843		59.97	59.97	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BM155	BM155		61.49	61.49	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_V201	V201		61.62	61.62	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Root organic acid exudation 1-2	Root organic acid exudation 1-2	Tae5.1	61.8	65.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMd20	BMd20		65.51	65.51	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1689	g1689		66.91	66.91	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_PVM18	PVM18		67.16	67.16	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BSNPc30CT	BSNPc30CT		68.2	68.2	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_PVBR93	PVBR93		70.19	70.19	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1086	g1086		70.53	70.53	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g2557	g2557		70.95	70.95	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g2422	g2422		71.76	71.76	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb611	BMb611		72.3	72.3	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_gCV533374	gCV533374		73.72	73.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1333	g1333		73.72	73.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_First flower, bean 1-6	First flower, bean 1-6	Df5.2	74.5	91.4	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g2308	g2308		76.96	76.96	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMa154	BMa154		79.13	79.13	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb318	BMb318		81.62	81.62	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMd53	BMd53		81.94	81.94	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_F1003	F1003		82.03	82.03	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Seed weight 1-6	Seed weight 1-6	Sw5.1	82.3	94.2	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Y504	Y504		82.32	82.32	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb1016	BMb1016		83.83	83.83	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BM138	BM138		84.76	84.76	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Leg448	Leg448		84.89	84.89	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_g1664	g1664		86.81	86.81	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb121	BMb121		86.88	86.88	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Bng162	Bng162		88.06	88.06	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMd85	BMd85		88.34	88.34	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMd75	BMd75		88.34	88.34	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BSNP75	BSNP75		88.37	88.37	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb1182	BMb1182		90.01	90.01	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_CATA05	CATA05		90.29	90.29	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_AGTA02	AGTA02		90.61	90.61	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb1092	BMb1092		90.77	90.77	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_P102	P102		91.7	91.7	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_F602	F602		93.62	93.62	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_F601	F601		93.62	93.62	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb293	BMb293		94.54	94.54	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Climbing 1-4	Climbing 1-4	Cab1-3	94.8	109.7	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Y503	Y503		96.58	96.58	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_X302	X302		99.11	99.11	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Root organic acid exudation 1-3	Root organic acid exudation 1-3	Tae5.2	101.7	115.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_P101	P101		101.99	101.99	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb349	BMb349		103.82	103.82	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_Full maturity, bean 2-1	Full maturity, bean 2-1	dm5.1	104.2	125.9	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMd109	BMd109		110.7	110.7	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb803	BMb803		120.42	120.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv05	Pv05	0	132.93	PvConsensus_GaleanoFernandez2011_a_Pv05_BMb643	BMb643		132.93	132.93	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_AG1301	AG1301		0	0	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-25	Seed weight 1-25	Sw6.14	0	10.7	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Plant height 1-3	Plant height 1-3	ph6.2	6.7	42.3	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2538	g2538		7.52	7.52	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Bng84	Bng84		10.56	10.56	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 4-1	Seed weight 4-1	SW6	11.4	30.8	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed yield 1-4	Seed yield 1-4	Yld6.1	12.4	33	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2551	g2551		12.99	12.99	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Root length 1-1	Root length 1-1	Trl6.1	13.2	37.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-7	Seed weight 1-7	Sw6.3	14	25.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Last flower 1-12	Last flower 1-12	DE6.2	15.4	38.1	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed yield/Full maturity, bean 1-4	Seed yield/Full maturity, bean 1-4	Ypd6.1	16.5	35.5	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g139	g139		18.16	18.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed length 1-9	Seed length 1-9	SL6	18.2	42	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_U1301	U1301		21.33	21.33	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1192	g1192		21.62	21.62	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seeds per plant 1-1	Seeds per plant 1-1	sp6.1	22.6	57.9	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_M1601	M1601		26.19	26.19	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-8	Seed weight 1-8	Sw6.4	26.4	32.2	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Full maturity, bean 3-13	Full maturity, bean 3-13	DM6.2	28	37.7	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_gTC1436	gTC1436		28.08	28.08	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_CAC1	CAC1		28.43	28.43	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb1061	BMb1061		28.43	28.43	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BM278	BM278		29.42	29.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1639	g1639		29.55	29.55	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Full maturity, bean 1-2	Full maturity, bean 1-2	Dm6.2	29.7	42.1	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_OD12	OD12		29.71	29.71	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BM158	BM158		30.91	30.91	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed height 1-1	Seed height 1-1	SH6	31.6	41.1	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BM137	BM137		31.81	31.81	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb182	BMb182		34.67	34.67	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb1108	BMb1108		36.98	36.98	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb519	BMb519		38.28	38.28	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_First flower, bean 1-10	First flower, bean 1-10	Df6.2	38.8	59.4	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_First flower, bean 1-7	First flower, bean 1-7	Df6.1	38.8	60.2	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb342	BMb342		39.59	39.59	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb1158	BMb1158		39.59	39.59	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb539	BMb539		40.83	40.83	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg736	Leg736		42.48	42.48	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2553	g2553		43.73	43.73	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_M501	M501		44.33	44.33	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg438	Leg438		44.72	44.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb341	BMb341		47.26	47.26	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg441	Leg441		47.46	47.46	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_SSR-IAC115	SSR-IAC115		47.7	47.7	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Pv42	Pv42		50.05	50.05	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg298	Leg298		51.42	51.42	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g739	g739		53.07	53.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_ACAG02	ACAG02		53.49	53.49	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMd12	BMd12		55.63	55.63	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-15	Seed weight 1-15	Sw6.9	56.9	66.8	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_AB1001	AB1001		57.42	57.42	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_11M-Gm	11M-Gm		57.45	57.45	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Full maturity, bean 1-1	Full maturity, bean 1-1	Dm6.1	57.7	61	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Root length, adventitious specific 1-3	Root length, adventitious specific 1-3	HPSRL_AdvGH.1	57.7	62.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Canopy width 1-2	Canopy width 1-2	pw6.2	59.4	81.2	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Plant height 1-2	Plant height 1-2	ph6.1	59.9	111.9	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed coat tannin, insoluble 1-3	Seed coat tannin, insoluble 1-3	Cit6	60.4	78.1	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Y501	Y501		60.71	60.71	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g471	g471		61.78	61.78	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-9	Seed weight 1-9	Sw6.5	61.9	72.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_First flower, bean 2-4	First flower, bean 2-4	df6.2	63.4	81.2	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg217	Leg217		63.59	63.59	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_AD901	AD901		65.06	65.06	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Full maturity, bean 3-11	Full maturity, bean 3-11	DM6.1	65.2	73.9	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_PVBR163	PVBR163		65.5	65.5	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BM187	BM187		65.5	65.5	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb419	BMb419		68.32	68.32	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Last flower 1-9	Last flower 1-9	DE6.1	68.5	86.3	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed width 1-4	Seed width 1-4	WI6	72.5	90.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb1105	BMb1105		73.74	73.74	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-2	Seed weight 1-2	Sw6.1	74.2	92.4	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg81	Leg81		75.05	75.05	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2329	g2329		77.09	77.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Bng46	Bng46		78.2	78.2	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1361	g1361		80.04	80.04	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMc238	BMc238		80.22	80.22	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Root weight, adventitious 1-2	Root weight, adventitious 1-2	HPAdvDWF.2	80.6	123.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1852	g1852		81.48	81.48	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Canopy width 1-1	Canopy width 1-1	pw6.1	82.5	111.9	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_First flower, bean 2-3	First flower, bean 2-3	df6.1	82.7	112.4	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Bng9	Bng9		83.83	83.83	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-26	Seed weight 1-26	Sw6.15	84.1	94.9	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1748	g1748		85.08	85.08	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-21	Seed weight 1-21	Sw6.12	87.4	94	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg44	Leg44		87.89	87.89	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMb1157	BMb1157		87.97	87.97	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-10	Seed weight 1-10	Sw6.6	88.2	105.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-16	Seed weight 1-16	Sw6.10	89.1	99	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1249	g1249		90.16	90.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-3	Seed weight 1-3	Sw6.2	91.6	104.8	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2435	g2435		92.34	92.34	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BM170	BM170		92.6	92.6	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1159	g1159		94.7	94.7	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Bng27	Bng27		94.76	94.76	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-17	Seed weight 1-17	Sw6.11	94.9	102.3	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-11	Seed weight 1-11	Sw6.7	95.7	111.3	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg56	Leg56		97.39	97.39	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_mtmt_Gen_00026_02_1	mtmt_Gen_00026_02_1		106.95	106.95	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_20M-Gm	20M-Gm		106.95	106.95	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-27	Seed weight 1-27	Sw6.16	107.2	117.9	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-22	Seed weight 1-22	Sw6.13	108	114.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 1-12	Seed weight 1-12	Sw6.8	108.9	119.6	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1280	g1280		109.86	109.86	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1488	g1488		113.92	113.92	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1837	g1837		114.92	114.92	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1190	g1190		116.43	116.43	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Full maturity, bean 1-6	Full maturity, bean 1-6	Dm6.3	119.6	127	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2480	g2480		120.72	120.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1174	g1174		120.72	120.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Root width 1-1	Root width 1-1	Ard6.1	122.8	142	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Bng104	Bng104		122.97	122.97	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_13-Gm	13-Gm		124.68	124.68	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_PVBR20	PVBR20		125.1	125.1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BM275	BM275		125.1	125.1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BM218	BM218		125.1	125.1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_PVBR14	PVBR14		125.48	125.48	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1957	g1957		126.06	126.06	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BMd37	BMd37		126.67	126.67	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2383	g2383		127.49	127.49	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_PVBR5	PVBR5		129	129	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Seed weight 3-5	Seed weight 3-5	sw6.1	134.1	154.1	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1818	g1818		135.67	135.67	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2208	g2208		137.12	137.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2439	g2439		139.07	139.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1998	g1998		140.01	140.01	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Bng94	Bng94		142.03	142.03	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g1757	g1757		142.12	142.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g2192	g2192		143.34	143.34	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_BSNP67	BSNP67		145.08	145.08	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_g861	g861		150.04	150.04	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv06	Pv06	0	162.48	PvConsensus_GaleanoFernandez2011_a_Pv06_Leg122N	Leg122N		162.48	162.48	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g2298	g2298		0	0	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1719	g1719		2.91	2.91	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_mtmt_Gen_00001_01_1	mtmt_Gen_00001_01_1		8.15	8.15	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seed yield 1-8	Seed yield 1-8	Yld7.1	10	27.4	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seed weight 3-6	Seed weight 3-6	sw7.1	13.9	48.1	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Plant height 1-4	Plant height 1-4	ph7.1	13.9	84.2	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng191	Bng191		16.22	16.22	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb191	BMb191		16.83	16.83	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root width 1-2	Root width 1-2	Ard7.1	17.9	51.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g503	g503		18.56	18.56	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g134	g134		19.57	19.57	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb489	BMb489		19.61	19.61	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMc72	BMc72		22.12	22.12	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BM160	BM160		23.74	23.74	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Z1902	Z1902		24.26	24.26	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb1148	BMb1148		25.15	25.15	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BM183	BM183		26.97	26.97	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Leg97	Leg97		28.8	28.8	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Canopy width 1-3	Canopy width 1-3	pw7.1	31.8	84.2	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_CATA06	CATA06		32.52	32.52	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_ACAC01	ACAC01		37.05	37.05	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Leg51	Leg51		37.07	37.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng52	Bng52		38.65	38.65	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng40	Bng40		39.14	39.14	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng199	Bng199		39.64	39.64	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Full maturity, bean 2-2	Full maturity, bean 2-2	dm7.1	40.7	48.9	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1615	g1615		41.41	41.41	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Z1903	Z1903		42.05	42.05	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g501	g501		43.05	43.05	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_1-Gm	1-Gm		45.23	45.23	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_P901	P901		45.56	45.56	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Leg199	Leg199		47.16	47.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Leg732	Leg732		48.4	48.4	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seeds per plant 1-2	Seeds per plant 1-2	sp7.1	48.5	84.5	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g2129	g2129		50.33	50.33	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_AGTA07	AGTA07		50.95	50.95	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng60	Bng60		51.97	51.97	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root length 2-2	Root length 2-2	Rlf7.1	53.1	57.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BSNP60	BSNP60		56.11	56.11	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb1536	BMb1536		56.11	56.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root density, adventitious 1-1	Root density, adventitious 1-1	HPAdvNoF.1	56.9	90.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1233	g1233		58.85	58.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb1198	BMb1198		60.16	60.16	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g366	g366		61.11	61.11	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g2531	g2531		62.78	62.78	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1378	g1378		65.46	65.46	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g487	g487		66.49	66.49	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb601	BMb601		69.91	69.91	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb526	BMb526		71.41	71.41	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb621	BMb621		71.92	71.92	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb502	BMb502		72.89	72.89	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BM150	BM150		74.42	74.42	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root weight, basal 1-2	Root weight, basal 1-2	Brd7.1	76.6	78.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Full maturity, bean 1-3	Full maturity, bean 1-3	Dm7.1	77.3	93.1	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BM185	BM185		77.75	77.75	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMa74	BMa74		78.2	78.2	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMa248	BMa248		78.2	78.2	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BM201	BM201		78.2	78.2	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng204	Bng204		81.68	81.68	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Pods per plant 1-1	Pods per plant 1-1	pp7.2	85.3	161.9	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb1275	BMb1275		85.76	85.76	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seeds per plant 1-3	Seeds per plant 1-3	sp7.2	85.9	153.1	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb428	BMb428		90.28	90.28	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb160	BMb160		93.21	93.21	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb1142	BMb1142		94.08	94.08	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb1080	BMb1080		94.08	94.08	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g415	g415		98.14	98.14	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BM210	BM210		98.14	98.14	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BM046	BM046		98.14	98.14	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root length, specific 2-4	Root length, specific 2-4	Srl7.2	99	106.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root length 2-6	Root length 2-6	Rlf7.2	100.1	125.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_PVBR269	PVBR269		101.07	101.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g2416	g2416		101.07	101.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_First flower, bean 1-3	First flower, bean 1-3	Df7.1	104.7	125.5	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Leg146	Leg146		105.26	105.26	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seed coat tannin 1-3	Seed coat tannin 1-3	Ctt7	105.8	174.8	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMb1117	BMb1117		107.23	107.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seed coat tannin, insoluble 1-1	Seed coat tannin, insoluble 1-1	Cit7	115.3	175.6	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seed coat tannin, soluble 1-2	Seed coat tannin, soluble 1-2	Cst7	116.5	175.2	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Leg726	Leg726		121.3	121.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g2459	g2459		124.23	124.23	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seed coat proportion 1-3	Seed coat proportion 1-3	CP7	128.7	166.1	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_PVBR35	PVBR35		129.72	129.72	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1175	g1175		130.89	130.89	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng118	Bng118		133.03	133.03	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1065	g1065		137.11	137.11	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_PVBR167	PVBR167		137.55	137.55	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1357	g1357		141	141	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_AF1902	AF1902		141.83	141.83	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Leg376	Leg376		142.26	142.26	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1853	g1853		142.97	142.97	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1380	g1380		149.44	149.44	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Climbing 1-5	Climbing 1-5	Cab1-4	150.7	173.4	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Seed width 1-6	Seed width 1-6	WI7	152.5	159.4	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root length, adventitious specific 1-2	Root length, adventitious specific 1-2	HPSRL_AdvF.2	155.3	168.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1466	g1466		155.48	155.48	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root length, specific 2-6	Root length, specific 2-6	Srl7.1	155.5	158.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMd40	BMd40		156.83	156.83	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_V1702	V1702		157.06	157.06	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g290	g290		160.59	160.59	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root length, specific 1-3	Root length, specific 1-3	Srl7.1	165.2	175.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g1947	g1947		169.39	169.39	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Root length, adventitious specific 1-4	Root length, adventitious specific 1-4	HPSRL_AdvGH.2	174.5	176.4	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_g166	g166		175.17	175.17	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_BMe26	BMe26		180	180	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv07	Pv07	0	187.87	PvConsensus_GaleanoFernandez2011_a_Pv07_Bng26	Bng26		187.87	187.87	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSNP65	BSNP65		0	0	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1208	BMb1208		1	1	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1084	g1084		6.02	6.02	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1588	g1588		7.09	7.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1786	g1786		8.6	8.6	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2543	g2543		15.76	15.76	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2311	g2311		19.24	19.24	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb531	BMb531		19.39	19.39	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g135	g135		20.66	20.66	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g89	g89		21.13	21.13	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed weight 3-10	Seed weight 3-10	sw8.2	23.3	88.1	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSNP52	BSNP52		24.42	24.42	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2393	g2393		24.84	24.84	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb445	BMb445		25.17	25.17	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_O2002	O2002		26.86	26.86	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMd25	BMd25		28.17	28.17	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1879	g1879		28.42	28.42	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Z1904	Z1904		35.51	35.51	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length 1-2	Root length 1-2	Trl8.1	36.5	47.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1119	g1119		38.57	38.57	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1319	BMb1319		38.57	38.57	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length 1-3	Root length 1-3	Trl8.2	38.9	42.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2567	g2567		39.59	39.59	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_SSR-IAC92	SSR-IAC92		42.11	42.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg741	Leg741		45.31	45.31	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSNP19	BSNP19		45.92	45.92	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMc259	BMc259		46.5	46.5	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g696	g696		47.02	47.02	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2462	g2462		47.02	47.02	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_First flower, bean 3-7	First flower, bean 3-7	DF8	50	56.9	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb386	BMb386		54.07	54.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2561	g2561		57.44	57.44	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMc121	BMc121		59.59	59.59	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMc140	BMc140		60.5	60.5	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed yield/Full maturity, bean 1-10	Seed yield/Full maturity, bean 1-10	Ypd8.2	61.9	79.5	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g131	g131		63.82	63.82	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g549	g549		65.84	65.84	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_CAAC01	CAAC01		66.06	66.06	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed yield 1-9	Seed yield 1-9	Yld8.2	66.3	81	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg451	Leg451		68.78	68.78	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg445	Leg445		70.18	70.18	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMa289	BMa289		70.53	70.53	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_ACAC03	ACAC03		72.86	72.86	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1031	g1031		73.68	73.68	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1990	g1990		75.72	75.72	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BM189	BM189		77.37	77.37	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_CATA01	CATA01		78.51	78.51	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg184	Leg184		78.92	78.92	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_M1002	M1002		83.22	83.22	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_P103	P103		84.8	84.8	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed coat tannin, soluble 1-3	Seed coat tannin, soluble 1-3	Cst8	89.3	109.6	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed coat tannin 1-4	Seed coat tannin 1-4	Ctt8	89.9	109.4	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_PVBR71	PVBR71		90.86	90.86	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root weight, primary 1-1	Root weight, primary 1-1	Trd8.1	93.1	100.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed weight 3-8	Seed weight 3-8	sw8.1	93.3	140	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_PVBR53	PVBR53		97.41	97.41	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_AC702	AC702		99.75	99.75	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1055	BMb1055		101	101	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g776	g776		102.64	102.64	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2545	g2545		103.63	103.63	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length 2-4	Root length 2-4	Rlf8.2	104.2	123.5	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BM153	BM153		105.84	105.84	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BM211	BM211		108.66	108.66	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed weight 4-5	Seed weight 4-5	SW8.1	109.8	122.4	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed length 1-13	Seed length 1-13	SL8	111	123.2	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed height 1-3	Seed height 1-3	SH8	112.2	138.2	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_PVBR102	PVBR102		113.11	113.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb89	BMb89		113.11	113.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb267	BMb267		113.11	113.11	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BM151	BM151		113.51	113.51	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_OAP2	OAP2		114.32	114.32	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length, specific 1-4	Root length, specific 1-4	Srl8.1	115.8	126.2	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1039	BMb1039		115.99	115.99	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb278	BMb278		116.71	116.71	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb277	BMb277		116.86	116.86	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb116	BMb116		117.14	117.14	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_GA16	GA16		117.33	117.33	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb174	BMb174		117.33	117.33	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMa247	BMa247		117.33	117.33	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb529	BMb529		118.19	118.19	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1543	BMb1543		118.19	118.19	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g140	g140		118.3	118.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_O1604	O1604		118.98	118.98	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root proton exudation rate 1-2	Root proton exudation rate 1-2	Her8.1	121.8	135.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2514	g2514		121.85	121.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb578	BMb578		121.92	121.92	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb362	BMb362		123.15	123.15	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1758	g1758		124.09	124.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g440	g440		124.65	124.65	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Bng205	Bng205		124.65	124.65	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1539	g1539		125.58	125.58	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1229	BMb1229		126.29	126.29	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length, adventitious specific 1-8	Root length, adventitious specific 1-8	LPSRL_AdvGH.2	126.4	135.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg739	Leg739		126.98	126.98	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1297	BMb1297		127.96	127.96	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_AK601	AK601		128.21	128.21	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1205	BMb1205		129.52	129.52	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg299	Leg299		131.13	131.13	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_A402	A402		132.74	132.74	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSNP3	BSNP3		133.51	133.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g580	g580		133.6	133.6	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length 2-3	Root length 2-3	Rlf8.1	134.1	151.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg443	Leg443		136.41	136.41	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg294	Leg294		136.41	136.41	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length, specific 2-1	Root length, specific 2-1	Srl8.1	136.5	163.5	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb559	BMb559		137.24	137.24	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSNP12	BSNP12		137.64	137.64	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMa27	BMa27		137.64	137.64	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_AB1002	AB1002		138.48	138.48	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed yield 1-2	Seed yield 1-2	Yld8.1	138.5	162	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Plant height 2-4	Plant height 2-4	Plh1-4	139.1	147.1	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg55	Leg55		139.47	139.47	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed yield/Full maturity, bean 1-2	Seed yield/Full maturity, bean 1-2	Ypd8.1	139.9	158.4	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSn34	BSn34		140.58	140.58	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Seed weight 4-8	Seed weight 4-8	SW8.2	141.5	167.9	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg149	Leg149		141.91	141.91	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_O1603	O1603		142.8	142.8	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1181	g1181		147.9	147.9	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb266	BMb266		148.92	148.92	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2264	g2264		152.78	152.78	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSn165	BSn165		153.09	153.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb474	BMb474		154.64	154.64	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg713	Leg713		155.77	155.77	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb475	BMb475		156.61	156.61	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1713	g1713		162.12	162.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g1858	g1858		163.07	163.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root weight, adventitious 1-4	Root weight, adventitious 1-4	HPAdvDWGH.1	164.5	182.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Root length, adventitious 1-4	Root length, adventitious 1-4	HPAdv_LGH.1	166	182.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BMb1196	BMb1196		166.07	166.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2413	g2413		171.86	171.86	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSn60	BSn60		176.09	176.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2358	g2358		178.59	178.59	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2151	g2151		179.05	179.05	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2316	g2316		181.53	181.53	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g796	g796		183.08	183.08	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSn89	BSn89		183.96	183.96	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_g2061	g2061		186.35	186.35	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Bng73	Bng73		188.12	188.12	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSNP22	BSNP22		191.87	191.87	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_Leg228	Leg228		194.03	194.03	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSn109	BSn109		202.78	202.78	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv08	Pv08	0	205.49	PvConsensus_GaleanoFernandez2011_a_Pv08_BSn45	BSn45		205.49	205.49	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb1519	BMb1519		0	0	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2209	g2209		4.19	4.19	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_First flower, bean 2-5	First flower, bean 2-5	df9.1	5.9	25.7	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g860	g860		6.24	6.24	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g385	g385		6.24	6.24	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2398	g2398		6.24	6.24	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g195	g195		6.69	6.69	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2335	g2335		6.69	6.69	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb563	BMb563		9.9	9.9	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_O2001	O2001		18.71	18.71	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_U1801	U1801		19.05	19.05	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BM114	BM114		20.69	20.69	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g1379	g1379		20.98	20.98	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb143	BMb143		21.36	21.36	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb493	BMb493		21.36	21.36	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g634	g634		21.51	21.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BM141	BM141		23	23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_N201	N201		23.26	23.26	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Seed yield 2-8	Seed yield 2-8	yld9.1	26.2	41.5	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_First flower, bean 2-7	First flower, bean 2-7	df9.2	26.2	41.8	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BM202	BM202		27.23	27.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb598	BMb598		27.92	27.92	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb1119	BMb1119		30.57	30.57	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb737	BMb737		30.57	30.57	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g1126	g1126		31.63	31.63	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_SSR-TC35775	SSR-TC35775		31.63	31.63	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2510	g2510		36.27	36.27	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2516	g2516		40.69	40.69	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g1206	g1206		42.65	42.65	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Seed yield 2-9	Seed yield 2-9	yld9.2	42.9	67.2	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2613	g2613		45.32	45.32	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Seed weight 1-24	Seed weight 1-24	Sw9.2	46.2	62	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root length, specific 1-5	Root length, specific 1-5	Srl9.1	46.6	51.5	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb264	BMb264		47	47	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g708	g708		47.78	47.78	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root density 1-3	Root density 1-3	Nrt9.1	48.7	50.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root density 1-4	Root density 1-4	Nrt9.2	48.7	51.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Bng228	Bng228		48.71	48.71	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Bng24	Bng24		48.74	48.74	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_PVBR60	PVBR60		48.74	48.74	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Bng102	Bng102		49.2	49.2	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2272	g2272		51.9	51.9	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g792	g792		54.23	54.23	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg189	Leg189		56.1	56.1	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BSNP92	BSNP92		56.81	56.81	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g732	g732		58.77	58.77	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g1107	g1107		61.07	61.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_ME1	ME1		61.78	61.78	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g993	g993		63.12	63.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Seed weight 1-23	Seed weight 1-23	Sw9.1	63.3	77.8	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root length, adventitious 1-2	Root length, adventitious 1-2	HPAdv_LF.2	64	105.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2498	g2498		64.98	64.98	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMc292	BMc292		67.62	67.62	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g1884	g1884		68.12	68.12	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Seed weight 3-12	Seed weight 3-12	sw9.1	69.1	108.4	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root weight, adventitious 1-3	Root weight, adventitious 1-3	HPAdvDWF.3	69.8	104.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g544	g544		71.44	71.44	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg206	Leg206		72.33	72.33	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg207	Leg207		73.75	73.75	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMa108b	BMa108b		75.5	75.5	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg200	Leg200		76.91	76.91	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMa108a	BMa108a		77.8	77.8	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BM184	BM184		77.87	77.87	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2584	g2584		78.4	78.4	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg654	Leg654		79.29	79.29	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb594	BMb594		81.4	81.4	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg924	Leg924		82.53	82.53	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root density, adventitious 1-2	Root density, adventitious 1-2	HPAdvNoF.2	82.8	110.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root density, adventitious 1-4	Root density, adventitious 1-4	LPAdvNoF.2	82.8	110.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g791	g791		86.53	86.53	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb279	BMb279		87	87	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg159N	Leg159N		87.85	87.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Leg160	Leg160		87.85	87.85	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb1277	BMb1277		88.22	88.22	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g2178	g2178		90.7	90.7	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BM188	BM188		92.25	92.25	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BM154	BM154		96.23	96.23	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMd46	BMd46		97.85	97.85	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMa9	BMa9		102.74	102.74	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root density 1-5	Root density 1-5	Nrt9.3	105.7	113.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root hair length, primary 1-3	Root hair length, primary 1-3	Thl9.1	110.2	133.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root length 1-4	Root length 1-4	Trl9.1	114.3	132.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Root weight, primary 1-2	Root weight, primary 1-2	Trd9.1	114.8	132.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Pods per plant 1-2	Pods per plant 1-2	pp9.2	115.7	138.6	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_BMb1036	BMb1036		128.24	128.24	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_Seed coat tannin, insoluble 1-2	Seed coat tannin, insoluble 1-2	Cit9	134.6	139.1	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv09	Pv09	0	142.48	PvConsensus_GaleanoFernandez2011_a_Pv09_g1286	g1286		142.48	142.48	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BM212	BM212		0	0	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root length, specific 2-7	Root length, specific 2-7	Srl10.2	1.8	5.4	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g1661	g1661		4.77	4.77	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root proton exudation 1-2	Root proton exudation 1-2	Hex10.1	5.5	17.2	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g2260	g2260		6.26	6.26	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g1341	g1341		8.21	8.21	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMd42	BMd42		9.81	9.81	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g1724	g1724		10.8	10.8	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g2418	g2418		14.31	14.31	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Plant P 1-2	Plant P 1-2	Pup10.1	17.2	20.7	QTL_inorganic	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g2268	g2268		17.38	17.38	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g2560	g2560		18.49	18.49	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root length, specific 2-2	Root length, specific 2-2	Srl10.1	18.5	22.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Plant P 2-2	Plant P 2-2	Pup10.1	18.7	22.3	QTL_inorganic	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_AGAC01	AGAC01		19.09	19.09	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_PVBR185	PVBR185		22.36	22.36	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g2600	g2600		26.09	26.09	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BSn19	BSn19		26.75	26.75	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Bng68	Bng68		33.07	33.07	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g1994	g1994		33.07	33.07	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Seed weight 3-13	Seed weight 3-13	sw10.1	34.1	70.1	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g2331	g2331		34.82	34.82	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Leg1640	Leg1640		40.3	40.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Leg444	Leg444		41.57	41.57	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMe17	BMe17		41.85	41.85	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_g1643	g1643		42.77	42.77	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Bng42	Bng42		44.59	44.59	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Seed yield 1-10	Seed yield 1-10	Yld10.1	46.2	55.1	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Seed yield/Full maturity, bean 1-11	Seed yield/Full maturity, bean 1-11	Ypd10.1	46.2	55.1	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BM157	BM157		52.27	52.27	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_AI701	AI701		56.29	56.29	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_GATS11B	GATS11B		56.58	56.58	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root hair density, basal 1-2	Root hair density, basal 1-2	Bhd10.1	58.9	73.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root hair length, basal 1-2	Root hair length, basal 1-2	Bhl10.1	61.7	71	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb447	BMb447		61.96	61.96	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root length, basal 1-2	Root length, basal 1-2	Brl10.1	62	67.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_AF1303	AF1303		62.61	62.61	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root weight, basal 1-3	Root weight, basal 1-3	Brd10.1	63.8	67.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb1051	BMb1051		65.7	65.7	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_P1501	P1501		66.9	66.9	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_GATS11	GATS11		67.44	67.44	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb1206	BMb1206		71.36	71.36	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_AF1302	AF1302		71.82	71.82	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb1034	BMb1034		73.47	73.47	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb1084	BMb1084		73.47	73.47	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb221	BMb221		73.47	73.47	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root organic acid exudation 1-4	Root organic acid exudation 1-4	Tae10.1	73.7	78.4	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb106	BMb106		73.77	73.77	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_M1602	M1602		74.27	74.27	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_X903	X903		75.17	75.17	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb414	BMb414		75.61	75.61	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_AG1001	AG1001		76.16	76.16	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_U1402	U1402		76.8	76.8	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_U1403	U1403		76.8	76.8	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root proton exudation 1-3	Root proton exudation 1-3	Hex10.2	76.9	78.8	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMa244	BMa244		77.21	77.21	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_OJ17	OJ17		77.53	77.53	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_PVM13	PVM13		78.12	78.12	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb96	BMb96		80.07	80.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb263	BMb263		81.35	81.35	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_PvM127	PvM127		81.35	81.35	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMc234	BMc234		81.72	81.72	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMc63	BMc63		81.72	81.72	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BSNP2	BSNP2		82.26	82.26	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_ACAT02	ACAT02		83.51	83.51	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb302	BMb302		84.88	84.88	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb152	BMb152		85.4	85.4	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Seed length 1-16	Seed length 1-16	SL10	86.6	120.5	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BSNP78	BSNP78		86.68	86.68	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_U1401	U1401		86.71	86.71	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BSNP77	BSNP77		86.98	86.98	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Leg177	Leg177		86.98	86.98	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Seed coat tannin 1-5	Seed coat tannin 1-5	Ctt10	91.7	118.1	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Root length, adventitious specific 1-5	Root length, adventitious specific 1-5	HPSRL_AdvGH.3	91.9	98.1	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_N601	N601		91.92	91.92	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMb1095	BMb1095		93.02	93.02	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Seed coat tannin, soluble 1-4	Seed coat tannin, soluble 1-4	Cst10	95.6	121.6	QTL_organic	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_B101	B101		96.35	96.35	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_P401	P401		96.35	96.35	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMa76	BMa76		98.47	98.47	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMa71	BMa71		102.03	102.03	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_Climbing 1-6	Climbing 1-6	Cab1-5	104.4	113.4	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_PVM37	PVM37		104.79	104.79	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_U1303	U1303		111.58	111.58	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_U1304	U1304		111.88	111.88	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_M901	M901		113.43	113.43	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_BMc66	BMc66		115.12	115.12	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_CAAC02	CAAC02		118.81	118.81	AFLP	0
+PvConsensus_GaleanoFernandez2011_a_Pv10	Pv10	0	131.88	PvConsensus_GaleanoFernandez2011_a_Pv10_PVBR236	PVBR236		131.88	131.88	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMa116	BMa116		0	0	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg183	Leg183		1.38	1.38	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root length 2-7	Root length 2-7	Rlf11.1	5.1	27.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMd22	BMd22		8.75	8.75	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg241	Leg241		9.18	9.18	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg100	Leg100		11.08	11.08	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg470	Leg470		11.08	11.08	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BSNP39	BSNP39		12.18	12.18	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root length 1-5	Root length 1-5	Trl11.1	15.3	40.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BSNP82	BSNP82		18.11	18.11	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root weight 1-3	Root weight 1-3	Rdw11.1	21.1	30.2	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMd41	BMd41		21.75	21.75	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g811	g811		23.03	23.03	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_First flower, bean 1-5	First flower, bean 1-5	Df11.1	23.4	97.2	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g785	g785		25.38	25.38	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMd33	BMd33		26.96	26.96	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BN	BN		26.96	26.96	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root length 1-6	Root length 1-6	Trl11.2	27.3	47.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg133	Leg133		29.25	29.25	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g2273	g2273		30.93	30.93	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMd27	BMd27		35.25	35.25	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1731	g1731		35.54	35.54	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Plant height 2-7	Plant height 2-7	Plh2-3	36.4	48.4	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Climbing 1-7	Climbing 1-7	Cab1-6	37	61.1	QTL_whole-plant	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1415	g1415		39.1	39.1	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1932	g1932		40.36	40.36	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BSNPc27	BSNPc27		44.17	44.17	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g2307	g2307		45.91	45.91	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root weight, primary 1-3	Root weight, primary 1-3	Trd11.1	48	53.6	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Bng187	Bng187		49.41	49.41	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1438	g1438		54.16	54.16	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Bng1	Bng1		55.03	55.03	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Seed weight 2-3	Seed weight 2-3	Swf11.1	56.6	76.9	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Seed weight 3-14	Seed weight 3-14	sw11.1	57.2	110.4	QTL_seed	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Bng25	Bng25		59.62	59.62	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root density 1-6	Root density 1-6	Nrt11.1	60	62.9	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g2285	g2285		61.45	61.45	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMa6	BMa6		62.04	62.04	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb185	BMb185		63.24	63.24	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMa145	BMa145		64.87	64.87	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g835	g835		67.1	67.1	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb32	BMb32		67.9	67.9	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb310	BMb310		71.07	71.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g2527	g2527		71.17	71.17	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g156	g156		71.75	71.75	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb1228	BMb1228		72.06	72.06	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1510	g1510		72.55	72.55	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb1093	BMb1093		72.57	72.57	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1168	g1168		73.3	73.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1489	g1489		73.3	73.3	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Bng145	Bng145		73.98	73.98	STS	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb654	BMb654		74.28	74.28	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb484	BMb484		76.92	76.92	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb653	BMb653		80.09	80.09	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMa241a	BMa241a		82.73	82.73	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb10	BMb10		83.22	83.22	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb588	BMb588		84.71	84.71	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1598	g1598		85.19	85.19	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Baja	Baja		93.52	93.52	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb619	BMb619		94.44	94.44	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg43	Leg43		95.47	95.47	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BSn10	BSn10		98.51	98.51	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMa324	BMa324		99.54	99.54	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMa32	BMa32		100.02	100.02	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg236	Leg236		100.38	100.38	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb1074	BMb1074		102.69	102.69	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMb1072	BMb1072		105.22	105.22	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg449	Leg449		106.15	106.15	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg220	Leg220		107.62	107.62	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root weight 1-4	Root weight 1-4	Rdw11.2	109.6	132.4	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Pods per plant 1-3	Pods per plant 1-3	pp11.3	112.5	144.4	QTL_yield	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg218	Leg218		113.23	113.23	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_PV-ag001	PV-ag001		118.53	118.53	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root weight 1-5	Root weight 1-5	Rdw11.3	119.9	123.7	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Leg208	Leg208		120.48	120.48	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_AB502	AB502		139.52	139.52	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root hair density, basal 1-3	Root hair density, basal 1-3	Bhd11.1	140.4	142.2	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_First flower, bean 2-9	First flower, bean 2-9	df11.1	140.9	153.5	QTL_development	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_Root length, adventitious 1-3	Root length, adventitious 1-3	HPAdv_LF.3	141.7	154.3	QTL_root	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1215	g1215		144.02	144.02	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g188	g188		145.77	145.77	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g1983	g1983		150.93	150.93	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_g2135	g2135		156.74	156.74	SNP	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_P302	P302		157.15	157.15	RAPD	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BMd43	BMd43		162.07	162.07	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BM239	BM239		163.79	163.79	SSR	0
+PvConsensus_GaleanoFernandez2011_a_Pv11	Pv11	0	163.79	PvConsensus_GaleanoFernandez2011_a_Pv11_BM240	BM240		163.79	163.79	SSR	0

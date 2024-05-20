@@ -92,13 +92,7 @@ export class ExportImageDialog {
     DownloadData.setFormat(this.selection);
   }
 
-  /**
-   * mithril component render callback.
-   * @returns {*}
-   */
-
   view() {
-    //const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
       m('h5', 'Export Image'),
       m('p', 'Export current view as a png image.'),
@@ -106,7 +100,7 @@ export class ExportImageDialog {
         m('table.u-full-width', [
           m('thead', [
             m('tr', [m('th', 'File Name'), m('th', m('input[type=text]', {
-              oninput: m.withAttr('value', DownloadData.setLoc),
+              oninput: (e) => DownloadData.setLoc(e.target.value),
               value: DownloadData.loc,
               style: 'width:60%;',
               placeholder: 'cmapimage'

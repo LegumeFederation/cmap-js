@@ -109,13 +109,7 @@ export class UploadDialog {
     UploadData.toggleNew(this.selection);
   }
 
-  /**
-   * mithril component render callback.
-   * @returns {*}
-   */
-
   view() {
-    //const allMaps = this.model.allMaps || [];
     return m('div.cmap-map-addition-dialog', [
       m('h5', 'Add Map'),
       m('p', 'Currently only one file may be added at a time. If both a URL and a local file are provided, preference will be given to the local file.'),
@@ -123,12 +117,12 @@ export class UploadDialog {
         m('table.u-full-width', [
           m('thead', [
             m('tr', [m('th', 'URL'), m('th', m('input[type=text]', {
-              oninput: m.withAttr('value', UploadData.setLoc),
+              oninput: (e) => UploadData.setLoc(e.target.value),
               value: UploadData.loc,
               style: 'width:60%;'
             }))])
             , m('tr', [m('th', 'Local File'), m('th', m('input[type=file]', {
-              onchange: m.withAttr('files', UploadData.setFile),
+              onchange: (e) => UploadData.setFile(e.target.files),
               file: UploadData.files
             }))])]
           ),
@@ -143,7 +137,7 @@ export class UploadDialog {
                       value: 'newMap',
                       onchange: (evt) => this._onSelection(evt, null)
                     }), m('input[type=text]', {
-                      oninput: m.withAttr('value', UploadData.setName),
+                      oninput: (e) => UploadData.setName(e.target.value),
                       value: UploadData.newName
                     })
                   ])
