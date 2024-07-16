@@ -9,7 +9,6 @@ import m from 'mithril';
 export class BioMapComponent {
   oninit(vnode) {
     this.attrs = vnode.attrs;
-    console.log(vnode);
     // Ensure initial bounds are set up, potentially with default values
     this.domBounds = this.attrs.bioMap.domBounds || { left: 0, top: 0, width: 300, height: 150, rotation: 0 };
   }
