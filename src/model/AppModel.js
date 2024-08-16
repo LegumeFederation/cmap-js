@@ -6,9 +6,9 @@
  */
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, reset, mapAdded} from '../topics';
-import {HorizontalLayout} from '../ui/layout/HorizontalLayout';
-import {DataSourceModel} from './DataSourceModel';
+import {dataLoaded, reset, mapAdded} from '../topics.js';
+import {HorizontalLayout} from '../ui/layout/HorizontalLayout.js';
+import {DataSourceModel} from './DataSourceModel.js';
 
 export class AppModel {
 

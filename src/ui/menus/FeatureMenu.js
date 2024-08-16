@@ -5,8 +5,8 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
-import {featureUpdate} from '../../topics';
-import {ColorPicker} from './ColorPicker';
+import {featureUpdate} from '../../topics.js';
+import {ColorPicker} from './ColorPicker.js';
 
 export class FeatureMenu {
   /**

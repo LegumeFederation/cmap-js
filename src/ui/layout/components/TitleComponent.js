@@ -7,7 +7,7 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
-import {mapReorder} from '../../../topics';
+import {mapReorder} from '../../../topics.js';
 
 export let TitleComponent = {
   oninit: function (vnode) {

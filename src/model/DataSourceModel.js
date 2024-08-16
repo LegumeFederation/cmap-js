@@ -5,9 +5,9 @@
 import m from 'mithril';
 import parser from 'papaparse';
 
-import {BioMapModel} from './BioMapModel';
-import {Feature} from './Feature';
-import {BioMapConfigModel, defaultConfig} from './BioMapConfigModel';
+import {BioMapModel} from './BioMapModel.js';
+import {Feature} from './Feature.js';
+import {BioMapConfigModel, defaultConfig} from './BioMapConfigModel.js';
 
 // TODO: implement filtering at data loading time
 

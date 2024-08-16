@@ -4,11 +4,11 @@
  *
  * @extends SceneGraphNodeTrack
  */
-import {Bounds} from '../../model/Bounds';
+import {Bounds} from '../../model/Bounds.js';
 
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {Dot} from '../geometry/Dot';
-import {manhattanRuler} from '../geometry/manhattanRuler';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack.js';
+import {Dot} from '../geometry/Dot.js';
+import {manhattanRuler} from '../geometry/manhattanRuler.js';
 
 export class ManhattanPlot extends SceneGraphNodeTrack {
 

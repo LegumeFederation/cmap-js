@@ -4,7 +4,7 @@
  */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import {reset} from '../../topics';
+import {reset} from '../../topics.js';
 
 export class ResetButton {
 

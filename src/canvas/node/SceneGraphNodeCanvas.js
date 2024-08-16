@@ -8,14 +8,15 @@ import m from 'mithril';
 import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
 
-import {mix} from '../../../mixwith.js/src/mixwith';
+import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 
-import {DrawLazilyMixin} from '../DrawLazilyMixin';
-import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin';
-import {selectedMap} from '../../topics';
+import {DrawLazilyMixin} from '../DrawLazilyMixin.js';
+import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin.js';
+import {selectedMap} from '../../topics.js';
 
-import {Bounds} from '../../model/Bounds';
-import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import {Bounds} from '../../model/Bounds.js';
+import {SceneGraphNodeBase} from './SceneGraphNodeBase.js';
 
 export class SceneGraphNodeCanvas
   extends mix(SceneGraphNodeBase)

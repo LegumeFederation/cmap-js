@@ -1,16 +1,16 @@
 import m from 'mithril';
 
-import { ResetButton } from './ResetButton';
-import { RemoveMapButton } from './RemoveMapButton';
-import { AddMapButton } from './AddMapButton';
-import { ConfigurationButton } from './ConfigurationButton';
-import { UploadButton } from './UploadButton';
-import { ExportImageButton } from './ExportImageButton';
-import { ExportImageDialog } from './ExportImageDialog';
-import { MapRemovalDialog } from './MapRemovalDialog';
-import { MapAdditionDialog } from './MapAdditionDialog';
-import { ConfigurationDialog } from './ConfigurationDialog';
-import { UploadDialog } from './UploadDialog';
+import { ResetButton } from './ResetButton.js';
+import { RemoveMapButton } from './RemoveMapButton.js';
+import { AddMapButton } from './AddMapButton.js';
+import { ConfigurationButton } from './ConfigurationButton.js';
+import { UploadButton } from './UploadButton.js';
+import { ExportImageButton } from './ExportImageButton.js';
+import { ExportImageDialog } from './ExportImageDialog.js';
+import { MapRemovalDialog } from './MapRemovalDialog.js';
+import { MapAdditionDialog } from './MapAdditionDialog.js';
+import { ConfigurationDialog } from './ConfigurationDialog.js';
+import { UploadDialog } from './UploadDialog.js';
 
 export class Tools {
   constructor(vnode) {

@@ -6,7 +6,7 @@
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
-import {pageToCanvas} from '../../util/CanvasUtil';
+import {pageToCanvas} from '../../util/CanvasUtil.js';
 
 /**
  *

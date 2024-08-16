@@ -5,12 +5,12 @@
  * @extends SceneGraphNodeTrack
  */
 
-import {Bounds} from '../../model/Bounds';
+import {Bounds} from '../../model/Bounds.js';
 
-import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup.js';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack.js';
 
-import * as trackSelector from './TrackSelector';
+import * as trackSelector from './TrackSelector.js';
 
 export class FeatureTrack extends SceneGraphNodeTrack {
 

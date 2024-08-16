@@ -4,9 +4,9 @@
  *
  * @extends SceneGraphNodeTrack
  */
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {Bounds} from '../../model/Bounds';
-import {FeatureLabel} from '../geometry/FeatureLabel';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack.js';
+import {Bounds} from '../../model/Bounds.js';
+import {FeatureLabel} from '../geometry/FeatureLabel.js';
 
 export class FeatureLabelTrack extends SceneGraphNodeTrack {
 

@@ -7,4 +7,4 @@
 import 'ecma-proposal-math-extensions';
 
 // adds elementsFromPoint
-import './elementsFromPoint';
+import './elementsFromPoint.js';
