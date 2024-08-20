@@ -5,10 +5,10 @@
   "main": "build/cmap.min.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint src test",
+    "lint": "eslint src tests",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "ospec --preload ./tests/test-setup.js",
+    "test": "node ./node_modules/ospec/bin/ospec --preload ./tests/test-setup.js",
     "coverage": "nyc npm test",
     "watch": "rollup -c -w --environment WATCH:yes",
     "validate-config": "ajv -s cmap-schema.json -d cmap.json",
