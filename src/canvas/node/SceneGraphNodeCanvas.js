@@ -107,7 +107,7 @@ export class SceneGraphNodeCanvas
     let ctx = this.context2d;
     if (!ctx) return;
     if (!this.domBounds) return;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     this.visible.map(child => child && child.data.draw(ctx));
