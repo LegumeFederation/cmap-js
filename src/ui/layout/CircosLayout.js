@@ -3,11 +3,12 @@
  * A mithril component for circos-style layout of BioMaps.
  */
 import m from 'mithril';
-import {mix} from '../../../mixwith.js/src/mixwith';
+import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 
-import {LayoutBase} from './LayoutBase';
-import {Bounds} from '../../model/Bounds';
-import {RegisterComponentMixin} from '../RegisterComponentMixin';
+import {LayoutBase} from './LayoutBase.js';
+import {Bounds} from '../../model/Bounds.js';
+import {RegisterComponentMixin} from '../RegisterComponentMixin.js';
 
 const radians = degrees => degrees * Math.PI / 180;
 

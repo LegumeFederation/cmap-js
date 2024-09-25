@@ -7,16 +7,16 @@
 
  import m from 'mithril';
  //import PubSub from 'pubsub-js';
- //import {featureUpdate, dataLoaded} from '../../topics';
+ //import {featureUpdate, dataLoaded} from '../../topics.js';
  
- import {Bounds} from '../../model/Bounds';
- import {pageToCanvas} from '../../util/CanvasUtil';
+ import {Bounds} from '../../model/Bounds.js';
+ import {pageToCanvas} from '../../util/CanvasUtil.js';
  
- import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
- import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup';
- import {MapTrack} from '../layout/MapTrack';
- import {FeatureTrack} from '../layout/FeatureTrack';
- import {Ruler} from '../geometry/Ruler';
+ import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas.js';
+ import {SceneGraphNodeGroup as Group} from '../node/SceneGraphNodeGroup.js';
+ import {MapTrack} from '../layout/MapTrack.js';
+ import {FeatureTrack} from '../layout/FeatureTrack.js';
+ import {Ruler} from '../geometry/Ruler.js';
  
  export class BioMap extends SceneGraphNodeCanvas {
  

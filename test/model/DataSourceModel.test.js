@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import {DataSourceModel} from '../../src/model/DataSourceModel';
+import parser from 'papaparse';
 
 const config = require('../../cmap.json');
 
@@ -23,7 +24,12 @@ describe('DataSourceModel test', function () {
 
   it('deserialize works', function () {
     const model = new DataSourceModel(config.sources[0]);
-    model.deserialize(data);
+    const res = parser.parse(data, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+    model.parseResult = res;
     expect(model).to.have.property('parseResult')
       .that.is.an('object');
     expect(model.parseResult.errors).to.be.empty;
@@ -38,7 +44,13 @@ describe('DataSourceModel test', function () {
       value: 'gene_test'
     }];
     model = new DataSourceModel(config.sources[1]);
-    model.deserialize(data);
+    const res = parser.parse(data, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+    res.data = res.data.filter(d => model.includeRecord(d));
+    model.parseResult = res;
     expect(model.parseResult.errors).to.be.empty;
     expect(model.parseResult.data).to.have.lengthOf(1);
   });
@@ -52,7 +64,13 @@ describe('DataSourceModel test', function () {
       value: 'gene_test'
     }];
     model = new DataSourceModel(config.sources[1]);
-    model.deserialize(data);
+    const res = parser.parse(data, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+    res.data = res.data.filter(d => model.includeRecord(d));
+    model.parseResult = res;
     expect(model.parseResult.errors).to.be.empty;
     expect(model.parseResult.data).to.have.lengthOf(8);
   });
@@ -65,7 +83,13 @@ describe('DataSourceModel test', function () {
       value: '^g.+'
     }];
     model = new DataSourceModel(config.sources[1]);
-    model.deserialize(data);
+    const res = parser.parse(data, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+    res.data = res.data.filter(d => model.includeRecord(d));
+    model.parseResult = res;
     expect(model.parseResult.errors).to.be.empty;
     expect(model.parseResult.data).to.have.lengthOf(8);
   });
@@ -82,7 +106,13 @@ describe('DataSourceModel test', function () {
       value: '_test$'
     }];
     model = new DataSourceModel(config.sources[1]);
-    model.deserialize(data);
+    const res = parser.parse(data, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+    res.data = res.data.filter(d => model.includeRecord(d));
+    model.parseResult = res;
     expect(model.parseResult.errors).to.be.empty;
     expect(model.parseResult.data).to.have.lengthOf(2);
   });

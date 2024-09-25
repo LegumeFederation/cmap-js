@@ -5,9 +5,9 @@
  * @extends SceneGraphNodeBase
  */
 
-import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
-import {Bounds} from '../../model/Bounds';
-import {translateScale} from '../../util/CanvasUtil';
+import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase.js';
+import {Bounds} from '../../model/Bounds.js';
+import {translateScale} from '../../util/CanvasUtil.js';
 
 export class FeatureLabel extends SceneGraphNodeBase {
   /**

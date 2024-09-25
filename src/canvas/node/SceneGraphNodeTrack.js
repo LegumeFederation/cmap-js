@@ -1,7 +1,7 @@
 /**
  * Placeholder for advanced group nodes 
  */
-import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import {SceneGraphNodeBase} from './SceneGraphNodeBase.js';
 
 export class SceneGraphNodeTrack extends SceneGraphNodeBase {
 

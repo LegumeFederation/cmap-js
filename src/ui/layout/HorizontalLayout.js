@@ -3,20 +3,21 @@
  * A mithril component for horizontal layout of BioMaps.
  */
 import m from 'mithril';
-import {mix} from '../../../mixwith.js/src/mixwith';
+import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, mapAdded, mapRemoved, mapReorder, reset, featureUpdate} from '../../topics';
-import {LayoutBase} from './LayoutBase';
-import {Bounds} from '../../model/Bounds';
-import {BioMap as BioMapComponent} from '../../canvas/canvas/BioMap';
-import {CorrespondenceMap as CorrMapComponent} from '../../canvas/canvas/CorrespondenceMap';
-import {FeatureTrack} from '../../canvas/layout/FeatureTrack';
-import {Popover} from '../menus/Popover';
-import {FeatureMenu} from '../menus/FeatureMenu';
-import {RegisterComponentMixin} from '../RegisterComponentMixin';
-import {TitleComponent} from './components/TitleComponent';
-import {BioMapComponent as BioMapVnode} from './components/BioMapComponent';
+import {dataLoaded, mapAdded, mapRemoved, mapReorder, reset, featureUpdate} from '../../topics.js';
+import {LayoutBase} from './LayoutBase.js';
+import {Bounds} from '../../model/Bounds.js';
+import {BioMap as BioMapComponent} from '../../canvas/canvas/BioMap.js';
+import {CorrespondenceMap as CorrMapComponent} from '../../canvas/canvas/CorrespondenceMap.js';
+import {FeatureTrack} from '../../canvas/layout/FeatureTrack.js';
+import {Popover} from '../menus/Popover.js';
+import {FeatureMenu} from '../menus/FeatureMenu.js';
+import {RegisterComponentMixin} from '../RegisterComponentMixin.js';
+import {TitleComponent} from './components/TitleComponent.js';
+import {BioMapComponent as BioMapVnode} from './components/BioMapComponent.js';
 
 export class HorizontalLayout
   extends mix(LayoutBase)

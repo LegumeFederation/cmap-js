@@ -1,64 +1,70 @@
-/**
- * A mithril component of the UI tools in a div (toolbar).
- */
 import m from 'mithril';
 
-import {ResetButton} from './ResetButton';
-import {RemoveMapButton} from './RemoveMapButton';
-import {AddMapButton} from './AddMapButton';
-import {ConfigurationButton} from './ConfigurationButton';
-import {UploadButton} from './UploadButton';
-import {ExportImageButton} from './ExportImageButton';
-import {ExportImageDialog} from './ExportImageDialog';
-//import {FilterButton} from './FilterButton';
-import {MapRemovalDialog} from './MapRemovalDialog';
-import {MapAdditionDialog} from './MapAdditionDialog';
-import {ConfigurationDialog} from './ConfigurationDialog';
-import {UploadDialog} from './UploadDialog';
+import { ResetButton } from './ResetButton.js';
+import { RemoveMapButton } from './RemoveMapButton.js';
+import { AddMapButton } from './AddMapButton.js';
+import { ConfigurationButton } from './ConfigurationButton.js';
+import { UploadButton } from './UploadButton.js';
+import { ExportImageButton } from './ExportImageButton.js';
+import { ExportImageDialog } from './ExportImageDialog.js';
+import { MapRemovalDialog } from './MapRemovalDialog.js';
+import { MapAdditionDialog } from './MapAdditionDialog.js';
+import { ConfigurationDialog } from './ConfigurationDialog.js';
+import { UploadDialog } from './UploadDialog.js';
 
 export class Tools {
-
-  // constructor() - prefer do not use in mithril components
-
-  /**
-   * mithril lifecycle method
-   * @param vnode
-   */
-
-  oninit(vnode) {
+  constructor(vnode) {
     this.appState = vnode.attrs.appState;
-    this.currentDialog = vnode.attrs.dialog;
+    this.currentDialog = null;
   }
 
-  /**
-   * mithril component render method
-   * @returns {*}
-   */
+  handleAddMapClick() {
+    this.currentDialog = MapAdditionDialog;
+  }
+
+  handleRemoveMapClick() {
+    this.currentDialog = MapRemovalDialog;
+  }
+
+  handleConfigurationClick() {
+    this.currentDialog = ConfigurationDialog;
+  }
+
+  handleUploadClick() {
+    this.currentDialog = UploadDialog;
+  }
+
+  handleExportImageClick() {
+    this.currentDialog = ExportImageDialog;
+  }
+
+  handleDialogDismiss() {
+    this.currentDialog = null;
+  }
 
   view() {
     return m('div.cmap-tools', [
       m('div.cmap-toolbar.cmap-hbox', [
         m(ResetButton),
-        //m(FilterButton),
         m(AddMapButton, {
-          onclick: () => this.currentDialog = MapAdditionDialog
+          onclick: () => this.handleAddMapClick()
         }),
         m(RemoveMapButton, {
-          onclick: () => this.currentDialog = MapRemovalDialog
+          onclick: () => this.handleRemoveMapClick()
         }),
         m(ConfigurationButton, {
-          onclick: () => this.currentDialog = ConfigurationDialog
+          onclick: () => this.handleConfigurationClick()
         }),
         m(UploadButton, {
-          onclick: () => this.currentDialog = UploadDialog
+          onclick: () => this.handleUploadClick()
         }),
         m(ExportImageButton, {
-          onclick: () => this.currentDialog = ExportImageDialog
+          onclick: () => this.handleExportImageClick()
         })
       ]),
       this.currentDialog && m(this.currentDialog, {
         model: this.appState,
-        onDismiss: () => this.currentDialog = null,
+        onDismiss: () => this.handleDialogDismiss()
       })
     ]);
   }

@@ -2,7 +2,7 @@
  * A mithril component for configuration import/export
  */
 import m from 'mithril';
-import {featureUpdate} from '../../topics';
+import {featureUpdate} from '../../topics.js';
 import PubSub from 'pubsub-js';
 
 export class ConfigurationDialog {
