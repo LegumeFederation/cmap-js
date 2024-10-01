@@ -4,9 +4,9 @@
  *
  * @extends SceneGraphNodeTrack
  */
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {Bounds} from '../../model/Bounds';
-import{BlockLabel} from '../geometry/BlockLabel';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack.js';
+import {Bounds} from '../../model/Bounds.js';
+import{BlockLabel} from '../geometry/BlockLabel.js';
 
 export class BlockLabelTrack extends SceneGraphNodeTrack {
 

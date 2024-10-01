@@ -5,7 +5,7 @@
 
 import rbush from 'rbush';
 
-import {Bounds} from '../../model/Bounds';
+import {Bounds} from '../../model/Bounds.js';
 
 export class SceneGraphNodeBase {
 

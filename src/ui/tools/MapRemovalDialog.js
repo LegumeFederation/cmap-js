@@ -3,7 +3,7 @@
  */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import {mapRemoved} from '../../topics';
+import {mapRemoved} from '../../topics.js';
 
 export class MapRemovalDialog {
 

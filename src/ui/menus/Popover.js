@@ -4,9 +4,10 @@
  */
 import m from 'mithril';
 
-import {mix} from '../../../mixwith.js/src/mixwith';
-import {Menu} from './Menu';
-import {RegisterComponentMixin} from '../RegisterComponentMixin';
+import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
+import {Menu} from './Menu.js';
+import {RegisterComponentMixin} from '../RegisterComponentMixin.js';
 
 export class Popover extends mix(Menu).with(RegisterComponentMixin) {
 

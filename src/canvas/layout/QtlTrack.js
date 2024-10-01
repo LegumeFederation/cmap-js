@@ -4,11 +4,11 @@
  *
  * @extends SceneGraphNodeTrack
  */
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {Bounds} from '../../model/Bounds';
-import {QTL} from '../geometry/QTL';
-import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
-import * as trackSelector  from './TrackSelector';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack.js';
+import {Bounds} from '../../model/Bounds.js';
+import {QTL} from '../geometry/QTL.js';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup.js';
+import * as trackSelector  from './TrackSelector.js';
 
 export class QtlTrack extends SceneGraphNodeTrack {
 

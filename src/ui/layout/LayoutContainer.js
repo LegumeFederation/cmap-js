@@ -5,13 +5,14 @@
  */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import {mix} from '../../../mixwith.js/src/mixwith';
+import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 
-import {HorizontalLayout} from './HorizontalLayout';
-import {CircosLayout} from './CircosLayout';
-import {reset} from '../../topics';
-import {Bounds} from '../../model/Bounds';
-import {RegisterComponentMixin} from '../RegisterComponentMixin';
+import {HorizontalLayout} from './HorizontalLayout.js';
+import {CircosLayout} from './CircosLayout.js';
+import {reset} from '../../topics.js';
+import {Bounds} from '../../model/Bounds.js';
+import {RegisterComponentMixin} from '../RegisterComponentMixin.js';
 
 // define allowed min/max range for scale (zoom operation)
 const SCALE = Object.freeze({min: 0.05, max: 2});

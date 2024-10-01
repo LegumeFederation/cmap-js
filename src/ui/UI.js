@@ -5,14 +5,15 @@
 import m from 'mithril';
 import Hammer from 'hammerjs';
 import Hamster from 'hamsterjs';
-import {mix} from '../../mixwith.js/src/mixwith';
+import * as mixwith from '../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 import PubSub from 'pubsub-js';
 
-import {Tools} from './tools/Tools';
-import {Header} from './Header';
-import {LayoutContainer} from './layout/LayoutContainer';
-import {RegisterComponentMixin} from './RegisterComponentMixin';
-import {reset} from '../topics';
+import {Tools} from './tools/Tools.js';
+import {Header} from './Header.js';
+import {LayoutContainer} from './layout/LayoutContainer.js';
+import {RegisterComponentMixin} from './RegisterComponentMixin.js';
+import {reset} from '../topics.js';
 
 export class UI extends mix().with(RegisterComponentMixin) {
 

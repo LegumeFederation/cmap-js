@@ -5,10 +5,10 @@
  * @extends SceneGraphNodeTrack
  */
 
-import {ManhattanPlot} from './ManhattanPlot';
-import {QtlTrack} from './QtlTrack';
-import {FeatureLabelTrack} from './FeatureLabelTrack';
-import {BlockLabelTrack} from './BlockLabelTrack';
+import {ManhattanPlot} from './ManhattanPlot.js';
+import {QtlTrack} from './QtlTrack.js';
+import {FeatureLabelTrack} from './FeatureLabelTrack.js';
+import {BlockLabelTrack} from './BlockLabelTrack.js';
 
 
 export function qtl(params){
