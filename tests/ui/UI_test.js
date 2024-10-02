@@ -1,4 +1,4 @@
-import o from "ospec";
+import o from 'ospec';
 import mq from 'mithril-query';
 import { UI } from '../../src/ui/UI.js';
 import { AppModel } from '../../src/model/AppModel.js';

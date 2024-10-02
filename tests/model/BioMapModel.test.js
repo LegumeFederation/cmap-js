@@ -1,5 +1,4 @@
-import o from "ospec";
-import mq from 'mithril-query';
+import o from 'ospec';
 import { BioMapModel } from '../../src/model/BioMapModel.js';
 import { DataSourceModel } from '../../src/model/DataSourceModel.js';
 

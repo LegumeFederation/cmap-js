@@ -2,9 +2,9 @@
  * Test the Reset button
  */
 import o from 'ospec';
-import PubSub from 'pubsub-js';
+// import PubSub from 'pubsub-js';
 import { ResetButton } from '../../../src/ui/tools/ResetButton.js';
-import { reset as resetTopic } from '../../../src/topics.js';
+// import { reset as resetTopic } from '../../../src/topics.js';
 import mq from 'mithril-query';
 
 o.spec('Reset button', function () {

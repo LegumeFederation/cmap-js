@@ -1,4 +1,4 @@
-import o from "ospec";
+import o from 'ospec';
 import { AppModel } from '../../src/model/AppModel.js';
 
 o.spec('AppModel test', function () {

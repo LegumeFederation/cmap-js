@@ -1,5 +1,4 @@
-import o from "ospec";
-import mq from 'mithril-query';
+import o from 'ospec';
 import '../../src/util/concatAll.js';
 
 o.spec('concatAll test', function () {

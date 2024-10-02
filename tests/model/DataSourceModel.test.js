@@ -1,5 +1,5 @@
-import o from "ospec";
-import config from '../../cmap.json' assert { type: 'json' };
+import o from 'ospec';
+import config from '../../cmap.json' with { type: 'json' };
 import { DataSourceModel } from '../../src/model/DataSourceModel.js';
 import parser from 'papaparse';
 

@@ -16,10 +16,8 @@ here.
 
 - Clone the project and initialize git submodule(s):
    ```    
-    git clone https://github.com/ncgr/cmap-js.git
+    git clone --recurse-submodules https://github.com/LegumeFederation/cmap-js.git
     cd cmap-js
-    git submodule init
-    git submodule update
     ```
 - Install the required javascript packages listed in `package.json` / `package-lock.json`
     ```
@@ -33,10 +31,6 @@ After opening the respository in a dev container (VS Code: first run [Clone Repo
 
     npm ci
 
-### Potential Issues
-There has been a report of node getting stuck during install on macOS. This is
-not a cmap-js issue, but should be fixable following the directions found [here](http://osxdaily.com/2016/07/26/fix-stuck-pkg-verifying-installer-mac-os-x/).
-
 ## Build and Tests
 
 ES6 code is transpiled with Babel and bundled with Rollup, and the results are
@@ -47,11 +41,8 @@ npm run lint     # run linter only
 npm run build    # linter and rollup, babel (set NODE_ENV=production to minify)
 npm run test     # mocha test runner
 npm run coverage # mocha and istanbul coverage report
-npm run watch    # build, watch and livereload
+npm run watch    # build, watch and livereload (http://localhost:8888)
 ```
-
-Watch script has only been tested on macOS systems, and may not work on other
-platforms.
 
 ## Configuration File
 

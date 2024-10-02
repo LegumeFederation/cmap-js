@@ -1,5 +1,4 @@
-import o from "ospec";
-import mq from 'mithril-query';
+import o from 'ospec';
 import { isNil } from '../../src/util/isNil.js';
 
 o.spec('isNil test', function () {

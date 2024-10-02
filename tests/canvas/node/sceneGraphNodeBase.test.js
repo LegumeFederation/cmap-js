@@ -1,5 +1,4 @@
-import o from "ospec";
-import mq from 'mithril-query';
+import o from 'ospec';
 import { Bounds } from '../../../src/model/Bounds.js';
 import { SceneGraphNodeBase } from '../../../src/canvas/node/SceneGraphNodeBase.js';
 
