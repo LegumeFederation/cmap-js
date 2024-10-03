@@ -1,5 +1,4 @@
-import o from "ospec";
-import mq from 'mithril-query';
+import o from 'ospec';
 import { Feature, featuresInCommon } from '../../src/model/Feature.js';
 
 o.spec('Feature test', function () {

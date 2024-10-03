@@ -1,5 +1,4 @@
-import o from "ospec";
-import mq from 'mithril-query';
+import o from 'ospec';
 import '../../src/polyfill/index.js';
 
 o.spec('elementsFromPoint polyfill', function () {

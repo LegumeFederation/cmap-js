@@ -32,12 +32,12 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
     });
     if (manhattanPlot !== null) {
       let manhattanInfo = manhattanPlot;
-      //merge configuration information with default config
-      for( let key in this.parent.model.config.manhattan){
-        if(!manhattanInfo.hasOwnProperty(key)){
+      // Merge configuration information with default config
+      for (let key in this.parent.model.config.manhattan) {
+        if (!Object.prototype.hasOwnProperty.call(manhattanInfo, key)) {
           manhattanInfo[key] = this.parent.model.config.manhattan[key];
         }
-      }
+      }    
       manhattanInfo.lines.forEach(line => {
         if(!line.lineWeight){
           line.lineWeigth = manhattanInfo.featureLineWeight;

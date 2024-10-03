@@ -1,8 +1,8 @@
 // Rollup plugins
 import eslint from 'rollup-plugin-eslint';
-import nodePackageResolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import replace from 'rollup-plugin-replace';
+import nodePackageResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
 import { uglify } from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
 import serve from 'rollup-plugin-serve';
@@ -11,14 +11,16 @@ import livereload from 'rollup-plugin-livereload';
 // PostCSS plugins
 import simplevars from 'postcss-simple-vars';
 import nested from 'postcss-nested';
-import cssnext from 'postcss-cssnext';
+import postcssPresetEnv from 'postcss-preset-env';
 import cssnano from 'cssnano';
 
 export default {
-  entry: 'src/main.js',
-  dest: 'build/cmap.min.js',
-  format: 'iife',
-  sourceMap: true,
+  input: 'src/main.js',
+  output: {
+    file: 'build/cmap.min.js',
+    format: 'iife',
+    sourcemap: true
+  },
   plugins: [
     // https://github.com/rollup/rollup/issues/1782#issuecomment-403465311
     commonjs(),
@@ -27,7 +29,7 @@ export default {
       plugins: [
         simplevars(),
         nested(),
-        cssnext({ warnForDuplicates: false, }),
+        postcssPresetEnv({}),
         cssnano(),
       ],
       extensions: [ '.css' ],

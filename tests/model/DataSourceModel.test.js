@@ -1,5 +1,5 @@
-import o from "ospec";
-import config from '../../cmap.json' assert { type: 'json' };
+import o from 'ospec';
+import config from '../../cmap.json' with { type: 'json' };
 import { DataSourceModel } from '../../src/model/DataSourceModel.js';
 import parser from 'papaparse';
 
@@ -7,13 +7,13 @@ o.spec('DataSourceModel test', function () {
   o('constructor works', function () {
     config.sources.forEach(params => {
       const model = new DataSourceModel(params);
-      o(model.hasOwnProperty('method')).equals(true);
+      o(Object.prototype.hasOwnProperty.call(model, 'method')).equals(true);
       o(typeof model.method).equals('string');
-      o(model.hasOwnProperty('url')).equals(true);
+      o(Object.prototype.hasOwnProperty.call(model, 'url')).equals(true);
       o(typeof model.url).equals('string');
-      o(model.hasOwnProperty('id')).equals(true);
+      o(Object.prototype.hasOwnProperty.call(model, 'id')).equals(true);
       o(typeof model.id).equals('string');
-      o(model.hasOwnProperty('background')).equals(true);
+      o(Object.prototype.hasOwnProperty.call(model, 'background')).equals(true);
       o(typeof model.background).equals('boolean');
     });
   });
@@ -26,7 +26,7 @@ o.spec('DataSourceModel test', function () {
       skipEmptyLines: true
     });
     model.parseResult = res;
-    o(model.hasOwnProperty('parseResult')).equals(true);
+    o(Object.prototype.hasOwnProperty.call(model, 'parseResult')).equals(true);
     o(typeof model.parseResult).equals('object');
     o(model.parseResult.errors.length).equals(0);
     o(model.parseResult.data.length).equals(9);

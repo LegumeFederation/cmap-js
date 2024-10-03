@@ -27,7 +27,7 @@ export class BioMapComponent {
     }
   }
 
-  onupdate(vnode) { // Update the canvas when the component is updated
+  onupdate() { // Update the canvas when the component is updated
     if (this.attrs.bioMap.dirty) { // Check if the bioMap is dirty
       this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear the canvas
       this.attrs.bioMap.draw(); // Redraw the bioMap

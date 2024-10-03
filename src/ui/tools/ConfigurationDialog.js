@@ -58,7 +58,7 @@ export class ConfigurationDialog {
     let finalConfig = [];
     this.model.allMaps.forEach(map => {
       for (let name in newConfig) {
-        if (newConfig.hasOwnProperty(name) && name === map.name && newConfig[name].source === map.source.id) {
+        if (Object.prototype.hasOwnProperty.call(newConfig, name) && name === map.name && newConfig[name].source === map.source.id) {
           console.log();
           let item = map;
           item.config = newConfig[name].config;

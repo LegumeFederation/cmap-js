@@ -133,11 +133,11 @@ export class FeatureLabelTrack extends SceneGraphNodeTrack {
      this.maxLoc = 0;
      let qtlConf = params.config;
 
-     for( let key in this.parent.model.config.qtl){
-       if(!qtlConf.hasOwnProperty(key)){
-         qtlConf[key] = this.parent.model.config.qtl[key];
-       }
-     }
+     for (let key in this.parent.model.config.qtl) {
+      if (!Object.prototype.hasOwnProperty.call(qtlConf, key)) {
+        qtlConf[key] = this.parent.model.config.qtl[key];
+      }
+    }    
 
      this.qtlMarks = this.parent.featureData.map( model => {
        let fm = new  FeatureLabel({

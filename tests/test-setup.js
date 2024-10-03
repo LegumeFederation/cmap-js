@@ -1,8 +1,8 @@
-import o from "ospec";
-import { JSDOM } from "jsdom";
-import m from "mithril";
+import o from 'ospec';
+import { JSDOM } from 'jsdom';
+import m from 'mithril';
 
-const dom = new JSDOM("", {
+const dom = new JSDOM('', {
     // So we can get `requestAnimationFrame`
     pretendToBeVisual: true,
 });
