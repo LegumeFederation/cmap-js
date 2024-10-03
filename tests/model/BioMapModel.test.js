@@ -13,13 +13,13 @@ const params = {
 o.spec('BioMapModel test', function () {
   o('constructor works', function () {
     model = new BioMapModel(params);
-    o(model.hasOwnProperty('source')).equals(true);
+    o(Object.prototype.hasOwnProperty.call(model, 'source')).equals(true);
     o(model.source).equals(params.source);
-    o(model.hasOwnProperty('name')).equals(true);
+    o(Object.prototype.hasOwnProperty.call(model, 'name')).equals(true);
     o(model.name).equals(params.name);
-    o(model.hasOwnProperty('features')).equals(true);
+    o(Object.prototype.hasOwnProperty.call(model, 'features')).equals(true);
     o(Array.isArray(model.features)).equals(true);
-    o(model.hasOwnProperty('coordinates')).equals(true);
+    o(Object.prototype.hasOwnProperty.call(model, 'coordinates')).equals(true);
     o(model.coordinates).deepEquals(params.coordinates);
     o(model.coordinates.start).equals(42);
     o(model.coordinates.stop).equals(142);
