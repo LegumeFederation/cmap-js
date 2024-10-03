@@ -107,7 +107,7 @@ export class DataSourceModel {
     let hits = 0;
     this.filters.forEach(f => {
       let col = f.column;
-      if (d.hasOwnProperty(col)) {
+      if (Object.prototype.hasOwnProperty.call(d, col)) {
         let testVal = d[col];
         let match;
         if (f.operator === 'equals') {
@@ -123,7 +123,7 @@ export class DataSourceModel {
           if (match) ++hits;
         }
       }
-    });
+    });  
     return (hits === this.filters.length);
   }
 

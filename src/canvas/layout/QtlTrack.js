@@ -37,7 +37,7 @@ export class QtlTrack extends SceneGraphNodeTrack {
 
     let qtlConf = params.config;
     for (let key in this.parent.model.config.qtl) {
-      if (!qtlConf.hasOwnProperty(key)) {
+      if (!Object.prototype.hasOwnProperty.call(qtlConf, key)) {
         qtlConf[key] = this.parent.model.config.qtl[key];
       }
     }
