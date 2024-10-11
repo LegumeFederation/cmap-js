@@ -54,7 +54,7 @@ export class UI extends mix().with(RegisterComponentMixin) {
       m(Header, childAttrs),
       m(Tools, childAttrs),
       [m('div#dragSpacer'),
-        m('span', {style: 'color:gray; text-align: center;'}, '← Drag to scroll →')
+        m('span', {style: 'color:black; text-align: center;'}, '← Grab here to scroll the map right or left →')
       ],
       m('div#cmap-layout-titles'),
       [m('div.cmap-menu-viewport#cmap-menu-viewport', {style: 'display:none;'}),

@@ -202,6 +202,7 @@ export class HorizontalLayout
                 m('div', {
                   class: 'button feature-title',
                   id: `feature-${component.model.name}-${i}`,
+                  title: featureGroup.title,
                   style: `left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
                       top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
                   onclick: function () {
@@ -218,6 +219,7 @@ export class HorizontalLayout
             m('div', {
               class: 'button feature-title',
               id: `feature-${component.model.name}-new`,
+              title: 'Add new feature',
               style: `left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
                       top: ${component.domBounds.top}px; padding: 0px 10px;`,
               onclick: function () {
