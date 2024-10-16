@@ -54,7 +54,11 @@ export class UI extends mix().with(RegisterComponentMixin) {
       m(Header, childAttrs),
       m(Tools, childAttrs),
       [m('div#dragSpacer'),
-        m('span', {style: 'color:black; text-align: center;'}, '← Grab here to scroll the map right or left →')
+        m('span', {class: 'grab-hint'}, 
+          m('i.material-icons', {class: 'grab-hint-arrow-left'}, 'arrow_back'),  // Left arrow
+          'Grab here to scroll the map right or left',
+          m('i.material-icons', {class: 'grab-hint-arrow-right'}, 'arrow_forward')  // Right arrow
+        )
       ],
       m('div#cmap-layout-titles'),
       [m('div.cmap-menu-viewport#cmap-menu-viewport', {style: 'display:none;'}),
@@ -64,7 +68,8 @@ export class UI extends mix().with(RegisterComponentMixin) {
             registerComponentCallback: (comp) => this._layoutContainer = comp
           })
         )],
-    ]);
+      ],
+    );
   }
 
   /**
