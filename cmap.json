@@ -142,6 +142,11 @@
             "text" : "View QTL info at SoyBase"
         },
         {
+          "featuretypePattern" : "QTL",
+          "url" : "https://mines.legumeinfo.org/glycinemine/service/template/results?name=trait_qtlstudy&constraint1=QTL.trait.name&op1=CONTAINS&value1=${item.id}&format=tab&size=10",
+          "text" : "View QTL info in GlycineMine"
+        },
+        {
             "featuretype" : "SNP",
             "url" : "https://soybase.org/sbt/search/search_results.php?category=SNP&search_term=${item.id}",
             "text" : "View SNP info at SoyBase"
