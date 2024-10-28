@@ -220,7 +220,7 @@ export class HorizontalLayout
               class: 'button feature-title',
               id: `feature-${component.model.name}-new`,
               title: 'Add new feature',
-              style: `left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
+              style: `left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 15)}px; 
                       top: ${component.domBounds.top}px; padding: 0px 10px;`,
               onclick: function () {
                 let info = component.model;

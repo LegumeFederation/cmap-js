@@ -138,7 +138,7 @@
       "linkouts" : [
         {
             "featuretypePattern" : "QTL",
-            "url" : "https://soybase.org/sbt/search/search_results.php?category=QTLName&search_term=${item.id}",
+            "url" : "https://www.soybase.org/tools/search/trait.html?page=1&genus=Glycine&species=&type=QTL&traits=${item.id}",
             "text" : "View QTL info at SoyBase"
         },
         {
