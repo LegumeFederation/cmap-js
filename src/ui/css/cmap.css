@@ -136,10 +136,10 @@ button[disabled], button:active, .feature-title:active {
 }
 .remove-button {
     background-color: #dc3545;
-    color: black;
+    color: white;
 }
 .remove-button:hover {
-    color: black;
+    color: white;
     background-color: #c32f3e;
 }
 .color-canvas-button {
