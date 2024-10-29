@@ -190,7 +190,10 @@ span.cmap-map-name-chip {
     display:grid;
     position:relative;
 }
-
+.swap-div:active {
+    opacity: 1;
+    border-color: #3d3d3d;
+}
 .swap-map-order {
     margin: 5px 10px 5px 10px;
     padding: 5px 10px 5px 10px;
