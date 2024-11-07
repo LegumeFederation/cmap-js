@@ -136,10 +136,10 @@ button[disabled], button:active, .feature-title:active {
 }
 .remove-button {
     background-color: #dc3545;
-    color: black;
+    color: white;
 }
 .remove-button:hover {
-    color: black;
+    color: white;
     background-color: #c32f3e;
 }
 .color-canvas-button {
@@ -190,7 +190,10 @@ span.cmap-map-name-chip {
     display:grid;
     position:relative;
 }
-
+.swap-div:active {
+    opacity: 1;
+    border-color: #3d3d3d;
+}
 .swap-map-order {
     margin: 5px 10px 5px 10px;
     padding: 5px 10px 5px 10px;
@@ -322,4 +325,18 @@ span.cmap-map-name-chip {
 }
 .bold {
     font-weight: bold;
+}
+.grab-hint {
+    color:black;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+}
+.grab-hint-arrow-left {
+    margin-left: auto;
+    margin-right: 5px;
+}
+.grab-hint-arrow-right {
+    margin-left: 5px;
+    margin-right: auto;
 }

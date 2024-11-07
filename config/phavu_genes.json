@@ -1,7 +1,7 @@
 {
   "default":{
     "ruler" : {
-      "width" : 10,
+      "width" : 13,
       "fillColor" : "aqua",
       "position" : 1
     },
@@ -9,7 +9,8 @@
       "width":20
     },
     "qtl" : {
-      "fillColor" : ["red"]
+      "fillColor" : ["red"],
+      "labelSize" : 15
     },
     "marker" : {
       "labelPosition" : 2

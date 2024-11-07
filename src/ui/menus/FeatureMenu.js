@@ -168,7 +168,9 @@ export const Instruction = {
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
       m('p',{class:'cmap-instructions-text fs-medium bold'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
-      m('p', {class:'cmap-instructions-text fs-medium'},'The new configured track will be drawn on the map.')
+      m('p', {class:'cmap-instructions-text fs-medium'},'The new configured track will be drawn on the map.'),
+      m('p', {class:'cmap-instructions-text fs-medium bold'}, 'To return to the map:'),
+      m('p', {class:'cmap-instructions-text fs-medium'},'Click the "CANCEL" button. If you use browser "back" arrow you will lose the map and have to start over.')
     ]);
   }
 };
