@@ -37,7 +37,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
   }
 
   /**
-   *
+   * Generate the inner content of the popover
    * @param data
    * @returns {*}
    * @private
@@ -46,6 +46,73 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
   _generateInner(data) {
     if (!data) return;
 
+    function closeModal() {
+      // Reset cmap-menu-viewport to an empty state
+      m.mount(document.getElementById('cmap-menu-viewport'), null);
+      // Restore visibility and display
+      document.getElementById('cmap-layout-viewport').style.visibility = 'visible';
+      document.getElementById('cmap-menu-viewport').style.display = 'none';
+    }
+  
+    // Modal component
+    const Modal = {
+      oncreate: function () {
+        const selector = '#table-container'; // Target div for the table inside the modal
+        const service  = {root: 'https://mines.legumeinfo.org/glycinemine/service/'};
+        const query    = {
+          "from": "QTL",
+          "select": [
+            "name",
+            "linkageGroup.name",
+            "start",
+            "end",
+            "likelihoodRatio",
+            "markerNames",
+            "lod",
+            "markerR2",
+            "peak"
+          ],
+          "orderBy": [
+            {
+              "path": "name",
+              "direction": "ASC"
+            }
+          ],
+          "where": [
+            {
+              "path": "name",
+              "op": "=",
+              "value": `${data[0].model.name}`,
+              "code": "A"
+            }
+          ]
+        };
+  
+        // Load the table inside the modal
+        imtables.loadTable(
+          selector,
+          {"start":0,"size":25},
+          {service: service, query: query}
+        ).then(
+          function (table) { console.log('Table loaded', table); },
+          function (error) { console.error('Could not load table', error); }
+        );
+      },
+      view: function () {
+        return m('div', { class: 'cmap-modal-overlay' }, [
+          m('div', { class: 'cmap-modal' }, [
+            m('h5', `${data[0].model.name}`), // Title
+            m('div#table-container'), // Container where imtables will load the table
+            m('div.cmap-modal-controls', [
+              m('button', {
+                onclick: () => closeModal()
+              }, 'Close')
+            ])
+          ])
+        ]);
+      }
+    };
+  
     let popover = data.map(item => {
       let start = m('div', 'start:  ' + item.model.coordinates.start);
       let stop = m('div', 'stop:  ' + item.model.coordinates.stop);
@@ -70,16 +137,29 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
               : []
           )
         ) : [];
-
-      return [m(this._buttonTest(item.model), {targetId: item.model.name}),
+  
+      // Check if modal is needed
+      let qtlButton = item.model.source.linkouts.some(linkout => linkout.modal === true)
+        ? m('button', {
+            onclick: () => {
+              // Mount modal
+              document.getElementById('cmap-layout-viewport').style.visibility = 'hidden';
+              document.getElementById('cmap-menu-viewport').style.display = 'block';
+              m.mount(document.getElementById('cmap-menu-viewport'), Modal);
+            }
+          }, item.model.source.linkouts.find(linkout => linkout.modal === true).modalText || "Open Modal")
+        : null;
+  
+      return [
+        m(this._buttonTest(item.model), {targetId: item.model.name}),
         m('div', {
           class: 'biomap-info-data',
           id: `biomap-info-${item.model.name}`,
           style: 'display: none;'
-        }, [start, stop, tags, aliases, links])
+        }, [start, stop, tags, aliases, links, qtlButton])
       ];
     });
-
+  
     return m('div', {}, popover);
   }
 

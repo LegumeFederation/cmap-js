@@ -155,7 +155,7 @@ span.cmap-map-name-chip {
 }
 
 .biomap-info {
-    width: 15em;
+    width: fit-content;
     height: 10em;
     border: 1px solid #bbb;
     border-radius: 4px;
