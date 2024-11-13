@@ -55,62 +55,65 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
     }
   
     // Modal component
-    const Modal = {
+    // URL: Mine URL to retrieve data from
+    const Modal = (url) => {
+      return {
       oncreate: function () {
         const selector = '#table-container'; // Target div for the table inside the modal
-        const service  = {root: 'https://mines.legumeinfo.org/glycinemine/service/'};
+        const service  = {root: url};
         const query    = {
-          "from": "QTL",
-          "select": [
-            "name",
-            "linkageGroup.name",
-            "start",
-            "end",
-            "likelihoodRatio",
-            "markerNames",
-            "lod",
-            "markerR2",
-            "peak"
-          ],
-          "orderBy": [
-            {
-              "path": "name",
-              "direction": "ASC"
-            }
-          ],
-          "where": [
-            {
-              "path": "name",
-              "op": "=",
-              "value": `${data[0].model.name}`,
-              "code": "A"
-            }
-          ]
+        "from": "QTL",
+        "select": [
+          "name",
+          "linkageGroup.name",
+          "start",
+          "end",
+          "likelihoodRatio",
+          "markerNames",
+          "lod",
+          "markerR2",
+          "peak"
+        ],
+        "orderBy": [
+          {
+          "path": "name",
+          "direction": "ASC"
+          }
+        ],
+        "where": [
+          {
+          "path": "name",
+          "op": "=",
+          "value": `${data[0].model.name}`,
+          "code": "A"
+          }
+        ]
         };
-  
+    
         // Load the table inside the modal
         imtables.loadTable(
-          selector,
-          {"start":0,"size":25},
-          {service: service, query: query}
+        selector,
+        {"start":0,"size":25},
+        {service: service, query: query}
         ).then(
-          function (table) { console.log('Table loaded', table); },
-          function (error) { console.error('Could not load table', error); }
+        function (table) { console.log('Table loaded', table); },
+        function (error) { console.error('Could not load table', error); }
         );
       },
       view: function () {
         return m('div', { class: 'cmap-modal-overlay' }, [
-          m('div', { class: 'cmap-modal' }, [
-            m('h5', `${data[0].model.name}`), // Title
-            m('div#table-container'), // Container where imtables will load the table
-            m('div.cmap-modal-controls', [
-              m('button', {
-                onclick: () => closeModal()
-              }, 'Close')
-            ])
+        m('div', { class: 'cmap-modal' }, [
+          m('h5', `${data[0].model.name}`), // Title
+          m('div#table-container'), // Container where imtables will load the table
+          m('div.cmap-modal-controls', [
+          m('button', {
+            onclick: () => closeModal()
+          }, 'Close')
           ])
+        ])
         ]);
       }
+      };
     };
   
     let popover = data.map(item => {
@@ -145,9 +148,9 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
               // Mount modal
               document.getElementById('cmap-layout-viewport').style.visibility = 'hidden';
               document.getElementById('cmap-menu-viewport').style.display = 'block';
-              m.mount(document.getElementById('cmap-menu-viewport'), Modal);
+              m.mount(document.getElementById('cmap-menu-viewport'), Modal(item.model.source.linkouts.find(linkout => linkout.modal === true).mineUrl)); // Create modal with specified url
             }
-          }, item.model.source.linkouts.find(linkout => linkout.modal === true).modalText || "Open Modal")
+          }, item.model.source.linkouts.find(linkout => linkout.modal === true).modalText || "Open Modal") // Set button text to config or default
         : null;
   
       return [

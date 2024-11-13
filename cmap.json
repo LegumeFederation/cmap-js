@@ -141,7 +141,8 @@
             "url" : "https://legacy.soybase.org/sbt/search/search_results.php?category=QTLName&search_term=${item.id}",
             "text" : "View QTL info at SoyBase",
             "modal": true,
-            "modalText": "Feature report"
+            "modalText": "Feature report",
+            "mineUrl": "https://mines.legumeinfo.org/glycinemine/service/"
         },
         {
             "featuretype" : "SNP",
