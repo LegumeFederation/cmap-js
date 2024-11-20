@@ -7,7 +7,7 @@ import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
 const { mix } = mixwith;
 import { Menu } from './Menu.js';
 import { RegisterComponentMixin } from '../RegisterComponentMixin.js';
-import { Modal } from './Modal.js'; // Import the Modal component
+import { InterMineModal } from './InterMineModal.js';
 
 export class Popover extends mix(Menu).with(RegisterComponentMixin) {
   oninit(vnode) {
@@ -51,7 +51,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
           // Mount modal to container
           m.mount(modalContainer, {
             view: () =>
-              m(Modal, {
+              m(InterMineModal, {
                 data: data,
                 url: source.linkouts.find(l => l.modal)?.mineUrl,
                 closeModal: this._closeModal.bind(this),

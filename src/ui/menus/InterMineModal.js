@@ -1,10 +1,10 @@
 /**
- * Modal
+ * InterMineModal
  * Modal component for retrieving QTL data from an InterMine instance and displaying it in a table.
  */
 import m from 'mithril';
 
-export const Modal = {
+export const InterMineModal = {
   oncreate(vnode) {
     const { url, data } = vnode.attrs;
     const selector = '#table-container'; // Target div for the table inside the modal
