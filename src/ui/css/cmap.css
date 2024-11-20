@@ -351,19 +351,19 @@ span.cmap-map-name-chip {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-  }
+}
   
-  .cmap-modal {
+.cmap-modal {
     background: white;
     padding: 20px;
     border-radius: 8px;
     max-width: 80%;
     max-height: 90%;
     overflow-y: auto;
-  }
-  
-  .cmap-modal-controls {
+}
+
+.cmap-modal-controls {
     margin-top: 20px;
     text-align: center;
-  }
-  
+}
+
