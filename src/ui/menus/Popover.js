@@ -61,7 +61,7 @@ export class Popover extends mix(Menu).with(RegisterComponentMixin) {
       };
 
       const modalTrigger = source.linkouts.some(linkout => linkout.modal)
-        ? m('button', { onclick: openModal }, source.linkouts.find(l => l.modal)?.modalText || 'Open Modal')
+        ? m('button', { class: 'modal-button', onclick: openModal }, source.linkouts.find(l => l.modal)?.modalText || 'Open Modal')
         : null;
 
       return m('div', [

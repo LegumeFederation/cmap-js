@@ -26,7 +26,7 @@ export const InterMineModal = {
       where: [{ path: 'name', op: '=', value: `${data[0].model.name}`, code: 'A' }],
     };
 
-    imtables
+    imtables // eslint-disable-line no-undef
       .loadTable(selector, { start: 0, size: 25 }, { service, query })
       .then(
         () => console.log('Table loaded successfully'),
@@ -37,7 +37,7 @@ export const InterMineModal = {
     const { data, closeModal } = vnode.attrs;
 
     return m('div', { class: 'cmap-modal-overlay' }, [
-      m('div', { class: 'cmap-modal' }, [
+      m('div', { class: 'cmap-modal cmap-intermine-modal' }, [
         m('h5', `${data[0].model.name}`), // Title
         m('div#table-container'),
         m('div.cmap-modal-controls', [

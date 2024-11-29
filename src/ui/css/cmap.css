@@ -366,4 +366,10 @@ span.cmap-map-name-chip {
     margin-top: 20px;
     text-align: center;
 }
-
+.modal-button {
+    color: black;
+    border-color: #3e3e3e;
+}
+.cmap-intermine-modal {
+    height: fit-content;
+}
