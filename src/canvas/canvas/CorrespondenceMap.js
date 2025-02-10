@@ -6,11 +6,11 @@
  *
  */
 import m from 'mithril';
-import {Bounds} from '../../model/Bounds';
-import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas';
-import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
-import {CorrespondenceMark} from '../geometry/CorrespondenceMark';
-import {featuresInCommon} from '../../model/Feature';
+import {Bounds} from '../../model/Bounds.js';
+import {SceneGraphNodeCanvas} from '../node/SceneGraphNodeCanvas.js';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup.js';
+import {CorrespondenceMark} from '../geometry/CorrespondenceMark.js';
+import {featuresInCommon} from '../../model/Feature.js';
 
 export class CorrespondenceMap extends SceneGraphNodeCanvas {
   constructor({bioMapComponents, appState, layoutBounds}) {

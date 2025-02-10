@@ -4,3 +4,4 @@ build
 !build/index.html
 .nyc_output
 coverage
+mixwith.js/*

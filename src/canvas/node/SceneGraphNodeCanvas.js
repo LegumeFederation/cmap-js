@@ -8,14 +8,15 @@ import m from 'mithril';
 import PubSub from 'pubsub-js';
 import Hammer from 'hammerjs';
 
-import {mix} from '../../../mixwith.js/src/mixwith';
+import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 
-import {DrawLazilyMixin} from '../DrawLazilyMixin';
-import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin';
-import {selectedMap} from '../../topics';
+import {DrawLazilyMixin} from '../DrawLazilyMixin.js';
+import {RegisterComponentMixin} from '../../ui/RegisterComponentMixin.js';
+import {selectedMap} from '../../topics.js';
 
-import {Bounds} from '../../model/Bounds';
-import {SceneGraphNodeBase} from './SceneGraphNodeBase';
+import {Bounds} from '../../model/Bounds.js';
+import {SceneGraphNodeBase} from './SceneGraphNodeBase.js';
 
 export class SceneGraphNodeCanvas
   extends mix(SceneGraphNodeBase)
@@ -91,10 +92,10 @@ export class SceneGraphNodeCanvas
     return m('canvas', {
       class: `cmap-canvas cmap-biomap ${selectedClass}`,
       style: `left: ${b.left}px; top: ${b.top}px;
-               width: ${b.width}px; height: ${b.height}px;
+               width: ${b.width}px; height: ${b.height-4}px;
                transform: rotate(${this.rotation}deg);`,
       width: b.width,
-      height: b.height
+      height: b.height-4
     });
   }
 
@@ -106,7 +107,9 @@ export class SceneGraphNodeCanvas
     let ctx = this.context2d;
     if (!ctx) return;
     if (!this.domBounds) return;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    if(!ctx.canvas) ctx.canvas = this.canvas;
+    if(!this.canvas) this.canvas = ctx.canvas;
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.save();
     //ctx.translate(0.5, 0.5); // prevent subpixel rendering of 1px lines
     this.visible.map(child => child && child.data.draw(ctx));

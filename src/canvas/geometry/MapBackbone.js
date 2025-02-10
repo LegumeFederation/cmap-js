@@ -7,8 +7,8 @@
  * @extends SceneGraphNodeBase
  */
 
-import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase';
-import {Bounds} from '../../model/Bounds';
+import {SceneGraphNodeBase} from '../node/SceneGraphNodeBase.js';
+import {Bounds} from '../../model/Bounds.js';
 
 export class MapBackbone extends SceneGraphNodeBase {
 

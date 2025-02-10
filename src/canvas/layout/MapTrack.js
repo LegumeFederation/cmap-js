@@ -5,13 +5,13 @@
  */
 
 //import knn from 'rbush-knn';
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup';
-import {Bounds} from '../../model/Bounds';
-import {Ruler} from '../geometry/Ruler';
-import {FeatureMark} from '../geometry/FeatureMark';
-import {MapBackbone} from '../geometry/MapBackbone';
-import * as trackSelector from './TrackSelector';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack.js';
+import {SceneGraphNodeGroup} from '../node/SceneGraphNodeGroup.js';
+import {Bounds} from '../../model/Bounds.js';
+import {Ruler} from '../geometry/Ruler.js';
+import {FeatureMark} from '../geometry/FeatureMark.js';
+import {MapBackbone} from '../geometry/MapBackbone.js';
+import * as trackSelector from './TrackSelector.js';
 
 
 export class MapTrack extends SceneGraphNodeTrack {

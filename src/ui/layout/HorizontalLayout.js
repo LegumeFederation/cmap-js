@@ -3,20 +3,21 @@
  * A mithril component for horizontal layout of BioMaps.
  */
 import m from 'mithril';
-import {mix} from '../../../mixwith.js/src/mixwith';
+import * as mixwith from '../../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 import PubSub from 'pubsub-js';
 
-import {dataLoaded, mapAdded, mapRemoved, mapReorder, reset, featureUpdate} from '../../topics';
-import {LayoutBase} from './LayoutBase';
-import {Bounds} from '../../model/Bounds';
-import {BioMap as BioMapComponent} from '../../canvas/canvas/BioMap';
-import {CorrespondenceMap as CorrMapComponent} from '../../canvas/canvas/CorrespondenceMap';
-import {FeatureTrack} from '../../canvas/layout/FeatureTrack';
-import {Popover} from '../menus/Popover';
-import {FeatureMenu} from '../menus/FeatureMenu';
-import {RegisterComponentMixin} from '../RegisterComponentMixin';
-import {TitleComponent} from './components/TitleComponent';
-import {BioMapComponent as BioMapVnode} from './components/BioMapComponent';
+import {dataLoaded, mapAdded, mapRemoved, mapReorder, reset, featureUpdate} from '../../topics.js';
+import {LayoutBase} from './LayoutBase.js';
+import {Bounds} from '../../model/Bounds.js';
+import {BioMap as BioMapComponent} from '../../canvas/canvas/BioMap.js';
+import {CorrespondenceMap as CorrMapComponent} from '../../canvas/canvas/CorrespondenceMap.js';
+import {FeatureTrack} from '../../canvas/layout/FeatureTrack.js';
+import {Popover} from '../menus/Popover.js';
+import {FeatureMenu} from '../menus/FeatureMenu.js';
+import {RegisterComponentMixin} from '../RegisterComponentMixin.js';
+import {TitleComponent} from './components/TitleComponent.js';
+import {BioMapComponent as BioMapVnode} from './components/BioMapComponent.js';
 
 export class HorizontalLayout
   extends mix(LayoutBase)
@@ -199,9 +200,10 @@ export class HorizontalLayout
               let featureGroup = child.children[i];
               this.featureControls.push(
                 m('div', {
-                  class: 'feature-title',
+                  class: 'button feature-title',
                   id: `feature-${component.model.name}-${i}`,
-                  style: `position:absolute; left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
+                  title: featureGroup.title,
+                  style: `left: ${Math.floor(component.domBounds.left + featureGroup.globalBounds.left)}px; 
                       top: ${component.domBounds.top}px; width: ${featureGroup.globalBounds.width}px;`,
                   onclick: function () {
                     let info = child.children[i];
@@ -215,10 +217,11 @@ export class HorizontalLayout
           // push controller to add new track
           this.featureControls.push(
             m('div', {
-              class: 'feature-title',
+              class: 'button feature-title',
               id: `feature-${component.model.name}-new`,
-              style: `position:absolute; left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 20)}px; 
-                      top: ${component.domBounds.top}px; width: 20px;`,
+              title: 'Add new feature',
+              style: `left: ${Math.floor(component.domBounds.left + child.globalBounds.right + 15)}px; 
+                      top: ${component.domBounds.top}px; padding: 0px 10px;`,
               onclick: function () {
                 let info = component.model;
                 info.position = child.trackPos;

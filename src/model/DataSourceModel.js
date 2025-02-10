@@ -5,9 +5,9 @@
 import m from 'mithril';
 import parser from 'papaparse';
 
-import {BioMapModel} from './BioMapModel';
-import {Feature} from './Feature';
-import {BioMapConfigModel, defaultConfig} from './BioMapConfigModel';
+import {BioMapModel} from './BioMapModel.js';
+import {Feature} from './Feature.js';
+import {BioMapConfigModel, defaultConfig} from './BioMapConfigModel.js';
 
 // TODO: implement filtering at data loading time
 
@@ -69,30 +69,29 @@ export class DataSourceModel {
    * @returns {*}
    */
 
-  load() {
-    return m.request(this);
-  }
 
-  /**
-   * Callback from mithril request(); instead of the default deserialization
-   * which is JSON, use the papaparse library to parse csv or tab delimited
-   * content.
-   * @param {String} data - delimited text, csv or tsv
-   */
-
-  deserialize(data) {
-    const res = parser.parse(data, {
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true
+   load() {
+    return m.request({ 
+      method: this.method,
+      url: this.url,
+      params: this.data, // All requests are GET, so params is used instead of body
+      extract: xhr => {
+        const data = xhr.responseText;
+        const res = parser.parse(data, {
+          header: true,
+          dynamicTyping: true,
+          skipEmptyLines: true
+        });
+        if (res.errors.length) {
+          console.error(res.errors);
+          alert(`There were parsing errors in ${this.url}, please see console.`);
+        }
+        // apply filters from config file
+        res.data = res.data.filter(d => this.includeRecord(d));
+        this.parseResult = res;
+        return res;
+      }
     });
-    if (res.errors.length) {
-      console.error(res.errors);
-      alert(`There were parsing errors in ${this.url}, please see console.`);
-    }
-    // apply filters from config file
-    res.data = res.data.filter(d => this.includeRecord(d));
-    this.parseResult = res;
   }
 
   /**
@@ -108,7 +107,7 @@ export class DataSourceModel {
     let hits = 0;
     this.filters.forEach(f => {
       let col = f.column;
-      if (d.hasOwnProperty(col)) {
+      if (Object.prototype.hasOwnProperty.call(d, col)) {
         let testVal = d[col];
         let match;
         if (f.operator === 'equals') {
@@ -124,7 +123,7 @@ export class DataSourceModel {
           if (match) ++hits;
         }
       }
-    });
+    });  
     return (hits === this.filters.length);
   }
 

@@ -5,14 +5,15 @@
 import m from 'mithril';
 import Hammer from 'hammerjs';
 import Hamster from 'hamsterjs';
-import {mix} from '../../mixwith.js/src/mixwith';
+import * as mixwith from '../../mixwith.js/src/mixwith.mjs';
+const { mix } = mixwith;
 import PubSub from 'pubsub-js';
 
-import {Tools} from './tools/Tools';
-import {Header} from './Header';
-import {LayoutContainer} from './layout/LayoutContainer';
-import {RegisterComponentMixin} from './RegisterComponentMixin';
-import {reset} from '../topics';
+import {Tools} from './tools/Tools.js';
+import {Header} from './Header.js';
+import {LayoutContainer} from './layout/LayoutContainer.js';
+import {RegisterComponentMixin} from './RegisterComponentMixin.js';
+import {reset} from '../topics.js';
 
 export class UI extends mix().with(RegisterComponentMixin) {
 
@@ -52,15 +53,23 @@ export class UI extends mix().with(RegisterComponentMixin) {
     return m('div.cmap-layout.cmap-vbox', [
       m(Header, childAttrs),
       m(Tools, childAttrs),
-      m('div#cmap-layout-titles', {style: 'display:inline-flex;'}),
+      [m('div#dragSpacer'),
+        m('span', {class: 'grab-hint'}, 
+          m('i.material-icons', {class: 'grab-hint-arrow-left'}, 'arrow_back'),  // Left arrow
+          'Grab here to scroll the map right or left',
+          m('i.material-icons', {class: 'grab-hint-arrow-right'}, 'arrow_forward')  // Right arrow
+        )
+      ],
+      m('div#cmap-layout-titles'),
       [m('div.cmap-menu-viewport#cmap-menu-viewport', {style: 'display:none;'}),
-        m('div.cmap-layout-viewport.cmap-hbox', {id: 'cmap-layout-viewport', style: 'position:relative;'},
+        m('div.cmap-layout-viewport.cmap-hbox', {id: 'cmap-layout-viewport'},
           m(LayoutContainer, {
             appState: this.appState,
             registerComponentCallback: (comp) => this._layoutContainer = comp
           })
         )],
-    ]);
+      ],
+    );
   }
 
   /**

@@ -3,7 +3,7 @@
  * A Mithril component Base class for Layouts, e.g. HorizontalLayout and
  * CircosLayout.
  */
-import {Bounds} from '../../model/Bounds';
+import {Bounds} from '../../model/Bounds.js';
 
 export class LayoutBase {
 

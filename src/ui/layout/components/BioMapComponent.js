@@ -5,70 +5,70 @@
  */
 
 import m from 'mithril';
-//import {Bounds} from '../../../model/Bounds';
 
 export class BioMapComponent {
-  constructor(vnode) {
-    console.log(vnode);
+  oninit(vnode) {
+    this.attrs = vnode.attrs;
+    // Ensure initial bounds are set up, potentially with default values
+    this.domBounds = this.attrs.bioMap.domBounds || { left: 0, top: 0, width: 300, height: 150, rotation: 0 };
   }
 
   oncreate(vnode) {
-    //have state be tied to passed attributes
-    vnode.state = vnode.attrs;
+    this.canvas = vnode.dom;
+    this.attrs.bioMap.canvas = this.canvas;
+    this.context2d = this.attrs.bioMap.context2d = this.canvas.getContext('2d');
+    this.context2d.imageSmoothingEnabled = false;
 
-    //dom components and state
-    vnode.state.canvas = vnode.state.bioMap.canvas = vnode.dom;
-    vnode.state.domBounds = vnode.state.bioMap.domBounds;
-    vnode.state.context2d = vnode.state.bioMap.context2d = vnode.state.canvas.getContext('2d');
-    vnode.state.context2d.imageSmoothingEnabled = false;
-
-    //setup vnode.dom for ui gesture handling
     vnode.dom.mithrilComponent = this;
 
-    //store vnode to be able to access state for non mithril lifecycle commands
-    this.vnode = vnode;
+    if (this.attrs.bioMap && typeof this.attrs.bioMap.draw === 'function') { // draw is a function
+      this.attrs.bioMap.draw();
+      this.attrs.bioMap.dirty = false;
+    }
   }
 
-  onupdate(vnode) {
-    //redraw biomap if dirty (drawing has changed, instead of just changing position)
-    if (vnode.state.bioMap && vnode.state.bioMap.dirty === true) {
-      vnode.state.context2d.clearRect(0, 0, vnode.state.canvas.width, vnode.state.canvas.height);
-      vnode.state.bioMap.draw();
+  onupdate() { // Update the canvas when the component is updated
+    if (this.attrs.bioMap.dirty) { // Check if the bioMap is dirty
+      this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clear the canvas
+      this.attrs.bioMap.draw(); // Redraw the bioMap
+      this.attrs.bioMap.dirty = false; // Reset the dirty flag
     }
   }
 
   view(vnode) {
-    // store these bounds, for checking in drawLazily()
-    if(vnode.state.bioMap && vnode.state.bioMap.model !== vnode.attrs.bioMap.model){
-      vnode.attrs.bioMap.canvas = vnode.state.bioMap.canvas;
-      vnode.state.bioMap = vnode.attrs.bioMap;
-      vnode.state.domBounds = vnode.state.bioMap.domBounds;
-      vnode.state.context2d = vnode.state.bioMap.context2d = vnode.state.canvas.getContext('2d');
-      vnode.state.context2d.imageSmoothingEnabled = false;
-    }
-    let domBounds = vnode.state.domBounds || null;
-    if (domBounds && !domBounds.isEmptyArea) {
-      this.lastDrawnMithrilBounds = domBounds;
-    }
-    let b = domBounds || {};
-    let selectedClass = vnode.state.selected ? 'selected' : '';
-    return m('canvas', {
+    this.updateAttributes(vnode);
+
+    const { left, top, width, height, rotation } = this.domBounds;
+    const selectedClass = this.attrs.selected ? 'selected' : '';
+
+    return m('canvas.cmap-canvas.cmap-biomap', { // Render the canvas element
       class: `cmap-canvas cmap-biomap ${selectedClass}`,
-      style: `left: ${b.left}px; top: ${b.top}px;
-               width: ${b.width}px; height: ${b.height}px;
-               transform: rotate(${vnode.state.rotation}deg);`,
-      width: b.width,
-      height: b.height
+      style: {
+        left: `${left}px`,
+        top: `${top}px`,
+        width: `${width}px`,
+        height: `${height}px`,
+        transform: `rotate(${rotation}deg)`
+      },
+      width: width,
+      height: height
     });
   }
 
+  updateAttributes(vnode) {
+    if (this.attrs.bioMap && this.attrs.bioMap.model !== vnode.attrs.bioMap.model) {
+      this.attrs.bioMap = vnode.attrs.bioMap;
+      this.domBounds = this.attrs.bioMap.domBounds;
+      this.context2d = this.attrs.bioMap.context2d = this.canvas.getContext('2d');
+      this.context2d.imageSmoothingEnabled = false;
+    }
+  }
+
   handleGesture(evt) {
-    let state = this.vnode.state;
-    if (state.bioMap.handleGesture(evt)) {
-      state.bioMap.dirty = true;
+    if (this.attrs.bioMap.handleGesture(evt)) {
+      this.attrs.bioMap.dirty = true;
       return true;
     }
     return false;
   }
 }
-

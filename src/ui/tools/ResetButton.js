@@ -4,7 +4,7 @@
  */
 import m from 'mithril';
 import PubSub from 'pubsub-js';
-import {reset} from '../../topics';
+import {reset} from '../../topics.js';
 
 export class ResetButton {
 
@@ -14,16 +14,13 @@ export class ResetButton {
    * mithril render callback
    * @returns {*}
    */
-
   view() {
-    return m('button', {
-      onclick: evt => this._onClick(evt)
-    }, [
-      m('i.material-icons', 'restore'),
+    return m('button', { onclick: evt => this._onClick(evt) }, [
+      m('i', { class: 'material-icons' }, 'restore'),
       'Reset View'
     ]);
   }
-
+  
   /**
    * reset button event handler
    * @param evt

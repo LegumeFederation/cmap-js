@@ -4,11 +4,11 @@
  *
  * @extends SceneGraphNodeTrack
  */
-import {Bounds} from '../../model/Bounds';
+import {Bounds} from '../../model/Bounds.js';
 
-import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack';
-import {Dot} from '../geometry/Dot';
-import {manhattanRuler} from '../geometry/manhattanRuler';
+import {SceneGraphNodeTrack} from '../node/SceneGraphNodeTrack.js';
+import {Dot} from '../geometry/Dot.js';
+import {manhattanRuler} from '../geometry/manhattanRuler.js';
 
 export class ManhattanPlot extends SceneGraphNodeTrack {
 
@@ -32,12 +32,12 @@ export class ManhattanPlot extends SceneGraphNodeTrack {
     });
     if (manhattanPlot !== null) {
       let manhattanInfo = manhattanPlot;
-      //merge configuration information with default config
-      for( let key in this.parent.model.config.manhattan){
-        if(!manhattanInfo.hasOwnProperty(key)){
+      // Merge configuration information with default config
+      for (let key in this.parent.model.config.manhattan) {
+        if (!Object.prototype.hasOwnProperty.call(manhattanInfo, key)) {
           manhattanInfo[key] = this.parent.model.config.manhattan[key];
         }
-      }
+      }    
       manhattanInfo.lines.forEach(line => {
         if(!line.lineWeight){
           line.lineWeigth = manhattanInfo.featureLineWeight;

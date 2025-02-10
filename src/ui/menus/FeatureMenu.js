@@ -1,12 +1,12 @@
 /**
  * FeatureMenu
  * Mithril component for a modal dialog to edit track/subtrack settings
- **/
+ **/ 
 import m from 'mithril';
 import PubSub from 'pubsub-js';
 
-import {featureUpdate} from '../../topics';
-import {ColorPicker} from './ColorPicker';
+import {featureUpdate} from '../../topics.js';
+import {ColorPicker} from './ColorPicker.js';
 
 export class FeatureMenu {
   /**
@@ -99,14 +99,14 @@ export class FeatureMenu {
         vnode.dom.mithrilComponent = this; // Without this and handleGesture, clicks in modal will pass through to the underlying view
       },
       view: function () {
-        return m('div', {style: 'height:100%; width:100%'}, [
+        return m('div', {class: 'cmap-modal'}, [
             m(CloseButton, {model: model, config: settings, order: order, reset: defaultSettings}),
          
             m(TitleBox, {settings: settings}),
             m(Instruction),
             m(TrackMenu, {info: trackConfig, count: 0}),
             m('br', { style: 'clear:both;' }),
-            m('div', {style: 'margin-top: 25px; text-align: center;'}, controls)
+            m('div', {class: 'cmap-modal-controls'}, controls)
           ]
         );
       },
@@ -141,7 +141,7 @@ export let _removeButton = {
           m.redraw();
           closeModal();
         },
-      style: 'background:red'
+      class: 'remove-button'
     }, 'Remove Track');
   }
 };
@@ -150,25 +150,27 @@ export let _removeButton = {
 export const Instruction = {
   view: function() {
    
-      return m('div', { style: 'overflow:auto;float: right; width: 50%;height:60%;'  }, [
-      m('p',{style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'} ,'To add or change a track to the map:'),
-      m('ol', {style:'font-size: small; margin-bottom: 5px;'}, [
+      return m('div', { class: 'cmap-instructions'  }, [
+      m('p',{class:'cmap-instructions-text fs-medium bold'} ,'To add or change a track to the map:'),
+      m('ol', {class:'cmap-instructions-text fs-small'}, [
         m('li', 'Choose a marker type from the dropdown list.'),
         m('li', 'Change the Track title which will be present on the map.'),
         m('li', 'Click on the button with the colored square.'),
         m('li', 'Choose a color for the particular marker type.'),
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
-      m('p', {style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'}, 'To add more than one marker type to a track:'),
-      m('ol', {style:'font-size: small; margin-bottom: 5px;'}, [
+      m('p', {class:'cmap-instructions-text fs-medium bold'}, 'To add more than one marker type to a track:'),
+      m('ol', {class:'cmap-instructions-text fs-small'}, [
         m('li', 'Click on the "+" button.'),
         m('li', 'Choose the marker type from the dropdown list.'),
         m('li', 'Click on the button with the colored square.'),
         m('li', 'Choose a color for the particular marker type.'),
         m('li', 'Once a color is chosen, click "Apply" on the right side of the color panel.')
       ]),
-      m('p',{style:'font-size: medium; margin-bottom: 5px;font-weight: bold;'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
-      m('p', {style:'font-size: medium; margin-bottom: 5px;'},'The new configured track will be drawn on the map.')
+      m('p',{class:'cmap-instructions-text fs-medium bold'}, 'Once the track is configured with one or more marker types, click on the "APPLY SELECTION" button on the screen.'),
+      m('p', {class:'cmap-instructions-text fs-medium'},'The new configured track will be drawn on the map.'),
+      m('p', {class:'cmap-instructions-text fs-medium bold'}, 'To return to the map:'),
+      m('p', {class:'cmap-instructions-text fs-medium'},'Click the "CANCEL" button. If you use browser "back" arrow you will lose the map and have to start over.')
     ]);
   }
 };
@@ -181,21 +183,22 @@ export let TitleBox = {
    * @returns {*}
    */
   oninit: function (vnode) {
-    vnode.state.value = vnode.attrs.settings.title;
+    vnode.state.attrs = vnode.attrs;
+    vnode.state.value = vnode.state.attrs.settings.title;
   },
   view: function (vnode) {
     return m('div',{},'Track title: ',
       m('input[type=text].title-input', {
-        style: 'display:block; width:10%;',
-        defaultValue : vnode.attrs.settings.title,
-        oninput: m.withAttr('value', function (value) {
+        class: 'title-box',
+        defaultValue : vnode.state.attrs.settings.title,
+        oninput: function (e) {
           try {
-            vnode.attrs.settings.title = value;
+            vnode.state.attrs.settings.title = e.target.value;
           } catch (e) {
             // expect this to fail silently, as most typing will not actually give
             // a proper hex triplet/sextet
           }
-        })
+        }
       })
     );
   }
@@ -275,7 +278,7 @@ export let CloseButton = {
   view: function (vnode) {
     return m('div',
       {
-        style: 'text-align:right;',
+        class: 'close-button',
         onclick:
           () => {
             vnode.attrs.config.fillColor = vnode.attrs.reset.fillColor;
@@ -304,9 +307,9 @@ export let TrackMenu = {
    */
 
   oninit: function (vnode) {
-    vnode.state = vnode.attrs;
-    vnode.state.hidden = [];
-    vnode.state.picker = [];
+      vnode.state.attrs = vnode.attrs;
+      vnode.state.hidden = [];
+      vnode.state.picker = [];
   },
 
   /**
@@ -316,8 +319,8 @@ export let TrackMenu = {
    */
 
   view: function (vnode) {
-    let selected = vnode.state.info.selected;
-    let settings = vnode.state.info.settings;
+    let selected = vnode.state.attrs.info.selected;
+    let settings = vnode.state.attrs.info.settings;
     this.count = 0;
 
 
@@ -336,7 +339,7 @@ export let TrackMenu = {
         selected: selected,
         name: settings.filters[order],
         fillColor: settings.fillColor,
-        tags: vnode.state.info.tagList,
+        tags: vnode.state.attrs.info.tagList,
         nodeColor: vnode.state.picker
       };
       if (selected[order].index === -1) {
@@ -345,10 +348,10 @@ export let TrackMenu = {
       let controls = [
         m('button', {
           onclick: () => {
-            selected[selected.length] = {name: vnode.state.info.tagList[0], index: 0};
+            selected[selected.length] = {name: vnode.state.attrs.info.tagList[0], index: 0};
           }
         }, m('div', {
-          style: 'font-size:25px;'
+          class: 'fs-25;'
         }, '+'))
       ];
       if (selected.length > 1) {
@@ -357,7 +360,7 @@ export let TrackMenu = {
             selected.splice(order, 1);
           }
         }, m('div', {
-          style: 'font-size:25px;'
+          class: 'fs-25'
         }, '-')));
       }
       controls.push(m('button', {
@@ -365,18 +368,24 @@ export let TrackMenu = {
             vnode.state.hidden[order] = vnode.state.hidden[order] === 'none' ? 'block' : 'none';
           }
         }, m('div',
-        {style: `color:${vnode.state.picker[order]};font-size:25px;`}
+        {
+          style: `color:${vnode.state.picker[order]};`,
+          class: 'fs-25'
+        }
         , '■')
       ));
+      let controlParent = m('div', {
+        class: 'control-parent'
+      }, controls);
       return [m(Dropdown, {
         settings: dropSettings,
         order: order,
         parentDiv: this,
         hidden: vnode.state.hidden
-      }), controls];
+      }), controlParent];
     });
     return m('div#track-select-div', {
-      style: 'overflow:auto;width:50%;height:60%;float:left'
+      class: 'track-select'
     }, dropdowns);
   }
 };
@@ -396,7 +405,7 @@ export let Dropdown = {
    */
 
   oninit: function (vnode) {
-    vnode.state = vnode.attrs;
+    vnode.state.attrs = vnode.attrs;
   },
   /**
    *
@@ -404,10 +413,10 @@ export let Dropdown = {
    */
 
   onbeforeupdate: function (vnode) {
-    if (vnode.state.count > vnode.attrs.parentDiv.count) {
-      vnode.attrs.parentDiv.count = vnode.state.count;
+    if (vnode.state.attrs.count > vnode.state.attrs.parentDiv.count) {
+      vnode.state.attrs.parentDiv.count = vnode.state.attrs.count;
     } else {
-      vnode.state.count = vnode.attrs.parentDiv.count;
+      vnode.state.attrs.count = vnode.state.attrs.parentDiv.count;
     }
   },
 
@@ -418,8 +427,9 @@ export let Dropdown = {
    */
 
   view: function (vnode) {
-    let order = vnode.state.order;
-    let settings = vnode.state.settings;
+    let order = vnode.state.attrs.order;
+    let settings = vnode.state.attrs.settings;
+    let hidden = vnode.state.attrs.hidden;
     return m('div', m('select', {
       id: `selector-${order}`,
       selectedIndex: settings.selected[order].index,
@@ -431,7 +441,7 @@ export let Dropdown = {
     }, [settings.tags.map(tag => {
       return m('option', tag);
     })
-    ]), m(ColorPicker, {settings: vnode.state.settings, order: order, hidden: vnode.state.hidden}));
+    ]), m(ColorPicker, {settings: vnode.state.attrs.settings, order: order, hidden: hidden}));
   }
 };
 

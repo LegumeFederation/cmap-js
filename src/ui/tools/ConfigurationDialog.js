@@ -2,7 +2,7 @@
  * A mithril component for configuration import/export
  */
 import m from 'mithril';
-import {featureUpdate} from '../../topics';
+import {featureUpdate} from '../../topics.js';
 import PubSub from 'pubsub-js';
 
 export class ConfigurationDialog {
@@ -58,7 +58,7 @@ export class ConfigurationDialog {
     let finalConfig = [];
     this.model.allMaps.forEach(map => {
       for (let name in newConfig) {
-        if (newConfig.hasOwnProperty(name) && name === map.name && newConfig[name].source === map.source.id) {
+        if (Object.prototype.hasOwnProperty.call(newConfig, name) && name === map.name && newConfig[name].source === map.source.id) {
           console.log();
           let item = map;
           item.config = newConfig[name].config;
@@ -89,7 +89,7 @@ export class ConfigurationDialog {
       m('h5', 'Configuration Details'),
       m('form', [
         m('textarea', {
-            style: 'width:50%;height:600%',
+            style: 'width:50%;height:40vh',
             value: ConfigData.updated,
             onchange: function (e) {
               e.preventDefault();

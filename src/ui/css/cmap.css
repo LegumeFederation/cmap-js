@@ -44,7 +44,9 @@ html, body {
     flex: auto; /* expand to fill the vertical space allowed by flexbox */
     position: relative;
 }
-
+#cmap-layout-viewport {
+    position: relative;
+}
 .cmap-layout-container {
     position: absolute;;
     width: calc(100% - 2rem);
@@ -66,7 +68,9 @@ html, body {
     height: calc(100% - 2rem);
     position: relative;
 }
-
+#cmap-layout-titles {
+    display: inline-flex;
+}
 .cmap-correspondence-map {
     /* border: dashed 2px cyan; */
 }
@@ -106,6 +110,7 @@ span.cmap-header {
     margin: 0 0.5rem 0 0.5rem;
 }
 
+/* Button Styling */
 button > i {
     vertical-align: -30%;
 }
@@ -115,11 +120,31 @@ div.cmap-tools button {
     padding-left: 1rem;
     padding-right: 1rem;
 }
-
-button[disabled] {
+button[disabled], button:active, .feature-title:active {
     background: #ccc;
     border-color: #ccc;
     text-shadow: none;
+}
+.close-button {
+    width: fit-content;
+    display: flex;
+    margin-left: auto;
+}
+.close-button:hover {
+    cursor: pointer;
+    color: #3d3d3d;
+}
+.remove-button {
+    background-color: #dc3545;
+    color: white;
+}
+.remove-button:hover {
+    color: white;
+    background-color: #c32f3e;
+}
+.color-canvas-button {
+    display:block;
+    width:100%;
 }
 
 span.cmap-map-name-chip {
@@ -130,7 +155,7 @@ span.cmap-map-name-chip {
 }
 
 .biomap-info {
-    width: 15em;
+    width: fit-content;
     height: 10em;
     border: 1px solid #bbb;
     border-radius: 4px;
@@ -139,6 +164,7 @@ span.cmap-map-name-chip {
     display: inline-block;
     overflow-y: auto;
     z-index: 10;
+    padding: 5px;
 }
 
 .biomap-info-name {
@@ -162,8 +188,13 @@ span.cmap-map-name-chip {
     z-index: 10000;
     border: 1px solid #bbb;
     border-radius: 4px;
+    display:grid;
+    position:relative;
 }
-
+.swap-div:active {
+    opacity: 1;
+    border-color: #3d3d3d;
+}
 .swap-map-order {
     margin: 5px 10px 5px 10px;
     padding: 5px 10px 5px 10px;
@@ -186,16 +217,18 @@ span.cmap-map-name-chip {
 }
 
 .feature-title {
+    position:absolute;
     z-index: 1000;
     background: white;
     border: 1px solid black;
     border-radius: 4px;
-    padding: 5px 0 5px 0;
     margin: 5px 0 5px 0;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
+    padding: 0px;
 }
 
 .feature-menu {
@@ -215,6 +248,27 @@ span.cmap-map-name-chip {
     border-radius: 4px;
     background: white;
 }
+.color-canvas-element {
+    margin-left:10px;
+    width: 20;
+    height: 100;
+}
+.color-apply-controls {
+    text-align:center;
+    margin-left:10px;
+    display:inline-block;
+    padding:auto;
+}
+.color-canvas-main {
+    width: 200;
+    height: 100;
+}
+.color-apply-buttons {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    gap: 10px;
+}
 
 .cmap-biomap {
     /* border: 1px dashed black;
@@ -223,4 +277,100 @@ span.cmap-map-name-chip {
 
 .cmap-correspondence-map {
     /*border:1px dashed aqua;*/
+}
+.track-select {
+    overflow:auto;
+    width:50%;
+    height:60%;
+    float:left
+}
+.title-box {
+    display:block;
+    width:10%;
+}
+.control-parent {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.cmap-instructions {
+    overflow:auto;
+    float: right;
+    width: 50%;
+    height:60%;
+}
+.cmap-instructions-text {
+    margin-bottom: 5px;
+}
+/* Modal Styling */
+.cmap-modal {
+    height: 100%;
+    width: 100%;
+}
+.cmap-modal-controls {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+/* Typography */
+.fs-25 {
+    font-size: 25px;
+}
+.fs-small {
+    font-size: small;
+}
+.fs-medium {
+    font-size: medium;
+}
+.bold {
+    font-weight: bold;
+}
+.grab-hint {
+    color:black;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+}
+.grab-hint-arrow-left {
+    margin-left: auto;
+    margin-right: 5px;
+}
+.grab-hint-arrow-right {
+    margin-left: 5px;
+    margin-right: auto;
+}
+.cmap-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+  
+.cmap-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 80%;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.cmap-modal-controls {
+    margin-top: 20px;
+    text-align: center;
+}
+.modal-button {
+    color: black;
+    border-color: #3e3e3e;
+}
+.cmap-intermine-modal {
+    height: fit-content;
 }

@@ -4,8 +4,8 @@
 
 import m from 'mithril';
 
-import {AppModel} from './../model/AppModel';
-import {UI} from './UI';
+import {AppModel} from './../model/AppModel.js';
+import {UI} from './UI.js';
 import queryString from 'query-string';
 /* istanbul ignore next: mithril-query does not work with m.mount, and dom id is hardcoded as well */
 export class CMAP {
