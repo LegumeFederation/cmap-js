@@ -6,6 +6,10 @@ html, body {
     font-family: Nunito, HelveticaNeue, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
+.material-icons {
+    margin-right: 4px;
+}
+
 #cmap-ui {
     width: calc(100% - 2rem);
     height: calc(100% - 2rem);
